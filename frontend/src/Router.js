@@ -15,6 +15,7 @@ export function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
+          <Route index element={<Home />} />
           <Route path="/*" element={<Home/>} />
           <Route path="/home" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
