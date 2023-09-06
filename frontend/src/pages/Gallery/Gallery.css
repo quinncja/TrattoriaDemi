@@ -1,0 +1,42 @@
+.gallery-container {
+  width: 90%;
+  margin-inline: auto;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.image-container {
+  display: inline-block;
+  position: relative;
+}
+
+.image-container img {
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+.image-description {
+  position: absolute;
+  bottom: 20px;
+  left: 12px;
+  right: 0;
+  opacity: 1;
+  background-color: var(--gold);
+  width: fit-content;
+  color: var(--nice-white);
+  border-radius: 1px;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 5px 20px;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.6);
+}
+
+@media (width <= 450px) {
+  .image-description {
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+}
