@@ -1,0 +1,65 @@
+import axios from "axios";
+const API_URL = process.env.REACT_APP_API_ENDPOINT;
+
+export async function getReservations() {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/reservations/`,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getReservationsByDate(date) {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/reservations/date/${date}`,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function postReservation(newRes) {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${API_URL}api/reservations/`,
+      data: newRes,
+    });
+    return response.status;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function postContact(newContact) {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${API_URL}api/messages`,
+      data: newContact,
+    });
+    return response.status;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function postGiftcard(newGiftcard) {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${API_URL}api/giftcard`,
+      data: newGiftcard,
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
