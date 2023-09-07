@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = process.env.REACT_APP_API_ENDPOINT;
+const API_URL = process.env.REACT_APP_DEPLOYED_BACKEND;
 
 export async function getReservations() {
   try {

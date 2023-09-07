@@ -14,7 +14,7 @@
     "react-dom": "^18.2.0",
     "react-google-autocomplete": "^2.7.3",
     "react-responsive-masonry": "^2.1.7",
-    "react-router-dom": "^6.3.0",
+    "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "react-scroll-parallax": "^3.4.2",
     "web-vitals": "^2.1.4"

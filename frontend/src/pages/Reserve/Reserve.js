@@ -262,7 +262,7 @@ export default function Reserve() {
           <div className="menu-section-header">For a Reservation</div>
           <img className="fancy-line" src={FancyLine} alt="" />
           <div className="reserve-inputs">
-            <div className="input-group">
+            <div className="input-group input-fname">
               <label
                 className={`input-text ${
                   errorStates.fname && `input-text-error`
@@ -280,7 +280,7 @@ export default function Reserve() {
                 onChange={(event) => handleChange(event)}
               ></input>
             </div>
-            <div className="input-group">
+            <div className="input-group input-lname">
               <div
                 id="lName"
                 className={`input-text ${

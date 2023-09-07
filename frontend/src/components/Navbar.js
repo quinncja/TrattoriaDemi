@@ -16,6 +16,10 @@ export function Navbar() {
     if (loc === "") loc = "home"; 
     changeActive(loc);
   }, [loc, mobile]);
+  
+  useEffect(() => {
+    window.scrollTo(0,0)
+  },[])
 
   const changeActive = (newLoc) => {
     if (currentPage)

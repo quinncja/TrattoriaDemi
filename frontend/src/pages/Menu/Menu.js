@@ -23,7 +23,13 @@ export default function Menu() {
         "lunch-group lunch-group-active";
   });
 
+  const scrollToTop = () => {
+    console.log("here")
+    window.scrollTo(0,0)
+  }
+
   function setMenu(id) {
+    scrollToTop();
     if (id !== currentMenu) {
       const oldMenu = Array.from(
         document.getElementsByClassName("menu-selector menu-selector-active")
