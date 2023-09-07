@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express')
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -8,7 +7,7 @@ const giftcardRouter = require('./api/giftcard/giftcardRouter')
 
 const app = express()
 const port = 4000
-const mongo_uri = process.env.MONGO_URI
+const mongo_uri = Deno.env.get("MONGO_URI");
 
 async function main() {
   
