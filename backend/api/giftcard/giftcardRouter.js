@@ -1,9 +1,9 @@
-const stripe = require('stripe')(Deno.env.get("STRIPE_TEST_KEY"));
+const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 const express = require('express')
 const giftcardRouter = express.Router();
 const Giftcard = require('./Giftcard')
 
-const domain = Deno.env.get("LOCAL_DOMAIN");
+const domain = process.env.LOCAL_DOMAIN;
 
 // Create new Giftcard 
 giftcardRouter.post("/", async (req, res) => {
