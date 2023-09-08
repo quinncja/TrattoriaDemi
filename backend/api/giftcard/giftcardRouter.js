@@ -43,7 +43,7 @@ giftcardRouter.post('/payment-webhook', express.raw({type: 'application/json'}),
     const sig = request.headers['stripe-signature'];
   
     let event;
-  
+    console.log(endpointSecret)
     try {
       event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
     } catch (err) {
