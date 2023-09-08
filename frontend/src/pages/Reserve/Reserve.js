@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FancyLine from "../../images/FancyLine.png";
 import "./Reserve.css";
 import { getReservationsByDate, postReservation } from "../../api";
+import { successfulReserveAlert } from "../../swal2";
 
 export default function Reserve() {
   const [firstName, setFirstName] = useState(null);
@@ -30,7 +31,7 @@ export default function Reserve() {
   };
 
   const onSubmit = () => {
-    if (!reserveValidator()) createRes();
+    if (!reserveValidator()) createRes()
   };
 
   const reserveValidator = () => {
@@ -79,6 +80,7 @@ export default function Reserve() {
     const status = await postReservation(newRes);
     if (status === 201) {
       clearForm();
+      successfulReserveAlert();
     } else console.log(status);
   }
 

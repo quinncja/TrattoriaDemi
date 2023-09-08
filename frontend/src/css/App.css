@@ -39,6 +39,9 @@ body {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
+.swal-header{
+  margin-bottom: -20px;
+}
 
 .page-container {
   position: relative;

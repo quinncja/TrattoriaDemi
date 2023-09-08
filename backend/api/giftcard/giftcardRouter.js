@@ -3,7 +3,7 @@ const express = require('express')
 const giftcardRouter = express.Router();
 const Giftcard = require('./Giftcard')
 
-const domain = process.env.LOCAL_DOMAIN;
+const domain = process.env.DEPLOYED_DOMAIN;
 
 // Create new Giftcard 
 giftcardRouter.post("/", async (req, res) => {
@@ -25,7 +25,7 @@ giftcardRouter.post("/", async (req, res) => {
               },
             ],
             mode: 'payment',
-            success_url: `${domain}}/success.html`,
+            success_url: `${domain}/giftcards?="success"`,
             cancel_url: `${domain}/giftcards`,
           });
         
@@ -38,7 +38,7 @@ giftcardRouter.post("/", async (req, res) => {
 })
 
 
-giftcardRouter.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+giftcardRouter.post('/payment-webhook', express.raw({type: 'application/json'}), (request, response) => {
     const sig = request.headers['stripe-signature'];
   
     let event;
@@ -60,7 +60,7 @@ giftcardRouter.post('/webhook', express.raw({type: 'application/json'}), (reques
     }
       // Handle the event
     console.log(`Unhandled event type ${event.type}`);
-  // Return a 200 response to acknowledge receipt of the event
+      // Return a 200 response to acknowledge receipt of the event
      response.send();
 });
   
