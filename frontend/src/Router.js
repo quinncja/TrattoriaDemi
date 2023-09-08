@@ -9,6 +9,7 @@ import Checkout from "./pages/Order/Checkout";
 import Contact from "./pages/Contact/Contact";
 import Giftcard from "./pages/Giftcard/Giftcard";
 import GalleryPopulator from "./pages/Gallery/GalleryPopulator";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 export function Router() {
   return (
@@ -25,6 +26,7 @@ export function Router() {
           <Route path="/giftcards" element={<Giftcard />} />
           <Route path="/order" element={<Order />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import FancyLine from "../../images/FancyLine.png";
 import "../Reserve/Reserve.css";
 import { postContact } from "../../api";
+import { successfulContactAlert } from "../../swal2"
 
 function Contact() {
   const [firstName, setFirstName] = useState("");
@@ -44,6 +45,7 @@ function Contact() {
     const status = await postContact(newRes);
     if (status === 201) {
       clearForm();
+      successfulContactAlert();
     } else console.log(status);
   }
 
