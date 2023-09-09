@@ -39,13 +39,12 @@ giftcardRouter.post("/", async (req, res) => {
     }
 })
 
-app.use(bodyParser.raw({ type: 'application/json' }));
+giftcardRouter.use(bodyParser.raw({ type: 'application/json' }));
 
 giftcardRouter.post('/payment-webhook', (request, response) => {
     const sig = request.headers['stripe-signature'];
   
     let event;
-    console.log(endpointSecret)
     try {
       event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
     } catch (err) {
