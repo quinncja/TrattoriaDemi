@@ -34,6 +34,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/reservations', reservationRouter);
 app.use('/api/messages', messageRouter);
+app.use('/api/giftcard', giftcardRouter);
 
 app.listen(port, () => {
   console.log(`Trattoria Demi listening on port ${port}`)
