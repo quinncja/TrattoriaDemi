@@ -1,6 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
-const express = require('express')
-const bodyParser = require('body-parser'); // Import bodyParser middleware
+const express = require('express');
 const giftcardRouter = express.Router();
 const Giftcard = require('./Giftcard')
 
@@ -38,8 +37,6 @@ giftcardRouter.post("/", async (req, res) => {
         res.status(500).json({ error: error});
     }
 })
-
-giftcardRouter.use(bodyParser.raw({ type: 'application/json' }));
 
 giftcardRouter.post('/payment-webhook', (request, response) => {
     const sig = request.headers['stripe-signature'];
