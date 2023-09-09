@@ -4,6 +4,9 @@ import FancyLine from "../../images/FancyLine.png";
 import { usePlacesWidget } from "react-google-autocomplete";
 import {isValidEmail} from "../../functions"
 import {successfulGiftcardAlert} from "../../swal2.js"
+import { Resend } from "resend";
+import { Email } from "./Email.jsx";
+const resend = new Resend("re_GgxLzxLg_Cke5P6gTBjw8kANtKT9ZcZFG");
 const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
 
 
@@ -120,6 +123,27 @@ function Giftcard() {
     else setActiveButton(buttonId);
   };
 
+  async function sendEmailReciept(giftCard) {
+    console.log(giftCard);
+    try {
+      const data = await resend.emails.send({
+        from: "noreply@trattoriademi.site",
+        to: giftCard.email,
+        subject: "Hello World",
+        react: (
+          Email({
+            amount: giftCard.amount,
+            recipient: giftCard.recipientName,
+            address: giftCard.shippingAddress,
+            message: giftCard.message})
+        ),
+      });
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     console.log(query.get("success"))
@@ -127,6 +151,7 @@ function Giftcard() {
       const giftCard = localStorage.getItem('giftcard');
       if (giftCard){
         successfulGiftcardAlert();
+        sendEmailReciept(giftCard);
         localStorage.setItem('giftcard', null);
       }
     }

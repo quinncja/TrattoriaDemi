@@ -1,10 +1,7 @@
-import { Resend } from "resend";
-import { Email } from "./Email";
 const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 const express = require("express");
 const giftcardRouter = express.Router();
 const Giftcard = require("./Giftcard");
-const resend = new Resend("re_GgxLzxLg_Cke5P6gTBjw8kANtKT9ZcZFG");
 
 const domain = process.env.DEPLOYED_DOMAIN;
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
@@ -65,27 +62,6 @@ async function markPaid(id) {
   }
 }
 
-async function sendEmailReciept(giftCard) {
-  console.log(giftCard);
-  try {
-    const data = await resend.emails.send({
-      from: "noreply@trattoriademi.site",
-      to: giftCard.email,
-      subject: "Hello World",
-      react: (
-        <Email
-          amount={giftCard.amount}
-          recipient={giftCard.recipientName}
-          address={giftCard.shippingAddress}
-          message={giftCard.message}
-        />
-      ),
-    });
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
 
 giftcardRouter.post("/payment-webhook", (request, response) => {
   const sig = request.headers["stripe-signature"];
@@ -101,7 +77,6 @@ giftcardRouter.post("/payment-webhook", (request, response) => {
     case "checkout.session.completed":
       const session = event.data.object;
       markPaid(session.metadata.id);
-      sendEmailReciept(session.metadata);
       break;
     // ... handle other event types
     default:
