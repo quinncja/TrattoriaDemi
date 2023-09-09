@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const validStates = ["Upcoming", "Arrived", "Noshow", "Cancel"];
 const reservationSchema = new mongoose.Schema({
   name: {
@@ -17,15 +17,15 @@ const reservationSchema = new mongoose.Schema({
     type: String, // (HH:MMam/pm format)
     required: true,
   },
-  notes:{
+  notes: {
     type: String,
     required: false,
   },
-  state:{
+  state: {
     type: String,
     required: true,
     default: "Upcoming",
     enum: validStates,
-  }
-})
-module.exports = mongoose.model('Reservation',reservationSchema)
+  },
+});
+module.exports = mongoose.model("Reservation", reservationSchema);

@@ -32,3 +32,19 @@ export function successfulContactAlert() {
       showConfirmButton: false,
     });
 }
+
+export function successfulGiftcardAlert(){
+  return Swal.fire({
+    title: `Thank you for your purchase`,
+    icon: "success",
+    iconColor: "#d3963a",
+    timer: 2500,
+    text: "A reciept has been sent to your email",
+    padding: "2rem",
+    customClass: {
+      title: "swal-header"
+    },
+    timerProgressBar: true,
+    showConfirmButton: false,
+  });
+}

@@ -1,68 +1,116 @@
-const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
-const express = require('express')
+import { Resend } from "resend";
+import { Email } from "./Email";
+const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
+const express = require("express");
 const giftcardRouter = express.Router();
-const Giftcard = require('./Giftcard')
+const Giftcard = require("./Giftcard");
+const resend = new Resend("re_GgxLzxLg_Cke5P6gTBjw8kANtKT9ZcZFG");
 
 const domain = process.env.DEPLOYED_DOMAIN;
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 
-// Create new Giftcard 
+// Create new Giftcard
 giftcardRouter.post("/", async (req, res) => {
-    try{
-        const { recipientName, amount, shippingAddress, message } = req.body;
-        const newGiftcard = new Giftcard({recipientName, amount, shippingAddress, message});
-        await newGiftcard.save();
-        const session = await stripe.checkout.sessions.create({
-            line_items: [
-              {
-                'price_data': {
-                    'currency': 'usd',
-                    'unit_amount': amount * 100, 
-                    'product_data': {
-                        'name': "Trattoria Demi Giftcard",
-                    },
-                },
-                'quantity': 1,
-              },
-            ],
-            mode: 'payment',
-            success_url: `${domain}/giftcards?="success"`,
-            cancel_url: `${domain}/giftcards`,
-          });
-        
+  try {
+    const { recipientName, amount, shippingAddress, message, email } = req.body;
+    const newGiftcard = new Giftcard({
+      recipientName,
+      amount,
+      shippingAddress,
+      message,
+      email,
+    });
+    await newGiftcard.save();
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            unit_amount: amount * 100,
+            product_data: {
+              name: "Trattoria Demi Giftcard",
+            },
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      customer_email: email,
+      metadata: {
+        recipientName,
+        amount,
+        shippingAddress,
+        message,
+        email,
+        id: newGiftcard._id,
+      },
+      success_url: `${domain}/giftcards/?success=true`,
+      cancel_url: `${domain}/giftcards`,
+    });
+
     res.status(200).json({ url: session.url });
-
-    } catch (error) {
-        console.error('Error creating giftcard:', error);
-        res.status(500).json({ error: error});
-    }
-})
-
-giftcardRouter.post('/payment-webhook', (request, response) => {
-    const sig = request.headers['stripe-signature'];
-  
-    let event;
-    try {
-      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-    } catch (err) {
-      response.status(400).send(`Webhook Error: ${err.message}`);
-      return;
-    }
-    switch (event.type) {
-        case 'checkout.session.completed':
-          const checkoutSessionCompleted = event.data.object;
-          console.log(checkoutSessionCompleted)
-          break;
-        // ... handle other event types
-        default:
-          console.log(`Unhandled event type ${event.type}`);
-    }
-      // Handle the event
-    console.log(`Unhandled event type ${event.type}`);
-      // Return a 200 response to acknowledge receipt of the event
-     response.send();
+  } catch (error) {
+    console.error("Error creating giftcard:", error);
+    res.status(500).json({ error: error });
+  }
 });
-  
-  
-module.exports = giftcardRouter;
 
+async function markPaid(id) {
+  try {
+    const giftcard = await Giftcard.findById(id);
+    giftcard.isPaid = true;
+    giftcard.save();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function sendEmailReciept(giftCard) {
+  console.log(giftCard);
+  try {
+    const data = await resend.emails.send({
+      from: "noreply@trattoriademi.site",
+      to: giftCard.email,
+      subject: "Hello World",
+      react: (
+        <Email
+          amount={giftCard.amount}
+          recipient={giftCard.recipientName}
+          address={giftCard.shippingAddress}
+          message={giftCard.message}
+        />
+      ),
+    });
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+giftcardRouter.post("/payment-webhook", (request, response) => {
+  const sig = request.headers["stripe-signature"];
+
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+  } catch (err) {
+    response.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+  switch (event.type) {
+    case "checkout.session.completed":
+      const session = event.data.object;
+      markPaid(session.metadata.id);
+      sendEmailReciept(session.metadata);
+      break;
+    // ... handle other event types
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+  // Handle the event
+  console.log(`Unhandled event type ${event.type}`);
+  // Return a 200 response to acknowledge receipt of the event
+  response.send();
+});
+
+module.exports = giftcardRouter;
