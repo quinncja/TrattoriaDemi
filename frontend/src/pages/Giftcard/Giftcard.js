@@ -126,7 +126,7 @@ function Giftcard() {
   async function sendEmailReciept(giftCard) {
     console.log(giftCard);
     try {
-      const data = await resend.emails.send({
+      const data = await resend.sendEmail({
         from: "noreply@trattoriademi.site",
         to: giftCard.email,
         subject: "Hello World",
