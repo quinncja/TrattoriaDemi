@@ -152,7 +152,7 @@ function Giftcard() {
       if (giftCard){
         successfulGiftcardAlert();
         sendEmailReciept(giftCard);
-        localStorage.setItem('giftcard', null);
+        localStorage.removeItem('giftcard');
       }
     }
   }, [])
