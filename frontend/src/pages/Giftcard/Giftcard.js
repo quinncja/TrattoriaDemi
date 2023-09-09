@@ -128,7 +128,7 @@ function Giftcard() {
     try {
       const data = await resend.sendEmail({
         from: "noreply@trattoriademi.site",
-        to: giftCard.email,
+        to: [giftCard.email],
         subject: "Hello World",
         react: (
           Email({
