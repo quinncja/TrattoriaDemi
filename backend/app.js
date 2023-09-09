@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express')
-const bodyParser = require('body-parser'); // Import bodyParser middleware
 const mongoose = require('mongoose');
 const cors = require('cors');
 const reservationRouter = require('./api/reservation/reservationRouter');
@@ -28,7 +27,7 @@ async function main() {
 }
 
 app.use(cors());
-giftcardRouter.use('/payment-webhook', bodyParser.raw({ type: 'application/json' }));
+app.use('/api/giftcard/payment-webhook', express.raw({ type: 'application/json' }));
 app.use(express.json());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
