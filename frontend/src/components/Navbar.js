@@ -14,7 +14,8 @@ export function Navbar() {
   useEffect(() => {
     if (loc === "checkout") loc = "order";
     if (loc === "") loc = "home"; 
-    if (loc === "dashboard") loc = "home"; 
+    if (loc === "dashboard") loc = "home";
+    if (loc === "giftcards/") loc = "giftcards"; 
     changeActive(loc);
   }, [loc, mobile]);
   

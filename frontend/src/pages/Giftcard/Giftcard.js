@@ -1,19 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { postGiftcard } from "../../api.js"
 import FancyLine from "../../images/FancyLine.png";
 import { usePlacesWidget } from "react-google-autocomplete";
+import {isValidEmail} from "../../functions"
+import {successfulGiftcardAlert} from "../../swal2.js"
 const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
+
 
 function Giftcard() {
   const [recipient, setRecipient] = useState(null);
   const [shipAddress, setShipAddress] = useState('');
   const [message, setMessage] = useState(null);
   const [activeButton, setActiveButton] = useState(null);
+  const [email, setEmail] = useState(null);
   const [errorStates, setError] = useState({
     recipient: false,
     address: false,
     message: false,
     button: false,
+    email: false,
+    emailFormat: false,
   });
 
   const { ref } = usePlacesWidget({
@@ -37,6 +43,11 @@ function Giftcard() {
       : "Shipping Address",
     button: errorStates.button ? "Please select an amount" : "Giftcard Amount",
     message: "Message to recipient",
+    email: errorStates.email
+      ? "Please enter your email"
+      : errorStates.emailFormat
+      ? "Please enter a valid email"
+      : "Email",
   };
 
   const values = [15, 25, 50, 75, 100];
@@ -54,14 +65,6 @@ function Giftcard() {
     </button>
   ));
 
-  function clearForm() {
-    document.getElementById("gc-form").reset();
-    setRecipient(null);
-    setShipAddress(null);
-    setMessage(null);
-    setShipAddress(null);
-  }
-
   const contactValidator = () => {
     let isError = false;
     if (!recipient) {
@@ -75,6 +78,14 @@ function Giftcard() {
     if (!activeButton) {
       isError = true;
       setError((errorStates) => ({ ...errorStates, button: true }));
+    }
+    if (!email) {
+      isError = true;
+      setError((errorStates) => ({ ...errorStates, email: true }));
+    }
+    if (!isValidEmail(email)) {
+      isError = true;
+      setError((errorStates) => ({ ...errorStates, emailFormat: true }));
     }
     return isError;
   };
@@ -91,6 +102,11 @@ function Giftcard() {
     if (event.target.id === "message") {
       setMessage(event.target.value)
     }
+    if (event.target.id === "email") {
+      setError((errorStates) => ({ ...errorStates, email: false }));
+      setError((errorStates) => ({ ...errorStates, emailFormat: false }));
+      setEmail(event.target.value);
+    }
   };
 
   const handleClick = (buttonId) => {
@@ -104,14 +120,35 @@ function Giftcard() {
     else setActiveButton(buttonId);
   };
 
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    console.log(query.get("success"))
+    if (query.get("success")) {
+      const giftCard = localStorage.getItem('giftcard');
+      if (giftCard){
+        successfulGiftcardAlert();
+        localStorage.setItem('giftcard', null);
+      }
+    }
+  }, [])
+
+  async function saveGiftcard(newGiftcard){
+    localStorage.setItem('giftcard', JSON.stringify(newGiftcard));
+  }
+
   async function createGiftcard() {
     const newGiftcard = { 
       recipientName: recipient,
       shippingAddress: shipAddress,
       amount: activeButton,
-      message
+      email,
+      message,
     }
+    saveGiftcard(newGiftcard)
+    return newGiftcard;
+  }
 
+  async function sendGiftcard(newGiftcard){
     try{
       const response = await postGiftcard(newGiftcard);
       const body = response.data;
@@ -121,11 +158,12 @@ function Giftcard() {
     }
   }
 
-  const onSubmit = () => {
-    if (!contactValidator()) createGiftcard();
+  const onSubmit = async () => {
+    if (!contactValidator()) sendGiftcard(await createGiftcard());
   };
 
   return (
+    <>
     <form id="gc-form">
       <div className="reserve-top">Share the gift of Trattoria Demi!</div>
       <div className="reserve-container">
@@ -185,6 +223,26 @@ function Giftcard() {
               </div>
             </div>
             <div className="gc-bottom-left-grid">
+            <div className="input-group">
+                <div
+                  className={`input-text ${
+                    (errorStates.email || errorStates.emailFormat) &&
+                    `input-text-error`
+                  }`}
+                >
+                  {" "}
+                  {inputText.email}{" "}
+                </div>
+                <input
+                  type="email"
+                  id="email"
+                  className={`reserve-select ${
+                    (errorStates.email || errorStates.emailFormat) &&
+                    `reserve-select-error`
+                  }`}
+                  onChange={(event) => handleChange(event)}
+                ></input>
+              </div>
               <div className="input-group">
                 <div className="input-text"> {inputText.message} </div>
                 <textarea
@@ -208,6 +266,7 @@ function Giftcard() {
         </div>
       </div>
     </form>
+    </>
   );
 }
 

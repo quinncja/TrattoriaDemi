@@ -1,29 +1,33 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const giftcardSchema = new mongoose.Schema({
-    recipientName: {
-        type: String,
-        required: true,
-    },
-    amount: {
-        type: Number,
-        required: true,
-    },
-    shippingAddress: {
-        type: String, 
-        required: true,
-    },
-    message: {
-        type: String,
-    },
-    purchaserName: {
-        type: String,
-    },
-    purchaserEmail: {
-        type: String,
-    },
-    isPaid: {
-        type: Boolean,
-        default: false
-    }
-})
-module.exports = mongoose.model('Giftcard', giftcardSchema)
+  recipientName: {
+    type: String,
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  shippingAddress: {
+    type: String,
+    required: true,
+  },
+  message: {
+    type: String,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  purchaserName: {
+    type: String,
+  },
+  purchaserEmail: {
+    type: String,
+  },
+  isPaid: {
+    type: Boolean,
+    default: false,
+  },
+});
+module.exports = mongoose.model("Giftcard", giftcardSchema);

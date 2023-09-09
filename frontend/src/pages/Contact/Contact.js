@@ -3,6 +3,7 @@ import FancyLine from "../../images/FancyLine.png";
 import "../Reserve/Reserve.css";
 import { postContact } from "../../api";
 import { successfulContactAlert } from "../../swal2"
+import {isValidEmail} from "../../functions"
 
 function Contact() {
   const [firstName, setFirstName] = useState("");
@@ -49,11 +50,6 @@ function Contact() {
     } else console.log(status);
   }
 
-  function isValidEmail() {
-    const regex = /^[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}\.[a-zA-Z]{2,}$/;
-    return regex.test(email);
-  }
-
   const contactValidator = () => {
     let isError = false;
     if (!firstName) {
@@ -72,7 +68,7 @@ function Contact() {
       isError = true;
       setError((errorStates) => ({ ...errorStates, email: true }));
     }
-    if (!isValidEmail()) {
+    if (!isValidEmail(email)) {
       isError = true;
       setError((errorStates) => ({ ...errorStates, emailFormat: true }));
     }
