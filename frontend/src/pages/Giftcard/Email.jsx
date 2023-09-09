@@ -6,8 +6,8 @@ import { Text } from "@react-email/text";
 import { Img } from "@react-email/img";
 import { Preview } from "@react-email/preview";
 import { Container } from "@react-email/container";
-import FancyLine from "../images/FancyLine.png";
-import Logo from "../images/TrattoriaDemiCenteredWhite.png";
+import FancyLine from "../../images/FancyLine.png";
+import Logo from "../../images/TrattoriaDemiCenteredWhite.png";
 
 export function Email(props) {
   const { amount, recipient, adress, message } = props;
@@ -106,6 +106,8 @@ export function Email(props) {
   );
 }
 
+export default Email;
+
 const container = {
   margin: "30px auto",
   paddingBlock: "40px",
@@ -141,5 +143,3 @@ const row = {
   width: "50%",
   marginBottom: "5px",
 };
-
-export default Email;
