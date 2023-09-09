@@ -5,7 +5,7 @@ export function successfulReserveAlert() {
       title: `Reservation Successful!`,
       icon: "success",
       iconColor: "#d3963a",
-      timer: 2500,
+      timer: 3500,
       text: "We look forward to serving you",
       padding: "2rem",
       customClass: {
@@ -22,7 +22,7 @@ export function successfulContactAlert() {
       title: `Thanks for reaching out`,
       icon: "success",
       iconColor: "#d3963a",
-      timer: 2500,
+      timer: 3500,
       text: "We will get back to you as soon as possible",
       padding: "2rem",
       customClass: {
@@ -38,7 +38,7 @@ export function successfulGiftcardAlert(){
     title: `Thank you for your purchase`,
     icon: "success",
     iconColor: "#d3963a",
-    timer: 2500,
+    timer: 3500,
     text: "A reciept has been sent to your email",
     padding: "2rem",
     customClass: {
