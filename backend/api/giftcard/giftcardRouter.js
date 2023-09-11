@@ -2,7 +2,7 @@ const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 const express = require("express");
 const giftcardRouter = express.Router();
 const Giftcard = require("./Giftcard");
-
+const { sendEmailReciept } = require("./sendEmailReciept");
 const domain = process.env.DEPLOYED_DOMAIN;
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 
@@ -62,7 +62,6 @@ async function markPaid(id) {
   }
 }
 
-
 giftcardRouter.post("/payment-webhook", (request, response) => {
   const sig = request.headers["stripe-signature"];
 
@@ -77,6 +76,7 @@ giftcardRouter.post("/payment-webhook", (request, response) => {
     case "checkout.session.completed":
       const session = event.data.object;
       markPaid(session.metadata.id);
+      sendEmailReciept(session.metadata)
       break;
     // ... handle other event types
     default:
