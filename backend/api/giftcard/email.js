@@ -6,17 +6,16 @@ import { Text } from "@react-email/text";
 import { Img } from "@react-email/img";
 import { Preview } from "@react-email/preview";
 import { Container } from "@react-email/container";
-import FancyLine from "../../images/FancyLine.png";
-import Logo from "../../images/TrattoriaDemiCenteredWhite.png";
+import FancyLine from "../static/FancyLine.png";
+import Logo from "../static/TrattoriaDemiCenteredWhite.png";
 
-export function Email(props) {
+function Email(props) {
   const { amount, recipient, adress, message } = props;
 
   return (
     <Html lang="en">
       <Preview>Your giftcard receipt</Preview>
-      <Container style={container}>
-        <Img
+      <Img
           src={Logo}
           alt="Trattoria Demi"
           width="80%"
@@ -32,6 +31,7 @@ export function Email(props) {
           width="40%"
           style={{ marginLeft: "30%", marginTop: "10px" }}
         />
+      <Container style={container}>
         <Heading style={header} as="h2" mt="0">
           Thank you for your purchase!
         </Heading>
@@ -105,7 +105,6 @@ export function Email(props) {
     </Html>
   );
 }
-
 export default Email;
 
 const container = {
