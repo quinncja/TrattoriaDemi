@@ -11,7 +11,7 @@
   },
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "@react-email/column": "^0.0.7",
     "@react-email/container": "^0.0.8",
