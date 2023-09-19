@@ -1,6 +1,6 @@
 FROM oven/bun
 COPY . .
-WORKDIR /
+WORKDIR /app
 RUN bun install
  
 ARG PORT
