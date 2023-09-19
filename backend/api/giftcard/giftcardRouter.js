@@ -2,10 +2,10 @@ const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 const express = require("express");
 const giftcardRouter = express.Router();
 const Giftcard = require("./Giftcard");
-//const { sendEmailReciept } = require("./sendEmailReciept.mjs");
+const { sendEmailReciept } = require("./sendEmailReciept");
 const domain = process.env.DEPLOYED_DOMAIN;
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
-  
+
 // Create new Giftcard
 giftcardRouter.post("/", async (req, res) => {
   try {
@@ -76,14 +76,7 @@ giftcardRouter.post("/payment-webhook", (request, response) => {
     case "checkout.session.completed":
       const session = event.data.object;
       markPaid(session.metadata.id);
-      import("./sendEmailReciept.mjs")
-        .then((module) => {
-          const { sendEmailReciept } = module; 
-          sendEmailReciept(session.metadata)
-        })
-        .catch((error) => {
-          console.error("Error importing sendEmailReciept.mjs", error);
-        });
+      sendEmailReciept(session.metadata)
       break;
     // ... handle other event types
     default:

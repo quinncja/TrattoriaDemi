@@ -1,0 +1,26 @@
+import { Resend } from 'resend';
+import Email from "./email";
+const resend = new Resend("re_GgxLzxLg_Cke5P6gTBjw8kANtKT9ZcZFG");
+
+async function sendEmailReciept(giftCard) {
+    console.log("backend:", giftCard);
+    try {
+      const data = await resend.emails.send({
+        from: "Trattoria Demi <noreply@trattoriademi.site>",
+        to: [giftCard.email],
+        subject: "Your receipt",
+        react: (
+          Email({
+            amount: giftCard.amount,
+            recipient: giftCard.recipientName,
+            address: giftCard.shippingAddress,
+            message: giftCard.message})
+        ),
+      });
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+export { sendEmailReciept };
