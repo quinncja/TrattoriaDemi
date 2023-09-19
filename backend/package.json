@@ -29,7 +29,7 @@
     "mongoose": "^7.5.0",
     "react-email": "^1.9.4",
     "resend": "^1.0.0",
-    "stripe": "^13.4.0"
+    "stripe": "^13.6.0"
   },
   "devDependencies": {
     "bun-types": "latest"
