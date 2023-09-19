@@ -1,5 +1,5 @@
 FROM oven/bun
-WORKDIR /BACKEND
+WORKDIR /
 COPY . .
 RUN bun install
  
