@@ -61,9 +61,13 @@ async function markPaid(id) {
   }
 }
 
-async function sendReciept(data){
-  const sendEmailReciept = await import("./sendEmailReciept.mjs")
-  sendEmailReciept(data)
+async function sendReciept(data) {
+  try {
+    const sendEmailReciept = await import("./sendEmailReciept.mjs");
+    sendEmailReciept(data);
+  } catch (error) {
+    console.error("Error importing or executing sendEmailReciept:", error);
+  }
 }
 
 giftcardRouter.post("/payment-webhook", (request, response) => {
