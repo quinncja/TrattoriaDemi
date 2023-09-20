@@ -57,7 +57,7 @@ async function markPaid(id) {
     giftcard.isPaid = true;
     giftcard.save();
   } catch (error) {
-    console.error(error);
+    console.error(id, error);
   }
 }
 
