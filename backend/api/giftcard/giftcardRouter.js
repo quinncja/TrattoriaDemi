@@ -64,6 +64,7 @@ async function markPaid(id) {
 async function sendReciept(data) {
   try {
     const module = await import("./sendEmailReciept.mjs");
+    console.log("before sendEmailReciept")
     module.sendEmailReciept(data);
   } catch (error) {
     console.error("Error importing or executing sendEmailReciept:", error);
@@ -83,6 +84,7 @@ giftcardRouter.post("/payment-webhook", (request, response) => {
   switch (event.type) {
     case "checkout.session.completed":
       const session = event.data.object;
+      console.log("checkout-data:")
       markPaid(session.metadata.id);
       sendReciept(session.metadata)
       break;
