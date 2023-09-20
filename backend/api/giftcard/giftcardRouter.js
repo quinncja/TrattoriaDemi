@@ -63,8 +63,8 @@ async function markPaid(id) {
 
 async function sendReciept(data) {
   try {
-    const sendEmailReciept = await import("./sendEmailReciept.mjs");
-    sendEmailReciept(data);
+    const module = await import("./sendEmailReciept.mjs");
+    module.sendEmailReciept(data);
   } catch (error) {
     console.error("Error importing or executing sendEmailReciept:", error);
   }
