@@ -23,4 +23,4 @@ async function sendEmailReciept(giftCard) {
     }
   }
 
-export default sendEmailReciept;
+export { sendEmailReciept };
