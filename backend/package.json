@@ -11,7 +11,7 @@
   },
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "@react-email/column": "^0.0.7",
     "@react-email/container": "^0.0.8",
@@ -21,7 +21,6 @@
     "@react-email/preview": "^0.0.6",
     "@react-email/row": "^0.0.5",
     "@react-email/text": "^0.0.5",
-    "bunrest": "^1.2.1",
     "cors": "^2.8.5",
     "docker": "^1.0.0",
     "dotenv": "^16.3.1",
