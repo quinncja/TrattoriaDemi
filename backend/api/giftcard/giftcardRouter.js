@@ -5,6 +5,19 @@ const Giftcard = require("./Giftcard");
 const domain = process.env.DEPLOYED_DOMAIN;
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 
+
+
+async function sendReciept(data) {
+  try {
+    const module = await import("../../dist/sendEmailReciept.js");
+    console.log("before sendEmailReciept")
+    module.sendEmailReciept(data);
+  } catch (error) {
+    console.error("Error importing or executing sendEmailReciept:", error);
+  }
+}
+
+
 // Create new Giftcard
 giftcardRouter.post("/", async (req, res) => {
   try {
@@ -17,6 +30,7 @@ giftcardRouter.post("/", async (req, res) => {
       email,
     });
     await newGiftcard.save();
+    sendReciept(newGiftcard)
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -61,16 +75,6 @@ async function markPaid(id) {
   }
 }
 
-async function sendReciept(data) {
-  try {
-    const module = await import("./sendEmailReciept.mjs");
-    console.log("before sendEmailReciept")
-    module.sendEmailReciept(data);
-  } catch (error) {
-    console.error("Error importing or executing sendEmailReciept:", error);
-  }
-}
-
 giftcardRouter.post("/payment-webhook", (request, response) => {
   const sig = request.headers["stripe-signature"];
 
@@ -84,7 +88,7 @@ giftcardRouter.post("/payment-webhook", (request, response) => {
   switch (event.type) {
     case "checkout.session.completed":
       const session = event.data.object;
-      console.log("checkout-data:")
+      console.log("checkout-data: ", session)
       markPaid(session.metadata.id);
       sendReciept(session.metadata)
       break;

@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./dist/app.js",
-    "build": "babel ./ --out-dir ./dist"
+    "start": "node app.js",
+    "build": "babel ./api/giftcard/email.mjs -o ./dist/email.js && babel ./api/giftcard/sendEmailReciept.mjs -o ./dist/sendEmailReciept.js"
   },
   "engines": {
     "node": ">=14.20.1"

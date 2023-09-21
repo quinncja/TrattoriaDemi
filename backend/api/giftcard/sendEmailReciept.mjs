@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import Email from "./email.mjs";
+import Email from "./email.js";
 const resend = new Resend("re_GgxLzxLg_Cke5P6gTBjw8kANtKT9ZcZFG");
 
 async function sendEmailReciept(giftCard) {
