@@ -8,15 +8,14 @@ const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 // Create new Giftcard
 giftcardRouter.post("/", async (req, res) => {
   try {
-    const { recipientName, amount, shippingAddress, message, email } = req.body;
+    const { recipientName, amount, shippingAddress, message } = req.body;
     const newGiftcard = new Giftcard({
       recipientName,
       amount,
       shippingAddress,
       message,
-      email,
     });
-    await newGiftcard.save();
+    const savedGiftcard = await newGiftcard.save();
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -36,7 +35,7 @@ giftcardRouter.post("/", async (req, res) => {
         amount,
         shippingAddress,
         message,
-        id: newGiftcard._id,
+        id: savedGiftcard._id,
       },
       success_url: `${domain}/giftcards/?success=true`,
       cancel_url: `${domain}/giftcards`,
