@@ -3,7 +3,6 @@ import Email from "./email.js";
 const resend = new Resend("re_GgxLzxLg_Cke5P6gTBjw8kANtKT9ZcZFG");
 
 async function sendEmailReciept(giftCard, email) {
-    console.log("backend:", giftCard);
     try {
       const data = await resend.emails.send({
         from: "Trattoria Demi <noreply@trattoriademi.site>",
@@ -17,7 +16,6 @@ async function sendEmailReciept(giftCard, email) {
             message: giftCard.message})
         ),
       });
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
