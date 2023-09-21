@@ -88,7 +88,7 @@ function Email(props) {
           </Column>
         </Row>
         </Container>
-        <Text style={{ ...text, marginTop: "40px", textAlign: "center" }}>Cheers!</Text>
+        <Text style={{ ...text, marginTop: "40px", textAlign: "center", marginBottom: "35px" }}>Cheers!</Text>
       </Container>
     </Html>
   );
@@ -98,7 +98,8 @@ export default Email;
 const container = {
   position: "relative",
   margin: "30px auto",
-  paddingBlock: "40px",
+  paddingLeft: "40px",
+  paddingRight: "40px",
   paddingInline: "2%",
   backgroundColor: "#f8f4f1",
   borderRadius: 3,
@@ -116,6 +117,7 @@ const innerContainer = {
 const header = {
   color: "#444444",
   marginBottom: "35px",
+  marginTop: "35px",
   textAlign: "center"
 };
 
