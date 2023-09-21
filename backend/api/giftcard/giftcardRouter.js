@@ -16,6 +16,7 @@ giftcardRouter.post("/", async (req, res) => {
       message,
     });
     const savedGiftcard = await newGiftcard.save();
+    console.log(savedGiftcard)
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
