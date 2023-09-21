@@ -31,13 +31,11 @@ giftcardRouter.post("/", async (req, res) => {
         },
       ],
       mode: "payment",
-      customer_email: email,
       metadata: {
         recipientName,
         amount,
         shippingAddress,
         message,
-        email,
         id: newGiftcard._id,
       },
       success_url: `${domain}/giftcards/?success=true`,
@@ -51,14 +49,23 @@ giftcardRouter.post("/", async (req, res) => {
   }
 });
 
-async function markPaid(id) {
+async function getGiftcard(email){
   try {
     const giftcard = await Giftcard.findById(id);
-    giftcard.isPaid = true;
-    giftcard.save();
+    return(giftcard)
   } catch (error) {
     console.error(id, error);
   }
+}
+
+async function setEmail(email, giftcard){
+  giftcard.email = email;
+  email.save()
+}
+
+async function markPaid(giftcard) {
+    giftcard.isPaid = true;
+    giftcard.save();
 }
 
 async function sendReciept(data) {
@@ -68,6 +75,22 @@ async function sendReciept(data) {
   } catch (error) {
     console.error("Error importing or executing sendEmailReciept:", error);
   }
+}
+
+async function deleteGiftcard(id){
+  try {
+    const giftcard = await Giftcard.findById(id);
+    giftcard.delete()
+  } catch (error) {
+    console.error(id, error);
+  }
+}
+
+async function onCheckeoutSuccess(metadata, email){
+  const giftcard = getGiftcard(metadata.id);
+  markPaid(giftcard)
+  setEmail(giftcard, email)
+  sendReciept(metadata)
 }
 
 
@@ -81,19 +104,14 @@ giftcardRouter.post("/payment-webhook", (request, response) => {
     response.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
+  const session = event.data.object;
   switch (event.type) {
     case "checkout.session.completed":
-      const session = event.data.object;
-      markPaid(session.metadata.id);
-      sendReciept(session.metadata)
+      onCheckeoutSuccess(session.metadata, session.customer_details.email)
       break;
-    // ... handle other event types
     default:
-      console.log(`Unhandled event type ${event.type}`);
+      deleteGiftcard(session.metadata.id)
   }
-  // Handle the event
-  console.log(`Unhandled event type ${event.type}`);
-  // Return a 200 response to acknowledge receipt of the event
   response.send(event.type);
 });
 

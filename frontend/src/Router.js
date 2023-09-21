@@ -10,6 +10,7 @@ import Contact from "./pages/Contact/Contact";
 import Giftcard from "./pages/Giftcard/Giftcard";
 import GalleryPopulator from "./pages/Gallery/GalleryPopulator";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import Email from "./components/Email";
 
 export function Router() {
   return (
@@ -27,6 +28,7 @@ export function Router() {
           <Route path="/order" element={<Order />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/email" element={<Email />} />
         </Route>
       </Routes>
     </BrowserRouter>

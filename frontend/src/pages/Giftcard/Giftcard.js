@@ -223,26 +223,6 @@ function Giftcard() {
               </div>
             </div>
             <div className="gc-bottom-left-grid">
-            <div className="input-group">
-                <div
-                  className={`input-text ${
-                    (errorStates.email || errorStates.emailFormat) &&
-                    `input-text-error`
-                  }`}
-                >
-                  {" "}
-                  {inputText.email}{" "}
-                </div>
-                <input
-                  type="email"
-                  id="email"
-                  className={`reserve-select ${
-                    (errorStates.email || errorStates.emailFormat) &&
-                    `reserve-select-error`
-                  }`}
-                  onChange={(event) => handleChange(event)}
-                ></input>
-              </div>
               <div className="input-group">
                 <div className="input-text"> {inputText.message} </div>
                 <textarea
