@@ -16,6 +16,7 @@ export function Navbar() {
     if (loc === "") loc = "home"; 
     if (loc === "dashboard") loc = "home";
     if (loc === "giftcards/") loc = "giftcards"; 
+    if (loc === "email") loc = "home"; 
     changeActive(loc);
   }, [loc, mobile]);
   
