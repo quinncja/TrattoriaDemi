@@ -13,17 +13,21 @@ function Email(props) {
   const currentDate = new Date();
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const formattedDate = currentDate.toLocaleDateString(undefined, options);
-
+  
   return (
     <Html lang="en">
       <Preview>Your giftcard receipt</Preview>
       <Container style={container}>
+        <Container style={images}> 
+          <Img style={{width: "80%", marginLeft: "10%", marginBottom: "15px"}} src="https://i.ibb.co/Vwmz0y0/Trattoria-Demi-Centered-Gold.png" alt="Trattoria Demi"/>
+          <Img style={{width: "60%", marginLeft: "20%"}} src="https://i.ibb.co/DfQSPr7/Fancy-Line.png" alt="-------"/>
+        </Container>
         <Heading style={header} as="h2" mt="0">
           Thank you for your purchase!
         </Heading>
         <Container style={innerContainer}>
         <Row >
-          <Text style={{ ...text, textAlign: "left", marginBottom: "20px" }}>
+          <Text style={{ ...text, textAlign: "left", fontWeight: "800", marginBottom: "20px" }}>
             Your reciept is shown below
           </Text>
         </Row>
@@ -113,12 +117,17 @@ const innerContainer = {
   width: "90%",
 
 }
+const images = {
+  marginTop: "55px",
+  width: "90%"
+}
 
 const header = {
   color: "#444444",
   marginBottom: "35px",
   marginTop: "35px",
-  textAlign: "center"
+  textAlign: "center",
+  fontSize: "20px"
 };
 
 const paragraph = {
