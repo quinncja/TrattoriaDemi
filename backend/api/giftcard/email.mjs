@@ -110,7 +110,7 @@ const container = {
 
 const innerContainer = {
   position: "relative",
-  width: "60%",
+  width: "90%",
 
 }
 
