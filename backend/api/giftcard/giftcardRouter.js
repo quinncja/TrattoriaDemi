@@ -90,7 +90,7 @@ async function onCheckeoutSuccess(metadata, email){
   const giftcard = getGiftcard(metadata.id);
   markPaid(giftcard)
   setEmail(giftcard, email)
-  sendReciept(metadata)
+  sendReciept(metadata, email)
 }
 
 

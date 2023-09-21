@@ -2,7 +2,7 @@ import { Resend } from 'resend';
 import Email from "./email.js";
 const resend = new Resend("re_GgxLzxLg_Cke5P6gTBjw8kANtKT9ZcZFG");
 
-async function sendEmailReciept(giftCard) {
+async function sendEmailReciept(giftCard, email) {
     console.log("backend:", giftCard);
     try {
       const data = await resend.emails.send({
