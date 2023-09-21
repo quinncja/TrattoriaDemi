@@ -36,7 +36,7 @@ giftcardRouter.post("/", async (req, res) => {
         amount,
         shippingAddress,
         message,
-        id: savedGiftcard._id,
+        id: savedGiftcard._id.toString(),
       },
       success_url: `${domain}/giftcards/?success=true`,
       cancel_url: `${domain}/giftcards`,
