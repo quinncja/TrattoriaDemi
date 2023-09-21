@@ -7,7 +7,7 @@ async function sendEmailReciept(giftCard, email) {
       const data = await resend.emails.send({
         from: "Trattoria Demi <noreply@trattoriademi.site>",
         to: [giftCard.email],
-        subject: "Your receipt",
+        subject: "Your giftcard reciept",
         react: (
           Email({
             amount: giftCard.amount,
