@@ -54,6 +54,8 @@ async function getGiftcard(id){
   try {
     const idObject = new ObjectId(id);
     const giftcard = await Giftcard.findById(idObject);
+    if (!giftcard) 
+      throw new Error(`No giftcard found with ID: ${id}`);
     return(giftcard)
   } catch (error) {
     console.error(id, error);
@@ -89,7 +91,7 @@ async function deleteGiftcard(id){
 }
 
 async function onCheckeoutSuccess(metadata, email){
-  const giftcard = getGiftcard(metadata.id);
+  const giftcard = await getGiftcard(metadata.id);
   markPaid(giftcard)
   setEmail(giftcard, email)
   sendReciept(metadata, email)
