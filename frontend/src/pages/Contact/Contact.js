@@ -143,6 +143,7 @@ function Contact() {
                 onChange={(event) => handleChange(event)}
               ></input>
             </div>
+            <div className="bottom-left-grid">
             <div className="input-group">
               <div
                 className={`input-text ${
@@ -160,6 +161,7 @@ function Contact() {
                 }`}
                 onChange={(event) => handleChange(event)}
               ></textarea>
+            </div>
             </div>
             <div className="bottom-right-grid">
               <div className="input-group">
