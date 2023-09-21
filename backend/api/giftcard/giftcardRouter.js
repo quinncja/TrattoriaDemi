@@ -51,7 +51,7 @@ giftcardRouter.post("/", async (req, res) => {
 
 async function getGiftcard(id){
   try {
-    const idObject = newObject(id);
+    const idObject = new ObjectId(id);
     const giftcard = await Giftcard.findById(idObject);
     return(giftcard)
   } catch (error) {
@@ -61,12 +61,12 @@ async function getGiftcard(id){
 
 async function setEmail(email, giftcard){
   giftcard.email = email;
-  email.save()
+  giftcard.save()
 }
 
 async function markPaid(giftcard) {
-    giftcard.isPaid = true;
-    giftcard.save();
+  giftcard.isPaid = true;
+  giftcard.save();
 }
 
 async function sendReciept(data) {
