@@ -64,12 +64,12 @@ async function getGiftcard(id){
 
 async function setEmail(email, giftcard){
   giftcard.email = email;
-  giftcard.save()
+  await giftcard.save()
 }
 
 async function markPaid(giftcard) {
   giftcard.isPaid = true;
-  giftcard.save();
+  await giftcard.save();
 }
 
 async function sendReciept(data) {
@@ -91,10 +91,18 @@ async function deleteGiftcard(id){
 }
 
 async function onCheckeoutSuccess(metadata, email){
-  const giftcard = await getGiftcard(metadata.id);
-  markPaid(giftcard)
-  setEmail(giftcard, email)
-  sendReciept(metadata, email)
+  try {
+    const giftcard = await getGiftcard(metadata.id);
+    if(giftcard) {
+      await markPaid(giftcard);
+      await setEmail(email, giftcard);
+      await sendReciept({ ...metadata, email });
+    } else {
+      console.error("No giftcard found with ID:", metadata.id);
+    }
+  } catch(error) {
+    console.error("Error in onCheckoutSuccess:", error);
+  }
 }
 
 
