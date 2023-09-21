@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { postGiftcard } from "../../api.js"
 import FancyLine from "../../images/FancyLine.png";
 import { usePlacesWidget } from "react-google-autocomplete";
-import {isValidEmail} from "../../functions"
 import {successfulGiftcardAlert} from "../../swal2.js"
 const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
 
@@ -18,7 +17,6 @@ function Giftcard() {
     address: false,
     message: false,
     button: false,
-    email: false,
     emailFormat: false,
   });
 
@@ -43,11 +41,6 @@ function Giftcard() {
       : "Shipping Address",
     button: errorStates.button ? "Please select an amount" : "Giftcard Amount",
     message: "Message to recipient",
-    email: errorStates.email
-      ? "Please enter your email"
-      : errorStates.emailFormat
-      ? "Please enter a valid email"
-      : "Email",
   };
 
   const values = [15, 25, 50, 75, 100];
@@ -78,14 +71,6 @@ function Giftcard() {
     if (!activeButton) {
       isError = true;
       setError((errorStates) => ({ ...errorStates, button: true }));
-    }
-    if (!email) {
-      isError = true;
-      setError((errorStates) => ({ ...errorStates, email: true }));
-    }
-    if (!isValidEmail(email)) {
-      isError = true;
-      setError((errorStates) => ({ ...errorStates, emailFormat: true }));
     }
     return isError;
   };
