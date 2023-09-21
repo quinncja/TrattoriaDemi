@@ -87,6 +87,7 @@ async function deleteGiftcard(id){
 }
 
 async function onCheckeoutSuccess(metadata, email){
+  console.log(metadata)
   const giftcard = getGiftcard(metadata.id);
   markPaid(giftcard)
   setEmail(giftcard, email)
