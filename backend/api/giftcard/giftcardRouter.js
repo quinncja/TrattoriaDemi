@@ -4,6 +4,7 @@ const giftcardRouter = express.Router();
 const Giftcard = require("./Giftcard");
 const domain = process.env.DEPLOYED_DOMAIN;
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
+const ObjectId = mongoose.Types.ObjectId;
 
 // Create new Giftcard
 giftcardRouter.post("/", async (req, res) => {
@@ -16,7 +17,6 @@ giftcardRouter.post("/", async (req, res) => {
       message,
     });
     const savedGiftcard = await newGiftcard.save();
-    console.log(savedGiftcard)
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
