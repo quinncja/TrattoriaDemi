@@ -17,7 +17,6 @@ const giftcardSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
   },
   purchaserName: {
     type: String,
