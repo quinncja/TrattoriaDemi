@@ -64,12 +64,17 @@
 
 .reserve-inputs {
   display: grid;
-  position: relative;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: .2fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px; 
+  position: relative;
   justify-content: space-around;
-  align-items: last baseline;
   padding-inline: 5%;
   gap: 20px;
+}
+.giftcard-inputs {
+  grid-template-rows: 1fr;
 }
 .input-fname{
   grid-area: 1 / 1 / 2 / 2;
@@ -96,8 +101,6 @@
   justify-content: space-between;
   gap: 20px;
   width: 100%;
-  min-height: 100%;
-
 }
 .reserve-select {
   padding: 0.7rem;
@@ -166,7 +169,7 @@
 }
 
 .submit-button {
-  padding: 0.9rem;
+  padding: 0.85rem;
   background-color: var(--gold);
   filter: brightness(110%);
   border: none;

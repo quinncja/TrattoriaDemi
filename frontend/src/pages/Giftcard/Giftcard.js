@@ -155,8 +155,8 @@ function Giftcard() {
         <div className="reserve-section">
           <div className="menu-section-header">Order a giftcard</div>
           <img className="fancy-line" src={FancyLine} alt="" />
-          <div className="reserve-inputs">
-            <div className="left-giftcard-input">
+          <div className="reserve-inputs giftcard-inputs">
+            <div className="giftcard-input">
               <div className="input-group">
                 <label
                   className={`input-text ${
@@ -207,7 +207,7 @@ function Giftcard() {
                 ></input>
               </div>
             </div>
-            <div className="gc-bottom-left-grid">
+            <div className="giftcard-input">
               <div className="input-group">
                 <div className="input-text"> {inputText.message} </div>
                 <textarea
@@ -220,7 +220,7 @@ function Giftcard() {
               </div>
 
               <button
-                className="submit-button"
+                className="submit-button mt-10"
                 type="button"
                 onClick={onSubmit}
               >
