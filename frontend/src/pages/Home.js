@@ -17,23 +17,29 @@ export default function Home() {
               speed: -10,
               children: (
                 <div className="pic-overlay">
-                  <div className="pic-content"> 
-                  <div> 
-                  Old world Italian 
-                  <br />
-                  in the heart of Evanston
+                  <div className="pic-content">
+                    <div>
+                      Old world Italian
+                      <br />
+                      in the heart of Evanston
+                    </div>
+                    <div className="welcome-buttons">
+                      <button
+                        className="button-main"
+                        onClick={() => navigate("/order")}
+                      >
+                        {" "}
+                        ORDER NOW
+                      </button>
+                      <button
+                        className="button-main"
+                        onClick={() => navigate("/reserve")}
+                      >
+                        {" "}
+                        RESERVE NOW{" "}
+                      </button>
+                    </div>
                   </div>
-                  <div className="welcome-buttons"> 
-                  <button className="button-main" onClick={() => navigate("/order")}>
-                    {" "}
-                    ORDER NOW
-                  </button>
-                  <button className="button-main" onClick={() => navigate("/reserve")}>
-                    {" "}
-                    RESERVE NOW{" "}
-                  </button>
-                </div>
-                </div>
                 </div>
               ),
             },

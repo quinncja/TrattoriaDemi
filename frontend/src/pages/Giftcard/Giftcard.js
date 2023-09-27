@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { postGiftcard } from "../../api.js"
+import { postGiftcard } from "../../api.js";
 import FancyLine from "../../images/FancyLine.png";
 import { usePlacesWidget } from "react-google-autocomplete";
-import {successfulGiftcardAlert} from "../../swal2.js"
+import { successfulGiftcardAlert } from "../../swal2.js";
 const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
-
 
 function Giftcard() {
   const [recipient, setRecipient] = useState(null);
-  const [shipAddress, setShipAddress] = useState('');
+  const [shipAddress, setShipAddress] = useState("");
   const [message, setMessage] = useState(null);
   const [activeButton, setActiveButton] = useState(null);
   const [email, setEmail] = useState(null);
@@ -23,13 +22,13 @@ function Giftcard() {
   const { ref } = usePlacesWidget({
     apiKey: PLACES_KEY,
     options: {
-      location: "42.0451%2C-87.6877°", 
-      radius: 200, 
+      location: "42.0451%2C-87.6877°",
+      radius: 200,
       types: "street-adress",
     },
     onPlaceSelected: (place) => {
       setShipAddress(place.formatted_address);
-    }
+    },
   });
 
   const inputText = {
@@ -85,7 +84,7 @@ function Giftcard() {
       setShipAddress(event.target.value);
     }
     if (event.target.id === "message") {
-      setMessage(event.target.value)
+      setMessage(event.target.value);
     }
     if (event.target.id === "email") {
       setError((errorStates) => ({ ...errorStates, email: false }));
@@ -107,39 +106,39 @@ function Giftcard() {
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
-    console.log(query.get("success"))
+    console.log(query.get("success"));
     if (query.get("success")) {
-      const giftCard = JSON.parse(localStorage.getItem('giftcard'));
-      if (giftCard){
+      const giftCard = JSON.parse(localStorage.getItem("giftcard"));
+      if (giftCard) {
         successfulGiftcardAlert();
-        localStorage.removeItem('giftcard');
+        localStorage.removeItem("giftcard");
       }
     }
-  }, [])
+  }, []);
 
-  async function saveGiftcard(newGiftcard){
-    localStorage.setItem('giftcard', JSON.stringify(newGiftcard));
+  async function saveGiftcard(newGiftcard) {
+    localStorage.setItem("giftcard", JSON.stringify(newGiftcard));
   }
 
   async function createGiftcard() {
-    const newGiftcard = { 
+    const newGiftcard = {
       recipientName: recipient,
       shippingAddress: shipAddress,
       amount: activeButton,
       email,
       message,
-    }
-    saveGiftcard(newGiftcard)
+    };
+    saveGiftcard(newGiftcard);
     return newGiftcard;
   }
 
-  async function sendGiftcard(newGiftcard){
-    try{
+  async function sendGiftcard(newGiftcard) {
+    try {
       const response = await postGiftcard(newGiftcard);
       const body = response.data;
       window.location.href = body.url;
-    } catch (error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -149,88 +148,88 @@ function Giftcard() {
 
   return (
     <>
-    <form id="gc-form">
-      <div className="reserve-top">Share the gift of Trattoria Demi!</div>
-      <div className="reserve-container">
-        <div className="reserve-section">
-          <div className="menu-section-header">Order a giftcard</div>
-          <img className="fancy-line" src={FancyLine} alt="" />
-          <div className="reserve-inputs giftcard-inputs">
-            <div className="giftcard-input">
-              <div className="input-group">
-                <label
-                  className={`input-text ${
-                    errorStates.button && `input-text-error`
-                  }`}
-                >
-                  {" "}
-                  {inputText.button}{" "}
-                </label>
-                <div className="giftcard-buttons">{buttons}</div>
-              </div>
-              <div className="input-group">
-                <label
-                  className={`input-text ${
-                    errorStates.recipient && `input-text-error`
-                  }`}
-                >
-                  {" "}
-                  {inputText.recipient}
-                </label>
-                <input
-                  type="text"
-                  id="recipient"
-                  className={`reserve-select ${
-                    errorStates.recipient && `reserve-select-error`
-                  }`}
-                  onChange={(event) => handleChange(event)}
-                ></input>
-              </div>
-              <div className="input-group">
-                <div
-                  className={`input-text ${
-                    errorStates.address && `input-text-error`
-                  }`}
-                >
-                  {" "}
-                  {inputText.address}{" "}
+      <form id="gc-form">
+        <div className="reserve-top">Share the gift of Trattoria Demi!</div>
+        <div className="reserve-container">
+          <div className="reserve-section">
+            <div className="menu-section-header">Order a giftcard</div>
+            <img className="fancy-line" src={FancyLine} alt="" />
+            <div className=" giftcard-inputs">
+              <div className="giftcard-input">
+                <div className="input-group">
+                  <label
+                    className={`input-text ${
+                      errorStates.button && `input-text-error`
+                    }`}
+                  >
+                    {" "}
+                    {inputText.button}{" "}
+                  </label>
+                  <div className="giftcard-buttons">{buttons}</div>
                 </div>
-                <input
-                  ref={ref}
-                  type="text"
-                  id="address"
-                  value={shipAddress}
-                  className={`reserve-select ${
-                    errorStates.address && `reserve-select-error`
-                  }`}
-                  onChange={(event) =>  handleChange(event)}
-                ></input>
+                <div className="input-group">
+                  <label
+                    className={`input-text ${
+                      errorStates.recipient && `input-text-error`
+                    }`}
+                  >
+                    {" "}
+                    {inputText.recipient}
+                  </label>
+                  <input
+                    type="text"
+                    id="recipient"
+                    className={`reserve-select ${
+                      errorStates.recipient && `reserve-select-error`
+                    }`}
+                    onChange={(event) => handleChange(event)}
+                  ></input>
+                </div>
+                <div className="input-group">
+                  <div
+                    className={`input-text ${
+                      errorStates.address && `input-text-error`
+                    }`}
+                  >
+                    {" "}
+                    {inputText.address}{" "}
+                  </div>
+                  <input
+                    ref={ref}
+                    type="text"
+                    id="address"
+                    value={shipAddress}
+                    className={`reserve-select ${
+                      errorStates.address && `reserve-select-error`
+                    }`}
+                    onChange={(event) => handleChange(event)}
+                  ></input>
+                </div>
               </div>
-            </div>
-            <div className="giftcard-input">
-              <div className="input-group">
-                <div className="input-text"> {inputText.message} </div>
-                <textarea
-                  type="text"
-                  id="message"
-                  placeholder="Optional"
-                  className="reserve-select input-text-area gc-area"
-                  onChange={(event) => handleChange(event)}
-                ></textarea>
-              </div>
+              <div className="giftcard-input">
+                <div className="input-group">
+                  <div className="input-text"> {inputText.message} </div>
+                  <textarea
+                    type="text"
+                    id="message"
+                    placeholder="Optional"
+                    className="reserve-select gc-area"
+                    onChange={(event) => handleChange(event)}
+                  ></textarea>
+                </div>
 
-              <button
-                className="submit-button mt-10"
-                type="button"
-                onClick={onSubmit}
-              >
-                Checkout with Stripe
-              </button>
+                <button
+                  className="submit-button mt-10"
+                  type="button"
+                  onClick={onSubmit}
+                >
+                  Checkout with Stripe
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
     </>
   );
 }

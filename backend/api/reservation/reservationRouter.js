@@ -1,20 +1,31 @@
 const express = require("express");
 const reservationRouter = express.Router();
 const Reservation = require("./Reservation");
+const { sendResText } = require('./sendResText')
+const { reservationChecker } = require('./reservationChecker'); 
 
 // Create new reservation
 reservationRouter.post("/", async (req, res) => {
   try {
-    const { name, numGuests, date, time, notes } = req.body;
+    const { name, numGuests, date, time, notes, phone, tableSize } = req.body;
     const newReservation = new Reservation({
       name,
       numGuests,
       date,
       time,
       notes,
+      phone,
+      tableSize
     });
-    await newReservation.save();
-    res.status(201).json(newReservation);
+    const response = await reservationChecker(numGuests, date, time)
+    if(response.available){
+      await newReservation.save();
+      await sendResText(newReservation);
+      res.status(201).json(newReservation);
+    }
+    else{
+      res.status(500).json({ error: "Availability error" });
+    }
   } catch (error) {
     console.error("Error creating reservation:", error);
     res.status(500).json({ error: "Server error" });
@@ -109,6 +120,16 @@ reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
     console.error("Error updating reservation state:", error);
     res.status(500).json({ error: "Server error" });
   }
+});
+
+reservationRouter.get("/check", async (req, res) => {
+  const numGuests = req.query.numGuests;
+  const date = req.query.date;
+  const time = req.query.time;
+
+  const response = await reservationChecker(numGuests, date, time)
+
+  res.status(200).json(response);
 });
 
 module.exports = reservationRouter;

@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = process.env.REACT_APP_DEPLOYED_BACKEND;
+const API_URL = process.env.REACT_APP_LOCAL_BACKEND;
 
 export async function getReservations() {
   try {
@@ -13,11 +13,16 @@ export async function getReservations() {
   }
 }
 
-export async function getReservationsByDate(date) {
+export async function checkReservation(numGuests, date, time) {
   try {
     const response = await axios({
       method: "get",
-      url: `${API_URL}api/reservations/date/${date}`,
+      url: `${API_URL}api/reservations/check`,
+      params: {
+        numGuests: numGuests,
+        date: date,
+        time: time,
+      },
     });
     return response.data;
   } catch (error) {
