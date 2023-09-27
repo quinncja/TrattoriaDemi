@@ -13,16 +13,16 @@ export function Navbar() {
 
   useEffect(() => {
     if (loc === "checkout") loc = "order";
-    if (loc === "") loc = "home"; 
+    if (loc === "") loc = "home";
     if (loc === "dashboard") loc = "home";
-    if (loc === "giftcards/") loc = "giftcards"; 
-    if (loc === "email") loc = "home"; 
+    if (loc === "giftcards/") loc = "giftcards";
+    if (loc === "email") loc = "home";
     changeActive(loc);
   }, [loc, mobile]);
-  
+
   useEffect(() => {
-    window.scrollTo(0,0)
-  },[])
+    window.scrollTo(0, 0);
+  }, []);
 
   const changeActive = (newLoc) => {
     if (currentPage)

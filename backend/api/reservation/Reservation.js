@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validStates = ["Upcoming", "Arrived", "Noshow", "Cancel"];
+const validSizes = ["2top", "3top", "4top", "5top", "xl"]
 const reservationSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -9,15 +10,24 @@ const reservationSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  tableSize: { 
+    type: String, 
+    required: true,
+    enum: validSizes,
+  },
   date: {
-    type: Date,
+    type: String, // yyyy-mm-dd 
     required: true,
   },
   time: {
-    type: String, // (HH:MMam/pm format)
+    type: String, // hh:mm 24h
     required: true,
   },
   notes: {
+    type: String,
+    required: false,
+  },
+  phone: {
     type: String,
     required: false,
   },

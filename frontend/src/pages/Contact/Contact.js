@@ -2,8 +2,8 @@ import { useState } from "react";
 import FancyLine from "../../images/FancyLine.png";
 import "../Reserve/Reserve.css";
 import { postContact } from "../../api";
-import { successfulContactAlert } from "../../swal2"
-import {isValidEmail} from "../../functions"
+import { successfulContactAlert } from "../../swal2";
+import { isValidEmail } from "../../functions";
 
 function Contact() {
   const [firstName, setFirstName] = useState("");
@@ -106,8 +106,8 @@ function Contact() {
         <div className="reserve-section">
           <div className="menu-section-header">Contact Us</div>
           <img className="fancy-line" src={FancyLine} alt="" />
-          <div className="reserve-inputs">
-            <div className="input-group input-fname">
+          <div className="contact-inputs">
+            <div className="input-group contact-fname">
               <div
                 className={`input-text ${
                   errorStates.fname && `input-text-error`
@@ -125,7 +125,7 @@ function Contact() {
                 onChange={(event) => handleChange(event)}
               ></input>
             </div>
-            <div className="input-group input-lname">
+            <div className="input-group contact-lname">
               <div
                 className={`input-text ${
                   errorStates.lname && `input-text-error`
@@ -143,8 +143,7 @@ function Contact() {
                 onChange={(event) => handleChange(event)}
               ></input>
             </div>
-            <div className="bottom-left-grid">
-            <div className="input-group">
+            <div className="input-group contact-message">
               <div
                 className={`input-text ${
                   errorStates.message && `input-text-error`
@@ -162,8 +161,7 @@ function Contact() {
                 onChange={(event) => handleChange(event)}
               ></textarea>
             </div>
-            </div>
-            <div className="bottom-right-grid">
+            <div className="contact-submit">
               <div className="input-group">
                 <div
                   className={`input-text ${

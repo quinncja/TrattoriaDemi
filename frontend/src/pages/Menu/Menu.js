@@ -24,9 +24,9 @@ export default function Menu() {
   });
 
   const scrollToTop = () => {
-    console.log("here")
-    window.scrollTo(0,0)
-  }
+    console.log("here");
+    window.scrollTo(0, 0);
+  };
 
   function setMenu(id) {
     scrollToTop();
