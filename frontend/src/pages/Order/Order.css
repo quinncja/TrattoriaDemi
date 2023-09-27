@@ -25,9 +25,10 @@
   display: flex;
   flex-direction: column;
   padding-bottom: 150px;
-  width: 80vw;
-  margin-left: 9.5vw;
-  margin-top: 20px;
+  align-content: center;
+  width: 80%;
+  padding-top: 30px;
+  margin-inline: auto;
 }
 
 .order-top {
@@ -67,7 +68,7 @@
   margin-bottom: 1rem;
   font-size: 1.5rem;
   position: sticky;
-  top: 10px;
+  top: -50px;
 }
 .section-items {
   display: flex;
@@ -75,6 +76,7 @@
   flex-wrap: wrap;
   gap: 15px 15px;
 }
+
 
 .item-container {
   box-sizing: border-box;
@@ -93,23 +95,20 @@
   color: var(--black);
 }
 
-.open-item-background {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  z-index: 999;
-  border: none;
-  outline: none;
+.item-modal{
+  border-radius: 5px;
+  min-width: 30%;
+  max-width: 600px;
+  min-height: 35%;
+  transition: all .3 ease-in-out;
 }
-.item-container-open {
-  margin-top: 11rem;
-  height: max-content;
-  width: 45%;
+
+
+
+.inside-modal{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 .item-container:hover {
   transform: scale(1.005);
@@ -119,8 +118,16 @@
   transform: none;
   cursor: default;
 }
+
+.header-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
 .item-header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   padding-bottom: 0.5rem;
 }
@@ -129,16 +136,21 @@
   font-weight: 800;
   font-size: 1.125rem;
   color: var(--gold);
+  align-self: baseline;
+}
+.item-info-left{
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 85%;
 }
 
 .item-name-open {
+  margin-top: 2px;
   font-size: 1.5rem;
 }
 .item-price {
   font-size: 1.1rem;
-}
-.item-price-open {
-  margin-block: auto;
 }
 .item-desc {
   font-size: 0.9rem;
@@ -151,7 +163,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .item-subheader {
@@ -160,6 +172,7 @@
   margin-bottom: 0.5rem;
 }
 .req-input {
+  transition: all .3s ease-in-out;
   width: 90%;
   resize: vertical;
   min-height: 5rem;
@@ -169,13 +182,14 @@
   background: none;
   color: var(--black);
   border-radius: 5px;
-  border: 2px solid var(--black);
+  border: 1px solid var(--border-color);
   padding: 0.5rem;
   box-sizing: border-box;
 }
 .req-input:focus {
   outline: none;
-  border: 2px solid var(--gold);
+  border: 1px solid var(--border-color);
+  filter: brightness(80%);
 }
 
 .item-footer {
@@ -190,7 +204,7 @@
   align-items: center;
   background: none;
   border-radius: 7px;
-  border: 2px solid var(--black);
+  border: 1px solid var(--border-color);
   color: var(--black);
   font-size: 1rem;
 }
@@ -222,18 +236,19 @@
 }
 
 .close-btn {
-  background-color: var(--black);
-  border: 2px solid var(--black);
-  color: white;
+  border: 1px solid var(--border-color);
+  background: none;
+  color: var(--black);
   padding: 10px 15px;
   transition: all 0.3s;
+  font-weight: 900;
   cursor: pointer;
   border-radius: 10px;
 }
 
 .close-btn:hover {
-  border: 2px solid var(--red);
-  filter: brightness(120%);
+  color: var(--dark-red);
+  filter: brightness(80%);
 }
 .add-btn {
   background-color: var(--gold);
@@ -260,24 +275,27 @@
 .item-options {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   width: 90%;
   gap: 10px;
 }
 
 .option-btn {
   background: none;
+  position: relative;
   border-radius: 7px;
-  border: 2px solid var(--black);
-  font-size: 1rem;
-  padding: 10px 15px;
+  border: 1px solid var(--border-color);
+  font-size: .9rem;
+  padding: 15px 20px;
   color: var(--black);
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  overflow: hidden;
+  width: calc(33%-5px)
 }
 
 .option-btn-selected {
-  border: 2px solid var(--gold);
+  border: 1px solid var(--gold);
+  filter: brightness(80%);
   background-color: var(--gold);
   color: var(--paper-white);
   filter: brightness(110%);
@@ -432,8 +450,24 @@
   }
 }
 
-@media (width <= 700px) {
-  .item-container {
-    width: 100%;
+@media (width <= 1000px){
+  .order-container {
+    margin: unset;
+    padding-inline: 4vw;
+    width: unset;
+    padding-top: 10px;
   }
-}
+  }
+  
+
+  @media (width <= 780px) {
+    .item-container{
+      width: 99%;
+    }
+  }
+
+  @media (width <= 780px) {
+    .item-container{
+    
+    }
+  }
