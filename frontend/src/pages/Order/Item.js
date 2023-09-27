@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
 import CartContext from "../../context/CartContext";
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
 
 function Item({ item }) {
   const [isOpen, setOpen] = useState(false);
@@ -455,31 +457,24 @@ function Item({ item }) {
 
   function openItem() {
     return (
-      <div
-        className="open-item-background"
-        type="button"
-        onClick={() => setOpen(false)}
-        key={item.name + "open"}
-      >
-        <div
-          className="item-container item-container-open"
-          onClick={handleContainerClick}
-        >
+        <div className="inside-modal"> 
           <div className="item-header">
             {" "}
-            <div className="inline-baseline">
+            <div className="header-row">
+              <div className="item-info-left">
               <div className="item-name item-name-open"> {item.name} </div>{" "}
               <div className="item-price item-price-open">
                 {" "}
                 ${item.price[0]}
                 {item.price.length > 1 ? "+" : ""}{" "}
               </div>{" "}
-            </div>
+              </div>
             <button className="close-btn" onClick={() => setOpen(false)}>
               X
             </button>
+            </div>
+            <div className="item-desc-open"> {item.description} </div>
           </div>
-          <div className="item-desc-open"> {item.description} </div>
 
           <div className="item-section">
             {item.required?.includes(3) && (
@@ -538,8 +533,7 @@ function Item({ item }) {
               <SubmitButton />
             </div>
           </div>
-        </div>
-      </div>
+          </div>
     );
   }
   return (
@@ -555,7 +549,15 @@ function Item({ item }) {
         </div>
         <div className="item-desc"> {item.description} </div>
       </button>
-      {isOpen && openItem()}
+      <Modal
+      blockScroll={false}
+      open={isOpen}
+      center={true}
+      showCloseIcon={false}
+      classNames={{modal: "item-modal"}}
+      onClose={(() => setOpen(false))}>
+       {openItem()}
+       </Modal>
     </>
   );
 }
