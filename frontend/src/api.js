@@ -68,3 +68,29 @@ export async function postGiftcard(newGiftcard) {
     console.error(error);
   }
 }
+
+
+export async function getMenus(){
+  try{
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/order/menus`,
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function checkoutCart(serverItemsList){
+  try{
+    const response = await axios({
+      method: "post",
+      url: `${API_URL}api/order/checkout`,
+      data: serverItemsList
+    })
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}

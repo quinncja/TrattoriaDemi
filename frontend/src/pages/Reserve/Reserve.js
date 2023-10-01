@@ -28,31 +28,52 @@ export default function Reserve() {
   });
 
   const getNextSevenDays = () => {
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
     const CHICAGO_OFFSET_HOURS = -5; // Chicago is UTC-5
-  
+
     const upcomingDates = [];
-  
+
     for (let i = 0; i < 8; i++) {
-      const currentDate = new Date(Date.now() + (i * 24 * 60 * 60 * 1000));
+      const currentDate = new Date(Date.now() + i * 24 * 60 * 60 * 1000);
       currentDate.setUTCHours(currentDate.getUTCHours() + CHICAGO_OFFSET_HOURS);
-  
-      const dateOnlyString = currentDate.toISOString().split('T')[0];
+
+      const dateOnlyString = currentDate.toISOString().split("T")[0];
       const dayName = days[currentDate.getUTCDay()];
       const monthName = months[currentDate.getUTCMonth()];
       const day = currentDate.getUTCDate();
-  
+
       upcomingDates.push({
         label: `${dayName}, ${monthName} ${day}`,
-        date: dateOnlyString
+        date: dateOnlyString,
       });
     }
-    
+
     return upcomingDates;
   };
 
-const dates = getNextSevenDays();
+  const dates = getNextSevenDays();
 
   const inputText = {
     fname: errorStates.fname ? "Please enter your first name" : "First Name",
@@ -65,43 +86,47 @@ const dates = getNextSevenDays();
     email: "For a confirmation email",
     button: errorStates.button
       ? `${convertTo12Hour(time)} is not available. Select an alternative time`
-      : availableTimes.length > 0 ? `Closest available times` : `Available!`, 
+      : availableTimes.length > 0
+      ? `Closest available times`
+      : `Available!`,
     message: "Message to recipient",
   };
 
   function convertTo24Hour(time) {
-    let [hours, minutes] = time.split(/[:\s]/); 
+    let [hours, minutes] = time.split(/[:\s]/);
     hours = parseInt(hours, 10);
     minutes = parseInt(minutes, 10);
 
-    if (time.toLowerCase().includes('pm') && hours !== 12) {
-        hours += 12;
+    if (time.toLowerCase().includes("pm") && hours !== 12) {
+      hours += 12;
     }
 
-    if (time.toLowerCase().includes('am') && hours === 12) {
-        hours = 0;
+    if (time.toLowerCase().includes("am") && hours === 12) {
+      hours = 0;
     }
 
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-}
-function convertTo12Hour(time) {
-  let [hours, minutes] = time.split(':');
-  hours = parseInt(hours, 10);
-  minutes = parseInt(minutes, 10);
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}`;
+  }
+  function convertTo12Hour(time) {
+    let [hours, minutes] = time.split(":");
+    hours = parseInt(hours, 10);
+    minutes = parseInt(minutes, 10);
 
-  let period = "am";
-  if (hours >= 12) {
+    let period = "am";
+    if (hours >= 12) {
       period = "pm";
-  }
+    }
 
-  if (hours === 0) {
+    if (hours === 0) {
       hours = 12;
-  } else if (hours > 12) {
+    } else if (hours > 12) {
       hours -= 12;
-  }
+    }
 
-  return `${hours}:${minutes.toString().padStart(2, '0')}${period}`;
-}
+    return `${hours}:${minutes.toString().padStart(2, "0")}${period}`;
+  }
 
   const onSubmit = () => {
     if (!reserveValidator()) createRes();
@@ -129,7 +154,7 @@ function convertTo12Hour(time) {
       isError = true;
       setError((errorStates) => ({ ...errorStates, time: true }));
     }
-    if ( availableTimes.length > 0 && !realTime) {
+    if (availableTimes.length > 0 && !realTime) {
       isError = true;
       setError((errorStates) => ({ ...errorStates, button: true }));
     }
@@ -144,19 +169,19 @@ function convertTo12Hour(time) {
     setDate(null);
     setTime(0);
     setNotes(null);
-    setAvailableTimes([])
-    setActiveButton(null)
-    setRealTime(null)
-    setTableSize(null)
+    setAvailableTimes([]);
+    setActiveButton(null);
+    setRealTime(null);
+    setTableSize(null);
   }
-  
-  function tableSizeToString(tableSize){
+
+  function tableSizeToString(tableSize) {
     tableSize = tableSize.toString();
-    if(tableSize === "2") return "2top"
-    if(tableSize === "3") return "3top"
-    if(tableSize === "4") return "4top"
-    if(tableSize === "6") return "5top"
-    if(tableSize === "8") return "xl"
+    if (tableSize === "2") return "2top";
+    if (tableSize === "3") return "3top";
+    if (tableSize === "4") return "4top";
+    if (tableSize === "6") return "5top";
+    if (tableSize === "8") return "xl";
   }
 
   async function createRes() {
@@ -167,7 +192,7 @@ function convertTo12Hour(time) {
       time: realTime,
       notes,
       email,
-      tableSize
+      tableSize,
     };
 
     const status = await postReservation(newRes);
@@ -208,29 +233,30 @@ function convertTo12Hour(time) {
 
   const handleClick = (buttonId) => {
     setError((errorStates) => ({ ...errorStates, button: false }));
-    const [time, table] = buttonId.split('-');
+    const [time, table] = buttonId.split("-");
     if (activeButton)
       document.getElementById(activeButton).className = "reserve-button";
-    if (activeButton !== buttonId){
+    if (activeButton !== buttonId) {
       document.getElementById(buttonId).className =
         "reserve-button reserve-button-active";
-        setRealTime(time)
-        setTableSize(tableSizeToString(table))
+      setRealTime(time);
+      setTableSize(tableSizeToString(table));
     }
     if (activeButton === buttonId) {
       setActiveButton(null);
-      setRealTime(null)
-      setTableSize(null)
-    } 
-    else setActiveButton(buttonId);
+      setRealTime(null);
+      setTableSize(null);
+    } else setActiveButton(buttonId);
   };
 
   function getButtons(list) {
     return list.map((obj, index) => (
       <button
-        className={`reserve-button ${activeButton === obj.time && "reserve-button-active"}`}
+        className={`reserve-button ${
+          activeButton === obj.time && "reserve-button-active"
+        }`}
         key={index}
-        id={`${obj.time}-${obj.table}`} 
+        id={`${obj.time}-${obj.table}`}
         type="button"
         onClick={(event) => {
           handleClick(event.target.id);
@@ -371,27 +397,27 @@ function convertTo12Hour(time) {
   };
 
   function balancedTrim(array) {
-        const desiredLength = 5;
+    const desiredLength = 5;
 
-        if (array.length <= desiredLength) return array;
+    if (array.length <= desiredLength) return array;
 
-        const totalToRemove = array.length - desiredLength;
-        const removeFromStart = Math.floor(totalToRemove / 2);
-        const removeFromEnd = totalToRemove - removeFromStart;
+    const totalToRemove = array.length - desiredLength;
+    const removeFromStart = Math.floor(totalToRemove / 2);
+    const removeFromEnd = totalToRemove - removeFromStart;
 
-        return array.slice(removeFromStart, array.length - removeFromEnd);
+    return array.slice(removeFromStart, array.length - removeFromEnd);
   }
 
-  function sortResponse(array){
-      array.sort((a, b) => {
-        const timeA = a.time.split(':').map(Number);
-        const timeB = b.time.split(':').map(Number);
+  function sortResponse(array) {
+    array.sort((a, b) => {
+      const timeA = a.time.split(":").map(Number);
+      const timeB = b.time.split(":").map(Number);
 
-        if (timeA[0] !== timeB[0]) {
-            return timeA[0] - timeB[0];
-        } else {
-            return timeA[1] - timeB[1];
-        }
+      if (timeA[0] !== timeB[0]) {
+        return timeA[0] - timeB[0];
+      } else {
+        return timeA[1] - timeB[1];
+      }
     });
     return array;
   }
@@ -408,31 +434,29 @@ function convertTo12Hour(time) {
 
   useEffect(() => {
     function handleResponse(response) {
-      if(response.available){
-        setRealTime(response.available.time)
-        setTableSize(tableSizeToString(response.available.table))
-        setAvailableTimes([])
-      }
-      else{
-        setRealTime(null)
-        setTableSize(null)
+      if (response.available) {
+        setRealTime(response.available.time);
+        setTableSize(tableSizeToString(response.available.table));
+        setAvailableTimes([]);
+      } else {
+        setRealTime(null);
+        setTableSize(null);
         let times = sortResponse(response.suggestions);
-        times = balancedTrim(times) 
-        setAvailableTimes(times)
+        times = balancedTrim(times);
+        setAvailableTimes(times);
       }
     }
 
     const fetchChecker = async () => {
       try {
-        const response = await checkReservation(numGuests, date, time)
+        const response = await checkReservation(numGuests, date, time);
         handleResponse(response);
       } catch (error) {
-        console.error("Error checking reservation", error)
+        console.error("Error checking reservation", error);
       }
-    }
-    if(numGuests && date && time) fetchChecker();
-    
-  }, [numGuests, date, time])
+    };
+    if (numGuests && date && time) fetchChecker();
+  }, [numGuests, date, time]);
 
   return (
     <form id="res-form">
@@ -445,7 +469,7 @@ function convertTo12Hour(time) {
           <img className="fancy-line" src={FancyLine} alt="" />
           <div
             className={`reserve-inputs ${
-              (availableTimes.length > 0) && "reserve-inputs-expanded"
+              availableTimes.length > 0 && "reserve-inputs-expanded"
             }`}
           >
             <div className="input-fname input-group">
@@ -502,7 +526,6 @@ function convertTo12Hour(time) {
                 }`}
                 onChange={(event) => handleChange(event)}
                 id="guests"
-    
               >
                 <option default hidden value="">
                   {" "}
@@ -531,7 +554,6 @@ function convertTo12Hour(time) {
               </span>
 
               <select
-                
                 onChange={(event) => handleChange(event)}
                 type="date"
                 id="date"
@@ -555,7 +577,9 @@ function convertTo12Hour(time) {
                     </option>
                   </>
                 ) : (
-                  <option disabled value="">Select number of guests first</option>
+                  <option disabled value="">
+                    Select number of guests first
+                  </option>
                 )}
               </select>
             </div>
@@ -586,11 +610,17 @@ function convertTo12Hour(time) {
                     </option>
                   ))
                 ) : (
-                  <option disabled value="">Select a date first</option>
+                  <option disabled value="">
+                    Select a date first
+                  </option>
                 )}
               </select>
             </div>
-            <div className={`other-times-wrapper  ${errorStates.button && "reserve-select-error"}`}>
+            <div
+              className={`other-times-wrapper  ${
+                errorStates.button && "reserve-select-error"
+              }`}
+            >
               <div className={`input-other-times`}>
                 <label
                   className={`input-text ${

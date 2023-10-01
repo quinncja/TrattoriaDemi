@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const values = [15, 25, 50, 75, 100]
 const giftcardSchema = new mongoose.Schema({
   recipientName: {
     type: String,
@@ -7,6 +8,7 @@ const giftcardSchema = new mongoose.Schema({
   amount: {
     type: Number,
     required: true,
+    enum: values,
   },
   shippingAddress: {
     type: String,

@@ -1,4 +1,8 @@
-export const lunchMenu = {
+require('dotenv').config();
+const mongoose = require("mongoose");
+const { Menu, Section, Item } = require("./Menu");
+
+ const lunchMenu = {
   sections: [
     {
       header: "HOT SANDWICHES",
@@ -129,7 +133,7 @@ export const lunchMenu = {
   ],
 };
 
-export const dinnerMenu = {
+ const dinnerMenu = {
   sections: [
     {
       header: "FOR THE TABLE",
@@ -161,21 +165,21 @@ export const dinnerMenu = {
           name: "CHEESE PLATTER",
           description: "with berries, and arugula",
           price: 5,
-          options: [
+          platters: [
             {
-              item: "Gorgonzola",
+              name: "Gorgonzola",
               price: 5,
             },
             {
-              item: "Goat",
+              name: "Goat",
               price: 5,
             },
             {
-              item: "Pecorino Romano",
+              name: "Pecorino Romano",
               price: 5,
             },
             {
-              item: "Fontinella",
+              name: "Fontinella",
               price: 5,
             },
           ],
@@ -185,21 +189,21 @@ export const dinnerMenu = {
           description: "with arugula, olives, and tomatoes",
           platter: ["Prosciutto", "Pancetta", "Capicola", "Genoa Salami"],
           price: 5,
-          options: [
+          platters: [
             {
-              item: "Prosciutto",
+              name: "Prosciutto",
               price: 5,
             },
             {
-              item: "Pancetta",
+              name: "Pancetta",
               price: 5,
             },
             {
-              item: "Capicola",
+              name: "Capicola",
               price: 5,
             },
             {
-              item: "Genoa Salami",
+              name: "Genoa Salami",
               price: 5,
             },
           ],
@@ -253,11 +257,11 @@ export const dinnerMenu = {
           price: 13.0,
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
             },
             {
-              item: "Extra dressing",
+              name:"Extra dressing",
               price: 0.75,
             },
           ],
@@ -269,7 +273,7 @@ export const dinnerMenu = {
           price: 15.0,
           options: [
             {
-              item: "Extra dressing",
+              name:"Extra dressing",
               price: 0.75,
             },
           ],
@@ -280,7 +284,7 @@ export const dinnerMenu = {
           price: 13.0,
           options: [
             {
-              item: "Extra dressing",
+              name:"Extra dressing",
               price: 0.75,
             },
           ],
@@ -291,11 +295,11 @@ export const dinnerMenu = {
           price: 11.0,
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
             },
             {
-              item: "Extra dressing",
+              name:"Extra dressing",
               price: 0.75,
             },
           ],
@@ -307,11 +311,11 @@ export const dinnerMenu = {
           price: 18.0,
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
             },
             {
-              item: "Extra dressing",
+              name:"Extra dressing",
               price: 0.75,
             },
           ],
@@ -323,11 +327,11 @@ export const dinnerMenu = {
           price: 13.0,
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
             },
             {
-              item: "Extra dressing",
+              name:"Extra dressing",
               price: 0.75,
             },
           ],
@@ -342,18 +346,20 @@ export const dinnerMenu = {
           name: "ANGEL HAIR",
           description: "artichokes with pesto and marinara",
           price: 16.0,
+          pastas: [
+            {
+              name:"Whole wheat Pasta",
+              price: 2,
+            },
+            {
+              name:"Gluten free Pasta",
+              price: 2,
+            },
+          ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
-            },
-            {
-              item: "Whole wheat Pasta",
-              price: 2,
-            },
-            {
-              item: "Gluten free Pasta",
-              price: 2,
             },
           ],
         },
@@ -366,18 +372,20 @@ export const dinnerMenu = {
           name: "BAKED RIGATONI",
           description: "with ricotta, mozzarella and marinara",
           price: 16.0,
+          pastas: [
+            {
+              name:"Whole wheat Pasta",
+              price: 2,
+            },
+            {
+              name:"Gluten free Pasta",
+              price: 2,
+            },
+          ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
-            },
-            {
-              item: "Whole wheat Pasta",
-              price: 2,
-            },
-            {
-              item: "Gluten free Pasta",
-              price: 2,
             },
           ],
         },
@@ -387,17 +395,17 @@ export const dinnerMenu = {
           price: 10,
           sauces: [
             {
-              item: "Marinara Sauce",
+              name: "Marinara Sauce",
               price: 0,
             },
             {
-              item: "Meat Sauce",
+              name: "Meat Sauce",
               price: 2,
             },
           ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
             },
           ],
@@ -418,7 +426,7 @@ export const dinnerMenu = {
           price: 14.0,
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
             },
           ],
@@ -427,18 +435,20 @@ export const dinnerMenu = {
           name: "CONCHIGLIETTI",
           description: "with fresh herbed tomato.",
           price: 9.0,
+          pastas: [
+            {
+              name:"Whole wheat Pasta",
+              price: 2,
+            },
+            {
+              name:"Gluten free Pasta",
+              price: 2,
+            },
+          ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
-            },
-            {
-              item: "Whole wheat Pasta",
-              price: 2,
-            },
-            {
-              item: "Gluten free Pasta",
-              price: 2,
             },
           ],
           sizes: [
@@ -456,13 +466,13 @@ export const dinnerMenu = {
           name: "FARFALLE AND CHICKEN",
           description: "with zucchini and tomatoes in white wine and lemon",
           price: 16.0,
-          options: [
+          pastas: [
             {
-              item: "Whole wheat Pasta",
+              name:"Whole wheat Pasta",
               price: 2,
             },
             {
-              item: "Gluten free Pasta",
+              name:"Gluten free Pasta",
               price: 2,
             },
           ],
@@ -471,18 +481,20 @@ export const dinnerMenu = {
           name: "FARFALLE AND SALMON",
           description: "asparagus, tomato, white wine, topped with parmesan",
           price: 21.0,
+          pastas: [
+            {
+              name:"Whole wheat Pasta",
+              price: 2,
+            },
+            {
+              name:"Gluten free Pasta",
+              price: 2,
+            },
+          ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
-            },
-            {
-              item: "Whole wheat Pasta",
-              price: 2,
-            },
-            {
-              item: "Gluten free Pasta",
-              price: 2,
             },
           ],
         },
@@ -492,7 +504,7 @@ export const dinnerMenu = {
           price: 16.0,
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
             },
           ],
@@ -501,18 +513,20 @@ export const dinnerMenu = {
           name: "LINGUINE MARINARA",
           description: "with our famous all-beef meatballs",
           price: 12.0,
+          pastas: [
+            {
+              name:"Whole wheat Pasta",
+              price: 2,
+            },
+            {
+              name:"Gluten free Pasta",
+              price: 2,
+            },
+          ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
-            },
-            {
-              item: "Whole wheat Pasta",
-              price: 2,
-            },
-            {
-              item: "Gluten free Pasta",
-              price: 2,
             },
           ],
           sizes: [
@@ -530,18 +544,20 @@ export const dinnerMenu = {
           name: "LINGUINE SHRIMP SCAMPI",
           description: "with tomatoes, pine nutes, and parmesan cheese",
           price: 21.0,
+          pastas: [
+            {
+              name:"Whole wheat Pasta",
+              price: 2,
+            },
+            {
+              name:"Gluten free Pasta",
+              price: 2,
+            },
+          ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
-            },
-            {
-              item: "Whole wheat Pasta",
-              price: 2,
-            },
-            {
-              item: "Gluten free Pasta",
-              price: 2,
             },
           ],
         },
@@ -549,18 +565,20 @@ export const dinnerMenu = {
           name: "LINGUINE WITH CLAMS AND MUSSELS",
           description: "prosciutto, white wine, & flakes of red pepper",
           price: 21.0,
+          pastas: [
+            {
+              name:"Whole wheat Pasta",
+              price: 2,
+            },
+            {
+              name:"Gluten free Pasta",
+              price: 2,
+            },
+          ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
-            },
-            {
-              item: "Whole wheat Pasta",
-              price: 2,
-            },
-            {
-              item: "Gluten free Pasta",
-              price: 2,
             },
           ],
         },
@@ -568,18 +586,20 @@ export const dinnerMenu = {
           name: "RIGATONI AND RICOTTA",
           description: "with mozzarella, percorino, and marinara sauce",
           price: 10.0,
+          pastas: [
+            {
+              name:"Whole wheat Pasta",
+              price: 2,
+            },
+            {
+              name:"Gluten free Pasta",
+              price: 2,
+            },
+          ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
-            },
-            {
-              item: "Whole wheat Pasta",
-              price: 2,
-            },
-            {
-              item: "Gluten free Pasta",
-              price: 2,
             },
           ],
           sizes: [
@@ -597,18 +617,20 @@ export const dinnerMenu = {
           name: "RIGATONI PRIMAVERA",
           description: "broccoli, garlic, olive oil, and parmesan",
           price: 10.0,
+          pastas: [
+            {
+              name:"Whole wheat Pasta",
+              price: 2,
+            },
+            {
+              name:"Gluten free Pasta",
+              price: 2,
+            },
+          ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
-            },
-            {
-              item: "Whole wheat Pasta",
-              price: 2,
-            },
-            {
-              item: "Gluten free Pasta",
-              price: 2,
             },
           ],
           sizes: [
@@ -629,7 +651,7 @@ export const dinnerMenu = {
           price: 12.0,
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
             },
           ],
@@ -649,18 +671,20 @@ export const dinnerMenu = {
           description:
             "with truffled wild mushrooms, sweet peas, and ricotta salata",
           price: 20.0,
+          pastas: [
+            {
+              name:"Whole wheat Pasta",
+              price: 2,
+            },
+            {
+              name:"Gluten free Pasta",
+              price: 2,
+            },
+          ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
-            },
-            {
-              item: "Whole wheat Pasta",
-              price: 2,
-            },
-            {
-              item: "Gluten free Pasta",
-              price: 2,
             },
           ],
         },
@@ -671,7 +695,7 @@ export const dinnerMenu = {
           price: 18.0,
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
             },
           ],
@@ -681,18 +705,20 @@ export const dinnerMenu = {
           description:
             "green beans, mushrooms, tomatoes, onions, olive oil, and mozzarella",
           price: 14.0,
+          pastas: [
+            {
+              name:"Whole wheat Pasta",
+              price: 2,
+            },
+            {
+              name:"Gluten free Pasta",
+              price: 2,
+            },
+          ],
           options: [
             {
-              item: "Add Chicken",
+              name:"Add Chicken",
               price: 4,
-            },
-            {
-              item: "Whole wheat Pasta",
-              price: 2,
-            },
-            {
-              item: "Gluten free Pasta",
-              price: 2,
             },
           ],
         },
@@ -1034,7 +1060,7 @@ export const dinnerMenu = {
   ],
 };
 
-export const wineList = {
+ const wineList = {
   sections: [
     {
       header: "ROSE",
@@ -1163,3 +1189,85 @@ export const wineList = {
     },
   ],
 };
+
+
+const port = process.env.PORT || 4000;
+const mongo_uri = process.env.MONGO_URI;
+
+async function main() {
+    try {
+      await mongoose.connect(mongo_uri);
+      console.log("Database connected Successfully");
+    } catch (err) {
+      console.error("Error connecting to MongoDB:", err);
+    }
+  
+    mongoose.connection
+      .once("open", function () {
+        console.log("Database connected Successfully");
+      })
+      .on("error", function (err) {
+        console.log("Error", err);
+      });
+
+
+      saveMenu();
+}
+  
+async function saveMenuData(menuType, menuData) {
+  // Delete old menu, sections, and items associated with the menu
+  const oldMenu = await Menu.findOne({ menuType: menuType });
+
+  if (oldMenu) {
+      await Section.deleteMany({ menuId: oldMenu._id });
+      await Item.deleteMany({ menuId: oldMenu._id });
+      await Menu.deleteOne({ _id: oldMenu._id });
+      console.log(`Old ${menuType} menu deleted successfully`);
+  }
+
+  const menu = new Menu({
+        menuType: menuType
+    });
+  await menu.save();
+  // Save new sections and items  
+  const sectionIds = [];
+  for (const sectionData of menuData.sections) {
+      const items = sectionData.items;
+      delete sectionData.items;  // We will save items separately
+      
+      const section = new Section({
+          ...sectionData,
+          menuId: menu._id  // Associate section with menu
+      });
+      await section.save();
+
+      sectionIds.push(section._id);
+
+      for (const itemData of items) {
+          const item = new Item({
+              ...itemData,
+              sectionId: section._id,  // Associate item with section
+              menuId: menu._id     // Associate item with menu
+          });
+          await item.save();
+      }
+  }
+
+  // Save new menu
+  await Menu.findByIdAndUpdate(menu._id, { sectionIds: sectionIds }, { new: true });
+  
+  console.log(`${menuType} menu saved successfully`);
+}
+
+async function saveMenu() {
+  try {
+      await saveMenuData("lunch", lunchMenu);
+      await saveMenuData("dinner", dinnerMenu);
+      await saveMenuData("wine", wineList);
+  } catch (err) {
+      console.error("Error saving menus:", err);
+  }
+  process.exit(0);
+}
+
+main();

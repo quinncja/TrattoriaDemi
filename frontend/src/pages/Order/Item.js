@@ -1,119 +1,66 @@
 import { useContext, useState } from "react";
 import CartContext from "../../context/CartContext";
-import { Modal } from 'react-responsive-modal';
-import 'react-responsive-modal/styles.css';
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
 
 function Item({ item }) {
   const [isOpen, setOpen] = useState(false);
-  const [price, setPrice] = useState(item.price[0]);
+  const [price, setPrice] = useState(item.price);
   const [qty, setQty] = useState(1);
-  const [chicken, setChicken] = useState(false);
-  const [pasta, setPasta] = useState(undefined);
-  const [selectedSize, setSelectedSize] = useState();
-  const [selectedSauce, setSelectedSauce] = useState();
-  const [gf, setGf] = useState(false);
-  const [wheat, setWheat] = useState(false);
+  const [pasta, setPasta] = useState(null);
+  const [size, setSize] = useState(null);
+  const [sauce, setSauce] = useState(null);
+  const [options, setOptions] = useState([]);
+  const [platter, setPlatter] = useState([]);
   const [requestTxt, setRequestTxt] = useState("");
   const [dressing, setDressing] = useState(false);
   const [dressingQty, setDressingQty] = useState(1);
   const dressingPrice = dressingQty * 0.75;
-  const [selectedButtons, setSelectedButtons] = useState([]);
   const { addItemToCart } = useContext(CartContext);
-
-  const handleContainerClick = (event) => {
-    event.stopPropagation();
-  };
 
   function clearItem() {
     setQty(1);
-    setChicken(false);
-    setPasta(undefined);
-    setGf(false);
-    setWheat(false);
+    setPasta(null);
+    setSize(null);
+    setSauce(null);
+    setOptions([]);
+    setPlatter([]);
     setRequestTxt("");
-    setSelectedSize();
     setDressing(false);
     setDressingQty(1);
-    setSelectedButtons([]);
   }
 
   function handleButtonClick() {
-    const newItem = {
+    console.log(pasta, size, sauce)
+    const serverItem = {
+      itemId: item._id,
+      size: size?.id,
+      sauce: sauce?.id,
+      pasta: pasta?.id,
+      options: options?.map(obj => obj.id),
+      platter: platter?.map(plat => plat.id),
+      dressing,
+      dressingQty,
+    }
+    const localItem = {
       name: item.name,
-      instructions: requestTxt,
-      options: {
-        selectedSize,
-        selectedSauce,
-        chicken,
-        wheat,
-        gf,
-        dressing,
-        dressingQty,
+      modifiers: {
+        instructions: requestTxt,
+        size: size?.name,
+        sauce: sauce?.name,
+        pasta: pasta?.name,
+        options: options?.map(obj => obj.name),
+        platter: platter?.map(plat => plat.name),
       },
-      selectedButtons,
       qty,
       totalPrice: getTotalPrice(),
+      serverItem,
     };
-    addItemToCart(newItem);
+    addItemToCart(localItem);
     setOpen(false);
     clearItem();
   }
 
-  function Chicken() {
-    function handleChickenSelect() {
-      if (chicken) {
-        setChicken(false);
-      } else {
-        setChicken(true);
-      }
-    }
-    return (
-      <button
-        id="chicken"
-        className={`option-btn ${chicken ? "option-btn-selected" : ""}`}
-        onClick={() => handleChickenSelect()}
-      >
-        Add Chicken - $4
-      </button>
-    );
-  }
-
-  function Pasta() {
-    function handlePastaSelect(id) {
-      let localGf = false;
-      let localWheat = false;
-      if (id === "wheat") {
-        localWheat = wheat ^ true;
-        setGf(false);
-        setWheat(!wheat);
-      }
-      if (id === "gf") {
-        localGf = gf ^ true;
-        setWheat(false);
-        setGf(!gf);
-      }
-      setPasta(localGf || localWheat);
-    }
-
-    return (
-      <>
-        <button
-          id="wheat"
-          className={`option-btn ${wheat ? "option-btn-selected" : ""}`}
-          onClick={(event) => handlePastaSelect(event.target.id)}
-        >
-          Whole wheat pasta - $2
-        </button>
-        <button
-          id="gf"
-          className={`option-btn ${gf ? "option-btn-selected" : ""}`}
-          onClick={(event) => handlePastaSelect(event.target.id)}
-        >
-          Gluten free pasta - $2
-        </button>
-      </>
-    );
-  }
 
   function Dressing() {
     function dressingHandler(id) {
@@ -126,7 +73,7 @@ function Item({ item }) {
     }
 
     return (
-      <div className="dressing-container">
+      <div className="dressing-container" key={item._id + "dressing"}>
         <button
           className={`option-btn ${
             dressing ? "option-btn-selected dressing-btn" : ""
@@ -201,250 +148,45 @@ function Item({ item }) {
     );
   }
 
-  function PizzaSize() {
-    function handleButtonClick(size, name) {
-      setSelectedSize({ size, name });
-      setPrice(item.price[size - 1]);
-    }
-
-    return (
-      <>
-        <button
-          className={
-            selectedSize?.size === 1
-              ? "option-btn option-btn-selected "
-              : "option-btn"
-          }
-          onClick={() => handleButtonClick(1, "9")}
-        >
-          9" - ${item.price[0]}
-        </button>
-        <button
-          className={
-            selectedSize?.size === 2
-              ? "option-btn option-btn-selected "
-              : "option-btn"
-          }
-          onClick={() => handleButtonClick(2, "12")}
-        >
-          12" - ${item.price[1]}
-        </button>
-        <button
-          className={
-            selectedSize?.size === 3
-              ? "option-btn option-btn-selected "
-              : "option-btn"
-          }
-          onClick={() => handleButtonClick(3, "14")}
-        >
-          14" - ${item.price[2]}
-        </button>
-      </>
-    );
-  }
-
-  function PastaSize() {
-    function handleButtonClick(size, name) {
-      setSelectedSize({ size, name });
-      setPrice(
-        selectedSauce?.num === 2 ? item.price[size + 1] : item.price[size - 1]
-      );
-    }
-
-    return (
-      <>
-        <button
-          id="pasta-small"
-          className={
-            selectedSize?.size === 1
-              ? "option-btn option-btn-selected "
-              : "option-btn"
-          }
-          onClick={() => handleButtonClick(1, "Small")}
-        >
-          Small - ${selectedSauce?.num === 2 ? item.price[2] : item.price[0]}
-        </button>
-        <button
-          id="pasta-reg"
-          className={
-            selectedSize?.size === 2
-              ? "option-btn option-btn-selected "
-              : "option-btn"
-          }
-          onClick={() => handleButtonClick(2, "Regular")}
-        >
-          Regular - ${selectedSauce?.num === 2 ? item.price[3] : item.price[1]}
-        </button>
-      </>
-    );
-  }
-
-  function SoupSize() {
-    function handleButtonClick(size, name) {
-      setSelectedSize({ size, name });
-      setPrice(item.price[size - 1]);
-    }
-
-    return (
-      <>
-        <button
-          className={
-            selectedSize?.size === 1
-              ? "option-btn option-btn-selected "
-              : "option-btn"
-          }
-          onClick={() => handleButtonClick(1, "Cup")}
-        >
-          Cup - ${item.price[0]}
-        </button>
-        <button
-          className={
-            selectedSize?.size === 2
-              ? "option-btn option-btn-selected "
-              : "option-btn"
-          }
-          onClick={() => handleButtonClick(2, "Bowl")}
-        >
-          Bowl - ${item.price[1]}
-        </button>
-      </>
-    );
-  }
-
-  function Sauce() {
-    function onSauceChange(num, name) {
-      setSelectedSauce({ num, name });
-      document.getElementById("pasta-small").className = "option-btn";
-      document.getElementById("pasta-reg").className = "option-btn";
-      setSelectedSize();
-    }
-
-    return (
-      <>
-        <button
-          className={
-            selectedSauce?.num === 1
-              ? "option-btn option-btn-selected "
-              : "option-btn"
-          }
-          onClick={() => onSauceChange(1, "Marinara")}
-        >
-          Marinara
-        </button>
-        <button
-          className={
-            selectedSauce?.num === 2
-              ? "option-btn option-btn-selected "
-              : "option-btn"
-          }
-          onClick={() => onSauceChange(2, "Meat")}
-        >
-          Meat
-        </button>
-      </>
-    );
-  }
-
-  function PlatterSelection() {
-    const handleButtonClick = (index, name) => {
-      let updatedSelectedButtons = [...selectedButtons];
-      const buttonIndex = updatedSelectedButtons.findIndex(
-        (button) => button.index === index
-      );
-
-      if (buttonIndex !== -1) {
-        updatedSelectedButtons.splice(buttonIndex, 1);
-      } else {
-        updatedSelectedButtons.push({ index, name });
-      }
-
-      setSelectedButtons(updatedSelectedButtons);
-      setPrice(5 * updatedSelectedButtons.length);
-    };
-
-    const isButtonSelected = (index) => {
-      return selectedButtons.some((button) => button.index === index);
-    };
-
-    return (
-      <>
-        <button
-          className={
-            isButtonSelected(0)
-              ? "option-btn option-btn-selected"
-              : "option-btn"
-          }
-          onClick={() => handleButtonClick(0, item.platter[0])}
-        >
-          {item.platter[0]}
-        </button>
-        <button
-          className={
-            isButtonSelected(1)
-              ? "option-btn option-btn-selected"
-              : "option-btn"
-          }
-          onClick={() => handleButtonClick(1, item.platter[1])}
-        >
-          {item.platter[1]}
-        </button>
-        <button
-          className={
-            isButtonSelected(2)
-              ? "option-btn option-btn-selected"
-              : "option-btn"
-          }
-          onClick={() => handleButtonClick(2, item.platter[2])}
-        >
-          {item.platter[2]}
-        </button>
-        <button
-          className={
-            isButtonSelected(3)
-              ? "option-btn option-btn-selected"
-              : "option-btn"
-          }
-          onClick={() => handleButtonClick(3, item.platter[3])}
-        >
-          {item.platter[3]}
-        </button>
-      </>
-    );
+  function getOptionsPrice() {
+    return options.reduce((total, option) => total + option.price, 0);
   }
 
   function getTotalPrice() {
     let totPrice = 0;
     totPrice += price;
-    if (pasta) totPrice += 2;
-    if (chicken) totPrice += 4;
+    if (size) totPrice += size.price
+    if (pasta) totPrice += pasta.price;
     if (dressing) totPrice += dressingPrice;
+    if (options) totPrice += getOptionsPrice()
+    if (platter.length > 0) totPrice += (platter.length - 1) * 5
+    
     return `$${totPrice * qty}`;
   }
 
   function SubmitButton() {
-    if (item.required?.includes(4) && selectedButtons.length === 0) {
-      return (
-        <button type="button" className="add-btn add-btn-disabled">
-          None selected
-        </button>
-      );
-    }
-    if (item.required?.includes(3) && !selectedSauce) {
+    if (item.sauces.length > 1 && !sauce) {
       return (
         <button type="button" className="add-btn add-btn-disabled">
           Select a sauce
         </button>
       );
     }
-    if (
-      (item.required?.includes(1) ||
-        item.required?.includes(2) ||
-        item.required?.includes(5)) &&
-      !selectedSize
+    if 
+      (item.sizes.length > 1 &&
+      !size
     ) {
       return (
         <button type="button" className="add-btn add-btn-disabled">
           Select a size
+        </button>
+      );
+    }
+    if (item.platters.length > 1 && platter.length === 0)
+    {
+      return (
+        <button type="button" className="add-btn add-btn-disabled">
+          Select an option
         </button>
       );
     }
@@ -455,109 +197,191 @@ function Item({ item }) {
     );
   }
 
+  function isPlatterPresent(id) {
+    return platter.some(option => option.id === id);
+  }
+
+  function platterMapper(platters){
+    const handleClick = ({id, name}) => {
+      if(isPlatterPresent(id)) setPlatter(prevOptions => prevOptions.filter(option => option.id !== id));
+      else setPlatter(prevOptions => [...prevOptions, { id, name }]);
+    }
+    return platters.map(platter => (
+        <button type="button" className={`option-btn ${isPlatterPresent(platter._id) ? "option-btn-selected" : ""}`} id={platter._id} key={platter._id} value={platter.price} onClick={() => handleClick({id: platter._id, name: platter.name})}>
+            {platter.name}
+        </button>
+    ));
+  }
+
+  function sauceMapper(sauces) {
+    const handleClick = ({id, price, name}) => {
+      if(sauce?.id === id){
+        setPrice(item.price)
+        setSauce(null)
+      }
+      else {
+        setPrice(item.price + price)
+        setSauce({id, price, name})
+      }
+    }
+    return sauces.map(s => (
+        <button type="button" className={`option-btn ${sauce?.id === s._id && "option-btn-selected"}`} id={s._id} key={s._id} value={s.price} onClick={() => handleClick({id: s._id, price: s.price, name: s.name})}>
+            {s.name}
+        </button>
+    ));
+  } 
+
+  function isOptionPresent(id) {
+    return options.some(option => option.id === id);
+  }
+
+  function optionsMapper(options) {
+    const handleClick = ({id, price, name}) => {
+      if(isOptionPresent(id)) setOptions(prevOptions => prevOptions.filter(option => option.id !== id));
+      else setOptions(prevOptions => [...prevOptions, { id, price, name }]);
+    }
+    return options.map(option => (
+      (option.name === "Extra dressing") ? Dressing() : 
+        <button type="button" className={`option-btn ${isOptionPresent(option._id) ? "option-btn-selected" : ""}`} id={option._id} key={option._id} value={option.price} onClick={() => handleClick({id: option._id, price: option.price, name: option.name})}>
+            {option.name} - ${option.price}
+        </button>
+    ));
+  } 
+
+  function sizeMapper(sizes) {
+    const handleClick = ({id, price, name}) => {
+      if(size?.id === id){
+        setSize(null)
+      }
+      else setSize({id, price, name})
+    }
+    return sizes.map(s => (
+        <button type="button" className={`option-btn ${size?.id === s._id && "option-btn-selected"}`} id={s._id} key={s._id} value={s.price} onClick={() => handleClick({id: s._id, price: s.price, name: s.name})}>
+            {s.name} - ${price + s.price}
+        </button>
+    ));
+  } 
+
+  function pastaMapper(types) {
+    const handleClick = ({id, price, name}) => {
+      if(pasta?.id === id){
+        setPasta(null)
+      }
+      else setPasta({id, price, name})
+    }
+    return types.map(type => (
+      <button type="button" className={`option-btn ${pasta?.id === type._id && "option-btn-selected"}`} id={type._id}  key={type._id} value={type.price} onClick={() => handleClick({id: type._id, price: type.price, name: type.name})}>
+          {type.name} - ${type.price}
+      </button>
+  ));
+  }
+
   function openItem() {
     return (
-        <div className="inside-modal"> 
-          <div className="item-header">
-            {" "}
-            <div className="header-row">
-              <div className="item-info-left">
+      <div className="inside-modal" key={item._id + "-modal"}>
+        <div className="item-header">
+          {" "}
+          <div className="header-row">
+            <div className="item-info-left">
               <div className="item-name item-name-open"> {item.name} </div>{" "}
               <div className="item-price item-price-open">
                 {" "}
-                ${item.price[0]}
-                {item.price.length > 1 ? "+" : ""}{" "}
+                ${item.price}
+                {item.sizes.length > 1 ? "+" : ""}{" "}
               </div>{" "}
-              </div>
+            </div>
             <button className="close-btn" onClick={() => setOpen(false)}>
               X
             </button>
-            </div>
-            <div className="item-desc-open"> {item.description} </div>
           </div>
+          <div className="item-desc-open"> {item.description} </div>
+        </div>
 
-          <div className="item-section">
-            {item.required?.includes(3) && (
-              <div>
-                <div className="item-subheader"> Choose a sauce</div>
-                <div className="item-options">
-                  <Sauce />
-                </div>
-              </div>
-            )}
-            {(item.required?.includes(1) ||
-              item.required?.includes(2) ||
-              item.required?.includes(5)) && (
-              <div>
-                <div className="item-subheader"> Choose a size </div>
-                <div className="item-options">
-                  {item.required.includes(1) && <PizzaSize />}
-                  {item.required.includes(2) && <PastaSize />}
-                  {item.required.includes(5) && <SoupSize />}
-                </div>
-              </div>
-            )}
-            {item.required?.includes(4) && (
-              <div>
-                <div className="item-subheader"> $5 per selection </div>
-                <div className="item-options">
-                  <PlatterSelection />
-                </div>
-              </div>
-            )}
-            {item.options && (
-              <div>
-                <div className="item-subheader"> Options </div>
-                <div className="item-options">
-                  {item.options.includes(1) && <Chicken />}
-                  {item.options.includes(2) && <Pasta />}
-                  {item.options.includes(3) && <Dressing />}
-                </div>
-              </div>
-            )}
-
-            <div className="item-request">
-              <div className="item-subheader"> Additional instructions </div>
-              <textarea
-                className="req-input"
-                placeholder="Add any requests here"
-                onChange={(event) => setRequestTxt(event.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="item-footer">
-            <Quantity />
+        <div className="item-section">
+          {item.platters.length >= 1 && (
             <div>
-              <div className="item-subheader"> Add to order </div>
-              <SubmitButton />
+              <div className="item-subheader"> $5 per selection </div>
+              <div className="item-options">
+                {platterMapper(item.platters)}
+              </div>
             </div>
+          )}
+          {item.sauces.length >= 1 && (
+            <div>
+              <div className="item-subheader"> Choose a sauce</div>
+              <div className="item-options">
+                {sauceMapper(item.sauces)}
+              </div>
+            </div>
+          )}
+          {item.sizes.length >= 1 &&
+            <div>
+              <div className="item-subheader"> Choose a size </div>
+              <div className="item-options">
+                {sizeMapper(item.sizes)}
+              </div>
+            </div>
+          }
+          {item.pastas.length >= 1 &&
+            <div>
+              <div className="item-subheader"> Pasta options </div>
+              <div className="item-options">
+                {pastaMapper(item.pastas)}
+              </div>
+            </div>
+          }
+          {item.options.length >= 1 && (
+            <div>
+              <div className="item-subheader"> Additonal options </div>
+              <div className="item-options">
+                {optionsMapper(item.options)}
+              </div>
+            </div>
+          )}
+
+          <div className="item-request">
+            <div className="item-subheader"> Additional instructions </div>
+            <textarea
+              className="req-input"
+              placeholder="Add any requests here"
+              onChange={(event) => setRequestTxt(event.target.value)}
+            />
           </div>
+        </div>
+
+        <div className="item-footer">
+          <Quantity />
+          <div>
+            <div className="item-subheader"> Add to order </div>
+            <SubmitButton />
           </div>
+        </div>
+      </div>
     );
   }
   return (
     <>
       <button className="item-container" onClick={() => setOpen(true)}>
-        <div className="item-header">
+        <div className="item-closed-header">
           <div className="item-name"> {item.name} </div>
           <div className="item-price">
             {" "}
-            ${item.price[0]}
-            {item.price.length > 1 ? "+" : ""}{" "}
+            ${item.price}
+            {item.sizes.length >= 1 ? "+" : ""}{" "}
           </div>
         </div>
         <div className="item-desc"> {item.description} </div>
       </button>
       <Modal
-      blockScroll={false}
-      open={isOpen}
-      center={true}
-      showCloseIcon={false}
-      classNames={{modal: "item-modal"}}
-      onClose={(() => setOpen(false))}>
-       {openItem()}
-       </Modal>
+        blockScroll={false}
+        open={isOpen}
+        center={true}
+        showCloseIcon={false}
+        classNames={{ modal: "item-modal" }}
+        onClose={() => setOpen(false)}
+      >
+        {openItem()}
+      </Modal>
     </>
   );
 }
