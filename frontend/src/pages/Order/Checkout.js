@@ -1,36 +1,39 @@
 import { useContext } from "react";
+import {checkoutCart } from "../../api"
 import CartContext from "../../context/CartContext";
 import "./Order.css";
 
 function Checkout() {
   const { items, price, deleteItemFromCart } = useContext(CartContext);
 
-  function displayPlatterSelection(selectedButtons) {
-    const platterString = selectedButtons
-      .map((button) => button.name)
-      .join(", ");
-    return platterString;
+  async function submitCheckout(){
+    const serverItemsList = items.map(item => item.serverItem);
+    try {
+      const response = await checkoutCart(serverItemsList);
+      console.log(response)
+    } catch (error ){
+
+    }
   }
 
-  function displayOptions(options) {
+  function displayModifiers(modifiers) {
+    console.log(modifiers)
     const optionArr = [];
-    if (options?.selectedSize?.name) {
-      optionArr.push(options.selectedSize.name);
+    if (modifiers.size) {
+      optionArr.push(modifiers.size);
     }
-    if (options?.selectedSauce?.name) {
-      optionArr.push(`${options.selectedSauce.name} sauce`);
+    if (modifiers.sauce) {
+      optionArr.push(modifiers.sauce);
     }
-    if (options?.chicken) {
-      optionArr.push("add chicken");
+    if (modifiers.pasta) {
+      optionArr.push('Sub ' + modifiers.pasta);
     }
-    if (options?.wheat) {
-      optionArr.push("sub wheat pasta");
+    if (modifiers.options) {
+      for(let i = 0; i < modifiers.options.length; i++)
+        optionArr.push(modifiers.options[i]);
     }
-    if (options?.gf) {
-      optionArr.push("sub gluten free pasta");
-    }
-    if (options?.dressing) {
-      optionArr.push(`extra dressing (${options.dressingQty})`);
+    if (modifiers.dressing) {
+      optionArr.push(`extra dressing (${modifiers.dressingQty})`);
     }
     return optionArr.join(", ");
   }
@@ -47,9 +50,7 @@ function Checkout() {
             <div className="item-price">{item.totalPrice}</div>
           </div>
           <div className="item-options">
-            {item.selectedButtons.length > 0 &&
-              displayPlatterSelection(item.selectedButtons)}
-            {displayOptions(item.options)}
+            {displayModifiers(item.modifiers)}
           </div>
           {item.instructions && (
             <div className="item-options">{item.instructions}</div>
@@ -109,6 +110,7 @@ function Checkout() {
         <div className="checkout-inputs">
           <input className="checkout-input" placeholder="Name" />
           <input className="checkout-input" placeholder="Phone Number" />
+          <button className="submit-button" onClick={() => submitCheckout()}> Checkout </button>
         </div>
       </div>
 

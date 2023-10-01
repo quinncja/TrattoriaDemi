@@ -189,7 +189,7 @@
 }
 
 .reserve-button:hover {
-  background-color: var(--border-color);  
+  background-color: var(--border-color);
   color: white;
   border-color: var(--border-color);
 }
