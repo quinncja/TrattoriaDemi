@@ -7,7 +7,7 @@
     "babel-version": "babel --version",
     "test": "jest",
     "start": "node app.js",
-    "build": "npx babel ./api/giftcard/email.mjs -o ./dist/email.js && npx babel ./api/giftcard/sendEmailReciept.mjs -o ./dist/sendEmailReciept.js"
+    "build": "./node_modules/.bin/babel ./api/giftcard/email.mjs -o ./dist/email.js && ./node_modules/.bin/babel ./api/giftcard/sendEmailReciept.mjs -o ./dist/sendEmailReciept.js"
   },
   "engines": {
     "node": ">=14.20.1"
