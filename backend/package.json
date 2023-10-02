@@ -7,7 +7,7 @@
     "babel-version": "babel --version",
     "test": "jest",
     "start": "node app.js",
-    "build": "npm install && babel ./api/giftcard/email.mjs -o ./dist/email.js && babel ./api/giftcard/sendEmailReciept.mjs -o ./dist/sendEmailReciept.js"
+    "build": "yarn install && babel ./api/giftcard/email.mjs -o ./dist/email.js && babel ./api/giftcard/sendEmailReciept.mjs -o ./dist/sendEmailReciept.js"
   },
   "engines": {
     "node": ">=14.20.1"
