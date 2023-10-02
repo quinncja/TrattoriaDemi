@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Cart from "./Cart";
 import Item from "./Item";
 import "./Order.css";
@@ -8,27 +8,27 @@ function Order() {
   const [lunchMenu, setLunchMenu] = useState(null);
   const [dinnerMenu, setDinnerMenu] = useState(null);
   const [wineList, setWineList] = useState(null);
-  const [loaded, setLoaded] = useState(null)
+  const [loaded, setLoaded] = useState(null);
 
-  function handleResponseData(data){
-    console.log(data)
-    setLunchMenu(data.lunch)
-    setDinnerMenu(data.dinner)
-    setWineList(data.wine)
-    setLoaded(true)
+  function handleResponseData(data) {
+    console.log(data);
+    setLunchMenu(data.lunch);
+    setDinnerMenu(data.dinner);
+    setWineList(data.wine);
+    setLoaded(true);
   }
 
   useEffect(() => {
-    const fetchMenusFromServer =  async () => {
-      try{
+    const fetchMenusFromServer = async () => {
+      try {
         const response = await getMenus();
-        handleResponseData(response.data)
+        handleResponseData(response.data);
       } catch (error) {
-        console.log(error)
-      } 
-    }
+        console.log(error);
+      }
+    };
     fetchMenusFromServer();
-  }, [])
+  }, []);
 
   const handleOptionClick = (selectedId) => {
     const menuSection = document.getElementById(selectedId);
@@ -101,8 +101,8 @@ function Order() {
 
   return (
     <div className="background-color">
-      { loaded && orderTopBar()}
-      { loaded && <div className="order-container">{displayItems()}</div> }
+      {loaded && orderTopBar()}
+      {loaded && <div className="order-container">{displayItems()}</div>}
     </div>
   );
 }

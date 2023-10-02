@@ -139,6 +139,8 @@
 
 .input-notes {
   grid-area: 4 / 1 / 5 / 4;
+  display: flex;
+  flex-direction: column;
 }
 .input-email-submit {
   grid-area: 4 / 4 / 5 / 7;
@@ -273,6 +275,44 @@
   height: 8.1rem;
   max-height: 8.1rem;
   resize: none;
+}
+
+.phone-checkbox {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.reserve-small-text {
+  font-size: 0.9rem;
+  color: var(--light-black);
+  font-weight: 400;
+}
+
+.checkbox {
+  height: 20px;
+  width: 20px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  background: none;
+  outline: none;
+  position: relative;
+}
+
+.checkbox-active {
+  background-color: var(--gold);
+  border: var(--gold);
+}
+
+.checkbox-active::before {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px; /* Adjust as needed */
+  font-weight: 900;
+  color: var(--nice-white); /* color of the checkmark */
 }
 
 @media (width <= 1000px) {

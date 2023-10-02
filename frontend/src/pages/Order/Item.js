@@ -31,17 +31,17 @@ function Item({ item }) {
   }
 
   function handleButtonClick() {
-    console.log(pasta, size, sauce)
+    console.log(pasta, size, sauce);
     const serverItem = {
       itemId: item._id,
       size: size?.id,
       sauce: sauce?.id,
       pasta: pasta?.id,
-      options: options?.map(obj => obj.id),
-      platter: platter?.map(plat => plat.id),
+      options: options?.map((obj) => obj.id),
+      platter: platter?.map((plat) => plat.id),
       dressing,
       dressingQty,
-    }
+    };
     const localItem = {
       name: item.name,
       modifiers: {
@@ -49,8 +49,8 @@ function Item({ item }) {
         size: size?.name,
         sauce: sauce?.name,
         pasta: pasta?.name,
-        options: options?.map(obj => obj.name),
-        platter: platter?.map(plat => plat.name),
+        options: options?.map((obj) => obj.name),
+        platter: platter?.map((plat) => plat.name),
       },
       qty,
       totalPrice: getTotalPrice(),
@@ -60,7 +60,6 @@ function Item({ item }) {
     setOpen(false);
     clearItem();
   }
-
 
   function Dressing() {
     function dressingHandler(id) {
@@ -155,12 +154,12 @@ function Item({ item }) {
   function getTotalPrice() {
     let totPrice = 0;
     totPrice += price;
-    if (size) totPrice += size.price
+    if (size) totPrice += size.price;
     if (pasta) totPrice += pasta.price;
     if (dressing) totPrice += dressingPrice;
-    if (options) totPrice += getOptionsPrice()
-    if (platter.length > 0) totPrice += (platter.length - 1) * 5
-    
+    if (options) totPrice += getOptionsPrice();
+    if (platter.length > 0) totPrice += (platter.length - 1) * 5;
+
     return `$${totPrice * qty}`;
   }
 
@@ -172,18 +171,14 @@ function Item({ item }) {
         </button>
       );
     }
-    if 
-      (item.sizes.length > 1 &&
-      !size
-    ) {
+    if (item.sizes.length > 1 && !size) {
       return (
         <button type="button" className="add-btn add-btn-disabled">
           Select a size
         </button>
       );
     }
-    if (item.platters.length > 1 && platter.length === 0)
-    {
+    if (item.platters.length > 1 && platter.length === 0) {
       return (
         <button type="button" className="add-btn add-btn-disabled">
           Select an option
@@ -198,82 +193,137 @@ function Item({ item }) {
   }
 
   function isPlatterPresent(id) {
-    return platter.some(option => option.id === id);
+    return platter.some((option) => option.id === id);
   }
 
-  function platterMapper(platters){
-    const handleClick = ({id, name}) => {
-      if(isPlatterPresent(id)) setPlatter(prevOptions => prevOptions.filter(option => option.id !== id));
-      else setPlatter(prevOptions => [...prevOptions, { id, name }]);
-    }
-    return platters.map(platter => (
-        <button type="button" className={`option-btn ${isPlatterPresent(platter._id) ? "option-btn-selected" : ""}`} id={platter._id} key={platter._id} value={platter.price} onClick={() => handleClick({id: platter._id, name: platter.name})}>
-            {platter.name}
-        </button>
+  function platterMapper(platters) {
+    const handleClick = ({ id, name }) => {
+      if (isPlatterPresent(id))
+        setPlatter((prevOptions) =>
+          prevOptions.filter((option) => option.id !== id)
+        );
+      else setPlatter((prevOptions) => [...prevOptions, { id, name }]);
+    };
+    return platters.map((platter) => (
+      <button
+        type="button"
+        className={`option-btn ${
+          isPlatterPresent(platter._id) ? "option-btn-selected" : ""
+        }`}
+        id={platter._id}
+        key={platter._id}
+        value={platter.price}
+        onClick={() => handleClick({ id: platter._id, name: platter.name })}
+      >
+        {platter.name}
+      </button>
     ));
   }
 
   function sauceMapper(sauces) {
-    const handleClick = ({id, price, name}) => {
-      if(sauce?.id === id){
-        setPrice(item.price)
-        setSauce(null)
+    const handleClick = ({ id, price, name }) => {
+      if (sauce?.id === id) {
+        setPrice(item.price);
+        setSauce(null);
+      } else {
+        setPrice(item.price + price);
+        setSauce({ id, price, name });
       }
-      else {
-        setPrice(item.price + price)
-        setSauce({id, price, name})
-      }
-    }
-    return sauces.map(s => (
-        <button type="button" className={`option-btn ${sauce?.id === s._id && "option-btn-selected"}`} id={s._id} key={s._id} value={s.price} onClick={() => handleClick({id: s._id, price: s.price, name: s.name})}>
-            {s.name}
-        </button>
+    };
+    return sauces.map((s) => (
+      <button
+        type="button"
+        className={`option-btn ${sauce?.id === s._id && "option-btn-selected"}`}
+        id={s._id}
+        key={s._id}
+        value={s.price}
+        onClick={() => handleClick({ id: s._id, price: s.price, name: s.name })}
+      >
+        {s.name}
+      </button>
     ));
-  } 
+  }
 
   function isOptionPresent(id) {
-    return options.some(option => option.id === id);
+    return options.some((option) => option.id === id);
   }
 
   function optionsMapper(options) {
-    const handleClick = ({id, price, name}) => {
-      if(isOptionPresent(id)) setOptions(prevOptions => prevOptions.filter(option => option.id !== id));
-      else setOptions(prevOptions => [...prevOptions, { id, price, name }]);
-    }
-    return options.map(option => (
-      (option.name === "Extra dressing") ? Dressing() : 
-        <button type="button" className={`option-btn ${isOptionPresent(option._id) ? "option-btn-selected" : ""}`} id={option._id} key={option._id} value={option.price} onClick={() => handleClick({id: option._id, price: option.price, name: option.name})}>
-            {option.name} - ${option.price}
+    const handleClick = ({ id, price, name }) => {
+      if (isOptionPresent(id))
+        setOptions((prevOptions) =>
+          prevOptions.filter((option) => option.id !== id)
+        );
+      else setOptions((prevOptions) => [...prevOptions, { id, price, name }]);
+    };
+    return options.map((option) =>
+      option.name === "Extra dressing" ? (
+        Dressing()
+      ) : (
+        <button
+          type="button"
+          className={`option-btn ${
+            isOptionPresent(option._id) ? "option-btn-selected" : ""
+          }`}
+          id={option._id}
+          key={option._id}
+          value={option.price}
+          onClick={() =>
+            handleClick({
+              id: option._id,
+              price: option.price,
+              name: option.name,
+            })
+          }
+        >
+          {option.name} - ${option.price}
         </button>
-    ));
-  } 
+      )
+    );
+  }
 
   function sizeMapper(sizes) {
-    const handleClick = ({id, price, name}) => {
-      if(size?.id === id){
-        setSize(null)
-      }
-      else setSize({id, price, name})
-    }
-    return sizes.map(s => (
-        <button type="button" className={`option-btn ${size?.id === s._id && "option-btn-selected"}`} id={s._id} key={s._id} value={s.price} onClick={() => handleClick({id: s._id, price: s.price, name: s.name})}>
-            {s.name} - ${price + s.price}
-        </button>
+    const handleClick = ({ id, price, name }) => {
+      if (size?.id === id) {
+        setSize(null);
+      } else setSize({ id, price, name });
+    };
+    return sizes.map((s) => (
+      <button
+        type="button"
+        className={`option-btn ${size?.id === s._id && "option-btn-selected"}`}
+        id={s._id}
+        key={s._id}
+        value={s.price}
+        onClick={() => handleClick({ id: s._id, price: s.price, name: s.name })}
+      >
+        {s.name} - ${price + s.price}
+      </button>
     ));
-  } 
+  }
 
   function pastaMapper(types) {
-    const handleClick = ({id, price, name}) => {
-      if(pasta?.id === id){
-        setPasta(null)
-      }
-      else setPasta({id, price, name})
-    }
-    return types.map(type => (
-      <button type="button" className={`option-btn ${pasta?.id === type._id && "option-btn-selected"}`} id={type._id}  key={type._id} value={type.price} onClick={() => handleClick({id: type._id, price: type.price, name: type.name})}>
-          {type.name} - ${type.price}
+    const handleClick = ({ id, price, name }) => {
+      if (pasta?.id === id) {
+        setPasta(null);
+      } else setPasta({ id, price, name });
+    };
+    return types.map((type) => (
+      <button
+        type="button"
+        className={`option-btn ${
+          pasta?.id === type._id && "option-btn-selected"
+        }`}
+        id={type._id}
+        key={type._id}
+        value={type.price}
+        onClick={() =>
+          handleClick({ id: type._id, price: type.price, name: type.name })
+        }
+      >
+        {type.name} - ${type.price}
       </button>
-  ));
+    ));
   }
 
   function openItem() {
@@ -301,41 +351,31 @@ function Item({ item }) {
           {item.platters.length >= 1 && (
             <div>
               <div className="item-subheader"> $5 per selection </div>
-              <div className="item-options">
-                {platterMapper(item.platters)}
-              </div>
+              <div className="item-options">{platterMapper(item.platters)}</div>
             </div>
           )}
           {item.sauces.length >= 1 && (
             <div>
               <div className="item-subheader"> Choose a sauce</div>
-              <div className="item-options">
-                {sauceMapper(item.sauces)}
-              </div>
+              <div className="item-options">{sauceMapper(item.sauces)}</div>
             </div>
           )}
-          {item.sizes.length >= 1 &&
+          {item.sizes.length >= 1 && (
             <div>
               <div className="item-subheader"> Choose a size </div>
-              <div className="item-options">
-                {sizeMapper(item.sizes)}
-              </div>
+              <div className="item-options">{sizeMapper(item.sizes)}</div>
             </div>
-          }
-          {item.pastas.length >= 1 &&
+          )}
+          {item.pastas.length >= 1 && (
             <div>
               <div className="item-subheader"> Pasta options </div>
-              <div className="item-options">
-                {pastaMapper(item.pastas)}
-              </div>
+              <div className="item-options">{pastaMapper(item.pastas)}</div>
             </div>
-          }
+          )}
           {item.options.length >= 1 && (
             <div>
               <div className="item-subheader"> Additonal options </div>
-              <div className="item-options">
-                {optionsMapper(item.options)}
-              </div>
+              <div className="item-options">{optionsMapper(item.options)}</div>
             </div>
           )}
 

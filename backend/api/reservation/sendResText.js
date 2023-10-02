@@ -45,7 +45,7 @@ function sendResText(reservation){
     .create({
         body: `${reservation.name}, \n \nWe are happy to confirm your reservation for ${numberToWord(reservation.numGuests)} on ${reservation.date} at ${convertTo12Hour(reservation.time)}. \n\nShould you need to make any changes, please call us at 847-332-2330. \n\nWe look forward to serving you. \n- Trattoria Demi`,
         from: '+18447275525',
-        to: '+17738967084'
+        to: reservation.phone
     })
 }
 

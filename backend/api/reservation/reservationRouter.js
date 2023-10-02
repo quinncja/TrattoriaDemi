@@ -7,7 +7,7 @@ const { reservationChecker } = require('./reservationChecker');
 // Create new reservation
 reservationRouter.post("/", async (req, res) => {
   try {
-    const { name, numGuests, date, time, notes, phone, tableSize } = req.body;
+    const { name, numGuests, date, time, notes, phone, tableSize, sendText } = req.body;
     const newReservation = new Reservation({
       name,
       numGuests,
@@ -20,7 +20,7 @@ reservationRouter.post("/", async (req, res) => {
     const response = await reservationChecker(numGuests, date, time)
     if(response.available){
       await newReservation.save();
-      await sendResText(newReservation);
+      if(sendText) await sendResText(newReservation);
       res.status(201).json(newReservation);
     }
     else{
