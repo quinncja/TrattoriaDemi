@@ -338,6 +338,11 @@
     flex-direction: column;
     gap: 1.3rem;
   }
+  .giftcard-inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+  }
   .phone-checkbox {
     margin-top: 10px;
     margin-bottom: 20px;
