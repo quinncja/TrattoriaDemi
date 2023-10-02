@@ -139,8 +139,6 @@
 
 .input-notes {
   grid-area: 4 / 1 / 5 / 4;
-  display: flex;
-  flex-direction: column;
 }
 .input-email-submit {
   grid-area: 4 / 4 / 5 / 7;
@@ -340,9 +338,22 @@
     flex-direction: column;
     gap: 1.3rem;
   }
+  .phone-checkbox {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 }
 
 @media (width <= 470px) {
+  .reserve-small-text {
+    font-size: 0.8rem;
+    color: var(--light-black);
+    font-weight: 400;
+  }
+  .phone-checkbox {
+    margin-bottom: unset
+  }
+
   .reserve-container {
     padding-bottom: 1rem;
   }
@@ -359,13 +370,10 @@
     margin-bottom: 20px;
   }
   .reserve-inputs {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    width: 90%;
+    gap: 15px;  
   }
   .contact-inputs {
-    display: flex;
+    display: grid;
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
@@ -405,6 +413,28 @@
     width: 100%;
     margin-bottom: 0px;
     box-sizing: border-box;
+  }
+  .input-fname {
+    grid-area: unset;
+  }
+  .input-lname {
+    grid-area: unset;
+  }
+  .input-size {
+    grid-area: unset;
+  }
+  .input-date {
+    grid-area: unset;
+  }
+  .input-time {
+    grid-area: unset;
+  }
+  
+  .input-notes {
+    grid-area: unset;
+  }
+  .input-email-submit {
+    grid-area: unset;
   }
 }
 
