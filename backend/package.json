@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "babel-version": "babel --version",
     "test": "jest",
     "start": "node app.js",
     "build": "babel ./api/giftcard/email.mjs -o ./dist/email.js && babel ./api/giftcard/sendEmailReciept.mjs -o ./dist/sendEmailReciept.js"
