@@ -1,23 +1,21 @@
 import { useContext } from "react";
-import {checkoutCart } from "../../api"
+import { checkoutCart } from "../../api";
 import CartContext from "../../context/CartContext";
 import "./Order.css";
 
 function Checkout() {
   const { items, price, deleteItemFromCart } = useContext(CartContext);
 
-  async function submitCheckout(){
-    const serverItemsList = items.map(item => item.serverItem);
+  async function submitCheckout() {
+    const serverItemsList = items.map((item) => item.serverItem);
     try {
       const response = await checkoutCart(serverItemsList);
-      console.log(response)
-    } catch (error ){
-
-    }
+      console.log(response);
+    } catch (error) {}
   }
 
   function displayModifiers(modifiers) {
-    console.log(modifiers)
+    console.log(modifiers);
     const optionArr = [];
     if (modifiers.size) {
       optionArr.push(modifiers.size);
@@ -26,10 +24,10 @@ function Checkout() {
       optionArr.push(modifiers.sauce);
     }
     if (modifiers.pasta) {
-      optionArr.push('Sub ' + modifiers.pasta);
+      optionArr.push("Sub " + modifiers.pasta);
     }
     if (modifiers.options) {
-      for(let i = 0; i < modifiers.options.length; i++)
+      for (let i = 0; i < modifiers.options.length; i++)
         optionArr.push(modifiers.options[i]);
     }
     if (modifiers.dressing) {
@@ -49,9 +47,7 @@ function Checkout() {
             </div>
             <div className="item-price">{item.totalPrice}</div>
           </div>
-          <div className="item-options">
-            {displayModifiers(item.modifiers)}
-          </div>
+          <div className="item-options">{displayModifiers(item.modifiers)}</div>
           {item.instructions && (
             <div className="item-options">{item.instructions}</div>
           )}
@@ -110,7 +106,10 @@ function Checkout() {
         <div className="checkout-inputs">
           <input className="checkout-input" placeholder="Name" />
           <input className="checkout-input" placeholder="Phone Number" />
-          <button className="submit-button" onClick={() => submitCheckout()}> Checkout </button>
+          <button className="submit-button" onClick={() => submitCheckout()}>
+            {" "}
+            Checkout{" "}
+          </button>
         </div>
       </div>
 

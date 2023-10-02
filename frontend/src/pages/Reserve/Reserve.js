@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FancyLine from "../../images/FancyLine.png";
 import "./Reserve.css";
+import PhoneInput from "react-phone-number-input/input";
 import { checkReservation, postReservation } from "../../api";
 import { successfulReserveAlert } from "../../swal2";
 
@@ -13,7 +14,8 @@ export default function Reserve() {
   const [realTime, setRealTime] = useState(null);
   const [tableSize, setTableSize] = useState(null);
   const [notes, setNotes] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [checkbox, setCheckbox] = useState(false);
+  const [phone, setPhone] = useState(null);
   const [activeButton, setActiveButton] = useState(null);
   const [availableTimes, setAvailableTimes] = useState([]);
   const [timeList, setTimeList] = useState(null);
@@ -23,6 +25,7 @@ export default function Reserve() {
     guest: false,
     date: false,
     time: false,
+    phone: false,
     realTime: false,
     button: false,
   });
@@ -83,7 +86,9 @@ export default function Reserve() {
       : "Number of Guests",
     dateTxt: errorStates.date ? "Please choose a date" : "Date",
     timeTxt: errorStates.time ? "Please choose a time" : "Time",
-    email: "For a confirmation email",
+    phone: errorStates.phone
+      ? "Please enter your phone number"
+      : "Phone Number",
     button: errorStates.button
       ? `${convertTo12Hour(time)} is not available. Select an alternative time`
       : availableTimes.length > 0
@@ -154,6 +159,10 @@ export default function Reserve() {
       isError = true;
       setError((errorStates) => ({ ...errorStates, time: true }));
     }
+    if (!phone) {
+      isError = true;
+      setError((errorStates) => ({ ...errorStates, phone: true }));
+    }
     if (availableTimes.length > 0 && !realTime) {
       isError = true;
       setError((errorStates) => ({ ...errorStates, button: true }));
@@ -169,6 +178,7 @@ export default function Reserve() {
     setDate(null);
     setTime(0);
     setNotes(null);
+    setPhone(null);
     setAvailableTimes([]);
     setActiveButton(null);
     setRealTime(null);
@@ -191,7 +201,8 @@ export default function Reserve() {
       date,
       time: realTime,
       notes,
-      email,
+      sendText: checkbox,
+      phone,
       tableSize,
     };
 
@@ -222,9 +233,6 @@ export default function Reserve() {
     if (event.target.id === "time") {
       setTime(event.target.value);
       setError((errorStates) => ({ ...errorStates, time: false }));
-    }
-    if (event.target.id === "email") {
-      setEmail(event.target.value);
     }
     if (event.target.id === "notes") {
       setNotes(event.target.value);
@@ -651,21 +659,39 @@ export default function Reserve() {
               <div className="input-group">
                 <div
                   className={`input-text ${
-                    errorStates.emailFormat && `input-text-error`
+                    errorStates.phone && `input-text-error`
                   }`}
                 >
                   {" "}
-                  {inputText.email}{" "}
+                  {inputText.phone}{" "}
                 </div>
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="Optional"
+                <PhoneInput
+                  country="US"
+                  withCountryCallingCode={true}
                   className={`reserve-select ${
-                    errorStates.emailFormat && `reserve-select-error`
+                    errorStates.phone && `reserve-select-error`
                   }`}
-                  onChange={(event) => handleChange(event)}
-                ></input>
+                  value={phone}
+                  onChange={(event) => {
+                    setPhone(event);
+                    setError((errorStates) => ({
+                      ...errorStates,
+                      phone: false,
+                    }));
+                  }}
+                />
+              </div>
+
+              <div className="phone-checkbox">
+                <button
+                  className={` checkbox ${checkbox && "checkbox-active"}`}
+                  type="button"
+                  onClick={() => setCheckbox(!checkbox)}
+                />
+                <div className="reserve-small-text">
+                  {" "}
+                  I would like to recieve a confirmation text{" "}
+                </div>
               </div>
 
               <button

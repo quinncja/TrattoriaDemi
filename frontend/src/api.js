@@ -69,9 +69,8 @@ export async function postGiftcard(newGiftcard) {
   }
 }
 
-
-export async function getMenus(){
-  try{
+export async function getMenus() {
+  try {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/order/menus`,
@@ -82,13 +81,13 @@ export async function getMenus(){
   }
 }
 
-export async function checkoutCart(serverItemsList){
-  try{
+export async function checkoutCart(serverItemsList) {
+  try {
     const response = await axios({
       method: "post",
       url: `${API_URL}api/order/checkout`,
-      data: serverItemsList
-    })
+      data: serverItemsList,
+    });
     return response;
   } catch (error) {
     console.error(error);

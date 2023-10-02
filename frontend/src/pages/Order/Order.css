@@ -131,7 +131,7 @@
   padding-bottom: 0.5rem;
 }
 
-.item-closed-header{
+.item-closed-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

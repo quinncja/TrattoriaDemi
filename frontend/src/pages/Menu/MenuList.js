@@ -718,7 +718,7 @@ export const dinnerMenu = {
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -738,7 +738,7 @@ export const dinnerMenu = {
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -758,7 +758,7 @@ export const dinnerMenu = {
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -777,7 +777,7 @@ export const dinnerMenu = {
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -796,7 +796,7 @@ export const dinnerMenu = {
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -815,7 +815,7 @@ export const dinnerMenu = {
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -834,7 +834,7 @@ export const dinnerMenu = {
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
       ],
