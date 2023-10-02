@@ -7,7 +7,7 @@
     "babel-version": "babel --version",
     "test": "jest",
     "start": "node app.js",
-    "build": "npm install && babel ./api/giftcard/email.mjs -o ./dist/email.js && babel ./api/giftcard/sendEmailReciept.mjs -o ./dist/sendEmailReciept.js"  
+    "build": "npm install && babel ./api/giftcard/email.mjs -o ./dist/email.js && babel ./api/giftcard/sendEmailReciept.mjs -o ./dist/sendEmailReciept.js"
   },
   "engines": {
     "node": ">=14.20.1"
@@ -29,6 +29,7 @@
     "@react-email/row": "^0.0.5",
     "@react-email/text": "^0.0.5",
     "cors": "^2.8.5",
+    "debug": "^4.3.4",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mongoose": "^7.5.0",
