@@ -1,4 +1,4 @@
-const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
+const stripe = require("stripe")(process.env.STRIPE_LIVE_KEY);
 const express = require("express");
 const giftcardRouter = express.Router();
 const Giftcard = require("./Giftcard");
@@ -10,24 +10,18 @@ const ObjectId = mongoose.Types.ObjectId;
 // Create new Giftcard
 giftcardRouter.post("/", async (req, res) => {
   try {
-    const { recipientName, amount, shippingAddress, message } = req.body;
+    const { recipientName, amount, itemId, shippingAddress, message } = req.body;
     const newGiftcard = new Giftcard({
       recipientName,
-      amount,
       shippingAddress,
+      amount,
       message,
     });
     const savedGiftcard = await newGiftcard.save();
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
-          price_data: {
-            currency: "usd",
-            unit_amount: amount * 100,
-            product_data: {
-              name: "Trattoria Demi Giftcard",
-            },
-          },
+          price: itemId, 
           quantity: 1,
         },
       ],

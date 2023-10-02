@@ -42,18 +42,18 @@ function Giftcard() {
     message: "Message to recipient",
   };
 
-  const values = [15, 25, 50, 75, 100];
-  const buttons = values.map((value, index) => (
+  const values = [{price: 15, id: "price_1NwtqREFXALc8iLMZINi83Oc"}, {price: 25, id: "price_1NwtqiEFXALc8iLMEJmZE3eD"}, {price: 50, id: "price_1NwtrKEFXALc8iLM1bq1F8B8"}, {price: 75, id: "price_1NwtrUEFXALc8iLMfdwgyR89"}, {price: 100, id: "price_1NwtreEFXALc8iLMGc0nAK57"}];
+  const buttons = values.map((button) => (
     <button
       className={`giftcard-button ${
         errorStates.button && `reserve-select-error`
-      } ${activeButton === value && "giftcard-button-active"}`}
-      key={index}
-      id={value}
+      } ${activeButton === button.price && "giftcard-button-active"}`}
+      key={button.id}
+      id={button.id}
       type="button"
-      onClick={(event) => handleClick(event.target.id)}
+      onClick={(event) => handleClick(button)}
     >
-      ${value}.00
+      ${button.price}.00
     </button>
   ));
 
@@ -93,20 +93,19 @@ function Giftcard() {
     }
   };
 
-  const handleClick = (buttonId) => {
+  const handleClick = (button) => {
     setError((errorStates) => ({ ...errorStates, button: false }));
     if (activeButton)
-      document.getElementById(activeButton).className = "giftcard-button";
-    if (activeButton !== buttonId)
-      document.getElementById(buttonId).className =
+      document.getElementById(activeButton.id).className = "giftcard-button";
+    if (activeButton?.id !== button.id)
+      document.getElementById(button.id).className =
         "giftcard-button giftcard-button-active";
-    if (activeButton === buttonId) setActiveButton(null);
-    else setActiveButton(buttonId);
+    if (activeButton?.id === button.id) setActiveButton(null);
+    else setActiveButton(button);
   };
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
-    console.log(query.get("success"));
     if (query.get("success")) {
       const giftCard = JSON.parse(localStorage.getItem("giftcard"));
       if (giftCard) {
@@ -124,7 +123,8 @@ function Giftcard() {
     const newGiftcard = {
       recipientName: recipient,
       shippingAddress: shipAddress,
-      amount: activeButton,
+      amount: activeButton.price,
+      itemId: activeButton.id,
       email,
       message,
     };
