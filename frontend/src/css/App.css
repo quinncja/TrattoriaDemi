@@ -28,7 +28,22 @@
 html,
 body {
   height: 100%;
+  scrollbar-color: var(--gold) var(--black);
 }
+
+::-webkit-scrollbar {
+  width: .5em;
+  height: .3em;
+}
+ ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+ ::-webkit-scrollbar-thumb {
+  background-color: var(--gold);
+  outline: 1px solid slategrey;
+}
+
 body {
   font-size: 1.125rem;
 }

@@ -42,7 +42,7 @@
 }
 
 .order-selectors {
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
   padding-block: 0.38rem;
@@ -136,6 +136,7 @@
   flex-direction: row;
   justify-content: space-between;
   padding-bottom: 0.5rem;
+  width: 100%;
 }
 .item-name {
   font-weight: 800;
@@ -470,10 +471,5 @@
 @media (width <= 780px) {
   .item-container {
     width: 99%;
-  }
-}
-
-@media (width <= 780px) {
-  .item-container {
   }
 }
