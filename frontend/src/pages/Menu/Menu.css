@@ -42,6 +42,7 @@
 .menu-selectors {
   display: flex;
   gap: 3rem;
+  font-size: 1rem;
   justify-content: center;
   padding-block: 0.8rem;
 }
