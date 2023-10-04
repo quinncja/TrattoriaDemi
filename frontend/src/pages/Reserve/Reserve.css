@@ -15,6 +15,7 @@
   justify-content: center;
   gap: 1rem;
   padding-block: 0.8rem;
+  font-size: 1rem;
   color: var(--nice-white);
   border-bottom: 2px solid rgba(250, 235, 215, 0.8);
 }
@@ -41,13 +42,13 @@
   position: relative;
   width: 65%;
   margin-inline: auto;
-  border-radius: 3px;
+  border-radius: 1px;
   margin-top: 50px;
   padding-bottom: 5rem;
-  box-shadow: 4px 4px var(--gold), -4px 4px var(--gold), -4px -4px var(--gold),
-    4px -4px var(--gold), 8px 8px var(--paper-white),
-    -8px 8px var(--paper-white), -8px -8px var(--paper-white),
-    8px -8px var(--paper-white);
+  box-shadow: 3px 3px var(--gold), -3px 3px var(--gold), -3px -3px var(--gold),
+    3px -3px var(--gold), 16px 16px var(--paper-white),
+    -16px 16px var(--paper-white), -16px -16px var(--paper-white),
+    16px -16px var(--paper-white);
 }
 
 .giftcard-inputs {
@@ -338,12 +339,12 @@
     flex-direction: column;
     gap: 1.3rem;
   }
-  .giftcard-inputs{
+  .giftcard-inputs {
     display: flex;
     flex-direction: column;
     gap: 1.3rem;
   }
-  .contact-inputs{
+  .contact-inputs {
     display: flex;
     flex-direction: column;
     gap: 1.3rem;
@@ -361,7 +362,7 @@
     font-weight: 400;
   }
   .phone-checkbox {
-    margin-bottom: unset
+    margin-bottom: unset;
   }
 
   .reserve-container {
@@ -380,9 +381,9 @@
     margin-bottom: 20px;
   }
   .reserve-inputs {
-    gap: 15px;  
+    gap: 15px;
   }
-  .giftcard-inputs{
+  .giftcard-inputs {
     gap: 15px;
   }
   .contact-inputs {
@@ -442,7 +443,7 @@
   .input-time {
     grid-area: unset;
   }
-  
+
   .input-notes {
     grid-area: unset;
   }
