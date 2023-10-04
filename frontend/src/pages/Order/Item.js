@@ -15,7 +15,7 @@ function Item({ item }) {
   const [requestTxt, setRequestTxt] = useState("");
   const [dressing, setDressing] = useState(false);
   const [dressingQty, setDressingQty] = useState(1);
-  const dressingPrice = dressingQty * 0.75;
+  const dressingPrice = (dressingQty * 0.75).toFixed(2);
   const { addItemToCart } = useContext(CartContext);
 
   function clearItem() {
@@ -83,10 +83,6 @@ function Item({ item }) {
         </button>
         {dressing && (
           <div>
-            <label className="dressing-label" htmlFor="dressing-qty">
-              {" "}
-              How Many?{" "}
-            </label>
             <div id="dressing-qty" className="qty-btn-container dressing-qty">
               <button
                 type="button"

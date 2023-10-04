@@ -20,6 +20,7 @@
     "embla-carousel-auto-height": "^8.0.0-rc12",
     "embla-carousel-autoplay": "^8.0.0-rc12",
     "embla-carousel-react": "^8.0.0-rc12",
+    "localforage": "^1.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-email": "^1.9.4",
@@ -60,6 +61,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "x.x.x",
     "prettier": "2.8.8"
   }
 }

@@ -2,16 +2,34 @@ import React, { useEffect, useState } from "react";
 import Cart from "./Cart";
 import Item from "./Item";
 import "./Order.css";
+import { useMobile } from "../../context/MobileContext";
 import { getMenus } from "../../api";
+import localForage from 'localforage';
 
 function Order() {
+  const mobile = useMobile();
   const [lunchMenu, setLunchMenu] = useState(null);
   const [dinnerMenu, setDinnerMenu] = useState(null);
   const [wineList, setWineList] = useState(null);
   const [loaded, setLoaded] = useState(null);
 
+  const headers = [
+    "FOR THE TABLE",
+    "SMALL PLATES",
+    "SALADS",
+    "PASTA",
+    "PIZZA",
+    "ENTRÉES",
+    "SEAFOOD",
+    "SIDES",
+    "DESSERTS",
+    "DRINKS",
+    "BEER",
+    "WINE",
+    "LUNCH",
+  ]
+
   function handleResponseData(data) {
-    console.log(data);
     setLunchMenu(data.lunch);
     setDinnerMenu(data.dinner);
     setWineList(data.wine);
@@ -19,18 +37,50 @@ function Order() {
   }
 
   useEffect(() => {
+
+    const setMenuLocal = async (menus) => {
+      try {
+        await localForage.setItem("menus", menus);
+      }
+        catch(error) {
+          console.log(error)
+        }
+    }
     const fetchMenusFromServer = async () => {
       try {
         const response = await getMenus();
-        handleResponseData(response.data);
+        return response.data;
       } catch (error) {
         console.log(error);
       }
     };
-    fetchMenusFromServer();
+
+    const fetchMenusFromLocal = async () => {
+      try {
+        const menus =  await localForage.getItem("menus");
+
+        return menus;
+      }
+        catch(error) {
+          console.log(error)
+          return (null)
+        }
+    };
+
+    const getMenu = async () => {
+      let menus = await fetchMenusFromLocal();
+      if(!menus) {
+        menus = await fetchMenusFromServer();
+        setMenuLocal(menus);
+      }
+      if(menus) handleResponseData(menus);
+    } 
+
+    getMenu();
   }, []);
 
   const handleOptionClick = (selectedId) => {
+    if(!loaded) return;
     const menuSection = document.getElementById(selectedId);
     if (menuSection) {
       const scrollOptions = {
@@ -38,7 +88,7 @@ function Order() {
         block: "start",
         inline: "nearest",
       };
-      const offset = 137; // To adjust for header offset
+      const offset = mobile ? 130 : 179; // To adjust for header offset
       const scrollY =
         menuSection.getBoundingClientRect().top + window.pageYOffset - offset;
       window.scrollTo({ ...scrollOptions, top: scrollY });
@@ -52,33 +102,31 @@ function Order() {
   function orderTopBar() {
     return (
       <div className="order-top">
+        <div className="scroll-wrapper">
         <div className="order-selectors">
-          {dinnerMenu.sections.map((section) => (
+          {headers.map((section) => (
             <div
               className="order-selector"
-              key={section.header + "display"}
-              onClick={() => handleOptionClick(section.header)}
+              key={section + "display"}
+              onClick={() => handleOptionClick(section)}
             >
               {" "}
-              {capitalizeFirstLetter(section.header)}
+              {capitalizeFirstLetter(section)}
             </div>
           ))}
-          <div className="order-selector" key={"wine"}>
-            {" "}
-            Bottled Wine
-          </div>
-          <div className="order-selector">
+        </div>
+        </div>
+        <div className="cart-section order-selector">
             <Cart />
           </div>
-        </div>
       </div>
     );
   }
 
-  function displayItems() {
+  function displayItems(menu) {
     return (
       <>
-        {dinnerMenu.sections.map((section) => (
+        {menu.sections.map((section) => (
           <div
             className="order-section"
             key={section.header}
@@ -101,8 +149,21 @@ function Order() {
 
   return (
     <div className="background-color">
-      {loaded && orderTopBar()}
-      {loaded && <div className="order-container">{displayItems()}</div>}
+      {orderTopBar()}
+      {loaded && <div className="order-container">{displayItems(dinnerMenu)}</div>}
+
+      {loaded &&
+      <div id="WINE" className="order-container order-container-sub">
+        <div className="sub-menu-header"> Wine List </div>
+       <div className="sub-menu-container">{displayItems(wineList)}</div>
+      </div>}
+
+      {loaded && 
+      <div id="LUNCH" className="order-container order-container-sub">
+        <div className="sub-menu-header"> Lunch Menu </div>
+        <div className="sub-menu-container">{displayItems(lunchMenu)}</div>
+      </div> }
+
     </div>
   );
 }
