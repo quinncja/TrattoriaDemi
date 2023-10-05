@@ -1211,59 +1211,70 @@ async function main() {
       });
 
 
-      saveMenu();
+      updateMenu();
 }
   
-async function saveMenuData(menuType, menuData) {
-  // Delete old menu, sections, and items associated with the menu
+async function updateMenuData(menuType, menuData) {
+  let menuId;
+
+  // Find old menu associated with the menuType
   const oldMenu = await Menu.findOne({ menuType: menuType });
 
   if (oldMenu) {
-      await Section.deleteMany({ menuId: oldMenu._id });
-      await Item.deleteMany({ menuId: oldMenu._id });
-      await Menu.deleteOne({ _id: oldMenu._id });
-      console.log(`Old ${menuType} menu deleted successfully`);
+    // If old menu exists, remove its sections and items but NOT the menu itself
+    await Section.deleteMany({ menuId: oldMenu._id });
+    await Item.deleteMany({ menuId: oldMenu._id });
+    console.log(`Old ${menuType} menu sections and items deleted successfully`);
+    menuId = oldMenu._id;
+  } else {
+    // If there's no existing menu, create a new one
+    const menu = new Menu({ menuType: menuType });
+    await menu.save();
+    menuId = menu._id;
   }
 
-  const menu = new Menu({
-        menuType: menuType
-    });
-  await menu.save();
-  // Save new sections and items  
+  // Save new sections and items
   const sectionIds = [];
   for (const sectionData of menuData.sections) {
-      const items = sectionData.items;
-      delete sectionData.items;  // We will save items separately
-      
-      const section = new Section({
-          ...sectionData,
-          menuId: menu._id  // Associate section with menu
+    const items = sectionData.items;
+    delete sectionData.items;  // We will save items separately
+    
+    const section = new Section({
+      ...sectionData,
+      menuId: menuId  // Associate section with menu
+    });
+    await section.save();
+
+    sectionIds.push(section._id);
+
+    // Save all items concurrently for a section
+    const itemPromises = items.map(itemData => {
+      const item = new Item({
+        ...itemData,
+        sectionId: section._id,  // Associate item with section
+        menuId: menuId           // Associate item with menu
       });
-      await section.save();
+      return item.save();
+    });
 
-      sectionIds.push(section._id);
-
-      for (const itemData of items) {
-          const item = new Item({
-              ...itemData,
-              sectionId: section._id,  // Associate item with section
-              menuId: menu._id     // Associate item with menu
-          });
-          await item.save();
-      }
+    await Promise.all(itemPromises);
   }
 
-  // Save new menu
-  await Menu.findByIdAndUpdate(menu._id, { sectionIds: sectionIds }, { new: true });
-  
-  console.log(`${menuType} menu saved successfully`);
+  // Update the menu with the new section IDs
+  const updatedMenu = await Menu.findById(menuId);
+  updatedMenu.sectionIds = sectionIds;
+  updatedMenu.lastUpdated = new Date();
+  await updatedMenu.save();
+
+  console.log(`${menuType} menu updated successfully.`);
 }
 
-async function saveMenu() {
+
+async function updateMenu() {
   try {
-      await saveMenuData("lunch", lunchMenu);
-      await saveMenuData("dinner", dinnerMenu);
-      await saveMenuData("wine", wineList);
+      await updateMenuData("lunch", lunchMenu);
+      await updateMenuData("dinner", dinnerMenu);
+      await updateMenuData("wine", wineList);
   } catch (err) {
       console.error("Error saving menus:", err);
   }

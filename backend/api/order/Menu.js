@@ -47,6 +47,7 @@ const sectionSchema = new mongoose.Schema({
 
 const menuSchema = new mongoose.Schema({
   menuType: String,
+  lastUpdated: Date,
 });
 
 const Item = mongoose.model('Item', itemSchema);

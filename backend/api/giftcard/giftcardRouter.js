@@ -7,6 +7,7 @@ const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
+
 // Create new Giftcard
 giftcardRouter.post("/", async (req, res) => {
   try {
@@ -98,7 +99,6 @@ async function onCheckeoutSuccess(metadata, email){
     console.error("Error in onCheckoutSuccess:", error);
   }
 }
-
 
 giftcardRouter.post("/payment-webhook", (request, response) => {
   const sig = request.headers["stripe-signature"];
