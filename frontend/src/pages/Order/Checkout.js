@@ -7,15 +7,16 @@ function Checkout() {
   const { items, price, deleteItemFromCart } = useContext(CartContext);
 
   async function submitCheckout() {
-    const serverItemsList = items.map((item) => item.serverItem);
     try {
-      const response = await checkoutCart(serverItemsList);
-      console.log(response);
-    } catch (error) {}
+      const response = await checkoutCart(items);
+      const body = response.data;
+      window.location.href = body.url;
+    } catch (error) {
+      console.log("i need error statements");
+    }
   }
 
   function displayModifiers(modifiers) {
-    console.log(modifiers);
     const optionArr = [];
     if (modifiers.size) {
       optionArr.push(modifiers.size);

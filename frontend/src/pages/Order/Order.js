@@ -3,7 +3,7 @@ import Cart from "./Cart";
 import Item from "./Item";
 import "./Order.css";
 import { useMobile } from "../../context/MobileContext";
-import { getMenus } from "../../api";
+import { checkForUpdate, getMenus } from "../../api";
 import localForage from 'localforage';
 
 function Order() {
@@ -37,7 +37,6 @@ function Order() {
   }
 
   useEffect(() => {
-
     const setMenuLocal = async (menus) => {
       try {
         await localForage.setItem("menus", menus);
@@ -67,14 +66,45 @@ function Order() {
         }
     };
 
+    const checkLastUpdated = async () => {
+      try {
+         const lastUpdatedTimes = await checkForUpdate();
+         return lastUpdatedTimes;
+      } catch (error){
+        console.log(error)
+      }
+    }
+    
+    function checkForUpdates(menus, times){
+      let needToUpdate = false;
+      for (let menuType in times) {
+        if (!menus[menuType] || new Date(times[menuType]) > new Date(menus[menuType].lastUpdated)) {
+            needToUpdate = true;
+        } 
+      }
+      return(needToUpdate || menus)
+    }
+
     const getMenu = async () => {
       let menus = await fetchMenusFromLocal();
-      if(!menus) {
+  
+      if (menus) {
+        handleResponseData(menus); // Show the local menus to the user first
+  
+        // Now check for updates in the background
+        let times = await checkLastUpdated();
+        const updatesNeeded = checkForUpdates(menus, times);
+        if (updatesNeeded) {
+          menus = await fetchMenusFromServer();
+          setMenuLocal(menus);
+          handleResponseData(menus); // Optional: Update the UI with new data or notify the user
+        }
+      } else {
         menus = await fetchMenusFromServer();
         setMenuLocal(menus);
+        handleResponseData(menus);
       }
-      if(menus) handleResponseData(menus);
-    } 
+    }
 
     getMenu();
   }, []);

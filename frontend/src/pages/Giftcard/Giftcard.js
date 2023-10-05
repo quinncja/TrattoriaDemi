@@ -42,7 +42,13 @@ function Giftcard() {
     message: "Message to recipient",
   };
 
-  const values = [{price: 15, id: "price_1NwtqREFXALc8iLMZINi83Oc"}, {price: 25, id: "price_1NwtqiEFXALc8iLMEJmZE3eD"}, {price: 50, id: "price_1NwtrKEFXALc8iLM1bq1F8B8"}, {price: 75, id: "price_1NwtrUEFXALc8iLMfdwgyR89"}, {price: 100, id: "price_1NwtreEFXALc8iLMGc0nAK57"}];
+  const values = [
+    { price: 15, id: "price_1NwtqREFXALc8iLMZINi83Oc" },
+    { price: 25, id: "price_1NwtqiEFXALc8iLMEJmZE3eD" },
+    { price: 50, id: "price_1NwtrKEFXALc8iLM1bq1F8B8" },
+    { price: 75, id: "price_1NwtrUEFXALc8iLMfdwgyR89" },
+    { price: 100, id: "price_1NwtreEFXALc8iLMGc0nAK57" },
+  ];
   const buttons = values.map((button) => (
     <button
       className={`giftcard-button ${

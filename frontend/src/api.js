@@ -81,15 +81,36 @@ export async function getMenus() {
   }
 }
 
-export async function checkoutCart(serverItemsList) {
+export async function checkForUpdate(){
   try {
     const response = await axios({
-      method: "post",
-      url: `${API_URL}api/order/checkout`,
-      data: serverItemsList,
+      method: "get",
+      url: `${API_URL}api/order/menu-check`,
     });
     return response;
   } catch (error) {
     console.error(error);
   }
 }
+
+export async function checkoutCart(items) {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${API_URL}api/order/checkout`,
+      data: {
+        customerName: null,
+        address: null,
+        deliveryMessage: null,
+        email: null,
+        phone: null,
+        items,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
