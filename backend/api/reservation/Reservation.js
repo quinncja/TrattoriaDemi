@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const validStates = ["Upcoming", "Arrived", "Noshow", "Cancel"];
+const validStates = ["upcoming", "arrived", "noshow", "cancel"];
 const validSizes = ["2top", "3top", "4top", "5top", "xl"]
 const reservationSchema = new mongoose.Schema({
   name: {

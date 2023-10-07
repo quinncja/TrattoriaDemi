@@ -314,6 +314,35 @@
   color: var(--nice-white); /* color of the checkmark */
 }
 
+.reserve-section-cancel{
+  width: fit-content;
+  padding-block: 2rem;
+}
+
+.res-section-cancel{
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: fit-content;
+  margin-inline: auto;
+  padding: 30px;
+}
+
+.res-to-cancel{
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.res-to-cancel-info{
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.res-cancel-btn{
+  justify-self: flex-end;
+}
+
 @media (width <= 1000px) {
   .reserve-section {
     width: 90%;
@@ -352,6 +381,9 @@
   .phone-checkbox {
     margin-top: 10px;
     margin-bottom: 20px;
+  }
+  .res-to-cancel-info{
+    font-size: 1rem;
   }
 }
 
