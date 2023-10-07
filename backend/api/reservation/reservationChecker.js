@@ -38,9 +38,10 @@ function checkTableAvailability(overlapRes, tableSize){
 }   
 
 function checkAvailability(reservations, tableOptions, time){
-    if(reservations.some(res => res.time === time)) return false;
-    const overlapRes = reservations.filter(reservation => isWithinOneHour(time, reservation.time));
-    for (let i = 0; i < tableOptions.length; i++){
+    if(reservations.some(res => res.time === time && res.state !== "cancel")) return false;
+    const overlapRes = reservations.filter(reservation => 
+        isWithinOneHour(time, reservation.time) && reservation.state !== "cancel"
+    );    for (let i = 0; i < tableOptions.length; i++){
         if (checkTableAvailability(overlapRes, tableOptions[i])) return {time, table: tableOptions[i]}
     }
     return false;
