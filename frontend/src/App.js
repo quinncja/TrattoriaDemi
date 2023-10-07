@@ -14,9 +14,9 @@ function App() {
 
   return (
     <div className="app">
-      <Navbar />
+      {window.location.pathname !== "/dashboard" && <Navbar />}
       <Outlet />
-      <Footer />
+      {window.location.pathname !== "/dashboard" && <Footer />}
     </div>
   );
 }

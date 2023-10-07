@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = process.env.REACT_APP_DEPLOYED_BACKEND;
+const API_URL = process.env.REACT_APP_LOCAL_BACKEND;
 
 export async function getReservations() {
   try {
@@ -8,6 +8,42 @@ export async function getReservations() {
       url: `${API_URL}api/reservations/`,
     });
     return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getReservationById(id) {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/reservations/id/${id}`,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getReservationsByDate(date) {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/reservations/date/${date}`,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function patchReservation(id, state) {
+  try {
+    const response = await axios({
+      method: "patch",
+      url: `${API_URL}api/reservations/id/${id}/state/${state}`,
+    });
+    return response;
   } catch (error) {
     console.error(error);
   }
@@ -81,7 +117,7 @@ export async function getMenus() {
   }
 }
 
-export async function checkForUpdate(){
+export async function checkForUpdate() {
   try {
     const response = await axios({
       method: "get",
@@ -112,5 +148,3 @@ export async function checkoutCart(items) {
     console.error(error);
   }
 }
-
-
