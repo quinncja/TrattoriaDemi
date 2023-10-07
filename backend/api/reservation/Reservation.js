@@ -34,7 +34,7 @@ const reservationSchema = new mongoose.Schema({
   state: {
     type: String,
     required: true,
-    default: "Upcoming",
+    default: "upcoming",
     enum: validStates,
   },
 });
