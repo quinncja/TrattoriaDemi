@@ -314,12 +314,12 @@
   color: var(--nice-white); /* color of the checkmark */
 }
 
-.reserve-section-cancel{
+.reserve-section-cancel {
   width: fit-content;
   padding-block: 2rem;
 }
 
-.res-section-cancel{
+.res-section-cancel {
   display: flex;
   flex-direction: column;
   gap: 3rem;
@@ -328,18 +328,18 @@
   padding: 30px;
 }
 
-.res-to-cancel{
+.res-to-cancel {
   display: flex;
   justify-content: center;
   gap: 2rem;
 }
 
-.res-to-cancel-info{
+.res-to-cancel-info {
   font-size: 1.2rem;
   font-weight: 700;
 }
 
-.res-cancel-btn{
+.res-cancel-btn {
   justify-self: flex-end;
 }
 
@@ -382,7 +382,7 @@
     margin-top: 10px;
     margin-bottom: 20px;
   }
-  .res-to-cancel-info{
+  .res-to-cancel-info {
     font-size: 1rem;
   }
 }

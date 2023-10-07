@@ -684,7 +684,7 @@ export default function Reserve() {
               <div className="phone-checkbox">
                 <div className="reserve-small-text">
                   {" "}
-                  You will receive a confirmation text upon reservation {" "}
+                  You will receive a confirmation text upon reservation{" "}
                 </div>
               </div>
 

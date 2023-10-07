@@ -4,7 +4,7 @@ import Item from "./Item";
 import "./Order.css";
 import { useMobile } from "../../context/MobileContext";
 import { checkForUpdate, getMenus } from "../../api";
-import localForage from 'localforage';
+import localForage from "localforage";
 
 function Order() {
   const mobile = useMobile();
@@ -27,7 +27,7 @@ function Order() {
     "BEER",
     "WINE",
     "LUNCH",
-  ]
+  ];
 
   function handleResponseData(data) {
     setLunchMenu(data.lunch);
@@ -40,11 +40,10 @@ function Order() {
     const setMenuLocal = async (menus) => {
       try {
         await localForage.setItem("menus", menus);
+      } catch (error) {
+        console.log(error);
       }
-        catch(error) {
-          console.log(error)
-        }
-    }
+    };
     const fetchMenusFromServer = async () => {
       try {
         const response = await getMenus();
@@ -56,41 +55,43 @@ function Order() {
 
     const fetchMenusFromLocal = async () => {
       try {
-        const menus =  await localForage.getItem("menus");
+        const menus = await localForage.getItem("menus");
 
         return menus;
+      } catch (error) {
+        console.log(error);
+        return null;
       }
-        catch(error) {
-          console.log(error)
-          return (null)
-        }
     };
 
     const checkLastUpdated = async () => {
       try {
-         const lastUpdatedTimes = await checkForUpdate();
-         return lastUpdatedTimes;
-      } catch (error){
-        console.log(error)
+        const lastUpdatedTimes = await checkForUpdate();
+        return lastUpdatedTimes;
+      } catch (error) {
+        console.log(error);
       }
-    }
-    
-    function checkForUpdates(menus, times){
+    };
+
+    function checkForUpdates(menus, times) {
       let needToUpdate = false;
       for (let menuType in times) {
-        if (!menus[menuType] || new Date(times[menuType]) > new Date(menus[menuType].lastUpdated)) {
-            needToUpdate = true;
-        } 
+        if (
+          !menus[menuType] ||
+          new Date(times[menuType]) > new Date(menus[menuType].lastUpdated)
+        ) {
+          needToUpdate = true;
+        }
       }
-      return(needToUpdate || menus)
+      return needToUpdate || menus;
     }
 
     const getMenu = async () => {
       let menus = await fetchMenusFromLocal();
-  
+
       if (menus) {
         handleResponseData(menus); // Show the local menus to the user first
-  
+
         // Now check for updates in the background
         let times = await checkLastUpdated();
         const updatesNeeded = checkForUpdates(menus, times);
@@ -104,13 +105,13 @@ function Order() {
         setMenuLocal(menus);
         handleResponseData(menus);
       }
-    }
+    };
 
     getMenu();
   }, []);
 
   const handleOptionClick = (selectedId) => {
-    if(!loaded) return;
+    if (!loaded) return;
     const menuSection = document.getElementById(selectedId);
     if (menuSection) {
       const scrollOptions = {
@@ -133,22 +134,22 @@ function Order() {
     return (
       <div className="order-top">
         <div className="scroll-wrapper">
-        <div className="order-selectors">
-          {headers.map((section) => (
-            <div
-              className="order-selector"
-              key={section + "display"}
-              onClick={() => handleOptionClick(section)}
-            >
-              {" "}
-              {capitalizeFirstLetter(section)}
-            </div>
-          ))}
-        </div>
+          <div className="order-selectors">
+            {headers.map((section) => (
+              <div
+                className="order-selector"
+                key={section + "display"}
+                onClick={() => handleOptionClick(section)}
+              >
+                {" "}
+                {capitalizeFirstLetter(section)}
+              </div>
+            ))}
+          </div>
         </div>
         <div className="cart-section order-selector">
-            <Cart />
-          </div>
+          <Cart />
+        </div>
       </div>
     );
   }
@@ -180,20 +181,23 @@ function Order() {
   return (
     <div className="background-color">
       {orderTopBar()}
-      {loaded && <div className="order-container">{displayItems(dinnerMenu)}</div>}
+      {loaded && (
+        <div className="order-container">{displayItems(dinnerMenu)}</div>
+      )}
 
-      {loaded &&
-      <div id="WINE" className="order-container order-container-sub">
-        <div className="sub-menu-header"> Wine List </div>
-       <div className="sub-menu-container">{displayItems(wineList)}</div>
-      </div>}
+      {loaded && (
+        <div id="WINE" className="order-container order-container-sub">
+          <div className="sub-menu-header"> Wine List </div>
+          <div className="sub-menu-container">{displayItems(wineList)}</div>
+        </div>
+      )}
 
-      {loaded && 
-      <div id="LUNCH" className="order-container order-container-sub">
-        <div className="sub-menu-header"> Lunch Menu </div>
-        <div className="sub-menu-container">{displayItems(lunchMenu)}</div>
-      </div> }
-
+      {loaded && (
+        <div id="LUNCH" className="order-container order-container-sub">
+          <div className="sub-menu-header"> Lunch Menu </div>
+          <div className="sub-menu-container">{displayItems(lunchMenu)}</div>
+        </div>
+      )}
     </div>
   );
 }
