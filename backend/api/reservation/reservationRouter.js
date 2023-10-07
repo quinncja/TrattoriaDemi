@@ -83,10 +83,12 @@ reservationRouter.delete("/id/:id", async (req, res) => {
 // Get reservations by date
 reservationRouter.get("/date/:date", async (req, res) => {
   try {
-    const targetDate = new Date(req.params.date);
-
-    // Use Mongoose's find method to query reservations by the 'datetime' field
-    const reservations = await Reservation.find({ date: targetDate });
+    const targetDate = new Date(req.params.date); 
+    // Construct the start and end of the day for the target date
+    const startOfDay = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth(), targetDate.getUTCDate(), 0, 0, 0, 0));
+  
+    // Query for reservations within the day range
+    const reservations = await Reservation.find({ date: startOfDay });
 
     res.json(reservations);
   } catch (error) {
@@ -101,9 +103,6 @@ reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
     const [reservationId, newState] = [req.params.id, req.params.state];
 
     const lowercaseState = newState.toLowerCase();
-    if (!validStates.includes(lowercaseState)) {
-      return res.status(400).json({ error: "Invalid state" });
-    }
 
     const updatedReservation = await Reservation.findByIdAndUpdate(
       reservationId,
