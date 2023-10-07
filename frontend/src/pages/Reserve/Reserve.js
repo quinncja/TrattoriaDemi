@@ -14,7 +14,6 @@ export default function Reserve() {
   const [realTime, setRealTime] = useState(null);
   const [tableSize, setTableSize] = useState(null);
   const [notes, setNotes] = useState(null);
-  const [checkbox, setCheckbox] = useState(false);
   const [phone, setPhone] = useState(null);
   const [activeButton, setActiveButton] = useState(null);
   const [availableTimes, setAvailableTimes] = useState([]);
@@ -201,7 +200,7 @@ export default function Reserve() {
       date,
       time: realTime,
       notes,
-      sendText: checkbox,
+      sendText: true,
       phone,
       tableSize,
     };
@@ -683,14 +682,9 @@ export default function Reserve() {
               </div>
 
               <div className="phone-checkbox">
-                <button
-                  className={` checkbox ${checkbox && "checkbox-active"}`}
-                  type="button"
-                  onClick={() => setCheckbox(!checkbox)}
-                />
                 <div className="reserve-small-text">
                   {" "}
-                  I would like to recieve a confirmation text{" "}
+                  You will receive a confirmation text upon reservation {" "}
                 </div>
               </div>
 
@@ -699,7 +693,7 @@ export default function Reserve() {
                 type="button"
                 onClick={onSubmit}
               >
-                Continue
+                Reserve
               </button>
             </div>
           </div>
