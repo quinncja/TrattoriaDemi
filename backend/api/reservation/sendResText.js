@@ -39,11 +39,45 @@ function convertTo12Hour(time) {
     return `${hours}:${minutes.toString().padStart(2, '0')}${period}`;
   }
 
+
+
+  function dateToString(date) {
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const dateAsObj = new Date(date);
+    const dayName = days[dateAsObj.getUTCDay()];
+    const monthName = months[dateAsObj.getUTCMonth()];
+    const day = dateAsObj.getUTCDate();
+
+    return `${dayName}, ${monthName} ${day}`;
+}
   
 function sendResText(reservation){
     client.messages
     .create({
-        body: `${reservation.name}, \n \nWe are happy to confirm your reservation for ${numberToWord(reservation.numGuests)} on ${reservation.date} at ${convertTo12Hour(reservation.time)}. \n\nShould you need to cancel, click the link below: \n www.trattoriademi.site/cancel/${reservation._id}. \n\nWe look forward to serving you. \n- Trattoria Demi`,
+        body: `${reservation.name}, \n \nWe are happy to confirm your reservation for ${numberToWord(reservation.numGuests)} on ${dateToString(reservation.date)} at ${convertTo12Hour(reservation.time)}. \n\nShould you need to cancel, click the link below: \n www.trattoriademi.site/cancel/${reservation._id}. \n\nWe look forward to serving you. \n- Trattoria Demi`,
         from: '+18447275525',
         to: reservation.phone
     })
