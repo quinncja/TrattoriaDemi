@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validStates = ["upcoming", "arrived", "noshow", "cancel"];
 const validSizes = ["2top", "3top", "4top", "5top", "xl"]
 const reservationSchema = new mongoose.Schema({
   name: {
@@ -34,6 +35,7 @@ const reservationSchema = new mongoose.Schema({
     type: String,
     required: true,
     default: "upcoming",
+    enum: validStates,
   },
 });
 module.exports = mongoose.model("Reservation", reservationSchema);
