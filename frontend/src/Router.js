@@ -11,7 +11,7 @@ import Giftcard from "./pages/Giftcard/Giftcard";
 import GalleryPopulator from "./pages/Gallery/GalleryPopulator";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Email from "./components/Email";
-import Cancel from "./pages/Cancel"
+import Cancel from "./pages/Cancel";
 
 export function Router() {
   return (
@@ -30,7 +30,7 @@ export function Router() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/email" element={<Email />} />
-          <Route path="/cancel/*" element={<Cancel/>} />
+          <Route path="/cancel/*" element={<Cancel />} />
         </Route>
       </Routes>
     </BrowserRouter>
