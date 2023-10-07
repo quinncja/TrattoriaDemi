@@ -80,6 +80,23 @@ reservationRouter.delete("/id/:id", async (req, res) => {
   }
 });
 
+function sortReservationsByTime(reservations) {
+  return reservations.sort((a, b) => {
+    // Split the time strings into [hour, minute]
+    const [hourA, minuteA] = a.time.split(':').map(Number);
+    const [hourB, minuteB] = b.time.split(':').map(Number);
+
+    // Compare the hours first
+    if (hourA !== hourB) {
+      return hourA - hourB;
+    }
+
+    // If hours are the same, compare the minutes
+    return minuteA - minuteB;
+  });
+}
+
+
 // Get reservations by date
 reservationRouter.get("/date/:date", async (req, res) => {
   try {
@@ -88,8 +105,8 @@ reservationRouter.get("/date/:date", async (req, res) => {
     const startOfDay = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth(), targetDate.getUTCDate(), 0, 0, 0, 0));
   
     // Query for reservations within the day range
-    const reservations = await Reservation.find({ date: startOfDay });
-
+    let reservations = await Reservation.find({ date: startOfDay });
+    reservations = sortReservationsByTime(reservations)
     res.json(reservations);
   } catch (error) {
     console.error("Error fetching reservations by date:", error);
