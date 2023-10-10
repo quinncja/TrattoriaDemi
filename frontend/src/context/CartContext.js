@@ -13,6 +13,12 @@ export function CartProvider(props) {
     return parseFloat(numericValue);
   }
 
+  const clearCart = () => {
+    setItems([]);
+    setPrice(0);
+    setQty(0);
+  };
+
   const addItemToCart = (item) => {
     setItems((prevItems) => [...prevItems, item]);
     setPrice((prevPrice) => prevPrice + convertPriceToNumber(item.totalPrice));
@@ -51,6 +57,7 @@ export function CartProvider(props) {
         quantity,
         addItemToCart,
         deleteItemFromCart,
+        clearCart,
       }}
     >
       {props.children}

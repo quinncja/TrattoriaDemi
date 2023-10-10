@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getReservationById, patchReservation } from "../api";
 import { successfulCancelAlert } from "../swal2";
+import FancyLine from "../images/FancyLine.png";
 
 function Cancel() {
   const param = useParams();
@@ -95,16 +96,35 @@ function Cancel() {
               <div className="menu-section-header">
                 Cancel your reservation?
               </div>
+              <img
+                className="fancy-line fancy-line-cancel"
+                src={FancyLine}
+                alt=""
+              />
               <div className="res-to-cancel">
-                <div className="res-to-cancel-info">
-                  {reservation.numGuests}{" "}
-                  {reservation.numGuests === 1 ? "Guest" : "Guests"}
+                <div className="res-to-cancel-section">
+                  <div className="res-to-cancel-atr"> Name </div>
+                  <div className="res-to-cancel-info">{reservation.name} </div>
                 </div>
-                <div className="res-to-cancel-info">
-                  {dateToString(reservation.date)}
+
+                <div className="res-to-cancel-section">
+                  <div className="res-to-cancel-atr"> Party </div>
+                  <div className="res-to-cancel-info">
+                    {reservation.numGuests}{" "}
+                    {reservation.numGuests === 1 ? "Guest" : "Guests"}
+                  </div>
                 </div>
-                <div className="res-to-cancel-info">
-                  {convertTo12Hour(reservation.time)}
+                <div className="res-to-cancel-section">
+                  <div className="res-to-cancel-atr"> Date </div>
+                  <div className="res-to-cancel-info">
+                    {dateToString(reservation.date)}
+                  </div>
+                </div>
+                <div className="res-to-cancel-section">
+                  <div className="res-to-cancel-atr"> Time </div>
+                  <div className="res-to-cancel-info">
+                    {convertTo12Hour(reservation.time)}
+                  </div>
                 </div>
               </div>
               <button

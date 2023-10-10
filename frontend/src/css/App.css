@@ -15,6 +15,7 @@
   --red: #ad0f0f;
   --green: #008209;
   --dark-red: #ad1111;
+  --nice-gray: rgb(10, 10, 10);
   --black: #121212;
   --dark-black: black;
   --light-black: #444444;
@@ -26,8 +27,9 @@
   background-color: rgb(255, 255, 255);
   --asdkfnr: #faebd7;
   --color-bg-light: hsl(233, 8%, 19%);
-  --color-bg-green-tint: hsl(146, 20%, 22%);
+  --color-bg-green-tint: hsl(148, 45%, 13%);
   --color-bg-red-tint: hsla(0, 24%, 30%, 0.855);
+  --dark-container-color: #121212;
 }
 html,
 body {
@@ -642,6 +644,6 @@ body {
   margin-top: 15px;
 }
 
-.empty{
+.empty {
   height: calc(100vh - 97px - 53px);
 }

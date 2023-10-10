@@ -63,7 +63,6 @@ async function getLastUpdatedMenus() {
     return lastUpdatedValues;
 }
 
-
 orderRouter.get('/menu-check', async (req, res) => {
     try {
         const lastUpdatedData = await getLastUpdatedMenus();
@@ -72,7 +71,6 @@ orderRouter.get('/menu-check', async (req, res) => {
         res.status(500).json({ message: 'Error fetching last updated menus.' });
     }
 })
-
 
 orderRouter.get('/menus', loadMenus, (req, res) => {
     res.json(req.menus);
@@ -96,7 +94,7 @@ async function createCheckoutSession(price, orderId){
         metadata: {
             orderId,
         },
-        success_url: `${domain}/checkout/?success=true`,
+        success_url: `${domain}/order-status/${orderId}`,
         cancel_url: `${domain}/checkout`,
     });
   
@@ -147,19 +145,66 @@ async function getCartTotal(serverItemsList) {
         }
     return(total)
 }
+function getTax(price){
+    return (price * .1025)
+}
+
+orderRouter.post('/pickup',async (req, res) => {
+    try{ 
+        const { customerName, type, tip, address, notes, utensils, phone, items} = req.body;
+        const serverItemsList = items.flatMap(item => {
+            return Array(item.qty).fill(item.serverItem);
+        });
+        let total = await getCartTotal(serverItemsList)
+        const tax = getTax(total)
+        total += tax;
+        if (type === "delivery"){
+            total += Number(tip)
+            total += 5
+        }
+        total = Number(total.toFixed(2))
+        const newOrder = new Order({
+            type,
+            customerName,
+            address, 
+            notes,
+            phone,
+            items,
+            tip,
+            utensils,
+            totalPrice: total,
+        })
+        const savedOrder = await newOrder.save();
+        res.status(200).json(savedOrder)
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error processing the order" });
+    }
+});
 
 orderRouter.post('/checkout', async (req, res) => {
     try {
-        const { customerName, address, deliveryMessage, email, phone, items} = req.body;
-        const serverItemsList = items.map((item) => item.serverItem);
-        const total = (await getCartTotal(serverItemsList)).toFixed(2)
+        const { customerName, type, tip, address, notes, utensils, phone, items} = req.body;
+        const serverItemsList = items.flatMap(item => {
+            return Array(item.qty).fill(item.serverItem);
+        });
+        let total = await getCartTotal(serverItemsList)
+        const tax = getTax(total)
+        total += tax;
+        if (type === "delivery"){
+            total += Number(tip)
+            total += 5
+        }
+        total = Number(total.toFixed(2))
         const newOrder = new Order({
+            type,
             customerName,
             address, 
-            deliveryMessage,
-            email,
+            notes,
             phone,
             items,
+            tip,
+            utensils,
             totalPrice: total,
         })
         const savedOrder = await newOrder.save();
@@ -169,6 +214,16 @@ orderRouter.post('/checkout', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error processing the order" });
+    }
+});
+
+orderRouter.get('/orders', async (req, res) => {
+    try {
+        const orders = await Order.find(); // This fetches all the orders from the database
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error retrieving the orders" });
     }
 });
 
@@ -183,6 +238,24 @@ async function getOrder(id){
       console.error(id, error);
     }
 }
+
+orderRouter.get('/id/:id', async (req, res) => {
+    try {
+      const orderId = req.params.id; 
+      const order = await getOrder(orderId);
+      
+      if (!order) {
+        return res.status(404).json({ message: `No order found with ID: ${orderId}` });
+      }
+  
+      return res.status(200).json(order);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Error retrieving the order" });
+    }
+  });
+
+
 
 async function markPaid(order) {
     order.isPaid = true;

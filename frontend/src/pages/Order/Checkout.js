@@ -1,19 +1,148 @@
-import { useContext } from "react";
-import { checkoutCart } from "../../api";
+import { useContext, useState } from "react";
+import { useMobile } from "../../context/MobileContext";
+import { useNavigate } from "react-router-dom";
+import { checkoutCart, placePickupOrder } from "../../api";
 import CartContext from "../../context/CartContext";
+import FancyLine from "../../images/FancyLine.png";
+import { usePlacesWidget } from "react-google-autocomplete";
+import PhoneInput from "react-phone-number-input/input";
 import "./Order.css";
+const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
 
 function Checkout() {
   const { items, price, deleteItemFromCart } = useContext(CartContext);
+  const mobile = useMobile();
+  const navigate = useNavigate();
+  const [type, setType] = useState("pickup");
+  const [activeBtn, setActiveButton] = useState(null);
+  const [tip, setTip] = useState(null);
+  const [name, setName] = useState(null);
+  const [address, setAddress] = useState(null);
+  const [phone, setPhone] = useState(null);
+  const [notes, setNotes] = useState(null);
+  const [checkbox, setCheckbox] = useState(null);
 
-  async function submitCheckout() {
-    try {
-      const response = await checkoutCart(items);
-      const body = response.data;
-      window.location.href = body.url;
-    } catch (error) {
-      console.log("i need error statements");
+  const { ref } = usePlacesWidget({
+    apiKey: PLACES_KEY,
+    options: {
+      location: "42.0451%2C-87.6877°",
+      radius: 200,
+      types: "street-adress",
+    },
+    onPlaceSelected: (place) => {
+      setAddress(place.formatted_address);
+    },
+  });
+
+  const [errorStates, setError] = useState({
+    name: false,
+    address: false,
+    phone: false,
+    type: false,
+  });
+
+  const inputText = {
+    name: errorStates.name ? "Enter your name" : "Name",
+    address: errorStates.address ? "Enter your address" : "Delivery Address",
+    phone: errorStates.phone ? "Enter your phone number" : "Phone number",
+    type: errorStates.type ? "Select an order type" : "Order type",
+    notes: "Instructions",
+    tip: "Gratuity for your driver",
+  };
+
+  const checkoutValidator = () => {
+    let isError = false;
+    if (!name) {
+      setError((errorStates) => ({ ...errorStates, name: true }));
+      isError = true;
     }
+    if (!phone) {
+      isError = true;
+      setError((errorStates) => ({ ...errorStates, phone: true }));
+    }
+    if (type === "delivery") {
+      if (!address) {
+        isError = true;
+        setError((errorStates) => ({ ...errorStates, address: true }));
+      }
+    }
+    return isError;
+  };
+
+  function getTip() {
+    if (activeBtn) return price * activeBtn * 0.01;
+    return Number(tip);
+  }
+
+  function getTotalPrice() {
+    let totPrice = Number(price);
+    let tax = Number((totPrice * 0.1025).toFixed(2));
+    totPrice += tax;
+    totPrice = Number(totPrice.toFixed(2));
+    if (type === "delivery") totPrice += 5;
+    totPrice += getTip();
+    return totPrice.toFixed(2);
+  }
+
+  const handleChange = (event) => {
+    if (event.target.id === "name") {
+      setError((errorStates) => ({ ...errorStates, name: false }));
+      setName(event.target.value);
+    }
+    if (event.target.id === "address") {
+      setError((errorStates) => ({ ...errorStates, address: false }));
+      setAddress(event.target.value);
+    }
+    if (event.target.id === "guests") {
+      setError((errorStates) => ({ ...errorStates, phone: false }));
+      setPhone(event.target.selectedIndex);
+    }
+    if (event.target.id === "notes") {
+      setNotes(event.target.value);
+    }
+    if (event.target.id === "other") {
+      setTip(event.target.value);
+      setError((errorStates) => ({ ...errorStates, time: false }));
+    }
+
+    if (event.target.id === "phone") {
+      setTip(event.target.value);
+      setError((errorStates) => ({ ...errorStates, time: false }));
+    }
+  };
+
+  async function handleSubmit(optional) {
+    if (!checkoutValidator()) submitCheckout(optional);
+  }
+
+  async function submitCheckout(optional) {
+    const newOrder = {
+      type,
+      customerName: name,
+      address,
+      phone,
+      notes,
+      utensils: checkbox,
+      tip: getTip(),
+      items,
+    };
+    if (optional === "pickup") {
+      try {
+        const response = await placePickupOrder(newOrder);
+        if (response.status === 200) {
+          navigate(`/order-status/${response.data._id}`);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else
+      try {
+        const response = await checkoutCart(newOrder);
+        const body = response.data;
+        window.location.href = body.url;
+      } catch (error) {
+        console.log("i need error statements");
+      }
   }
 
   function displayModifiers(modifiers) {
@@ -37,96 +166,506 @@ function Checkout() {
     return optionArr.join(", ");
   }
 
-  function checkoutItem(item) {
+  function trashCanSvg() {
     return (
-      <div className="checkout-item">
-        <div className="checkout-item-left">
-          <div className="checkout-item-header">
-            <div className="row">
-              <div className="checkout-item-qty">{item.qty}</div>
-              <div className="checkout-item-name item-name">{item.name}</div>
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3 6H5H21"
+          stroke="#d3963a"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z"
+          stroke="#d3963a"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10 11V17"
+          stroke="#d3963a"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14 11V17"
+          stroke="#d3963a"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+
+  function checkMargSvg() {
+    return (
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M20 6L9 17L4 12"
+          stroke="#d3963a"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+
+  function cancelSvg() {
+    return (
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M18 6L6 18"
+          stroke="#d3963a"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M6 6L18 18"
+          stroke="#d3963a"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+
+  function CheckoutItem(props) {
+    const item = props.item;
+    const [isDeleting, setDeleting] = useState(false);
+
+    if (isDeleting)
+      return (
+        <div className="checkout-item">
+          <div className="checkout-item-left">
+            <div className="checkout-item-header">
+              <div className="row">
+                <div className="checkout-item-name item-name">
+                  Confirm delete
+                </div>
+              </div>
             </div>
-            <div className="item-price">{item.totalPrice}</div>
+            <div className="item-options">
+              {item.name.toLowerCase()} - {item.totalPrice}
+            </div>
           </div>
-          <div className="item-options">{displayModifiers(item.modifiers)}</div>
-          {item.instructions && (
-            <div className="item-options">{item.instructions}</div>
-          )}
-        </div>
-        <div>
-          <button
-            className="delete-btn"
-            onClick={() => deleteItemFromCart(item)}
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          <div className="is-deleting-buttons">
+            {" "}
+            <button
+              className="delete-btn"
+              onClick={() => deleteItemFromCart(item)}
             >
-              <path
-                d="M3 6H5H21"
-                stroke="#a9927d"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z"
-                stroke="#a9927d"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M10 11V17"
-                stroke="#a9927d"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M14 11V17"
-                stroke="#a9927d"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+              {checkMargSvg()}
+            </button>
+            <button className="delete-btn" onClick={() => setDeleting(false)}>
+              {cancelSvg()}
+            </button>{" "}
+          </div>
+        </div>
+      );
+    else
+      return (
+        <div className="checkout-item">
+          <div className="checkout-item-left">
+            <div className="checkout-item-header">
+              <div className="row">
+                <div className="checkout-item-qty">{item.qty}</div>
+                <div className="checkout-item-name item-name">{item.name}</div>
+              </div>
+              <div className="item-price">{item.totalPrice}</div>
+            </div>
+            <div className="item-options">
+              {displayModifiers(item.modifiers)}
+            </div>
+            {item.instructions && (
+              <div className="item-options">{item.instructions}</div>
+            )}
+          </div>
+          <div>
+            <button className="delete-btn" onClick={() => setDeleting(true)}>
+              {trashCanSvg()}
+            </button>
+          </div>
+        </div>
+      );
+  }
+
+  function orderReciept() {
+    return (
+      <div>
+        <div className="reciept-container ">
+          <div className="menu-section-header left"> Your Order</div>
+          <div className="reciept-line" />
+          <div className="checkout-items">
+            {items.map((item) => (
+              <CheckoutItem item={item} />
+            ))}
+          </div>
+          <div className="reciept-line" />
+          <div className="checkout-prices">
+            <div className="checkout-price">
+              <div>subtotal</div>
+              <div>{price.toFixed(2)}</div>
+            </div>
+            {type === "delivery" && (
+              <div className="checkout-price">
+                <div>delivery fee</div>
+                <div>5.00</div>
+              </div>
+            )}
+            {(type === "delivery" && (tip || activeBtn)) && (
+              <div className="checkout-price">
+                <div>tip</div>
+                <div>{getTip().toFixed(2)}</div>
+              </div>
+            )}
+            <div className="checkout-price">
+              <div>tax</div>
+              <div>{(price * 0.1025).toFixed(2)}</div>
+            </div>
+            <div className="checkout-price cpb">
+              <div>total</div>
+              <div>{getTotalPrice()}</div>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
-  return (
-    <div className="checkout-container">
-      <div className="checkout-left">
-        <div className="fancy-text ft-small"> Contact Information</div>
-        <div className="checkout-inputs">
-          <input className="checkout-input" placeholder="Name" />
-          <input className="checkout-input" placeholder="Phone Number" />
-          <button className="submit-button" onClick={() => submitCheckout()}>
+  function backButton() {
+    return (
+      <button onClick={() => navigate("/order")} className="back-button">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19 12H5"
+            stroke="#ffffff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M12 19L5 12L12 5"
+            stroke="#ffffff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        Modify order{" "}
+      </button>
+    );
+  }
+
+  function textareaInput(input) {
+    return (
+      <textarea
+        type="text"
+        id={input}
+        className={`reserve-select tai ${
+          errorStates[input] && `reserve-select-error`
+        }`}
+        onChange={(event) => handleChange(event)}
+      ></textarea>
+    );
+  }
+
+  function orderTypeInput(input) {
+    return (
+      <div className="order-type-container">
+        <button
+          className={`reserve-button order-type ${
+            type === "pickup" && "reserve-button-active"
+          }`}
+          onClick={(event) => setType(event.target.id)}
+          id="pickup"
+        >
+          Pickup
+        </button>
+        <button
+          className={`reserve-button order-type ${
+            type === "delivery" && "reserve-button-active"
+          }`}
+          onClick={(event) => setType(event.target.id)}
+          id="delivery"
+        >
+          Delivery
+        </button>
+        {}
+      </div>
+    );
+  }
+
+  function underOrderText() {
+    return (
+      <div className="another-row">
+        {type && (
+          <div className="phone-checkbox">
+            <button
+              className={` checkbox ${checkbox && "checkbox-active"}`}
+              type="button"
+              onClick={() => setCheckbox(!checkbox)}
+            />
+            <div className="reserve-small-text"> Include utensils </div>
+          </div>
+        )}
+        {type === "delivery" && (
+          <div className="reserve-small-text">
             {" "}
-            Checkout{" "}
+            There is $5 delivery charge{" "}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  function textInput(input) {
+    return (
+      <input
+        type="text"
+        id={input}
+        className={`reserve-select select-${input} ${
+          errorStates[input] && `reserve-select-error`
+        }`}
+        onChange={(event) => handleChange(event)}
+        placeholder={input === "other" && input}
+      ></input>
+    );
+  }
+
+  function phoneInput() {
+    return (
+      <div className="input-group input-group-phone">
+        <div
+          className={`input-text ${errorStates.phone && `input-text-error`}`}
+        >
+          {" "}
+          {inputText.phone}{" "}
+        </div>
+        <PhoneInput
+          country="US"
+          withCountryCallingCode={true}
+          className={`reserve-select input-phone ${
+            errorStates.phone && `reserve-select-error`
+          }`}
+          value={phone}
+          onChange={(event) => {
+            setPhone(event);
+            setError((errorStates) => ({
+              ...errorStates,
+              phone: false,
+            }));
+          }}
+        />
+      </div>
+    );
+  }
+
+  function tipInput(input) {
+    return (
+      <div className={`input-${input} input-group`}>
+        <div
+          className={`input-text ${errorStates[input] && `input-text-error`}`}
+        >
+          {" "}
+          {inputText[input]}{" "}
+        </div>
+        <div className="tip-buttons">
+          <button
+            id="15"
+            className={`reserve-button rb-c ${
+              activeBtn === 15 && "reserve-button-active"
+            }`}
+            onClick={() => setActiveButton(15)}
+          >
+            15%
+          </button>
+          <button
+            id="20"
+            className={`reserve-button rb-c ${
+              activeBtn === 20 && "reserve-button-active"
+            }`}
+            onClick={() => setActiveButton(20)}
+          >
+            20%
+          </button>
+          <button
+            id="25"
+            className={`reserve-button rb-c ${
+              activeBtn === 25 && "reserve-button-active"
+            }`}
+            onClick={() => setActiveButton(25)}
+          >
+            25%
+          </button>
+          <input
+            type="text"
+            id="other"
+            className={`reserve-select select-other`}
+            onChange={(event) => handleChange(event)}
+            onClick={() => setActiveButton(null)}
+            placeholder="Other"
+          ></input>
+        </div>
+      </div>
+    );
+  }
+
+  function input(input) {
+    return (
+      <div className={`input-${input} input-group`}>
+        <label
+          className={`input-text ${errorStates[input] && `input-text-error`}`}
+        >
+          {" "}
+          {inputText[input]}{" "}
+        </label>
+        {input === "notes"
+          ? textareaInput(input)
+          : input === "type"
+          ? orderTypeInput()
+          : textInput(input)}
+      </div>
+    );
+  }
+
+  function checkoutBody() {
+    return (
+      <>
+        <div className="checkout-inputs">
+          {input("type")}
+          {underOrderText()}
+          {type === "delivery" && tipInput("tip")}
+          <div className="row checkout-row">
+            {input("name")}
+            {phoneInput("phone")}
+          </div>
+            <div className={`input-"address" ${type === "delivery" ? "" : "input-hidden"} input-group`}>
+              <div
+                className={`input-text ${
+                  errorStates.address && `input-text-error`
+                }`}
+              >
+                {" "}
+                {inputText.address}{" "}
+              </div>
+              <input
+                ref={ref}
+                type="text"
+                id="address"
+                value={address}
+                className={`reserve-select ${
+                  errorStates.address && `reserve-select-error`
+                }`}
+                onChange={(event) => handleChange(event)}
+              ></input>
+            </div>
+          {input("notes")}
+        </div>
+        <div className="mockline" />
+        <button className="submit-button" onClick={() => handleSubmit()}>
+          {" "}
+          Checkout with stripe{" "}
+        </button>
+        {type === "pickup" && (
+          <button
+            className="submit-button submit-button-secondary"
+            onClick={() => handleSubmit("pickup")}
+          >
+            {" "}
+            Pay at register{" "}
+          </button>
+        )}
+      </>
+    );
+  }
+
+  function emptyOrder() {
+    return (
+      <>
+        <div className="reciept-container empty-order">
+          <div className="menu-section-header "> Your order is empty</div>
+          <button
+            className="empty-order-subheader"
+            onClick={() => navigate("/order")}
+            type="button"
+          >
+            {" "}
+            Click here to find something tasty!
           </button>
         </div>
-      </div>
+      </>
+    );
+  }
 
-      <div className="checkout-right">
-        <div className="fancy-text ft-small"> Your Order</div>
-        <div className="checkout-items">
-          {items.map((item) => checkoutItem(item))}
-        </div>
-        <div className="checkout-prices">
-          <div className="checkout-price">
-            <div>subtotal</div>
-            <div>{price}</div>
+  function checkoutOrder() {
+    if(mobile){
+      return (
+        <>
+            {backButton()}
+            {orderReciept()}
+        <div className="reciept-container">
+              <div className="menu-section-header"> Checkout </div>
+              <img className="fancy-line" src={FancyLine} alt="" />
+              {checkoutBody()}
+            </div>
+          <div>
+          </div>
+        </>
+      );
+    }
+    return (
+      <>
+        <div>
+          {backButton()}
+          <div className="reciept-container">
+            <div className="menu-section-header"> Checkout </div>
+            <img className="fancy-line" src={FancyLine} alt="" />
+            {checkoutBody()}
           </div>
         </div>
-      </div>
-    </div>
+        <div> 
+        <div className="mockline" />
+        {orderReciept()}
+        </div>
+      </>
+    );
+  }
+
+  return price === 0 ? (
+    <div className="empty-container"> {emptyOrder()} </div>
+  ) : (
+    <div className="checkout-container"> {checkoutOrder()} </div>
   );
 }
 
