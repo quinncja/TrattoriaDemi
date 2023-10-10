@@ -1,21 +1,31 @@
 const mongoose = require("mongoose")
+const orderType = ["pickup", "delivery"]
 const orderSchema = new mongoose.Schema({
     customerName: {
         type: String,
         required: true,
     },
+    tip: {
+        type: Number,
+        required: true
+    },
     totalPrice: {
         type: Number,
         required: true,
     },
+    type: {
+        type: String,
+        required: true,
+        ENUM: orderType,
+    },
     address: {
         type: String,
     },
-    deliveryMessage: {
+    notes: {
         type: String,
     },
-    email: {
-        type: String,
+    utensils: {
+        type: Boolean,
     },
     phone: {
         type: String,
@@ -29,7 +39,8 @@ const orderSchema = new mongoose.Schema({
         default: Date.now
     },  
     estimatedReady: {
-        type: Date,
+        type: String,
+        default: "",
     },
     isPaid: {
         type: Boolean,

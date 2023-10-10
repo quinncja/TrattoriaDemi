@@ -78,22 +78,19 @@ export default function Reserve() {
   const dates = getNextSevenDays();
 
   const inputText = {
-    fname: errorStates.fname ? "Please enter your first name" : "First Name",
-    lname: errorStates.lname ? "Please enter your last name" : "Last Name",
-    guestNum: errorStates.guest
-      ? "Please select your party size"
-      : "Number of Guests",
-    dateTxt: errorStates.date ? "Please choose a date" : "Date",
-    timeTxt: errorStates.time ? "Please choose a time" : "Time",
-    phone: errorStates.phone
-      ? "Please enter your phone number"
-      : "Phone Number",
+    fname: errorStates.fname ? "Enter your first name" : "First Name",
+    lname: errorStates.lname ? "Enter your last name" : "Last Name",
+    guestNum: errorStates.guest ? "Select your party size" : "Number of Guests",
+    dateTxt: errorStates.date ? "Choose a date" : "Date",
+    timeTxt: errorStates.time ? "Choose a time" : "Time",
+    phone: errorStates.phone ? "Enter your phone number" : "Phone Number",
     button: errorStates.button
       ? `${convertTo12Hour(time)} is not available. Select an alternative time`
       : availableTimes.length > 0
       ? `Closest available times`
       : `Available!`,
     message: "Message to recipient",
+    eta: "",
   };
 
   function convertTo24Hour(time) {

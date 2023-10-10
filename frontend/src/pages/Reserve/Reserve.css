@@ -265,6 +265,11 @@
   cursor: pointer;
   width: 100%;
 }
+.submit-button-secondary {
+  color: var(--light-black);
+  background: var(--paper-white-white);
+  filter: brightness(160%);
+}
 
 .submit-button:hover {
   filter: brightness(100%);
@@ -316,22 +321,33 @@
 
 .reserve-section-cancel {
   width: fit-content;
+  max-width: 65%;
   padding-block: 2rem;
 }
-
+.fancy-line-cancel {
+  width: 50%;
+  margin-top: -40px;
+}
 .res-section-cancel {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  width: fit-content;
+  width: 70%;
   margin-inline: auto;
   padding: 30px;
 }
 
 .res-to-cancel {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   gap: 2rem;
+  width: 70%;
+  margin-inline: auto;
+}
+.res-to-cancel-section {
+  display: flex;
+  justify-content: space-between;
 }
 
 .res-to-cancel-info {
@@ -344,6 +360,9 @@
 }
 
 @media (width <= 1000px) {
+  .res-to-cancel {
+    width: 90%;
+  }
   .reserve-section {
     width: 90%;
   }
@@ -385,9 +404,21 @@
   .res-to-cancel-info {
     font-size: 1rem;
   }
+  .reserve-section-cancel {
+    width: fit-content;
+    max-width: unset;
+    padding-block: 2rem;
+  }
 }
 
 @media (width <= 470px) {
+  .res-section-cancel {
+    width: 85%;
+    padding: 15px;
+  }
+  .res-to-cancel {
+    width: 90%;
+  }
   .reserve-small-text {
     font-size: 0.8rem;
     color: var(--light-black);

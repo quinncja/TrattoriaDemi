@@ -16,6 +16,36 @@ export function successfulReserveAlert() {
   });
 }
 
+export function discardResAlert() {
+  return Swal.fire({
+    title: `Discard Reservation?`,
+    icon: "important",
+    iconColor: "#d3963a",
+    timer: 5500,
+    padding: "2rem",
+    customClass: {
+      title: "swal-header",
+    },
+    showConfirmButton: true,
+    showCancelButton: true,
+  });
+}
+
+export function successfulAdminResAlert() {
+  return Swal.fire({
+    title: `Reservation Created`,
+    icon: "success",
+    iconColor: "#d3963a",
+    timer: 1500,
+    padding: "2rem",
+    customClass: {
+      title: "swal-header",
+    },
+    timerProgressBar: true,
+    showConfirmButton: false,
+  });
+}
+
 export function successfulCancelAlert() {
   return Swal.fire({
     title: `Reservation Canceled`,

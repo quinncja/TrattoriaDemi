@@ -15,7 +15,7 @@ function Item({ item }) {
   const [requestTxt, setRequestTxt] = useState("");
   const [dressing, setDressing] = useState(false);
   const [dressingQty, setDressingQty] = useState(1);
-  const dressingPrice = (dressingQty * 0.75).toFixed(2);
+  const dressingPrice = dressingQty * 0.75;
   const { addItemToCart } = useContext(CartContext);
 
   function clearItem() {
@@ -79,31 +79,29 @@ function Item({ item }) {
           }`}
           onClick={() => setDressing(!dressing)}
         >
-          Extra dressing {dressing && `- $${dressingPrice}`}
+          Extra dressing {dressing && `- $${dressingPrice.toFixed(2)}`}
         </button>
         {dressing && (
-          <div>
-            <div id="dressing-qty" className="qty-btn-container dressing-qty">
-              <button
-                type="button"
-                id="--"
-                onClick={(event) => dressingHandler(event.target.id)}
-                className="qty-btn qty-left"
-              >
-                -
-              </button>
+          <div id="dressing-qty" className="qty-btn-container dressing-qty">
+            <button
+              type="button"
+              id="--"
+              onClick={(event) => dressingHandler(event.target.id)}
+              className="qty-btn qty-left qty-btn-dressing"
+            >
+              -
+            </button>
 
-              <div className="qty-btn-center">{dressingQty}</div>
+            <div className="qty-btn-center-dressing">{dressingQty}</div>
 
-              <button
-                type="button"
-                id="++"
-                onClick={(event) => dressingHandler(event.target.id)}
-                className="qty-btn qty-right"
-              >
-                +
-              </button>
-            </div>
+            <button
+              type="button"
+              id="++"
+              onClick={(event) => dressingHandler(event.target.id)}
+              className="qty-btn qty-right qty-btn-dressing"
+            >
+              +
+            </button>
           </div>
         )}
       </div>

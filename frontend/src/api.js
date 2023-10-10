@@ -79,6 +79,19 @@ export async function postReservation(newRes) {
   }
 }
 
+export async function postAdminReservation(newRes) {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${API_URL}api/reservations/override`,
+      data: newRes,
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function postContact(newContact) {
   try {
     const response = await axios({
@@ -129,21 +142,39 @@ export async function checkForUpdate() {
   }
 }
 
-export async function checkoutCart(items) {
+export async function checkoutCart(newOrder) {
   try {
     const response = await axios({
       method: "post",
       url: `${API_URL}api/order/checkout`,
-      data: {
-        customerName: null,
-        address: null,
-        deliveryMessage: null,
-        email: null,
-        phone: null,
-        items,
-      },
+      data: newOrder,
     });
     return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function placePickupOrder(newOrder) {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${API_URL}api/order/pickup`,
+      data: newOrder,
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getOrderById(id) {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/order/id/${id}`,
+    });
+    return response.data;
   } catch (error) {
     console.error(error);
   }
