@@ -33,6 +33,10 @@ app.use(
   "/api/giftcard/payment-webhook",
   express.raw({ type: "application/json" }),
 );
+app.use(
+  "/api/order/payment-webhook",
+  express.raw({ type: "application/json" }),
+);
 app.use(express.json());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
