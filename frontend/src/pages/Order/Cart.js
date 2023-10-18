@@ -1,10 +1,35 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import CartContext from "../../context/CartContext";
+import { motion, useAnimate } from "framer-motion"
 
 function Cart() {
   const navigate = useNavigate();
   const { quantity } = useContext(CartContext);
+  const quantityRef = useRef(quantity);
+  const [ scope, animate ] = useAnimate();
+
+  useEffect(() => {
+    if ((quantity > quantityRef.current)){
+      const glowEffect = {
+        rotate: [0, '7deg', '-6deg', '4deg', '-2deg', 0],
+        scale: [1, 1.05, 1],
+        boxShadow: [
+          "0 0 10px rgba(211, 150, 58, 0)", 
+          "0 0 15px rgba(211, 150, 58, 0.6)",   
+          "0 0 15px rgba(211, 150, 58, 0.6)",  
+          "0 0 10px rgba(211, 150, 58, 0)"      
+        ],        
+        duration: 1.,
+        times: [0, 0.2, .4, .6, .8, 1],
+        loop: Infinity,
+        repeatDelay: 1
+      } 
+      quantityRef.current = quantity;
+    
+      animate(scope.current, glowEffect)
+    }
+  }, [animate, quantity, scope])
 
   const bagIcon = () => {
     return (
@@ -41,9 +66,9 @@ function Cart() {
     );
   };
   return (
-    <div className="cart-button" onClick={() => navigate("/checkout")}>
+    <motion.div ref={scope} whileHover={quantity > 0 && {scale: 1.06, boxShadow: "0 0 15px rgba(211, 150, 58, 0.8)"}} transition={{ type: "spring", stiffness: 100, damping: 10 }} className={`cart-button ${quantity === 0 && "empty-cart"}`} onClick={ quantity > 0 && (() => navigate("/checkout"))}>
       {quantity} {bagIcon()}
-    </div>
+    </motion.div>
   );
 }
 

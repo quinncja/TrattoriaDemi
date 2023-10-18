@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import { Html } from "@react-email/html";
 import { Row } from "@react-email/row";
 import { Column } from "@react-email/column";
@@ -9,90 +9,129 @@ import { Preview } from "@react-email/preview";
 import { Container } from "@react-email/container";
 
 function Email(props) {
-  const { amount, recipient, adress, message, date} = props;
+  const { amount, recipient, adress, message, date } = props;
   const currentDate = new Date();
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = currentDate.toLocaleDateString(undefined, options);
-  
+
   return (
     <Html lang="en">
       <Preview>Your giftcard receipt</Preview>
       <Container style={container}>
-        <Container style={images}> 
-          <Img style={{width: "80%", marginLeft: "10%", marginBottom: "15px"}} src="https://i.ibb.co/Vwmz0y0/Trattoria-Demi-Centered-Gold.png" alt="Trattoria Demi"/>
-          <Img style={{width: "60%", marginLeft: "20%"}} src="https://i.ibb.co/DfQSPr7/Fancy-Line.png" alt="-------"/>
+        <Container style={images}>
+          <Img
+            style={{ width: "80%", marginLeft: "10%", marginBottom: "15px" }}
+            src="https://i.ibb.co/Vwmz0y0/Trattoria-Demi-Centered-Gold.png"
+            alt="Trattoria Demi"
+          />
+          <Img
+            style={{ width: "60%", marginLeft: "20%" }}
+            src="https://i.ibb.co/DfQSPr7/Fancy-Line.png"
+            alt="-------"
+          />
         </Container>
         <Heading style={header} as="h2" mt="0">
           Thank you for your purchase!
         </Heading>
         <Container style={innerContainer}>
-        <Row >
-          <Text style={{ ...text, textAlign: "left", fontWeight: "800", marginBottom: "20px" }}>
-            Your reciept is shown below
-          </Text>
-        </Row>
-        <Row style={row}>
-          <Column>
-            {" "}
-            <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-              Amount
+          <Row>
+            <Text
+              style={{
+                ...text,
+                textAlign: "left",
+                fontWeight: "800",
+                marginBottom: "20px",
+              }}
+            >
+              Your reciept is shown below
             </Text>
-          </Column>
-          <Column>
-            {" "}
-            <Text style={{ ...text, textAlign: "right" }}> {amount || "amount"}</Text>
-          </Column>
-        </Row>
-        <Row style={row}>
-          <Column>
-            {" "}
-            <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-              Recipient
-            </Text>
-          </Column>
-          <Column>
-            {" "}
-            <Text style={{ ...text, textAlign: "right" }}> {recipient || "recipient"}</Text>
-          </Column>
-        </Row>
-        <Row style={row}>
-          <Column>
-            {" "}
-            <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-              Address
-            </Text>
-          </Column>
-          <Column>
-            {" "}
-            <Text style={{ ...text, textAlign: "right" }}> {adress || "address"}</Text>
-          </Column>
-        </Row>
-        <Row style={row}>
-          <Column>
-            {" "}
-            <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-              Purchase Date
-            </Text>
-          </Column>
-          <Column>
-            {" "}
-            <Text style={{ ...text, textAlign: "right" }}> {formattedDate || "date of purchase"}</Text>
-          </Column>
-        </Row>
-        <Row style={row}>
-          <Column>
-            {" "}
-            <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-              Message
-            </Text>
-          </Column>
-          <Column>
-            {" "}
-            <Text style={{ ...text, textAlign: "right" }}> {message || "message"}</Text>
-          </Column>
-        </Row>
+          </Row>
+          <Row style={row}>
+            <Column>
+              {" "}
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
+                Amount
+              </Text>
+            </Column>
+            <Column>
+              {" "}
+              <Text style={{ ...text, textAlign: "right" }}>
+                {" "}
+                {amount || "amount"}
+              </Text>
+            </Column>
+          </Row>
+          <Row style={row}>
+            <Column>
+              {" "}
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
+                Recipient
+              </Text>
+            </Column>
+            <Column>
+              {" "}
+              <Text style={{ ...text, textAlign: "right" }}>
+                {" "}
+                {recipient || "recipient"}
+              </Text>
+            </Column>
+          </Row>
+          <Row style={row}>
+            <Column>
+              {" "}
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
+                Address
+              </Text>
+            </Column>
+            <Column>
+              {" "}
+              <Text style={{ ...text, textAlign: "right" }}>
+                {" "}
+                {adress || "address"}
+              </Text>
+            </Column>
+          </Row>
+          <Row style={row}>
+            <Column>
+              {" "}
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
+                Purchase Date
+              </Text>
+            </Column>
+            <Column>
+              {" "}
+              <Text style={{ ...text, textAlign: "right" }}>
+                {" "}
+                {formattedDate || "date of purchase"}
+              </Text>
+            </Column>
+          </Row>
+          <Row style={row}>
+            <Column>
+              {" "}
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
+                Message
+              </Text>
+            </Column>
+            <Column>
+              {" "}
+              <Text style={{ ...text, textAlign: "right" }}>
+                {" "}
+                {message || "message"}
+              </Text>
+            </Column>
+          </Row>
         </Container>
-        <Text style={{ ...text, marginTop: "40px", textAlign: "center", marginBottom: "35px" }}>Cheers!</Text>
+        <Text
+          style={{
+            ...text,
+            marginTop: "40px",
+            textAlign: "center",
+            marginBottom: "35px",
+          }}
+        >
+          Cheers!
+        </Text>
       </Container>
     </Html>
   );
@@ -115,19 +154,18 @@ const container = {
 const innerContainer = {
   position: "relative",
   width: "90%",
-
-}
+};
 const images = {
   marginTop: "55px",
-  width: "90%"
-}
+  width: "90%",
+};
 
 const header = {
   color: "#444444",
   marginBottom: "35px",
   marginTop: "35px",
   textAlign: "center",
-  fontSize: "20px"
+  fontSize: "20px",
 };
 
 const paragraph = {

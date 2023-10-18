@@ -181,15 +181,6 @@ export default function Reserve() {
     setTableSize(null);
   }
 
-  function tableSizeToString(tableSize) {
-    tableSize = tableSize.toString();
-    if (tableSize === "2") return "2top";
-    if (tableSize === "3") return "3top";
-    if (tableSize === "4") return "4top";
-    if (tableSize === "6") return "5top";
-    if (tableSize === "8") return "xl";
-  }
-
   async function createRes() {
     const newRes = {
       name: `${firstName.trimEnd()} ${lastName.trimEnd()}`,
@@ -244,7 +235,7 @@ export default function Reserve() {
       document.getElementById(buttonId).className =
         "reserve-button reserve-button-active";
       setRealTime(time);
-      setTableSize(tableSizeToString(table));
+      setTableSize(table);
     }
     if (activeButton === buttonId) {
       setActiveButton(null);
@@ -440,13 +431,15 @@ export default function Reserve() {
     function handleResponse(response) {
       if (response.available) {
         setRealTime(response.available.time);
-        setTableSize(tableSizeToString(response.available.table));
+        setTableSize(response.available.table);
         setAvailableTimes([]);
       } else {
+        setActiveButton(null)
         setRealTime(null);
         setTableSize(null);
         let times = sortResponse(response.suggestions);
         times = balancedTrim(times);
+        console.log(times)
         setAvailableTimes(times);
       }
     }

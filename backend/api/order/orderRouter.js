@@ -3,10 +3,13 @@ const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 const domain = process.env.DEPLOYED_DOMAIN;
 const orderRouter = express.Router();
 const Order = require("./Order");
+const SystemStatus = require("./SystemStatus")
+const { sendOrderText } = require("./sendOrderText")
 const moment = require('moment-timezone');
 const { Item, Menu, Section } = require("./Menu");
 const { ObjectId } = require("mongoose").Types;
 const endpointSecret = process.env.STRIPE_ORDER_ENDPOINT_SECRET;
+let clients = [];
 
 async function loadMenus(req, res, next) {
   try {
@@ -88,7 +91,7 @@ async function createCheckoutSession(price, orderId) {
       {
         price_data: {
           currency: "usd",
-          unit_amount: price * 100,
+          unit_amount: Math.round(price * 100),
           product_data: {
             name: "Trattoria Demi Mobile Order",
           },
@@ -186,6 +189,9 @@ orderRouter.post("/pickup", async (req, res) => {
       totalPrice: total,
     });
     const savedOrder = await newOrder.save();
+    clients.forEach((client) =>
+    client.write(`data: ${JSON.stringify(newOrder)}\n\n`),
+    );
     res.status(200).json(savedOrder);
   } catch (error) {
     console.error(error);
@@ -200,7 +206,8 @@ orderRouter.post("/checkout", async (req, res) => {
     const serverItemsList = items.flatMap((item) => {
       return Array(item.qty).fill(item.serverItem);
     });
-    let total = await getCartTotal(serverItemsList);
+    const subtotal = await getCartTotal(serverItemsList);
+    let total = subtotal; 
     const tax = getTax(total);
     total += tax;
     if (type === "delivery") {
@@ -210,6 +217,7 @@ orderRouter.post("/checkout", async (req, res) => {
     total = Number(total.toFixed(2));
     const newOrder = new Order({
       type,
+      subtotal,
       customerName,
       address,
       notes,
@@ -224,6 +232,7 @@ orderRouter.post("/checkout", async (req, res) => {
       total,
       savedOrder._id.toString(),
     );
+    
     res.status(200).json({ url: session.url });
   } catch (error) {
     console.error(error);
@@ -290,6 +299,31 @@ orderRouter.get("/id/:id", async (req, res) => {
   }
 });
 
+orderRouter.patch("/id/:id", async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const time = req.body.time;
+
+    // Find the order by its ID
+    const order = await getOrder(orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: `No order found with ID: ${orderId}` });
+    }
+
+    // Update the estimatedReady attribute
+    order.estimatedReady = time;
+    order.status = "confirmed";
+    await order.save();  // Save the updated order to the database  
+    sendOrderText(order);
+    return res.status(200).json(order);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error updating the order" });
+  }
+});
+
+
 async function markPaid(order) {
   order.isPaid = true;
   await order.save();
@@ -339,3 +373,53 @@ orderRouter.post("/payment-webhook", (request, response) => {
   response.send(event.type);
 });
 module.exports = orderRouter;
+
+
+orderRouter.get("/events", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders();
+
+  clients.push(res);
+  req.on("close", () => {
+    clients = clients.filter((client) => client !== res);
+  });
+});
+
+async function getSystemStatusInstance() {
+  let status = await SystemStatus.findOne();
+
+  if (!status) {
+    status = new SystemStatus({
+      pickup: true,
+      delivery: true,
+    });
+    await status.save();
+  }
+
+  return status;
+}
+
+orderRouter.get("/status", async (req, res) => {
+  try {
+    let status = await getSystemStatusInstance();
+    res.json(status);
+  } catch (error) {
+    console.error("Error fetching system status:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+orderRouter.patch("/status", async (req, res) => {
+  const updates = req.body;
+  try {
+    let updatedStatus = await SystemStatus.findOneAndUpdate({}, updates, { new: true });
+    res.json(updatedStatus);  
+  } catch (error) {
+    console.error("Error updating system status:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});

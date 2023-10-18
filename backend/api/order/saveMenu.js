@@ -1,8 +1,8 @@
-require('dotenv').config();
+require("dotenv").config();
 const mongoose = require("mongoose");
 const { Menu, Section, Item } = require("./Menu");
 
- const lunchMenu = {
+const lunchMenu = {
   sections: [
     {
       header: "HOT SANDWICHES",
@@ -133,7 +133,7 @@ const { Menu, Section, Item } = require("./Menu");
   ],
 };
 
- const dinnerMenu = {
+const dinnerMenu = {
   sections: [
     {
       header: "FOR THE TABLE",
@@ -257,11 +257,11 @@ const { Menu, Section, Item } = require("./Menu");
           price: 13.0,
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
             {
-              name:"Extra dressing",
+              name: "Extra dressing",
               price: 0.75,
             },
           ],
@@ -273,7 +273,7 @@ const { Menu, Section, Item } = require("./Menu");
           price: 15.0,
           options: [
             {
-              name:"Extra dressing",
+              name: "Extra dressing",
               price: 0.75,
             },
           ],
@@ -284,7 +284,7 @@ const { Menu, Section, Item } = require("./Menu");
           price: 13.0,
           options: [
             {
-              name:"Extra dressing",
+              name: "Extra dressing",
               price: 0.75,
             },
           ],
@@ -295,11 +295,11 @@ const { Menu, Section, Item } = require("./Menu");
           price: 11.0,
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
             {
-              name:"Extra dressing",
+              name: "Extra dressing",
               price: 0.75,
             },
           ],
@@ -311,11 +311,11 @@ const { Menu, Section, Item } = require("./Menu");
           price: 18.0,
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
             {
-              name:"Extra dressing",
+              name: "Extra dressing",
               price: 0.75,
             },
           ],
@@ -327,11 +327,11 @@ const { Menu, Section, Item } = require("./Menu");
           price: 13.0,
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
             {
-              name:"Extra dressing",
+              name: "Extra dressing",
               price: 0.75,
             },
           ],
@@ -348,17 +348,17 @@ const { Menu, Section, Item } = require("./Menu");
           price: 16.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -374,17 +374,17 @@ const { Menu, Section, Item } = require("./Menu");
           price: 16.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -405,7 +405,7 @@ const { Menu, Section, Item } = require("./Menu");
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -426,7 +426,7 @@ const { Menu, Section, Item } = require("./Menu");
           price: 14.0,
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -437,17 +437,17 @@ const { Menu, Section, Item } = require("./Menu");
           price: 9.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -468,11 +468,11 @@ const { Menu, Section, Item } = require("./Menu");
           price: 16.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
@@ -483,17 +483,17 @@ const { Menu, Section, Item } = require("./Menu");
           price: 21.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -504,7 +504,7 @@ const { Menu, Section, Item } = require("./Menu");
           price: 16.0,
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -515,17 +515,17 @@ const { Menu, Section, Item } = require("./Menu");
           price: 12.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -546,17 +546,17 @@ const { Menu, Section, Item } = require("./Menu");
           price: 21.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -567,17 +567,17 @@ const { Menu, Section, Item } = require("./Menu");
           price: 21.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -588,17 +588,17 @@ const { Menu, Section, Item } = require("./Menu");
           price: 10.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -619,17 +619,17 @@ const { Menu, Section, Item } = require("./Menu");
           price: 10.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -651,7 +651,7 @@ const { Menu, Section, Item } = require("./Menu");
           price: 12.0,
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -673,17 +673,17 @@ const { Menu, Section, Item } = require("./Menu");
           price: 20.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -695,7 +695,7 @@ const { Menu, Section, Item } = require("./Menu");
           price: 18.0,
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -707,17 +707,17 @@ const { Menu, Section, Item } = require("./Menu");
           price: 14.0,
           pastas: [
             {
-              name:"Whole wheat Pasta",
+              name: "Whole wheat Pasta",
               price: 2,
             },
             {
-              name:"Gluten free Pasta",
+              name: "Gluten free Pasta",
               price: 2,
             },
           ],
           options: [
             {
-              name:"Add Chicken",
+              name: "Add Chicken",
               price: 4,
             },
           ],
@@ -744,7 +744,7 @@ const { Menu, Section, Item } = require("./Menu");
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -764,7 +764,7 @@ const { Menu, Section, Item } = require("./Menu");
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -784,7 +784,7 @@ const { Menu, Section, Item } = require("./Menu");
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -803,7 +803,7 @@ const { Menu, Section, Item } = require("./Menu");
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -822,7 +822,7 @@ const { Menu, Section, Item } = require("./Menu");
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -841,7 +841,7 @@ const { Menu, Section, Item } = require("./Menu");
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
         {
@@ -860,7 +860,7 @@ const { Menu, Section, Item } = require("./Menu");
             {
               name: '14"',
               price: 6,
-            }
+            },
           ],
         },
       ],
@@ -1060,7 +1060,7 @@ const { Menu, Section, Item } = require("./Menu");
   ],
 };
 
- const wineList = {
+const wineList = {
   sections: [
     {
       header: "ROSE",
@@ -1190,30 +1190,28 @@ const { Menu, Section, Item } = require("./Menu");
   ],
 };
 
-
 const port = process.env.PORT || 4000;
 const mongo_uri = process.env.MONGO_URI;
 
 async function main() {
-    try {
-      await mongoose.connect(mongo_uri);
+  try {
+    await mongoose.connect(mongo_uri);
+    console.log("Database connected Successfully");
+  } catch (err) {
+    console.error("Error connecting to MongoDB:", err);
+  }
+
+  mongoose.connection
+    .once("open", function () {
       console.log("Database connected Successfully");
-    } catch (err) {
-      console.error("Error connecting to MongoDB:", err);
-    }
-  
-    mongoose.connection
-      .once("open", function () {
-        console.log("Database connected Successfully");
-      })
-      .on("error", function (err) {
-        console.log("Error", err);
-      });
+    })
+    .on("error", function (err) {
+      console.log("Error", err);
+    });
 
-
-      updateMenu();
+  updateMenu();
 }
-  
+
 async function updateMenuData(menuType, menuData) {
   let menuId;
 
@@ -1237,22 +1235,22 @@ async function updateMenuData(menuType, menuData) {
   const sectionIds = [];
   for (const sectionData of menuData.sections) {
     const items = sectionData.items;
-    delete sectionData.items;  // We will save items separately
-    
+    delete sectionData.items; // We will save items separately
+
     const section = new Section({
       ...sectionData,
-      menuId: menuId  // Associate section with menu
+      menuId: menuId, // Associate section with menu
     });
     await section.save();
 
     sectionIds.push(section._id);
 
     // Save all items concurrently for a section
-    const itemPromises = items.map(itemData => {
+    const itemPromises = items.map((itemData) => {
       const item = new Item({
         ...itemData,
-        sectionId: section._id,  // Associate item with section
-        menuId: menuId           // Associate item with menu
+        sectionId: section._id, // Associate item with section
+        menuId: menuId, // Associate item with menu
       });
       return item.save();
     });
@@ -1269,14 +1267,13 @@ async function updateMenuData(menuType, menuData) {
   console.log(`${menuType} menu updated successfully.`);
 }
 
-
 async function updateMenu() {
   try {
-      await updateMenuData("lunch", lunchMenu);
-      await updateMenuData("dinner", dinnerMenu);
-      await updateMenuData("wine", wineList);
+    await updateMenuData("lunch", lunchMenu);
+    await updateMenuData("dinner", dinnerMenu);
+    await updateMenuData("wine", wineList);
   } catch (err) {
-      console.error("Error saving menus:", err);
+    console.error("Error saving menus:", err);
   }
   process.exit(0);
 }

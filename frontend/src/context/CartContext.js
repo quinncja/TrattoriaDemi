@@ -33,7 +33,7 @@ export function CartProvider(props) {
 
   useEffect(() => {
     // Retrieve the cart data from session storage on component mount
-    const savedCart = sessionStorage.getItem("cart");
+    const savedCart = localStorage.getItem("cart");
     if (savedCart) {
       const { items, price, quantity } = JSON.parse(savedCart);
       setItems(items);
@@ -46,7 +46,7 @@ export function CartProvider(props) {
     // Save the cart data in session storage whenever it changes
     const cartData = { items, price, quantity };
     if (cartData.items !== 0)
-      sessionStorage.setItem("cart", JSON.stringify(cartData));
+    localStorage.setItem("cart", JSON.stringify(cartData));
   }, [items, price, quantity]);
 
   return (

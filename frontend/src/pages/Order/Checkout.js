@@ -277,12 +277,12 @@ function Checkout() {
             {" "}
             <button
               className="delete-btn"
-              onClick={() => deleteItemFromCart(item)}
+              onClick={() => setDeleting(false)}
             >
-              {checkMargSvg()}
-            </button>
-            <button className="delete-btn" onClick={() => setDeleting(false)}>
               {cancelSvg()}
+            </button>
+            <button className="delete-btn" onClick={() => deleteItemFromCart(item)}>
+              {checkMargSvg()}
             </button>{" "}
           </div>
         </div>
