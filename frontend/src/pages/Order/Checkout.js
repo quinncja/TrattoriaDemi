@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMobile } from "../../context/MobileContext";
 import { useNavigate } from "react-router-dom";
 import { checkoutCart, placePickupOrder } from "../../api";
@@ -6,14 +6,17 @@ import CartContext from "../../context/CartContext";
 import FancyLine from "../../images/FancyLine.png";
 import { usePlacesWidget } from "react-google-autocomplete";
 import PhoneInput from "react-phone-number-input/input";
+import { useStatus } from "../../context/StatusContext";
 import "./Order.css";
 const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
 
 function Checkout() {
   const { items, price, deleteItemFromCart } = useContext(CartContext);
   const mobile = useMobile();
+  const { status, updated} = useStatus();
+  const { delivery, pickup } = status || {};
   const navigate = useNavigate();
-  const [type, setType] = useState("pickup");
+  const [type, setType] = useState();
   const [activeBtn, setActiveButton] = useState(null);
   const [tip, setTip] = useState(null);
   const [name, setName] = useState(null);
@@ -21,6 +24,10 @@ function Checkout() {
   const [phone, setPhone] = useState(null);
   const [notes, setNotes] = useState(null);
   const [checkbox, setCheckbox] = useState(null);
+
+  useEffect(() => {
+    if(status && status.pickup) setType("pickup");
+  }, [status])
 
   const { ref } = usePlacesWidget({
     apiKey: PLACES_KEY,
@@ -177,28 +184,28 @@ function Checkout() {
       >
         <path
           d="M3 6H5H21"
-          stroke="#d3963a"
+          stroke="#444444"          
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z"
-          stroke="#d3963a"
+          stroke="#444444"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M10 11V17"
-          stroke="#d3963a"
+          stroke="#444444"          
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M14 11V17"
-          stroke="#d3963a"
+          stroke="#444444"          
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -218,7 +225,7 @@ function Checkout() {
       >
         <path
           d="M20 6L9 17L4 12"
-          stroke="#d3963a"
+          stroke="#444444"
           strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -238,14 +245,14 @@ function Checkout() {
       >
         <path
           d="M18 6L6 18"
-          stroke="#d3963a"
+          stroke="#444444"
           strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M6 6L18 18"
-          stroke="#d3963a"
+          stroke="#444444"
           strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -292,7 +299,7 @@ function Checkout() {
         <div className="checkout-item">
           <div className="checkout-item-left">
             <div className="checkout-item-header">
-              <div className="row">
+              <div className="checkout-header-row">
                 <div className="checkout-item-qty">{item.qty}</div>
                 <div className="checkout-item-name item-name">{item.name}</div>
               </div>
@@ -305,11 +312,9 @@ function Checkout() {
               <div className="item-options">{item.instructions}</div>
             )}
           </div>
-          <div>
             <button className="delete-btn" onClick={() => setDeleting(true)}>
               {trashCanSvg()}
             </button>
-          </div>
         </div>
       );
   }
@@ -318,7 +323,7 @@ function Checkout() {
     return (
       <div>
         <div className="reciept-container ">
-          <div className="menu-section-header left"> Your Order</div>
+          <div className={`menu-section-header padding-bottom ${!mobile && "left"}`}> Your Order</div>
           <div className="reciept-line" />
           <div className="checkout-items">
             {items.map((item) => (
@@ -401,25 +406,28 @@ function Checkout() {
   }
 
   function orderTypeInput(input) {
+    
     return (
       <div className="order-type-container">
         <button
           className={`reserve-button order-type ${
             type === "pickup" && "reserve-button-active"
-          }`}
+          } ${!pickup && "disabled-type"}`}
+          disabled={!pickup}
           onClick={(event) => setType(event.target.id)}
           id="pickup"
         >
-          Pickup
+          {pickup ? "Pickup" : "Pickup unavailable"}
         </button>
         <button
           className={`reserve-button order-type ${
             type === "delivery" && "reserve-button-active"
-          }`}
+          } ${!delivery && "disabled-type"}`}
+          disabled={!delivery}
           onClick={(event) => setType(event.target.id)}
           id="delivery"
         >
-          Delivery
+          {delivery ? "Delivery" : "Delivery unavailable"}
         </button>
         {}
       </div>
@@ -436,11 +444,11 @@ function Checkout() {
               type="button"
               onClick={() => setCheckbox(!checkbox)}
             />
-            <div className="reserve-small-text"> Include utensils </div>
+            <div className={`reserve-small-text ${mobile && "smallllll-text"}`}> Include utensils </div>
           </div>
         )}
         {type === "delivery" && (
-          <div className="reserve-small-text">
+          <div className={`reserve-small-text ${mobile && "smallllll-text"}`}>
             {" "}
             There is $5 delivery charge{" "}
           </div>
@@ -610,6 +618,23 @@ function Checkout() {
     );
   }
 
+  function closedStatus(){
+    return (
+      <>
+        <div className="reciept-container empty-order">
+          <div className="menu-section-header "> Check back soon </div>
+          <div
+            className="empty-order-subheader no-change"
+
+          >
+            {" "}
+            Our online ordering system is currently closed. <br/> We're sorry, we know you're hungry.
+          </div>
+        </div>
+      </>
+    );
+  }
+
   function emptyOrder() {
     return (
       <>
@@ -648,7 +673,7 @@ function Checkout() {
       <>
         <div>
           {backButton()}
-          <div className="reciept-container">
+          <div className="reciept-container checkout-variant">
             <div className="menu-section-header"> Checkout </div>
             <img className="fancy-line" src={FancyLine} alt="" />
             {checkoutBody()}
@@ -662,11 +687,17 @@ function Checkout() {
     );
   }
 
-  return price === 0 ? (
+  return(
+    updated ? (price === 0 ? (
     <div className="empty-container"> {emptyOrder()} </div>
-  ) : (
+  ) : (status && !status.delivery && !status.pickup) ? 
+    <div className="empty-container"> {closedStatus()} </div> :
+  (
     <div className="checkout-container"> {checkoutOrder()} </div>
-  );
+  )) : 
+  <div className="empty"/>
+  )
 }
+
 
 export default Checkout;

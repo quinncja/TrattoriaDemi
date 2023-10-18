@@ -168,6 +168,18 @@ export async function placePickupOrder(newOrder) {
   }
 }
 
+export async function getOrders(){
+  try{
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/order/today`,
+    })
+    return response.data
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function getOrderById(id) {
   try {
     const response = await axios({
@@ -175,6 +187,46 @@ export async function getOrderById(id) {
       url: `${API_URL}api/order/id/${id}`,
     });
     return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function patchOrderConfirm(id, time){
+  try {
+    const response = await axios({
+      method: "patch",
+      url: `${API_URL}api/order/id/${id}`,
+      data: {
+        time
+      }
+    })
+    console.log(response.data)
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getSystemStatus(){
+  try{
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/order/status`,
+    })
+    return response.data
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function patchSystemStatus(status){
+  try{
+    const response = await axios({
+      method: "patch",
+      url: `${API_URL}api/order/status`,
+      data: status,
+    })
+    return response.data
   } catch (error) {
     console.error(error);
   }

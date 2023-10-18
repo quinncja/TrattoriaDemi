@@ -19,7 +19,7 @@ export function successfulReserveAlert() {
 export function discardResAlert() {
   return Swal.fire({
     title: `Discard Reservation?`,
-    icon: "important",
+    icon: "warning",
     iconColor: "#d3963a",
     timer: 5500,
     padding: "2rem",
@@ -93,3 +93,19 @@ export function successfulGiftcardAlert() {
     showConfirmButton: false,
   });
 }
+
+
+export function statusAlert() {
+  return Swal.fire({
+    title: `Check back soon`,
+    text:  `We are not currently taking online orders`,
+    icon: "warning",
+    iconColor: "#d3963a",
+    timer: 10500,
+    padding: "2rem",
+    customClass: {
+      title: "swal-header",
+    },
+    timerProgressBar: true,
+    showConfirmButton: false,
+})}

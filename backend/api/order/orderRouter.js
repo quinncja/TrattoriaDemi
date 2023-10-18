@@ -162,10 +162,17 @@ function getTax(price) {
   return price * 0.1025;
 }
 
+async function checkStatus(type){
+  const status = await SystemStatus.findOne();
+  return status[type]
+}
+
 orderRouter.post("/pickup", async (req, res) => {
   try {
     const { customerName, type, tip, address, notes, utensils, phone, items } =
       req.body;
+    if(!checkStatus(type)) res.status(500).json({ message: `${type} closed` });
+    
     const serverItemsList = items.flatMap((item) => {
       return Array(item.qty).fill(item.serverItem);
     });
@@ -203,6 +210,7 @@ orderRouter.post("/checkout", async (req, res) => {
   try {
     const { customerName, type, tip, address, notes, utensils, phone, items } =
       req.body;
+    if(!checkStatus(type)) res.status(500).json({ message: `${type} closed` });
     const serverItemsList = items.flatMap((item) => {
       return Array(item.qty).fill(item.serverItem);
     });
