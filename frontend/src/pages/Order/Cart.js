@@ -66,7 +66,7 @@ function Cart() {
     );
   };
   return (
-    <motion.div ref={scope} whileHover={quantity > 0 && {scale: 1.06, boxShadow: "0 0 15px rgba(211, 150, 58, 0.8)"}} transition={{ type: "spring", stiffness: 100, damping: 10 }} className={`cart-button ${quantity === 0 && "empty-cart"}`} onClick={ quantity > 0 && (() => navigate("/checkout"))}>
+    <motion.div ref={scope} whileHover={quantity > 0 ? {scale: 1.06, boxShadow: "0 0 15px rgba(211, 150, 58, 0.8)"} : {scale: 1}} transition={{ type: "spring", stiffness: 100, damping: 10 }} className={`cart-button ${quantity === 0 ? "empty-cart" : ""}`} onClick={ quantity > 0 ? (() => navigate("/checkout")) : null}>
       {quantity} {bagIcon()}
     </motion.div>
   );

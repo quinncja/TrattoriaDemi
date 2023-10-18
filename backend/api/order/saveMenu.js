@@ -1235,11 +1235,11 @@ async function updateMenuData(menuType, menuData) {
   const sectionIds = [];
   for (const sectionData of menuData.sections) {
     const items = sectionData.items;
-    delete sectionData.items; // We will save items separately
+    delete sectionData.items;
 
     const section = new Section({
       ...sectionData,
-      menuId: menuId, // Associate section with menu
+      menuId: menuId, 
     });
     await section.save();
 
@@ -1249,8 +1249,8 @@ async function updateMenuData(menuType, menuData) {
     const itemPromises = items.map((itemData) => {
       const item = new Item({
         ...itemData,
-        sectionId: section._id, // Associate item with section
-        menuId: menuId, // Associate item with menu
+        sectionId: section._id, 
+        menuId: menuId,
       });
       return item.save();
     });

@@ -5,13 +5,20 @@ import "./Order.css";
 import { useMobile } from "../../context/MobileContext";
 import { checkForUpdate, getMenus } from "../../api";
 import localForage from "localforage";
+import { useStatus } from "../../context/StatusContext";
+import { statusAlert } from "../../swal2";
 
 function Order() {
   const mobile = useMobile();
+  const { status } = useStatus();
   const [lunchMenu, setLunchMenu] = useState(null);
   const [dinnerMenu, setDinnerMenu] = useState(null);
   const [wineList, setWineList] = useState(null);
   const [loaded, setLoaded] = useState(null);
+
+  useEffect(() => {
+    if(status && !status.pickup && !status.delivery) statusAlert();
+  }, [status])
 
   const headers = [
     "FOR THE TABLE",
@@ -90,15 +97,14 @@ function Order() {
       let menus = await fetchMenusFromLocal();
 
       if (menus) {
-        handleResponseData(menus); // Show the local menus to the user first
+        handleResponseData(menus); 
 
-        // Now check for updates in the background
         let times = await checkLastUpdated();
         const updatesNeeded = checkForUpdates(menus, times);
         if (updatesNeeded) {
           menus = await fetchMenusFromServer();
           setMenuLocal(menus);
-          handleResponseData(menus); // Optional: Update the UI with new data or notify the user
+          handleResponseData(menus); 
         }
       } else {
         menus = await fetchMenusFromServer();
@@ -119,7 +125,7 @@ function Order() {
         block: "start",
         inline: "nearest",
       };
-      const offset = mobile ? 130 : 179; // To adjust for header offset
+      const offset = mobile ? 130 : 179;
       const scrollY =
         menuSection.getBoundingClientRect().top + window.pageYOffset - offset;
       window.scrollTo({ ...scrollOptions, top: scrollY });
