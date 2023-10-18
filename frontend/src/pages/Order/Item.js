@@ -31,7 +31,6 @@ function Item({ item }) {
   }
 
   function handleButtonClick() {
-    console.log(pasta, size, sauce);
     const serverItem = {
       itemId: item._id,
       size: size?.id,

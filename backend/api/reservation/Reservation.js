@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const validStates = ["upcoming", "arrived", "noshow", "cancel"];
-const validSizes = ["2top", "3top", "4top", "5top", "xl"]
+const validSizes = ["2top", "3top", "4top", "6top", "xl", "NA"];
 const reservationSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -10,8 +10,8 @@ const reservationSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  tableSize: { 
-    type: String, 
+  tableSize: {
+    type: String,
     required: true,
     enum: validSizes,
   },
@@ -36,6 +36,11 @@ const reservationSchema = new mongoose.Schema({
     required: true,
     default: "upcoming",
     enum: validStates,
+  },
+  selfMade: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 });
 module.exports = mongoose.model("Reservation", reservationSchema);

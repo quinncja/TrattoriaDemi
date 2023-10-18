@@ -8,23 +8,22 @@
 .cart-button {
   right: 0;
   padding-block: 6px;
-  padding-left: 15px;
-  color: var(--paper-white);
-  border-left: 1px solid var(--border-color);
+  padding-inline: 15px;
+  color: var(--white);
   display: flex;
   align-items: center;
   gap: 5px;
   transition: all 0s ease-in-out;
+  background: var(--gold);
+  border-radius: 3px;
 }
 
-.cart-button:hover {
-  color: var(--gold);
+.empty-cart{
+  background: var(--black);
+  border: 1px solid var(--gold);
 }
 
-.cart-button:hover .bag-icon {
-  filter: invert(15%) sepia(18%) saturate(3338%) hue-rotate(330deg)
-    brightness(88%) contrast(86%);
-}
+
 .order-container {
   display: flex;
   flex-direction: column;
@@ -186,7 +185,7 @@
 }
 .item-info-left {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
   width: 85%;
 }
@@ -388,10 +387,11 @@
 }
 
 .empty-container {
-  min-height: calc(100vh - 150px - 5rem);
+  min-height: calc(100vh - 150px - 4rem);
   display: flex;
   justify-content: center;
-  margin-top: 5rem;
+  margin-top: 4rem;
+  
   position: relative;
 }
 
@@ -809,4 +809,91 @@
   overflow: hidden;
   z-index: -500;
   margin-top: -10px;
+}
+.white{
+  color: white;
+}
+
+.reserve-button-invert {
+  border-radius: 2px;
+  background: white;
+  font-weight: 800;
+  padding: 0.8rem;
+  font-size: .9rem;
+  transition: all 0.3s ease-in-out;
+  border: none;
+  border: solid 1px white;
+  flex: 1;
+}
+
+.reserve-button-invert:hover {
+  background-color: var(--border-color);
+  border: 1px solid var(--border-color);
+}
+
+.reserve-button-active {
+  filter: brightness(110%);
+  background: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.reserve-button-active:hover {
+  color: white;
+  background-color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+
+.reserve-select-invert {
+  padding: 0.8rem;
+  background: white;
+  border: none;
+  color: var(--light-black);
+  border-radius: 2px 0px 0px 2px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  box-sizing: border-box;
+  font-weight: 600;
+  font-size: .9rem;
+  border: solid 1px white;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  border-right: none;
+  width: 5rem;
+}
+.reserve-select-invert:focus{
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  background-color: var(--border-color);
+  border: 1px solid var(--border-color);;
+
+}
+
+.order-header{
+  background: black;
+  color:  white ;
+  font-weight: 700;
+  font-size: 1.5rem;
+  border: none;
+}
+
+.other-right{
+  border-radius: 0px 2px 2px 0px;
+}
+.other-input{
+  width: min-content;
+  display: flex;
+}
+.tip-buttons{
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  align-content: stretch;
+  flex-wrap: wrap;
+}
+
+.rs-os{
+  padding-bottom: 80px;
 }

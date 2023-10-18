@@ -1,9 +1,17 @@
 const mongoose = require("mongoose");
 const orderType = ["pickup", "delivery"];
+const status = ["waiting", "confirmed", "completed"]
 const orderSchema = new mongoose.Schema({
   customerName: {
     type: String,
     required: true,
+  },
+  subtotal:{
+    type: Number,
+  },
+  status:{
+    type: String, 
+    default: "waiting"
   },
   tip: {
     type: Number,
@@ -39,7 +47,7 @@ const orderSchema = new mongoose.Schema({
     default: Date.now,
   },
   estimatedReady: {
-    type: String,
+    type: Date,
     default: "",
   },
   isPaid: {

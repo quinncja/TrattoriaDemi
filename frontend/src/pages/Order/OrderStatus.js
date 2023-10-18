@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getOrderById } from "../../api";
+import moment from "moment-timezone"
 import FancyLine from "../../images/FancyLine.png";
 
 
@@ -8,6 +9,16 @@ function OrderStatus() {
   const param = useParams();
   const id = param["*"];
   const [order, setOrder] = useState(null);
+  const [date, setDate] = useState(moment.tz('America/Chicago'))
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+        setDate(moment.tz('America/Chicago'));
+    }, 1000 * 60); // Update every minute
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+}, []);
 
   useEffect(() => {
     const loadOrder = async () => {
@@ -20,6 +31,12 @@ function OrderStatus() {
     };
     loadOrder();
   }, [id]);
+
+  function minutesUntilTime(targetTime) {
+    const target = moment.tz(targetTime, 'YYYY-MM-DDTHH:mm:ss.SSSZ', 'America/Chicago');
+    const diff = target.diff(date, 'minutes');
+    return diff;
+}
 
   function displayModifiers(modifiers) {
     const optionArr = [];
@@ -74,8 +91,8 @@ function OrderStatus() {
     else return(
       <div> 
     <div className="order-status-header"> Confirmed! </div>
-      {order.type === "pickup" && <div className="order-status-subheader"> Pickup in {order.estimatedReady} minutes</div>}
-      {order.type === "delivery" && <div className="order-status-subheader"> Expected a delivery in {order.estimatedReady} minutes</div>}
+      {order.type === "pickup" && <div className="order-status-subheader"> Pickup in {minutesUntilTime(order.estimatedReady)} minutes</div>}
+      {order.type === "delivery" && <div className="order-status-subheader"> Delivery expected in {minutesUntilTime(order.estimatedReady)} minutes</div>}
       </div>
       )
   }
@@ -83,7 +100,7 @@ function OrderStatus() {
   if (!order) return <div className="empty" />;
   return (
     <div className="reserve-container">
-      <div className="reserve-section reserve-section-cancel">
+      <div className="reserve-section reserve-section-cancel rs-os">
         <div className="menu-section-header">Order Status</div>
         <img
                 className="fancy-line"
@@ -109,7 +126,7 @@ function OrderStatus() {
                   <CheckoutItem item={item} />
                 ))}
                 <div className="checkout-item item-total"> 
-                  <div className="checkout-item-name item-name"> total </div>
+                  <div className="checkout-item-name item-name"> Total </div>
                   <div className="item-price"> ${order.totalPrice}</div>
                   </div>
               </div>
