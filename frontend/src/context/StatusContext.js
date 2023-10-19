@@ -4,38 +4,36 @@ import { getSystemStatus } from "../api";
 const StatusContext = createContext();
 
 export const StatusProvider = ({ children }) => {
-const [status, setStatus] = useState({
+  const [status, setStatus] = useState({
     delivery: true,
     pickup: true,
+  });
+  const [updated, setUpdated] = useState(false);
 
-});
-const [updated, setUpdated] = useState(false)
-    
-
-async function checkForStatusUpdate() {
+  async function checkForStatusUpdate() {
     try {
-        const data = await getSystemStatus();
-        if (data) {
-            setStatus(data);
-        }
-    } catch (error){
-        console.log(error)
-    }
-}
-
-useEffect(() => {
-    async function fetchStatus() {
-    const data = await getSystemStatus();
-    if (data) {
+      const data = await getSystemStatus();
+      if (data) {
         setStatus(data);
-        setUpdated(true)
+      }
+    } catch (error) {
+      console.log(error);
     }
-}
+  }
+
+  useEffect(() => {
+    async function fetchStatus() {
+      const data = await getSystemStatus();
+      if (data) {
+        setStatus(data);
+        setUpdated(true);
+      }
+    }
     fetchStatus();
-}, []);
+  }, []);
 
   return (
-    <StatusContext.Provider value={{ status, updated, checkForStatusUpdate}}>
+    <StatusContext.Provider value={{ status, updated, checkForStatusUpdate }}>
       {children}
     </StatusContext.Provider>
   );

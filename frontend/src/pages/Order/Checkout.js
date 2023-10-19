@@ -13,7 +13,7 @@ const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
 function Checkout() {
   const { items, price, deleteItemFromCart } = useContext(CartContext);
   const mobile = useMobile();
-  const { status, updated} = useStatus();
+  const { status, updated } = useStatus();
   const { delivery, pickup } = status || {};
   const navigate = useNavigate();
   const [type, setType] = useState();
@@ -26,8 +26,8 @@ function Checkout() {
   const [checkbox, setCheckbox] = useState(null);
 
   useEffect(() => {
-    if(status && status.pickup) setType("pickup");
-  }, [status])
+    if (status && status.pickup) setType("pickup");
+  }, [status]);
 
   const { ref } = usePlacesWidget({
     apiKey: PLACES_KEY,
@@ -184,7 +184,7 @@ function Checkout() {
       >
         <path
           d="M3 6H5H21"
-          stroke="#444444"          
+          stroke="#444444"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -198,14 +198,14 @@ function Checkout() {
         />
         <path
           d="M10 11V17"
-          stroke="#444444"          
+          stroke="#444444"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M14 11V17"
-          stroke="#444444"          
+          stroke="#444444"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -282,13 +282,13 @@ function Checkout() {
           </div>
           <div className="is-deleting-buttons">
             {" "}
-            <button
-              className="delete-btn"
-              onClick={() => setDeleting(false)}
-            >
+            <button className="delete-btn" onClick={() => setDeleting(false)}>
               {cancelSvg()}
             </button>
-            <button className="delete-btn" onClick={() => deleteItemFromCart(item)}>
+            <button
+              className="delete-btn"
+              onClick={() => deleteItemFromCart(item)}
+            >
               {checkMargSvg()}
             </button>{" "}
           </div>
@@ -312,9 +312,9 @@ function Checkout() {
               <div className="item-options">{item.instructions}</div>
             )}
           </div>
-            <button className="delete-btn" onClick={() => setDeleting(true)}>
-              {trashCanSvg()}
-            </button>
+          <button className="delete-btn" onClick={() => setDeleting(true)}>
+            {trashCanSvg()}
+          </button>
         </div>
       );
   }
@@ -323,7 +323,14 @@ function Checkout() {
     return (
       <div>
         <div className="reciept-container ">
-          <div className={`menu-section-header padding-bottom ${!mobile && "left"}`}> Your Order</div>
+          <div
+            className={`menu-section-header padding-bottom ${
+              !mobile && "left"
+            }`}
+          >
+            {" "}
+            Your Order
+          </div>
           <div className="reciept-line" />
           <div className="checkout-items">
             {items.map((item) => (
@@ -342,7 +349,7 @@ function Checkout() {
                 <div>5.00</div>
               </div>
             )}
-            {(type === "delivery" && (tip || activeBtn)) && (
+            {type === "delivery" && (tip || activeBtn) && (
               <div className="checkout-price">
                 <div>tip</div>
                 <div>{getTip().toFixed(2)}</div>
@@ -406,7 +413,6 @@ function Checkout() {
   }
 
   function orderTypeInput(input) {
-    
     return (
       <div className="order-type-container">
         <button
@@ -444,7 +450,10 @@ function Checkout() {
               type="button"
               onClick={() => setCheckbox(!checkbox)}
             />
-            <div className={`reserve-small-text ${mobile && "smallllll-text"}`}> Include utensils </div>
+            <div className={`reserve-small-text ${mobile && "smallllll-text"}`}>
+              {" "}
+              Include utensils{" "}
+            </div>
           </div>
         )}
         {type === "delivery" && (
@@ -578,26 +587,30 @@ function Checkout() {
             {input("name")}
             {phoneInput("phone")}
           </div>
-            <div className={`input-"address" ${type === "delivery" ? "" : "input-hidden"} input-group`}>
-              <div
-                className={`input-text ${
-                  errorStates.address && `input-text-error`
-                }`}
-              >
-                {" "}
-                {inputText.address}{" "}
-              </div>
-              <input
-                ref={ref}
-                type="text"
-                id="address"
-                value={address}
-                className={`reserve-select ${
-                  errorStates.address && `reserve-select-error`
-                }`}
-                onChange={(event) => handleChange(event)}
-              ></input>
+          <div
+            className={`input-"address" ${
+              type === "delivery" ? "" : "input-hidden"
+            } input-group`}
+          >
+            <div
+              className={`input-text ${
+                errorStates.address && `input-text-error`
+              }`}
+            >
+              {" "}
+              {inputText.address}{" "}
             </div>
+            <input
+              ref={ref}
+              type="text"
+              id="address"
+              value={address}
+              className={`reserve-select ${
+                errorStates.address && `reserve-select-error`
+              }`}
+              onChange={(event) => handleChange(event)}
+            ></input>
+          </div>
           {input("notes")}
         </div>
         <div className="mockline" />
@@ -618,17 +631,15 @@ function Checkout() {
     );
   }
 
-  function closedStatus(){
+  function closedStatus() {
     return (
       <>
         <div className="reciept-container empty-order">
           <div className="menu-section-header "> Check back soon </div>
-          <div
-            className="empty-order-subheader no-change"
-
-          >
+          <div className="empty-order-subheader no-change">
             {" "}
-            Our online ordering system is currently closed. <br/> We're sorry, we know you're hungry.
+            Our online ordering system is currently closed. <br /> We're sorry,
+            we know you're hungry.
           </div>
         </div>
       </>
@@ -654,18 +665,17 @@ function Checkout() {
   }
 
   function checkoutOrder() {
-    if(mobile){
+    if (mobile) {
       return (
         <>
-            {backButton()}
-            {orderReciept()}
-        <div className="reciept-container">
-              <div className="menu-section-header"> Checkout </div>
-              <img className="fancy-line" src={FancyLine} alt="" />
-              {checkoutBody()}
-            </div>
-          <div>
+          {backButton()}
+          {orderReciept()}
+          <div className="reciept-container">
+            <div className="menu-section-header"> Checkout </div>
+            <img className="fancy-line" src={FancyLine} alt="" />
+            {checkoutBody()}
           </div>
+          <div></div>
         </>
       );
     }
@@ -679,25 +689,25 @@ function Checkout() {
             {checkoutBody()}
           </div>
         </div>
-        <div> 
-        <div className="mockline" />
-        {orderReciept()}
+        <div>
+          <div className="mockline" />
+          {orderReciept()}
         </div>
       </>
     );
   }
 
-  return(
-    updated ? (price === 0 ? (
-    <div className="empty-container"> {emptyOrder()} </div>
-  ) : (status && !status.delivery && !status.pickup) ? 
-    <div className="empty-container"> {closedStatus()} </div> :
-  (
-    <div className="checkout-container"> {checkoutOrder()} </div>
-  )) : 
-  <div className="empty"/>
-  )
+  return updated ? (
+    price === 0 ? (
+      <div className="empty-container"> {emptyOrder()} </div>
+    ) : status && !status.delivery && !status.pickup ? (
+      <div className="empty-container"> {closedStatus()} </div>
+    ) : (
+      <div className="checkout-container"> {checkoutOrder()} </div>
+    )
+  ) : (
+    <div className="empty" />
+  );
 }
-
 
 export default Checkout;

@@ -94,11 +94,10 @@ export function successfulGiftcardAlert() {
   });
 }
 
-
 export function statusAlert() {
   return Swal.fire({
     title: `Check back soon`,
-    text:  `We are not currently taking online orders`,
+    text: `We are not currently taking online orders`,
     icon: "warning",
     iconColor: "#d3963a",
     timer: 10500,
@@ -108,4 +107,5 @@ export function statusAlert() {
     },
     timerProgressBar: true,
     showConfirmButton: false,
-})}
+  });
+}

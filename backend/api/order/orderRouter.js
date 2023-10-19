@@ -312,17 +312,15 @@ orderRouter.patch("/id/:id", async (req, res) => {
     const orderId = req.params.id;
     const time = req.body.time;
 
-    // Find the order by its ID
     const order = await getOrder(orderId);
 
     if (!order) {
       return res.status(404).json({ message: `No order found with ID: ${orderId}` });
     }
 
-    // Update the estimatedReady attribute
     order.estimatedReady = time;
     order.status = "confirmed";
-    await order.save();  // Save the updated order to the database  
+    await order.save(); 
     sendOrderText(order);
     return res.status(200).json(order);
   } catch (error) {

@@ -17,8 +17,8 @@ function Order() {
   const [loaded, setLoaded] = useState(null);
 
   useEffect(() => {
-    if(status && !status.pickup && !status.delivery) statusAlert();
-  }, [status])
+    if (status && !status.pickup && !status.delivery) statusAlert();
+  }, [status]);
 
   const headers = [
     "FOR THE TABLE",
@@ -97,14 +97,14 @@ function Order() {
       let menus = await fetchMenusFromLocal();
 
       if (menus) {
-        handleResponseData(menus); 
+        handleResponseData(menus);
 
         let times = await checkLastUpdated();
         const updatesNeeded = checkForUpdates(menus, times);
         if (updatesNeeded) {
           menus = await fetchMenusFromServer();
           setMenuLocal(menus);
-          handleResponseData(menus); 
+          handleResponseData(menus);
         }
       } else {
         menus = await fetchMenusFromServer();

@@ -12,11 +12,11 @@ const root = createRoot(container);
 root.render(
   <ParallaxProvider>
     <StatusProvider>
-    <MobileProvider>
-      <CartProvider>
-        <Router />
-      </CartProvider>
-    </MobileProvider>
+      <MobileProvider>
+        <CartProvider>
+          <Router />
+        </CartProvider>
+      </MobileProvider>
     </StatusProvider>
   </ParallaxProvider>
 );
