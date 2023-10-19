@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getOrderById } from "../../api";
-import moment from "moment-timezone"
+import moment from "moment-timezone";
 import FancyLine from "../../images/FancyLine.png";
-
 
 function OrderStatus() {
   const param = useParams();
   const id = param["*"];
   const [order, setOrder] = useState(null);
-  const [date, setDate] = useState(moment.tz('America/Chicago'))
-  
+  const [date, setDate] = useState(moment.tz("America/Chicago"));
+
   useEffect(() => {
     const interval = setInterval(() => {
-        setDate(moment.tz('America/Chicago'));
+      setDate(moment.tz("America/Chicago"));
     }, 1000 * 60); // Update every minute
 
     // Cleanup interval on component unmount
     return () => clearInterval(interval);
-}, []);
+  }, []);
 
   useEffect(() => {
     const loadOrder = async () => {
@@ -33,10 +32,14 @@ function OrderStatus() {
   }, [id]);
 
   function minutesUntilTime(targetTime) {
-    const target = moment.tz(targetTime, 'YYYY-MM-DDTHH:mm:ss.SSSZ', 'America/Chicago');
-    const diff = target.diff(date, 'minutes');
+    const target = moment.tz(
+      targetTime,
+      "YYYY-MM-DDTHH:mm:ss.SSSZ",
+      "America/Chicago"
+    );
+    const diff = target.diff(date, "minutes");
     return diff;
-}
+  }
 
   function displayModifiers(modifiers) {
     const optionArr = [];
@@ -59,42 +62,50 @@ function OrderStatus() {
     return optionArr.join(", ");
   }
 
-
   function CheckoutItem(props) {
     const item = props.item;
-      return (
-        <div className="checkout-item">
-          <div className="checkout-item-left">
-            <div className="checkout-item-header">
-              <div className="row">
-                <div className="checkout-item-qty">{item.qty}</div>
-                <div className="checkout-item">{item.name}</div>
-              </div>
-              <div className="item-price">{item.totalPrice}</div>
+    return (
+      <div className="checkout-item">
+        <div className="checkout-item-left">
+          <div className="checkout-item-header">
+            <div className="row">
+              <div className="checkout-item-qty">{item.qty}</div>
+              <div className="checkout-item">{item.name}</div>
             </div>
-            <div className="item-options">
-              {displayModifiers(item.modifiers)}
-            </div>
-            {item.instructions && (
-              <div className="item-options">{item.instructions}</div>
-            )}
+            <div className="item-price">{item.totalPrice}</div>
           </div>
+          <div className="item-options">{displayModifiers(item.modifiers)}</div>
+          {item.instructions && (
+            <div className="item-options">{item.instructions}</div>
+          )}
         </div>
-      );
+      </div>
+    );
   }
 
-  function getStatusText(){
-    console.log(order)
-    if(order.estimatedReady === ""){
-      return(<div className="order-status-header"> Awaiting confirmation </div>)
-    }
-    else return(
-      <div> 
-    <div className="order-status-header"> Confirmed! </div>
-      {order.type === "pickup" && <div className="order-status-subheader"> Pickup in {minutesUntilTime(order.estimatedReady)} minutes</div>}
-      {order.type === "delivery" && <div className="order-status-subheader"> Delivery expected in {minutesUntilTime(order.estimatedReady)} minutes</div>}
-      </div>
-      )
+  function getStatusText() {
+    console.log(order);
+    if (order.status === "waiting") {
+      return <div className="order-status-header"> Awaiting confirmation </div>;
+    } else
+      return (
+        <div>
+          <div className="order-status-header"> Confirmed! </div>
+          {order.type === "pickup" && (
+            <div className="order-status-subheader">
+              {" "}
+              Pickup in {minutesUntilTime(order.estimatedReady)} minutes
+            </div>
+          )}
+          {order.type === "delivery" && (
+            <div className="order-status-subheader">
+              {" "}
+              Delivery expected in {minutesUntilTime(order.estimatedReady)}{" "}
+              minutes
+            </div>
+          )}
+        </div>
+      );
   }
 
   if (!order) return <div className="empty" />;
@@ -102,35 +113,28 @@ function OrderStatus() {
     <div className="reserve-container">
       <div className="reserve-section reserve-section-cancel rs-os">
         <div className="menu-section-header">Order Status</div>
-        <img
-                className="fancy-line"
-                src={FancyLine}
-                alt=""
-              />
+        <img className="fancy-line" src={FancyLine} alt="" />
 
-              <div className="res-to-cancel">
-                <div className="order-status">
-                  {getStatusText()}
-                </div>
-                
-                <div className="order-items">
-                  {order.type === "delivery" &&
-                  <div className="address-info"> 
-                    <div className="checkout-item-name item-name">  Address </div>
-                    <div className="item-options"> {order.address} </div>
-                    <div className="item-options"> {order.notes} </div>
-                  </div>
-                  }
-                <div className="checkout-item-name item-name">  Your order </div>
-                {order.items.map((item) => (
-                  <CheckoutItem item={item} />
-                ))}
-                <div className="checkout-item item-total"> 
-                  <div className="checkout-item-name item-name"> Total </div>
-                  <div className="item-price"> ${order.totalPrice}</div>
-                  </div>
+        <div className="res-to-cancel">
+          <div className="order-status">{getStatusText()}</div>
+
+          <div className="order-items">
+            {order.type === "delivery" && (
+              <div className="address-info">
+                <div className="checkout-item-name item-name"> Address </div>
+                <div className="item-options"> {order.address} </div>
+                <div className="item-options"> {order.notes} </div>
               </div>
-    
+            )}
+            <div className="checkout-item-name item-name"> Your order </div>
+            {order.items.map((item) => (
+              <CheckoutItem item={item} />
+            ))}
+            <div className="checkout-item item-total">
+              <div className="checkout-item-name item-name"> Total </div>
+              <div className="item-price"> ${order.totalPrice}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

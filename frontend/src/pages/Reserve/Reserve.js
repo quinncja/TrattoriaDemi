@@ -434,12 +434,11 @@ export default function Reserve() {
         setTableSize(response.available.table);
         setAvailableTimes([]);
       } else {
-        setActiveButton(null)
+        setActiveButton(null);
         setRealTime(null);
         setTableSize(null);
         let times = sortResponse(response.suggestions);
         times = balancedTrim(times);
-        console.log(times)
         setAvailableTimes(times);
       }
     }

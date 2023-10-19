@@ -46,7 +46,7 @@ export function CartProvider(props) {
     // Save the cart data in session storage whenever it changes
     const cartData = { items, price, quantity };
     if (cartData.items !== 0)
-    localStorage.setItem("cart", JSON.stringify(cartData));
+      localStorage.setItem("cart", JSON.stringify(cartData));
   }, [items, price, quantity]);
 
   return (
