@@ -36,7 +36,7 @@ export function successfulAdminResAlert() {
     title: `Reservation Created`,
     icon: "success",
     iconColor: "#d3963a",
-    timer: 1500,
+    timer: 2500,
     padding: "2rem",
     customClass: {
       title: "swal-header",
@@ -45,6 +45,23 @@ export function successfulAdminResAlert() {
     showConfirmButton: false,
   });
 }
+
+export function orderSuccess() {
+  return Swal.fire({
+    title: `Order success`,
+    text: "You will recieve a text when your order is confirmed",
+    icon: "success",
+    iconColor: "#d3963a",
+    timer: 5500,
+    padding: "2rem",
+    customClass: {
+      title: "swal-header",
+    },
+    timerProgressBar: true,
+    showConfirmButton: false,
+  });
+}
+
 
 export function successfulCancelAlert() {
   return Swal.fire({

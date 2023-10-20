@@ -1,21 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext} from "react";
 import { useParams } from "react-router-dom";
 import { getOrderById } from "../../api";
 import moment from "moment-timezone";
 import FancyLine from "../../images/FancyLine.png";
+import { orderSuccess } from "../../swal2";
+import CartContext from "../../context/CartContext";
 
 function OrderStatus() {
   const param = useParams();
   const id = param["*"];
   const [order, setOrder] = useState(null);
   const [date, setDate] = useState(moment.tz("America/Chicago"));
+  const { clearCart } = useContext(CartContext);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const statusValue = params.get('status');  
+
+    if (statusValue) {
+      orderSuccess();
+      clearCart();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setDate(moment.tz("America/Chicago"));
-    }, 1000 * 60); // Update every minute
+    }, 1000 * 60); 
 
-    // Cleanup interval on component unmount
     return () => clearInterval(interval);
   }, []);
 

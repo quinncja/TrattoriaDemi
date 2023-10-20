@@ -20,7 +20,7 @@
 
 .empty-cart {
   background: var(--black);
-  border: 1px solid var(--gold);
+  border: 1px solid var(--asdkfnr);
 }
 
 .order-container {
@@ -86,7 +86,7 @@
   cursor: pointer;
   display: inline-block;
   padding-right: 1rem;
-  font-size: 1rem;
+  font-size: .95rem;
   transition: all 0.2s ease-in-out;
 }
 
@@ -934,7 +934,7 @@
   display: flex;
 }
 .tip-buttons {
-  width: 90%;
+  width: 95%;
   display: flex;
   align-items: stretch;
   justify-content: space-between;

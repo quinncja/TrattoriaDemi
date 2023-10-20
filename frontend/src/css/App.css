@@ -331,7 +331,7 @@ body {
   flex-wrap: wrap;
   flex-direction: row;
   align-content: stretch;
-  gap: 5px;
+  gap: 16px;
 }
 
 .giftcard-button {
@@ -380,7 +380,8 @@ body {
   display: flex;
   flex-direction: column;
   align-content: space-between;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 2rem;
   width: 100%;
 }
 

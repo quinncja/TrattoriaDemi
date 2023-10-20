@@ -137,7 +137,7 @@ function Checkout() {
       try {
         const response = await placePickupOrder(newOrder);
         if (response.status === 200) {
-          navigate(`/order-status/${response.data._id}`);
+          navigate(`/order-status/${response.data._id}?status=success`);
         }
       } catch (error) {
         console.error(error);
