@@ -54,6 +54,9 @@ const orderSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  paymentIntent: {
+    type: String,
+  }
 });
 
 module.exports = mongoose.model("Order", orderSchema);

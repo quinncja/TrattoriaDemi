@@ -10,9 +10,7 @@ function minutesUntilTime(targetTime) {
     return diff;
 }
 
-
 function timeText(order){
-    console.log(order.estimatedReady)
     if(order.type === "delivery"){
         return `Delivery in approximately ${minutesUntilTime(order.estimatedReady)} minutes.`
     } else return `Pickup in approximately ${minutesUntilTime(order.estimatedReady)} minutes.`
@@ -26,6 +24,15 @@ function sendOrderText(order) {
   });
 }
 
+function sendOrderCancelText(order) {
+  client.messages.create({
+    body: `We have had to cancel your order. We apologize for the inconvenience.\n\n You will be refunded the full amount of ${order.totalPrice} to your original payment method.\n\n - Trattoria Demi`,
+    from: "+18447275525",
+    to: order.phone,
+  })
+}
+
 module.exports = {
   sendOrderText,
+sendOrderCancelText
 };

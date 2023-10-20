@@ -4,7 +4,7 @@ const domain = process.env.DEPLOYED_DOMAIN;
 const orderRouter = express.Router();
 const Order = require("./Order");
 const SystemStatus = require("./SystemStatus")
-const { sendOrderText } = require("./sendOrderText")
+const { sendOrderText, sendOrderCancelText } = require("./sendOrderText")
 const moment = require('moment-timezone');
 const { Item, Menu, Section } = require("./Menu");
 const { ObjectId } = require("mongoose").Types;
@@ -103,7 +103,7 @@ async function createCheckoutSession(price, orderId) {
     metadata: {
       orderId,
     },
-    success_url: `${domain}/order-status/${orderId}`,
+    success_url: `${domain}/order-status/${orderId}?status=success`,
     cancel_url: `${domain}/checkout`,
   });
 
@@ -329,36 +329,49 @@ orderRouter.patch("/id/:id", async (req, res) => {
   }
 });
 
+async function refundOrder(paymentIntent){
+  try {
+    await stripe.refunds.create({
+    payment_intent: paymentIntent,
+  })
+  }catch (error) {
+    console.error(error)
+  }
+}
 
-async function markPaid(order) {
+orderRouter.delete("/id/:id", async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const time = req.body.time;
+
+    const order = await getOrder(orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: `No order found with ID: ${orderId}` });
+    }
+
+    await refundOrder(order.paymentIntent);
+    await deleteOrder(orderId);
+    sendOrderCancelText();
+
+    return res.status(200).json(order);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error updating the order" });
+  }
+});
+
+async function onCheckeoutSuccess(order, paymentIntent) {
   order.isPaid = true;
+  order.paymentIntent = paymentIntent;
   await order.save();
 }
 
-async function onCheckeoutSuccess(orderId) {
-  try {
-    const order = await getOrder(orderId);
-    if (order) {
-      await markPaid(order);
-      // await sendReciept(order); TODO: IMPLEMENT EMAIL RECEIPT
-    } else {
-      console.error("No giftcard found with ID:", metadata.id);
-    }
-  } catch (error) {
-    console.error("Error in onCheckoutSuccess:", error);
-  }
-}
-
-async function deleteOrder(orderId) {
-  try {
-    const order = await Order.findById(orderId);
+async function deleteOrder(order) {
     order.delete();
-  } catch (error) {
-    console.error(orderId, error);
-  }
 }
 
-orderRouter.post("/payment-webhook", (request, response) => {
+orderRouter.post("/payment-webhook", async (request, response) => {
   const sig = request.headers["stripe-signature"];
 
   let event;
@@ -369,12 +382,18 @@ orderRouter.post("/payment-webhook", (request, response) => {
     return;
   }
   const session = event.data.object;
+  const order =  await Order.findById(session.metadata.orderId); 
+
+  if (!order) {
+    return res.status(404).json({ message: `No order found with ID: ${orderId}` });
+  }
+
   switch (event.type) {
     case "checkout.session.completed":
-      onCheckeoutSuccess(session.metadata.orderId);
+      onCheckeoutSuccess(order, session.payment_intent);
       break;
     default:
-      deleteOrder(session.metadata.orderId);
+      deleteOrder(order);
   }
   response.send(event.type);
 });
