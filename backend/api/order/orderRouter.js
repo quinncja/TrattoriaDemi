@@ -335,7 +335,15 @@ async function refundOrder(paymentIntent){
     payment_intent: paymentIntent,
   })
   }catch (error) {
-    console.log(error)
+    throw (error);
+  }
+}
+
+async function deleteOrder(orderId) {
+  try {
+    await Order.findByIdAndRemove(orderId);
+  } catch (error) {
+    console.error(orderId, error);
   }
 }
 
@@ -351,7 +359,7 @@ orderRouter.delete("/id/:id", async (req, res) => {
 
     await refundOrder(order.paymentIntent);
     await deleteOrder(orderId);
-    sendOrderCancelText();
+    sendOrderCancelText(order);
 
     return res.status(200).json(order);
   } catch (error) {
@@ -360,14 +368,11 @@ orderRouter.delete("/id/:id", async (req, res) => {
   }
 });
 
-async function onCheckeoutSuccess(order, paymentIntent) {
+async function onCheckeoutSuccess(orderId, paymentIntent) {
+  const order = await Order.findById(orderId);
   order.isPaid = true;
   order.paymentIntent = paymentIntent;
   await order.save();
-}
-
-async function deleteOrder(order) {
-    order.delete();
 }
 
 orderRouter.post("/payment-webhook", async (request, response) => {
@@ -381,15 +386,10 @@ orderRouter.post("/payment-webhook", async (request, response) => {
     return;
   }
   const session = event.data.object;
-  const order =  await Order.findById(session.metadata.orderId); 
-
-  if (!order) {
-    return res.status(404).json({ message: `No order found with ID: ${orderId}` });
-  }
 
   switch (event.type) {
     case "checkout.session.completed":
-      onCheckeoutSuccess(order, session.payment_intent);
+      onCheckeoutSuccess(session.metadata.orderId, session.payment_intent);
       break;
     default:
       deleteOrder(order);

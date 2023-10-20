@@ -26,7 +26,7 @@ function sendOrderText(order) {
 
 function sendOrderCancelText(order) {
   client.messages.create({
-    body: `We have had to cancel your order. We apologize for the inconvenience.\n\n You will be refunded the full amount of ${order.totalPrice} to your original payment method.\n\n - Trattoria Demi`,
+    body: `We have had to cancel your order. We apologize for the inconvenience.\n\nYou will be refunded the full amount of $${order.totalPrice.toFixed(2)} to your original payment method.\n\n - Trattoria Demi`,
     from: "+18447275525",
     to: order.phone,
   })
