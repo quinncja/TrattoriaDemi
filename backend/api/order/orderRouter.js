@@ -335,14 +335,13 @@ async function refundOrder(paymentIntent){
     payment_intent: paymentIntent,
   })
   }catch (error) {
-    console.error(error)
+    console.log(error)
   }
 }
 
 orderRouter.delete("/id/:id", async (req, res) => {
   try {
     const orderId = req.params.id;
-    const time = req.body.time;
 
     const order = await getOrder(orderId);
 
@@ -357,7 +356,7 @@ orderRouter.delete("/id/:id", async (req, res) => {
     return res.status(200).json(order);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error updating the order" });
+    return res.status(500).json({ message: "Error updating the order" , error});
   }
 });
 
