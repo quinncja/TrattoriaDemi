@@ -8,6 +8,7 @@ import localForage from "localforage";
 import { useStatus } from "../../context/StatusContext";
 import { statusAlert } from "../../swal2";
 import { capitalizeFirstLetter } from "../../functions";
+import moment from "moment";
 
 function Order() {
   const mobile = useMobile();
@@ -16,12 +17,28 @@ function Order() {
   const [dinnerMenu, setDinnerMenu] = useState(null);
   const [wineList, setWineList] = useState(null);
   const [loaded, setLoaded] = useState(null);
+  const [isLunch, setLunch] = useState(isBefore4PMChicago())
+
+  function isBefore4PMChicago() {
+    const chicagoTime = moment().tz('America/Chicago');
+    const currentHour = chicagoTime.hours();
+    return currentHour < 16;
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLunch(isBefore4PMChicago());
+    }, 1000 * 60);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (status && !status.pickup && !status.delivery) statusAlert();
   }, [status]);
 
   const headers = [
+    ...(isLunch ? ["LUNCH"] : []),
     "FOR THE TABLE",
     "SMALL PLATES",
     "SALADS",
@@ -34,7 +51,6 @@ function Order() {
     "DRINKS",
     "BEER",
     "WINE",
-    "LUNCH",
   ];
 
   function handleResponseData(data) {
@@ -184,6 +200,14 @@ function Order() {
   return (
     <div className="background-color">
       {orderTopBar()}
+
+      {loaded && isLunch && (
+        <div id="LUNCH" className="order-container">
+          <div className="sub-menu-header"> Lunch Menu </div>
+          <div className="sub-menu-container">{displayItems(lunchMenu)}</div>
+        </div>
+      )}
+
       {loaded && (
         <div className="order-container">{displayItems(dinnerMenu)}</div>
       )}
@@ -192,13 +216,6 @@ function Order() {
         <div id="WINE" className="order-container order-container-sub">
           <div className="sub-menu-header"> Wine List </div>
           <div className="sub-menu-container">{displayItems(wineList)}</div>
-        </div>
-      )}
-
-      {loaded && (
-        <div id="LUNCH" className="order-container order-container-sub">
-          <div className="sub-menu-header"> Lunch Menu </div>
-          <div className="sub-menu-container">{displayItems(lunchMenu)}</div>
         </div>
       )}
     </div>
