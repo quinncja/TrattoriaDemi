@@ -72,7 +72,7 @@ export default function Reserve() {
   const inputObjs = {
     name: {
       name: "recipient",
-      id: "recipient",
+      id: "name",
       text: inputText.name,
       error: errorStates.name,
       handleChange,
