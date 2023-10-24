@@ -1,13 +1,15 @@
 const express = require("express");
 const reservationRouter = express.Router();
 const Reservation = require("./Reservation");
-const { sendResText } = require('./sendResText')
-const { reservationChecker } = require('./reservationChecker'); 
+const { sendResText } = require("./sendResText");
+const { reservationChecker } = require("./reservationChecker");
+let clients = [];
 
 // Create new reservation
 reservationRouter.post("/", async (req, res) => {
   try {
-    const { name, numGuests, date, time, notes, phone, tableSize, sendText } = req.body;
+    const { name, numGuests, date, time, notes, phone, tableSize, sendText } =
+      req.body;
     const newReservation = new Reservation({
       name,
       numGuests,
@@ -15,17 +17,57 @@ reservationRouter.post("/", async (req, res) => {
       time,
       notes,
       phone,
-      tableSize
+      tableSize,
     });
-    const response = await reservationChecker(numGuests, date, time)
-    if(response.available){
+    const response = await reservationChecker(numGuests, date, time);
+    if (response.available) {
       await newReservation.save();
-      if(sendText) await sendResText(newReservation);
+      if (sendText) await sendResText(newReservation);
+      // Notify all connected clients
+      clients.forEach((client) =>
+        client.write(`data: ${JSON.stringify(newReservation)}\n\n`),
+      );
+
       res.status(201).json(newReservation);
-    }
-    else{
+    } else {
       res.status(500).json({ error: "Availability error" });
     }
+  } catch (error) {
+    console.error("Error creating reservation:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+reservationRouter.get("/events", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders();
+
+  clients.push(res);
+  req.on("close", () => {
+    clients = clients.filter((client) => client !== res);
+  });
+});
+
+reservationRouter.post("/override", async (req, res) => {
+  try {
+    const { name, numGuests, date, time, notes, phone, tableSize, sendText } =
+      req.body;
+    const newReservation = new Reservation({
+      name,
+      numGuests,
+      date,
+      time,
+      notes,
+      phone,
+      tableSize,
+      selfMade: true,
+    });
+    await newReservation.save();
+    if (sendText) await sendResText(newReservation);
+    res.status(201).json(newReservation);
   } catch (error) {
     console.error("Error creating reservation:", error);
     res.status(500).json({ error: "Server error" });
@@ -83,8 +125,8 @@ reservationRouter.delete("/id/:id", async (req, res) => {
 function sortReservationsByTime(reservations) {
   return reservations.sort((a, b) => {
     // Split the time strings into [hour, minute]
-    const [hourA, minuteA] = a.time.split(':').map(Number);
-    const [hourB, minuteB] = b.time.split(':').map(Number);
+    const [hourA, minuteA] = a.time.split(":").map(Number);
+    const [hourB, minuteB] = b.time.split(":").map(Number);
 
     // Compare the hours first
     if (hourA !== hourB) {
@@ -96,17 +138,26 @@ function sortReservationsByTime(reservations) {
   });
 }
 
-
 // Get reservations by date
 reservationRouter.get("/date/:date", async (req, res) => {
   try {
-    const targetDate = new Date(req.params.date); 
+    const targetDate = new Date(req.params.date);
     // Construct the start and end of the day for the target date
-    const startOfDay = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth(), targetDate.getUTCDate(), 0, 0, 0, 0));
-  
+    const startOfDay = new Date(
+      Date.UTC(
+        targetDate.getUTCFullYear(),
+        targetDate.getUTCMonth(),
+        targetDate.getUTCDate(),
+        0,
+        0,
+        0,
+        0,
+      ),
+    );
+
     // Query for reservations within the day range
     let reservations = await Reservation.find({ date: startOfDay });
-    reservations = sortReservationsByTime(reservations)
+    reservations = sortReservationsByTime(reservations);
     res.json(reservations);
   } catch (error) {
     console.error("Error fetching reservations by date:", error);
@@ -143,7 +194,7 @@ reservationRouter.get("/check", async (req, res) => {
   const date = req.query.date;
   const time = req.query.time;
 
-  const response = await reservationChecker(numGuests, date, time)
+  const response = await reservationChecker(numGuests, date, time);
 
   res.status(200).json(response);
 });
