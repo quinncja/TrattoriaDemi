@@ -12,10 +12,13 @@
   color: var(--white);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   transition: all 0s ease-in-out;
   background: var(--gold);
   border-radius: 3px;
+  min-width: 33px;
+  border: 1px solid var(--gold);
 }
 
 .empty-cart {
