@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = process.env.REACT_APP_DEPLOYED_BACKEND;
+const API_URL = process.env.REACT_APP_LOCAL_BACKEND;
 
 export async function getReservations() {
   try {
@@ -207,6 +207,18 @@ export async function patchOrderConfirm(id, time) {
   }
 }
 
+export async function markComplete(id) {
+  try {
+    const response = await axios({
+      method: "put",
+      url: `${API_URL}api/order/id/${id}`,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function getSystemStatus() {
   try {
     const response = await axios({
@@ -229,5 +241,17 @@ export async function patchSystemStatus(status) {
     return response.data;
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function deleteOrder(id) {
+  try {
+    await axios({
+      method: "delete",
+      url: `${API_URL}api/order/id/${id}`,
+      data: id,
+    });
+  } catch (error) {
+    throw error;
   }
 }

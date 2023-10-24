@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getOrderById } from "../../api";
 import moment from "moment-timezone";
@@ -15,19 +15,19 @@ function OrderStatus() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const statusValue = params.get('status');  
+    const statusValue = params.get("status");
 
     if (statusValue) {
       orderSuccess();
       clearCart();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setDate(moment.tz("America/Chicago"));
-    }, 1000 * 60); 
+    }, 1000 * 60);
 
     return () => clearInterval(interval);
   }, []);

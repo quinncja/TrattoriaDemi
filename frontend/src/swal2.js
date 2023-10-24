@@ -62,7 +62,6 @@ export function orderSuccess() {
   });
 }
 
-
 export function successfulCancelAlert() {
   return Swal.fire({
     title: `Reservation Canceled`,

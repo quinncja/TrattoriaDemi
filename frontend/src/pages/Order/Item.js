@@ -50,6 +50,7 @@ function Item({ item }) {
         pasta: pasta?.name,
         options: options?.map((obj) => obj.name),
         platter: platter?.map((plat) => plat.name),
+        dressing: dressing ? dressingQty : null,
       },
       qty,
       totalPrice: getTotalPrice(),

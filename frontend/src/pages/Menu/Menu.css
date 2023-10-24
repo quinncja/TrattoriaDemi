@@ -42,7 +42,7 @@
 .menu-selectors {
   display: flex;
   gap: 3rem;
-  font-size: .95rem;
+  font-size: 0.95rem;
   justify-content: center;
   padding-block: 0.8rem;
 }
