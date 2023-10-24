@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../images/TrattoriaDemiCenteredWhite.png";
 import { useMobile } from "../context/MobileContext";
@@ -9,24 +9,8 @@ export function Navbar() {
   const [currentPage, setCurrentPage] = useState("");
   const location = useLocation();
   const [showNav, setShowNav] = useState(false);
-  let loc = location.pathname.substring(1);
 
-  useEffect(() => {
-    if (loc === "checkout") loc = "order";
-    if (loc === "") loc = "home";
-    if (loc === "dashboard") loc = "home";
-    if (loc === "giftcards/") loc = "giftcards";
-    if (loc === "email") loc = "home";
-    if (loc.match(/^order-status\/.*/)) loc = "home";
-    if (loc.match(/^cancel\/.*/)) loc = "home";
-    changeActive(loc);
-  }, [loc, mobile]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const changeActive = (newLoc) => {
+  const changeActive = useCallback((newLoc) => {
     if (currentPage)
       document.getElementById(currentPage).className = "navbar-link";
 
@@ -35,7 +19,25 @@ export function Navbar() {
     document.getElementById(newLoc).className =
       "navbar-link navbar-link-active";
     setCurrentPage(newLoc);
-  };
+  }, [currentPage]);
+
+  useEffect(() => {
+    let loc = location.pathname.substring(1);
+
+    if (loc === "checkout") loc = "order";
+    if (loc === "") loc = "home";
+    if (loc === "dashboard") loc = "home";
+    if (loc === "giftcards/") loc = "giftcards";
+    if (loc === "email") loc = "home";
+    if (loc.match(/^order-status\/.*/)) loc = "home";
+    if (loc.match(/^cancel\/.*/)) loc = "home";
+    
+    changeActive(loc);
+  }, [changeActive, location.pathname, mobile]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const navHome = () => {
     navigate("/home");

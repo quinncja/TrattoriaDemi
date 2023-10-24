@@ -1,38 +1,12 @@
 import { useState } from "react";
+import { formatPhoneNumber, convertTo12Hour } from "../../../functions";
+
 export function Reservation(props) {
   const [isOpen, setOpen] = useState(false);
 
   const res = props.res;
   const handleBtnClick = props.handleBtnClick;
 
-  function formatPhoneNumber(phoneNumber) {
-    const last10Digits = phoneNumber.slice(-10);
-    const match = last10Digits.match(/^(\d{3})(\d{3})(\d{4})$/);
-
-    if (match) {
-      return `(${match[1]})-${match[2]}-${match[3]}`;
-    }
-
-    return null;
-  }
-  function convertTo12Hour(time) {
-    let [hours, minutes] = time.split(":");
-    hours = parseInt(hours, 10);
-    minutes = parseInt(minutes, 10);
-
-    let period = "am";
-    if (hours >= 12) {
-      period = "pm";
-    }
-
-    if (hours === 0) {
-      hours = 12;
-    } else if (hours > 12) {
-      hours -= 12;
-    }
-
-    return `${hours}:${minutes.toString().padStart(2, "0")}${period}`;
-  }
   function completeButton() {
     return (
       <button
@@ -60,87 +34,7 @@ export function Reservation(props) {
       </button>
     );
   }
-  function openButton() {
-    return (
-      <button className="res-btn" onClick={() => setOpen(!isOpen)}>
-        {isOpen ? (
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4 14H10V20"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M20 10H14V4"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M14 10L21 3"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M3 21L10 14"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        ) : (
-          <svg
-            width="24"
-            height="24"
-            viewBox="1 1 22 22"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g clipPath="url(#clip0_272_461)">
-              <path
-                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                stroke="#ffffff"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M12 16V12"
-                stroke="#ffffff"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M12 8H12.01"
-                stroke="#ffffff"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_272_461">
-                <rect width="24" height="24" fill="white" />
-              </clipPath>
-            </defs>
-          </svg>
-        )}
-      </button>
-    );
-  }
+
   function undoButton() {
     return (
       <button

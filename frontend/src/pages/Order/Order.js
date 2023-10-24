@@ -7,6 +7,7 @@ import { checkForUpdate, getMenus } from "../../api";
 import localForage from "localforage";
 import { useStatus } from "../../context/StatusContext";
 import { statusAlert } from "../../swal2";
+import { capitalizeFirstLetter } from "../../functions";
 
 function Order() {
   const mobile = useMobile();
@@ -131,10 +132,6 @@ function Order() {
       window.scrollTo({ ...scrollOptions, top: scrollY });
     }
   };
-
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0) + string.slice(1).toLowerCase();
-  }
 
   function orderTopBar() {
     return (

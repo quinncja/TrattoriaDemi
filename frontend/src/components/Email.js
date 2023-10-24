@@ -9,7 +9,7 @@ import { Preview } from "@react-email/preview";
 import { Container } from "@react-email/container";
 
 function Email(props) {
-  const { amount, recipient, adress, message, date } = props;
+  const { amount, recipient, adress, message } = props;
   const currentDate = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = currentDate.toLocaleDateString(undefined, options);

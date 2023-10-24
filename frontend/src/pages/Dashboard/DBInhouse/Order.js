@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { motion, useAnimate } from "framer-motion";
+import { useAnimate } from "framer-motion";
 import moment from "moment-timezone";
+import { convertTo12Hour, formatPhoneNumber, getTimeFromDate } from "../../../functions";
 
 function Order(props) {
   const order = props.order;
@@ -155,44 +156,6 @@ function Order(props) {
           </svg>
         </div>
       );
-  }
-
-  function getTimeFromDate(dateStr) {
-    const date = new Date(dateStr);
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-
-    return `${hours}:${minutes}`;
-  }
-
-  function convertTo12Hour(time) {
-    let [hours, minutes] = time.split(":");
-    hours = parseInt(hours, 10);
-    minutes = parseInt(minutes, 10);
-
-    let period = "am";
-    if (hours >= 12) {
-      period = "pm";
-    }
-
-    if (hours === 0) {
-      hours = 12;
-    } else if (hours > 12) {
-      hours -= 12;
-    }
-
-    return `${hours}:${minutes.toString().padStart(2, "0")}${period}`;
-  }
-
-  function formatPhoneNumber(phoneNumber) {
-    const last10Digits = phoneNumber.slice(-10);
-    const match = last10Digits.match(/^(\d{3})(\d{3})(\d{4})$/);
-
-    if (match) {
-      return `(${match[1]})-${match[2]}-${match[3]}`;
-    }
-
-    return null;
   }
 
   function displayModifiers(modifiers) {
