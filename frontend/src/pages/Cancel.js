@@ -37,7 +37,7 @@ function Cancel() {
 
   if (!reservation) return <div className="empty" />;
   return (
-    <div className="reserve-container">
+    <div className="reserve-container cancel-container">
       <div className="reserve-section reserve-section-cancel">
         <div className="res-section-cancel">
           {reservation.state !== "cancel" ? (
@@ -52,30 +52,31 @@ function Cancel() {
               />
               <div className="res-to-cancel">
                 <div className="res-to-cancel-section">
-                  <div className="res-to-cancel-atr"> Name </div>
+                  <div className="res-to-cancel-atr"> name </div>
                   <div className="res-to-cancel-info">{reservation.name} </div>
                 </div>
 
                 <div className="res-to-cancel-section">
-                  <div className="res-to-cancel-atr"> Party </div>
+                  <div className="res-to-cancel-atr"> party </div>
                   <div className="res-to-cancel-info">
                     {reservation.numGuests}{" "}
                     {reservation.numGuests === 1 ? "Guest" : "Guests"}
                   </div>
                 </div>
                 <div className="res-to-cancel-section">
-                  <div className="res-to-cancel-atr"> Date </div>
+                  <div className="res-to-cancel-atr"> date </div>
                   <div className="res-to-cancel-info">
                     {dateToString(reservation.date)}
                   </div>
                 </div>
                 <div className="res-to-cancel-section">
-                  <div className="res-to-cancel-atr"> Time </div>
+                  <div className="res-to-cancel-atr"> time </div>
                   <div className="res-to-cancel-info">
                     {convertTo12Hour(reservation.time)}
                   </div>
                 </div>
               </div>
+              <br/>
               <button
                 className="submit-button res-cancel-btn"
                 onClick={() => cancelRes()}
