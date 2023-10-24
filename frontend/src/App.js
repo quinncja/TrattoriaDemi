@@ -4,6 +4,9 @@ import "./css/App.css";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { Outlet } from "react-router-dom";
+import Userfront from "@userfront/react";
+const USERFRONT_ID = process.env.REACT_APP_USERFRONT_ID;
+Userfront.init(USERFRONT_ID);
 
 function App() {
   const location = useLocation();

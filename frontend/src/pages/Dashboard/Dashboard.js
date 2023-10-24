@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { getReservations } from "../../api";
+import DashboardNav from "./DashboardNav/DashboardNav";
+import DBAdmin from "./DBAdmin";
+import DBInhouse from "./DBInhouse/DBInhouse";
+import DBLogin from "./DBLogin.js";
+import Userfront from "@userfront/react";
 
+import "./Dashboard.css"
 function Dashboard() {
-  const [reservations, setReservations] = useState([]);
-
-  async function loadReservations() {
-    try {
-      const response = await getReservations();
-      console.log(response);
-      setReservations(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const [view, setView] = useState("inhouse");
+  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    loadReservations();
-  }, []);
-
-  if (reservations)
-    return (
-      <div>
-        {reservations.map((reservation) => (
-          <div>{reservation.name}</div>
-        ))}
-      </div>
-    );
-  else return;
+    setAuthenticated(Userfront.user)
+  },[])
+  
+  return (
+    <>
+      <DashboardNav setView={setView} currentView={view} authenticated={authenticated}/>
+        <div className="db-background">
+          {!authenticated ? 
+            <DBLogin setAuthenticated={setAuthenticated} />
+           : (
+            (view === "admin" && <DBAdmin />) ||
+            (view === "inhouse" && <DBInhouse />)
+          )}
+        </div>
+    </>
+  );
 }
 
 export default Dashboard;

@@ -153,7 +153,8 @@ function Checkout() {
   }
 
   function displayModifiers(modifiers) {
-    const optionArr = [];
+    console.log(modifiers);
+    let optionArr = [];
     if (modifiers.size) {
       optionArr.push(modifiers.size);
     }
@@ -168,7 +169,10 @@ function Checkout() {
         optionArr.push(modifiers.options[i]);
     }
     if (modifiers.dressing) {
-      optionArr.push(`extra dressing (${modifiers.dressingQty})`);
+      optionArr.push(`extra dressing (${modifiers.dressing})`);
+    }
+    if (modifiers.platter) {
+      optionArr = optionArr.concat(modifiers.platter);
     }
     return optionArr.join(", ");
   }
@@ -270,14 +274,15 @@ function Checkout() {
         <div className="checkout-item">
           <div className="checkout-item-left">
             <div className="checkout-item-header">
-              <div className="row">
+              <div className="checkout-header-row">
+                <div className="checkout-item-qty">{item.qty}</div>
                 <div className="checkout-item-name item-name">
-                  Confirm delete
+                  {`Remove ${item.name}?`}
                 </div>
               </div>
             </div>
             <div className="item-options">
-              {item.name.toLowerCase()} - {item.totalPrice}
+              {displayModifiers(item.modifiers)}
             </div>
           </div>
           <div className="is-deleting-buttons">

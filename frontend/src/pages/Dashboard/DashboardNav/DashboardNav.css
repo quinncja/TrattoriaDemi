@@ -1,0 +1,47 @@
+.dashboard-navbar-wrapper {
+  background-color: var(--dark-black);
+  position: sticky;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--border-color);
+  z-index: 900;
+}
+.dashboard-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  padding-left: 15px;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.dbn-name {
+  color: var(--nice-white);
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.dbn-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dbn-button {
+  cursor: pointer;
+  background: none;
+  color: white;
+  border: 1px solid var(--dark-black);
+  padding: 15px;
+  font-weight: 900;
+  transition: 0.3s ease-in-out;
+}
+
+.dbn-button:hover {
+  color: var(--gold);
+}
+.dbn-button-active {
+  border: 1px solid var(--gold);
+  color: var(--gold);
+}
