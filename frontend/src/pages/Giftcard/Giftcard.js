@@ -3,6 +3,7 @@ import { postGiftcard } from "../../api.js";
 import FancyLine from "../../images/FancyLine.png";
 import { usePlacesWidget } from "react-google-autocomplete";
 import { successfulGiftcardAlert } from "../../swal2.js";
+import Input from "../../components/Input.js";
 const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
 
 function Giftcard() {
@@ -42,6 +43,58 @@ function Giftcard() {
     message: "Message to recipient",
   };
 
+
+  const handleChange = (event) => {
+    if (event.target.id === "recipient") {
+      setError((errorStates) => ({ ...errorStates, recipient: false }));
+      setRecipient(event.target.value);
+    }
+    if (event.target.id === "address") {
+      setError((errorStates) => ({ ...errorStates, address: false }));
+      setShipAddress(event.target.value);
+    }
+    if (event.target.id === "message") {
+      setMessage(event.target.value);
+    }
+    if (event.target.id === "email") {
+      setError((errorStates) => ({ ...errorStates, email: false }));
+      setError((errorStates) => ({ ...errorStates, emailFormat: false }));
+      setEmail(event.target.value);
+    }
+  };
+
+  const inputObjs = {
+    name: {
+      name: "recipient",
+      id: "recipient",
+      text: inputText.recipient,
+      error: errorStates.recipient,
+      handleChange,
+    },
+    email: {
+      name: "email",
+      id: "email",
+      text: inputText.email,
+      error: errorStates.email,
+      handleChange,
+    },
+    message: {
+      name: "message",
+      id: "message",
+      type: "textarea",
+      text: inputText.message,
+      handleChange,
+    },
+    address: {
+      name: "address",
+      type: "address",
+      text: inputText.address,
+      error: errorStates.address,
+      ref: ref,
+      handleChange,
+    },
+  }
+
   const values = [
     { price: 15, id: "price_1NwtqREFXALc8iLMZINi83Oc" },
     { price: 25, id: "price_1NwtqiEFXALc8iLMEJmZE3eD" },
@@ -49,6 +102,7 @@ function Giftcard() {
     { price: 75, id: "price_1NwtrUEFXALc8iLMfdwgyR89" },
     { price: 100, id: "price_1NwtreEFXALc8iLMGc0nAK57" },
   ];
+  
   const buttons = values.map((button) => (
     <button
       className={`giftcard-button ${
@@ -78,25 +132,6 @@ function Giftcard() {
       setError((errorStates) => ({ ...errorStates, button: true }));
     }
     return isError;
-  };
-
-  const handleChange = (event) => {
-    if (event.target.id === "recipient") {
-      setError((errorStates) => ({ ...errorStates, recipient: false }));
-      setRecipient(event.target.value);
-    }
-    if (event.target.id === "address") {
-      setError((errorStates) => ({ ...errorStates, address: false }));
-      setShipAddress(event.target.value);
-    }
-    if (event.target.id === "message") {
-      setMessage(event.target.value);
-    }
-    if (event.target.id === "email") {
-      setError((errorStates) => ({ ...errorStates, email: false }));
-      setError((errorStates) => ({ ...errorStates, emailFormat: false }));
-      setEmail(event.target.value);
-    }
   };
 
   const handleClick = (button) => {
@@ -173,57 +208,9 @@ function Giftcard() {
                   </label>
                   <div className="giftcard-buttons">{buttons}</div>
                 </div>
-                <div className="input-group">
-                  <label
-                    className={`input-text ${
-                      errorStates.recipient && `input-text-error`
-                    }`}
-                  >
-                    {" "}
-                    {inputText.recipient}
-                  </label>
-                  <input
-                    type="text"
-                    id="recipient"
-                    className={`reserve-select ${
-                      errorStates.recipient && `reserve-select-error`
-                    }`}
-                    onChange={(event) => handleChange(event)}
-                  ></input>
-                </div>
-                <div className="input-group">
-                  <div
-                    className={`input-text ${
-                      errorStates.address && `input-text-error`
-                    }`}
-                  >
-                    {" "}
-                    {inputText.address}{" "}
-                  </div>
-                  <input
-                    ref={ref}
-                    type="text"
-                    id="address"
-                    value={shipAddress}
-                    className={`reserve-select ${
-                      errorStates.address && `reserve-select-error`
-                    }`}
-                    onChange={(event) => handleChange(event)}
-                  ></input>
-                </div>
-              </div>
-              <div className="giftcard-input">
-                <div className="input-group">
-                  <div className="input-text"> {inputText.message} </div>
-                  <textarea
-                    type="text"
-                    id="message"
-                    placeholder="Optional"
-                    className="reserve-select gc-area"
-                    onChange={(event) => handleChange(event)}
-                  ></textarea>
-                </div>
-
+                {Input(inputObjs.name)}
+                {Input(inputObjs.address)}
+                {Input(inputObjs.message)}
                 <button
                   className="submit-button mt-10"
                   type="button"

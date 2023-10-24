@@ -5,10 +5,9 @@ import { checkoutCart, placePickupOrder } from "../../api";
 import CartContext from "../../context/CartContext";
 import FancyLine from "../../images/FancyLine.png";
 import { usePlacesWidget } from "react-google-autocomplete";
-import PhoneInput from "react-phone-number-input/input";
+import Input from "../../components/Input"
 import { useStatus } from "../../context/StatusContext";
 import "./Order.css";
-const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
 
 function Checkout() {
   const { items, price, deleteItemFromCart } = useContext(CartContext);
@@ -24,10 +23,7 @@ function Checkout() {
   const [phone, setPhone] = useState(null);
   const [notes, setNotes] = useState(null);
   const [checkbox, setCheckbox] = useState(null);
-
-  useEffect(() => {
-    if (status && status.pickup) setType("pickup");
-  }, [status]);
+  const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
 
   const { ref } = usePlacesWidget({
     apiKey: PLACES_KEY,
@@ -40,6 +36,10 @@ function Checkout() {
       setAddress(place.formatted_address);
     },
   });
+
+  useEffect(() => {
+    if (status && status.pickup) setType("pickup");
+  }, [status]);
 
   const [errorStates, setError] = useState({
     name: false,
@@ -56,6 +56,65 @@ function Checkout() {
     notes: "Instructions",
     tip: "Gratuity for your driver",
   };
+
+  const handlePhoneChange = (value) => {
+    setPhone(value);
+    setError((errorStates) => ({ ...errorStates, phone: false }));
+  }
+
+  const handleChange = (event) => {
+    if (event.target.id === "name") {
+      setError((errorStates) => ({ ...errorStates, name: false }));
+      setName(event.target.value);
+    }
+    if (event.target.id === "address") {
+      setError((errorStates) => ({ ...errorStates, address: false }));
+      setAddress(event.target.value);
+    }
+    if (event.target.id === "guests") {
+      setError((errorStates) => ({ ...errorStates, phone: false }));
+      setPhone(event.target.selectedIndex);
+    }
+    if (event.target.id === "notes") {
+      setNotes(event.target.value);
+    }
+    if (event.target.id === "other") {
+      setTip(event.target.value);
+      setError((errorStates) => ({ ...errorStates, time: false }));
+    }
+  };
+
+  const inputObjs = {
+    name: {
+      name: "Name",
+      text: inputText.name,
+      error: errorStates.name,
+      handleChange,
+    },
+    phone: {
+      name: "phone",
+      type: "phone",
+      text: inputText.phone,
+      error: errorStates.phone,
+      value: phone,
+      handleChange: handlePhoneChange,
+    },
+    address: {
+      name: "address",
+      type: "address",
+      text: inputText.address,
+      error: errorStates.address,
+      ref: ref,
+      hidden: type === "pickup" ? true : false,
+      handleChange,
+    },
+    notes: {
+      name: "notes",
+      type: "textarea",
+      text: inputText.notes,
+      handleChange,
+    }
+  }
 
   const checkoutValidator = () => {
     let isError = false;
@@ -90,33 +149,6 @@ function Checkout() {
     totPrice += getTip();
     return totPrice.toFixed(2);
   }
-
-  const handleChange = (event) => {
-    if (event.target.id === "name") {
-      setError((errorStates) => ({ ...errorStates, name: false }));
-      setName(event.target.value);
-    }
-    if (event.target.id === "address") {
-      setError((errorStates) => ({ ...errorStates, address: false }));
-      setAddress(event.target.value);
-    }
-    if (event.target.id === "guests") {
-      setError((errorStates) => ({ ...errorStates, phone: false }));
-      setPhone(event.target.selectedIndex);
-    }
-    if (event.target.id === "notes") {
-      setNotes(event.target.value);
-    }
-    if (event.target.id === "other") {
-      setTip(event.target.value);
-      setError((errorStates) => ({ ...errorStates, time: false }));
-    }
-
-    if (event.target.id === "phone") {
-      setTip(event.target.value);
-      setError((errorStates) => ({ ...errorStates, time: false }));
-    }
-  };
 
   async function handleSubmit(optional) {
     if (!checkoutValidator()) submitCheckout(optional);
@@ -403,19 +435,6 @@ function Checkout() {
     );
   }
 
-  function textareaInput(input) {
-    return (
-      <textarea
-        type="text"
-        id={input}
-        className={`reserve-select tai ${
-          errorStates[input] && `reserve-select-error`
-        }`}
-        onChange={(event) => handleChange(event)}
-      ></textarea>
-    );
-  }
-
   function orderTypeInput(input) {
     return (
       <div className="order-type-container">
@@ -470,48 +489,6 @@ function Checkout() {
     );
   }
 
-  function textInput(input) {
-    return (
-      <input
-        type="text"
-        id={input}
-        className={`reserve-select select-${input} ${
-          errorStates[input] && `reserve-select-error`
-        }`}
-        onChange={(event) => handleChange(event)}
-        placeholder={input === "other" && input}
-      ></input>
-    );
-  }
-
-  function phoneInput() {
-    return (
-      <div className="input-group input-group-phone">
-        <div
-          className={`input-text ${errorStates.phone && `input-text-error`}`}
-        >
-          {" "}
-          {inputText.phone}{" "}
-        </div>
-        <PhoneInput
-          country="US"
-          withCountryCallingCode={true}
-          className={`reserve-select input-phone ${
-            errorStates.phone && `reserve-select-error`
-          }`}
-          value={phone}
-          onChange={(event) => {
-            setPhone(event);
-            setError((errorStates) => ({
-              ...errorStates,
-              phone: false,
-            }));
-          }}
-        />
-      </div>
-    );
-  }
-
   function tipInput(input) {
     return (
       <div className={`input-${input} input-group`}>
@@ -562,7 +539,7 @@ function Checkout() {
     );
   }
 
-  function input(input) {
+  function oldInput(input) {
     return (
       <div className={`input-${input} input-group`}>
         <label
@@ -571,11 +548,8 @@ function Checkout() {
           {" "}
           {inputText[input]}{" "}
         </label>
-        {input === "notes"
-          ? textareaInput(input)
-          : input === "type"
-          ? orderTypeInput()
-          : textInput(input)}
+        {input === "type"
+          && orderTypeInput()}
       </div>
     );
   }
@@ -584,38 +558,15 @@ function Checkout() {
     return (
       <>
         <div className="checkout-inputs">
-          {input("type")}
+          {oldInput("type")}
           {underOrderText()}
           {type === "delivery" && tipInput("tip")}
           <div className="row checkout-row">
-            {input("name")}
-            {phoneInput("phone")}
+            {Input(inputObjs.name)}
+            {Input(inputObjs.phone)}
           </div>
-          <div
-            className={`input-"address" ${
-              type === "delivery" ? "" : "input-hidden"
-            } input-group`}
-          >
-            <div
-              className={`input-text ${
-                errorStates.address && `input-text-error`
-              }`}
-            >
-              {" "}
-              {inputText.address}{" "}
-            </div>
-            <input
-              ref={ref}
-              type="text"
-              id="address"
-              value={address}
-              className={`reserve-select ${
-                errorStates.address && `reserve-select-error`
-              }`}
-              onChange={(event) => handleChange(event)}
-            ></input>
-          </div>
-          {input("notes")}
+          {Input(inputObjs.address)}
+          {Input(inputObjs.notes)}
         </div>
         <div className="mockline" />
         <button className="submit-button" onClick={() => handleSubmit()}>
