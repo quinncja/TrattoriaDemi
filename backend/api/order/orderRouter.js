@@ -329,6 +329,25 @@ orderRouter.patch("/id/:id", async (req, res) => {
   }
 });
 
+orderRouter.put("/id/:id", async (req, res) => {
+  try {
+    const orderId = req.params.id;
+
+    const order = await getOrder(orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: `No order found with ID: ${orderId}` });
+    }
+    order.status = "completed"
+    await order.save()
+
+    return res.status(200).json(order);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error updating the order" , error});
+  }
+});
+
 async function refundOrder(paymentIntent){
   try {
     await stripe.refunds.create({
