@@ -153,7 +153,6 @@ function Checkout() {
   }
 
   function displayModifiers(modifiers) {
-    console.log(modifiers);
     let optionArr = [];
     if (modifiers.size) {
       optionArr.push(modifiers.size);
