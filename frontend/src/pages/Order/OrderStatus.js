@@ -5,6 +5,7 @@ import moment from "moment-timezone";
 import FancyLine from "../../images/FancyLine.png";
 import { orderSuccess } from "../../swal2";
 import CartContext from "../../context/CartContext";
+import { minutesUntilTime } from "../../functions";
 
 function OrderStatus() {
   const param = useParams();
@@ -43,16 +44,6 @@ function OrderStatus() {
     };
     loadOrder();
   }, [id]);
-
-  function minutesUntilTime(targetTime) {
-    const target = moment.tz(
-      targetTime,
-      "YYYY-MM-DDTHH:mm:ss.SSSZ",
-      "America/Chicago"
-    );
-    const diff = target.diff(date, "minutes");
-    return diff;
-  }
 
   function displayModifiers(modifiers) {
     const optionArr = [];
@@ -107,13 +98,13 @@ function OrderStatus() {
           {order.type === "pickup" && (
             <div className="order-status-subheader">
               {" "}
-              Pickup in {minutesUntilTime(order.estimatedReady)} minutes
+              Pickup in {minutesUntilTime(date, order.estimatedReady)} minutes
             </div>
           )}
           {order.type === "delivery" && (
             <div className="order-status-subheader">
               {" "}
-              Delivery expected in {minutesUntilTime(order.estimatedReady)}{" "}
+              Delivery expected in {minutesUntilTime(date, order.estimatedReady)}{" "}
               minutes
             </div>
           )}

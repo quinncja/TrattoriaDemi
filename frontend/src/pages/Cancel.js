@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getReservationById, patchReservation } from "../api";
 import { successfulCancelAlert } from "../swal2";
 import FancyLine from "../images/FancyLine.png";
+import { convertTo12Hour, dateToString } from "../functions";
 
 function Cancel() {
   const param = useParams();
@@ -32,58 +33,6 @@ function Cancel() {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  function convertTo12Hour(time) {
-    let [hours, minutes] = time.split(":");
-    hours = parseInt(hours, 10);
-    minutes = parseInt(minutes, 10);
-
-    let period = "am";
-    if (hours >= 12) {
-      period = "pm";
-    }
-
-    if (hours === 0) {
-      hours = 12;
-    } else if (hours > 12) {
-      hours -= 12;
-    }
-
-    return `${hours}:${minutes.toString().padStart(2, "0")}${period}`;
-  }
-
-  function dateToString(date) {
-    const days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-
-    const dateAsObj = new Date(date);
-    const dayName = days[dateAsObj.getUTCDay()];
-    const monthName = months[dateAsObj.getUTCMonth()];
-    const day = dateAsObj.getUTCDate();
-
-    return `${dayName}, ${monthName} ${day}`;
   }
 
   if (!reservation) return <div className="empty" />;

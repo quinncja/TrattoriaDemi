@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useOutsideClick from "../../../components/useOutsideClick";
 import PhoneInput from "react-phone-number-input/input";
-import moment from 'moment-timezone';
 
 function NewRes(props) {
   const close = props.close;

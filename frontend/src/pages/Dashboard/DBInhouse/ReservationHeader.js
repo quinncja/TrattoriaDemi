@@ -1,40 +1,9 @@
 import React from "react";
+import { dateToString } from "../../../functions";
 
 function ReservationHeader(props) {
   const { date, setDate, numGuests, numRes } = props;
 
-  function dateToString(date) {
-    const days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-
-    const dateAsObj = new Date(date);
-    const dayName = days[dateAsObj.getUTCDay()];
-    const monthName = months[dateAsObj.getUTCMonth()];
-    const day = dateAsObj.getUTCDate();
-
-    return `${dayName}, ${monthName} ${day}`;
-  }
   function dateChanger() {
     const buttonClick = (id) => {
       const dateAsObj = new Date(date);

@@ -4,6 +4,7 @@ import "./Reserve.css";
 import PhoneInput from "react-phone-number-input/input";
 import { checkReservation, postReservation } from "../../api";
 import { successfulReserveAlert } from "../../swal2";
+import { convertTo24Hour, convertTo12Hour } from "../../functions";
 
 export default function Reserve() {
   const [firstName, setFirstName] = useState(null);
@@ -92,42 +93,6 @@ export default function Reserve() {
     message: "Message to recipient",
     eta: "",
   };
-
-  function convertTo24Hour(time) {
-    let [hours, minutes] = time.split(/[:\s]/);
-    hours = parseInt(hours, 10);
-    minutes = parseInt(minutes, 10);
-
-    if (time.toLowerCase().includes("pm") && hours !== 12) {
-      hours += 12;
-    }
-
-    if (time.toLowerCase().includes("am") && hours === 12) {
-      hours = 0;
-    }
-
-    return `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}`;
-  }
-  function convertTo12Hour(time) {
-    let [hours, minutes] = time.split(":");
-    hours = parseInt(hours, 10);
-    minutes = parseInt(minutes, 10);
-
-    let period = "am";
-    if (hours >= 12) {
-      period = "pm";
-    }
-
-    if (hours === 0) {
-      hours = 12;
-    } else if (hours > 12) {
-      hours -= 12;
-    }
-
-    return `${hours}:${minutes.toString().padStart(2, "0")}${period}`;
-  }
 
   const onSubmit = () => {
     if (!reserveValidator()) createRes();
