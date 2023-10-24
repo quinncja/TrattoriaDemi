@@ -4,23 +4,21 @@ import "../Reserve/Reserve.css";
 import { postContact } from "../../api";
 import { successfulContactAlert } from "../../swal2";
 import { isValidEmail } from "../../functions";
+import Input from "../../components/Input";
 
 function Contact() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState(null);
   const [message, setMessage] = useState(null);
   const [errorStates, setError] = useState({
-    fname: false,
-    lname: false,
+    name: false,
     email: false,
     emailFormat: false,
     message: false,
   });
 
   const inputText = {
-    fname: errorStates.fname ? "Please enter your first name" : "First Name",
-    lname: errorStates.lname ? "Please enter your last name" : "Last Name",
+    name: errorStates.name ? "Please enter your name" : "Name",
     email: errorStates.email
       ? "Please enter your email"
       : errorStates.emailFormat
@@ -29,21 +27,61 @@ function Contact() {
     message: errorStates.message ? "Please enter a message" : "Your message",
   };
 
+  const handleChange = (event) => {
+    if (event.target.id === "name") {
+      setError((errorStates) => ({ ...errorStates, name: false }));
+      setName(event.target.value);
+    }
+    if (event.target.id === "email") {
+      setError((errorStates) => ({ ...errorStates, email: false }));
+      setError((errorStates) => ({ ...errorStates, emailFormat: false }));
+      setEmail(event.target.value);
+    }
+    if (event.target.id === "message") {
+      setMessage(event.target.value);
+      setError((errorStates) => ({ ...errorStates, message: false }));
+    }
+  };
+
+  const inputObjs = {
+    name: {
+      name: "Name",
+      id: "name",
+      text: inputText.name,
+      error: errorStates.name,
+      handleChange,
+    },
+    email: {
+      name: "email",
+      id: "email",
+      text: inputText.email,
+      error: errorStates.email,
+      handleChange,
+    },
+    message: {
+      name: "message",
+      id: "message",
+      type: "textarea",
+      text: inputText.message,
+      error: errorStates.message,
+      handleChange,
+    }
+  }
+
   function clearForm() {
     document.getElementById("contact-form").reset();
-    setFirstName(null);
-    setLastName(null);
+    setName(null);
     setEmail(null);
     setMessage(null);
   }
 
   async function createContact() {
-    const newRes = {
-      name: `${firstName.trimEnd()} ${lastName.trimEnd()}`,
+    const newMes = {
+      name,
       email,
       message,
     };
-    const status = await postContact(newRes);
+    const status = await postContact(newMes);
     if (status === 201) {
       clearForm();
       successfulContactAlert();
@@ -52,13 +90,9 @@ function Contact() {
 
   const contactValidator = () => {
     let isError = false;
-    if (!firstName) {
-      setError((errorStates) => ({ ...errorStates, fname: true }));
+    if (!name) {
+      setError((errorStates) => ({ ...errorStates, name: true }));
       isError = true;
-    }
-    if (!lastName) {
-      isError = true;
-      setError((errorStates) => ({ ...errorStates, lname: true }));
     }
     if (!message) {
       isError = true;
@@ -79,26 +113,6 @@ function Contact() {
     if (!contactValidator()) createContact();
   };
 
-  const handleChange = (event) => {
-    if (event.target.id === "fname") {
-      setError((errorStates) => ({ ...errorStates, fname: false }));
-      setFirstName(event.target.value);
-    }
-    if (event.target.id === "lname") {
-      setError((errorStates) => ({ ...errorStates, lname: false }));
-      setLastName(event.target.value);
-    }
-    if (event.target.id === "email") {
-      setError((errorStates) => ({ ...errorStates, email: false }));
-      setError((errorStates) => ({ ...errorStates, emailFormat: false }));
-      setEmail(event.target.value);
-    }
-    if (event.target.id === "message") {
-      setMessage(event.target.value);
-      setError((errorStates) => ({ ...errorStates, message: false }));
-    }
-  };
-
   return (
     <form id="contact-form">
       <div className="reserve-top">Have questions? Get in touch below!</div>
@@ -107,81 +121,9 @@ function Contact() {
           <div className="menu-section-header">Contact Us</div>
           <img className="fancy-line" src={FancyLine} alt="" />
           <div className="contact-inputs">
-            <div className="input-group contact-fname">
-              <div
-                className={`input-text ${
-                  errorStates.fname && `input-text-error`
-                }`}
-              >
-                {" "}
-                {inputText.fname}{" "}
-              </div>
-              <input
-                type="text"
-                id="fname"
-                className={`reserve-select ${
-                  errorStates.fname && `reserve-select-error`
-                }`}
-                onChange={(event) => handleChange(event)}
-              ></input>
-            </div>
-            <div className="input-group contact-lname">
-              <div
-                className={`input-text ${
-                  errorStates.lname && `input-text-error`
-                }`}
-              >
-                {" "}
-                {inputText.lname}{" "}
-              </div>
-              <input
-                type="text"
-                id="lname"
-                className={`reserve-select ${
-                  errorStates.lname && `reserve-select-error`
-                }`}
-                onChange={(event) => handleChange(event)}
-              ></input>
-            </div>
-            <div className="input-group contact-message">
-              <div
-                className={`input-text ${
-                  errorStates.message && `input-text-error`
-                }`}
-              >
-                {" "}
-                {inputText.message}{" "}
-              </div>
-              <textarea
-                type="text"
-                id="message"
-                className={`reserve-select input-text-area ${
-                  errorStates.message && `reserve-select-error`
-                }`}
-                onChange={(event) => handleChange(event)}
-              ></textarea>
-            </div>
-            <div className="contact-submit">
-              <div className="input-group">
-                <div
-                  className={`input-text ${
-                    (errorStates.email || errorStates.emailFormat) &&
-                    `input-text-error`
-                  }`}
-                >
-                  {" "}
-                  {inputText.email}{" "}
-                </div>
-                <input
-                  type="email"
-                  id="email"
-                  className={`reserve-select ${
-                    (errorStates.email || errorStates.emailFormat) &&
-                    `reserve-select-error`
-                  }`}
-                  onChange={(event) => handleChange(event)}
-                ></input>
-              </div>
+            {Input(inputObjs.name)}
+            {Input(inputObjs.email)}
+            {Input(inputObjs.message)}
               <button
                 className="submit-button"
                 type="button"
@@ -192,7 +134,6 @@ function Contact() {
             </div>
           </div>
         </div>
-      </div>
     </form>
   );
 }

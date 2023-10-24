@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import FancyLine from "../../images/FancyLine.png";
 import "./Reserve.css";
-import PhoneInput from "react-phone-number-input/input";
 import { checkReservation, postReservation } from "../../api";
 import { successfulReserveAlert } from "../../swal2";
 import { convertTo24Hour, convertTo12Hour } from "../../functions";
+import Input from "../../components/Input";
 
 export default function Reserve() {
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
+  const [name, setName] = useState(null);
   const [numGuests, setGuests] = useState(null);
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
@@ -20,8 +19,7 @@ export default function Reserve() {
   const [availableTimes, setAvailableTimes] = useState([]);
   const [timeList, setTimeList] = useState(null);
   const [errorStates, setError] = useState({
-    fname: false,
-    lname: false,
+    name: false,
     guest: false,
     date: false,
     time: false,
@@ -30,57 +28,8 @@ export default function Reserve() {
     button: false,
   });
 
-  const getNextSevenDays = () => {
-    const days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const CHICAGO_OFFSET_HOURS = -5; // Chicago is UTC-5
-
-    const upcomingDates = [];
-
-    for (let i = 0; i < 8; i++) {
-      const currentDate = new Date(Date.now() + i * 24 * 60 * 60 * 1000);
-      currentDate.setUTCHours(currentDate.getUTCHours() + CHICAGO_OFFSET_HOURS);
-
-      const dateOnlyString = currentDate.toISOString().split("T")[0];
-      const dayName = days[currentDate.getUTCDay()];
-      const monthName = months[currentDate.getUTCMonth()];
-      const day = currentDate.getUTCDate();
-
-      upcomingDates.push({
-        label: `${dayName}, ${monthName} ${day}`,
-        date: dateOnlyString,
-      });
-    }
-
-    return upcomingDates;
-  };
-
-  const dates = getNextSevenDays();
-
   const inputText = {
-    fname: errorStates.fname ? "Enter your first name" : "First Name",
-    lname: errorStates.lname ? "Enter your last name" : "Last Name",
+    name: errorStates.name ? "Enter your name" : "Name",
     guestNum: errorStates.guest ? "Select your party size" : "Number of Guests",
     dateTxt: errorStates.date ? "Choose a date" : "Date",
     timeTxt: errorStates.time ? "Choose a time" : "Time",
@@ -90,9 +39,60 @@ export default function Reserve() {
       : availableTimes.length > 0
       ? `Closest available times`
       : `Available!`,
-    message: "Message to recipient",
-    eta: "",
+    message: "Additional Notes?",
   };
+
+  const handlePhoneChange = (value) => {
+    setPhone(value);
+    setError((errorStates) => ({ ...errorStates, phone: false }));
+  }
+
+  const handleChange = (event) => {
+    if (event.target.id === "name") {
+      setError((errorStates) => ({ ...errorStates, name: false }));
+      setName(event.target.value);
+    }
+    if (event.target.id === "guests") {
+      setError((errorStates) => ({ ...errorStates, guest: false }));
+      setGuests(event.target.selectedIndex);
+    }
+    if (event.target.id === "date") {
+      setDate(event.target.value);
+      setError((errorStates) => ({ ...errorStates, date: false }));
+    }
+    if (event.target.id === "time") {
+      setTime(event.target.value);
+      setError((errorStates) => ({ ...errorStates, time: false }));
+    }
+    if (event.target.id === "notes") {
+      setNotes(event.target.value);
+    }
+  };
+
+  const inputObjs = {
+    name: {
+      name: "recipient",
+      id: "recipient",
+      text: inputText.name,
+      error: errorStates.name,
+      handleChange,
+    },
+    phone: {
+      name: "phone",
+      type: "phone",
+      text: inputText.phone,
+      error: errorStates.phone,
+      value: phone,
+      handleChange: handlePhoneChange,
+    },
+    message: {
+      name: "message",
+      id: "message",
+      type: "textarea",
+      text: inputText.message,
+      handleChange,
+    },
+  }
 
   const onSubmit = () => {
     if (!reserveValidator()) createRes();
@@ -100,13 +100,9 @@ export default function Reserve() {
 
   const reserveValidator = () => {
     let isError = false;
-    if (!firstName) {
-      setError((errorStates) => ({ ...errorStates, fname: true }));
+    if (!name) {
+      setError((errorStates) => ({ ...errorStates, name: true }));
       isError = true;
-    }
-    if (!lastName) {
-      isError = true;
-      setError((errorStates) => ({ ...errorStates, lname: true }));
     }
     if (!numGuests) {
       isError = true;
@@ -133,8 +129,7 @@ export default function Reserve() {
 
   function clearForm() {
     document.getElementById("res-form").reset();
-    setFirstName(null);
-    setLastName(null);
+    setName(null);
     setGuests(null);
     setDate(null);
     setTime(0);
@@ -148,7 +143,7 @@ export default function Reserve() {
 
   async function createRes() {
     const newRes = {
-      name: `${firstName.trimEnd()} ${lastName.trimEnd()}`,
+      name,
       numGuests,
       date,
       time: realTime,
@@ -164,32 +159,6 @@ export default function Reserve() {
       successfulReserveAlert();
     } else console.log(status);
   }
-
-  const handleChange = (event) => {
-    if (event.target.id === "fname") {
-      setError((errorStates) => ({ ...errorStates, fname: false }));
-      setFirstName(event.target.value);
-    }
-    if (event.target.id === "lname") {
-      setError((errorStates) => ({ ...errorStates, lname: false }));
-      setLastName(event.target.value);
-    }
-    if (event.target.id === "guests") {
-      setError((errorStates) => ({ ...errorStates, guest: false }));
-      setGuests(event.target.selectedIndex);
-    }
-    if (event.target.id === "date") {
-      setDate(event.target.value);
-      setError((errorStates) => ({ ...errorStates, date: false }));
-    }
-    if (event.target.id === "time") {
-      setTime(event.target.value);
-      setError((errorStates) => ({ ...errorStates, time: false }));
-    }
-    if (event.target.id === "notes") {
-      setNotes(event.target.value);
-    }
-  };
 
   const handleClick = (buttonId) => {
     setError((errorStates) => ({ ...errorStates, button: false }));
@@ -433,44 +402,6 @@ export default function Reserve() {
               availableTimes.length > 0 && "reserve-inputs-expanded"
             }`}
           >
-            <div className="input-fname input-group">
-              <label
-                className={`input-text ${
-                  errorStates.fname && `input-text-error`
-                }`}
-              >
-                {" "}
-                {inputText.fname}{" "}
-              </label>
-              <input
-                type="text"
-                id="fname"
-                className={`reserve-select ${
-                  errorStates.fname && `reserve-select-error`
-                }`}
-                onChange={(event) => handleChange(event)}
-              ></input>
-            </div>
-
-            <div className="input-lname input-group">
-              <div
-                id="lName"
-                className={`input-text ${
-                  errorStates.lname && `input-text-error`
-                }`}
-              >
-                {" "}
-                {inputText.lname}{" "}
-              </div>
-              <input
-                type="text"
-                id="lname"
-                className={`reserve-select ${
-                  errorStates.lname && `reserve-select-error`
-                }`}
-                onChange={(event) => handleChange(event)}
-              ></input>
-            </div>
 
             <div className="input-size input-group">
               <div
@@ -514,35 +445,14 @@ export default function Reserve() {
                 {inputText.dateTxt}{" "}
               </span>
 
-              <select
+              <input
                 onChange={(event) => handleChange(event)}
                 type="date"
                 id="date"
                 className={`reserve-select ${
                   errorStates.date && `reserve-select-error`
                 }`}
-              >
-                <option default hidden value="">
-                  {" "}
-                  Select{" "}
-                </option>
-                {numGuests ? (
-                  <>
-                    {dates.map((obj, index) => (
-                      <option key={index} value={obj.date}>
-                        {obj.label}
-                      </option>
-                    ))}
-                    <option disabled>
-                      Reservations can be made 7 days in advance
-                    </option>
-                  </>
-                ) : (
-                  <option disabled value="">
-                    Select number of guests first
-                  </option>
-                )}
-              </select>
+                />
             </div>
             <div className="input-time input-group">
               <div
@@ -564,7 +474,7 @@ export default function Reserve() {
                   {" "}
                   Select{" "}
                 </option>
-                {timeList ? (
+                {date && timeList ? (
                   timeList.map((time, index) => (
                     <option key={index} value={convertTo24Hour(time)}>
                       {time}
@@ -597,50 +507,17 @@ export default function Reserve() {
               </div>
             </div>
 
-            <div className="input-notes input-group">
-              <div className="input-text"> Additional Notes? </div>
-              <textarea
-                type="text"
-                placeholder="Optional"
-                className="reserve-select input-text-area"
-                id="notes"
-                onChange={(event) => handleChange(event)}
-              ></textarea>
-            </div>
-
-            <div className="input-email-submit input-group">
-              <div className="input-group">
-                <div
-                  className={`input-text ${
-                    errorStates.phone && `input-text-error`
-                  }`}
-                >
-                  {" "}
-                  {inputText.phone}{" "}
-                </div>
-                <PhoneInput
-                  country="US"
-                  withCountryCallingCode={true}
-                  className={`reserve-select ${
-                    errorStates.phone && `reserve-select-error`
-                  }`}
-                  value={phone}
-                  onChange={(event) => {
-                    setPhone(event);
-                    setError((errorStates) => ({
-                      ...errorStates,
-                      phone: false,
-                    }));
-                  }}
-                />
-              </div>
-
-              <div className="phone-checkbox">
+              {Input(inputObjs.name)}
+              
+              <div> 
+              {Input(inputObjs.phone)}
                 <div className="reserve-small-text">
                   {" "}
                   You will receive a confirmation text upon reservation{" "}
                 </div>
               </div>
+
+              {Input(inputObjs.message)}
 
               <button
                 className="submit-button"
@@ -651,7 +528,6 @@ export default function Reserve() {
               </button>
             </div>
           </div>
-        </div>
       </div>
     </form>
   );
