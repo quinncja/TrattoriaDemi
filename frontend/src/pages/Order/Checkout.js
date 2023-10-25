@@ -87,6 +87,7 @@ function Checkout() {
   const inputObjs = {
     name: {
       name: "Name",
+      id: "name",
       text: inputText.name,
       error: errorStates.name,
       handleChange,

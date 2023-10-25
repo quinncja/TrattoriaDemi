@@ -114,7 +114,7 @@ function OrderStatus() {
 
   if (!order) return <div className="empty" />;
   return (
-    <div className="reserve-container">
+    <div className="reserve-container cancel-container">
       <div className="reserve-section reserve-section-cancel rs-os">
         <div className="menu-section-header">Order Status</div>
         <img className="fancy-line" src={FancyLine} alt="" />
