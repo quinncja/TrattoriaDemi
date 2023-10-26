@@ -78,9 +78,9 @@ function Reversations() {
     }
   }
 
-  async function loadReservations(date) {
+  async function loadReservations(date, signal) {
     try {
-      const response = await getReservationsByDate(date);
+      const response = await getReservationsByDate(date, signal);
       const sortedReservations = response.sort((a, b) => new Date(a.date) - new Date(b.date));
     setReservations(sortedReservations);
     } catch (error) {
@@ -147,7 +147,14 @@ function Reversations() {
   }
 
   useEffect(() => {
-    loadReservations(date);
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    loadReservations(date, signal);
+
+    return () => {
+      abortController.abort();
+    };
   }, [date]);
 
   return (

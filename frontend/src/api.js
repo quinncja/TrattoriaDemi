@@ -1,39 +1,37 @@
 import axios from "axios";
 const API_URL = process.env.REACT_APP_DEPLOYED_BACKEND;
 
-export async function getReservations() {
-  try {
-    const response = await axios({
-      method: "get",
-      url: `${API_URL}api/reservations/`,
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-export async function getReservationById(id) {
+export async function getReservationById(id, signal) {
   try {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/reservations/id/${id}`,
+      signal,
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+    if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
-export async function getReservationsByDate(date) {
+export async function getReservationsByDate(date, signal) {
   try {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/reservations/date/${date}`,
+      signal,
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+        if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
@@ -45,11 +43,11 @@ export async function patchReservation(id, state) {
     });
     return response;
   } catch (error) {
-    console.error(error);
+      throw error
   }
 }
 
-export async function checkReservation(numGuests, date, time) {
+export async function checkReservation(numGuests, date, time, signal) {
   try {
     const response = await axios({
       method: "get",
@@ -59,10 +57,15 @@ export async function checkReservation(numGuests, date, time) {
         date: date,
         time: time,
       },
+      signal,
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+        if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
@@ -75,7 +78,7 @@ export async function postReservation(newRes) {
     });
     return response.status;
   } catch (error) {
-    console.error(error);
+      throw error
   }
 }
 
@@ -88,7 +91,7 @@ export async function postAdminReservation(newRes) {
     });
     return response;
   } catch (error) {
-    console.error(error);
+      throw error
   }
 }
 
@@ -101,7 +104,7 @@ export async function postContact(newContact) {
     });
     return response.status;
   } catch (error) {
-    console.error(error);
+      throw error
   }
 }
 
@@ -114,31 +117,41 @@ export async function postGiftcard(newGiftcard) {
     });
     return response;
   } catch (error) {
-    console.error(error);
+      throw error
   }
 }
 
-export async function getMenus() {
+export async function getMenus(signal) {
   try {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/order/menus`,
+      signal,
     });
     return response;
   } catch (error) {
-    console.error(error);
+        if (axios.isCancel(error)) {
+          console.log(error.message);
+    } else {
+      throw error
+    }
   }
 }
 
-export async function checkForUpdate() {
+export async function checkForUpdate(signal) {
   try {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/order/menu-check`,
+      signal,
     });
     return response;
   } catch (error) {
-    console.error(error);
+        if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
@@ -151,7 +164,11 @@ export async function checkoutCart(newOrder) {
     });
     return response;
   } catch (error) {
-    console.error(error);
+        if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
@@ -164,31 +181,45 @@ export async function placePickupOrder(newOrder) {
     });
     return response;
   } catch (error) {
-    console.error(error);
+        if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
-export async function getOrders() {
+export async function getOrders(signal) {
   try {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/order/today`,
+      signal,
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+        if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
-export async function getOrderById(id) {
+export async function getOrderById(id, signal) {
   try {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/order/id/${id}`,
+      signal,
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+        if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
@@ -203,7 +234,11 @@ export async function patchOrderConfirm(id, time) {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+        if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
@@ -215,19 +250,28 @@ export async function markComplete(id) {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+    if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
-export async function getSystemStatus() {
+export async function getSystemStatus(signal) {
   try {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/order/status`,
+      signal,
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+    if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
@@ -240,7 +284,11 @@ export async function patchSystemStatus(status) {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+    if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }
 
@@ -252,6 +300,10 @@ export async function deleteOrder(id) {
       data: id,
     });
   } catch (error) {
-    throw error;
+    if (axios.isCancel(error)) {
+      console.log('Request canceled', error.message);
+    } else {
+      throw error
+    }
   }
 }

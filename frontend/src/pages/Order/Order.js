@@ -61,6 +61,9 @@ function Order() {
   }
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
     const setMenuLocal = async (menus) => {
       try {
         await localForage.setItem("menus", menus);
@@ -70,7 +73,7 @@ function Order() {
     };
     const fetchMenusFromServer = async () => {
       try {
-        const response = await getMenus();
+        const response = await getMenus(signal);
         return response.data;
       } catch (error) {
         console.log(error);
@@ -90,7 +93,7 @@ function Order() {
 
     const checkLastUpdated = async () => {
       try {
-        const lastUpdatedTimes = await checkForUpdate();
+        const lastUpdatedTimes = await checkForUpdate(signal);
         return lastUpdatedTimes;
       } catch (error) {
         console.log(error);
@@ -98,16 +101,16 @@ function Order() {
     };
 
     function checkForUpdates(menus, times) {
-      let needToUpdate = false;
-      for (let menuType in times) {
+      let upToDate = true;
+      for (let menuType in times.data) {
         if (
           !menus[menuType] ||
           new Date(times[menuType]) > new Date(menus[menuType].lastUpdated)
         ) {
-          needToUpdate = true;
+          upToDate = false;
         }
       }
-      return needToUpdate || menus;
+      return upToDate ? menus : upToDate;
     }
 
     const getMenu = async () => {
@@ -117,20 +120,31 @@ function Order() {
         handleResponseData(menus);
 
         let times = await checkLastUpdated();
-        const updatesNeeded = checkForUpdates(menus, times);
-        if (updatesNeeded) {
-          menus = await fetchMenusFromServer();
-          setMenuLocal(menus);
-          handleResponseData(menus);
+        if(times){
+          const upToDate = checkForUpdates(menus, times);
+          if (!upToDate) {
+            menus = await fetchMenusFromServer();
+            if (menus){
+              setMenuLocal(menus);
+              handleResponseData(menus);
+            }
+          }
         }
       } else {
         menus = await fetchMenusFromServer();
-        setMenuLocal(menus);
-        handleResponseData(menus);
+          if (menus){
+            setMenuLocal(menus);
+            handleResponseData(menus);
+        }
       }
     };
 
     getMenu();
+
+  return () => {
+    abortController.abort();
+  };
+
   }, []);
 
   const handleOptionClick = (selectedId) => {
