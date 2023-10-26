@@ -641,10 +641,13 @@
   }
 }
 
-@media (width <= 420px) {
+@media (width <= 470px) {
   .order-selectors {
     font-size: 0.8rem;
   }
+}
+
+@media (width <= 420px) {
   .item-name-open {
     font-size: 1.2rem;
     margin-top: -0.1rem;
