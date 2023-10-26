@@ -590,7 +590,7 @@
     padding-left: 4.4vw;
   }
   .cart-section {
-    padding-right: 4vw;
+    padding-right: 4vw !important;
   }
   .checkout-container {
     display: flex;
