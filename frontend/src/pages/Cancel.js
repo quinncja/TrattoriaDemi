@@ -12,15 +12,23 @@ function Cancel() {
   const [reservation, setReservation] = useState(null);
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
     const loadReservation = async () => {
       try {
-        const responseData = await getReservationById(id);
+        const responseData = await getReservationById(id, signal);
         setReservation(responseData);
       } catch (error) {
         console.error(error);
       }
     };
+    
     loadReservation();
+
+    return () => {
+      abortController.abort();
+    };
   }, [id]);
 
   async function cancelRes() {

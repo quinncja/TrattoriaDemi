@@ -22,14 +22,21 @@ export const StatusProvider = ({ children }) => {
   }
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
     async function fetchStatus() {
-      const data = await getSystemStatus();
+      const data = await getSystemStatus(signal);
       if (data) {
         setStatus(data);
         setUpdated(true);
       }
     }
     fetchStatus();
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return (

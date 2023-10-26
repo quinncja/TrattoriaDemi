@@ -18,9 +18,10 @@ function Orders() {
     }
   }, [order]);
 
-  async function loadOrders() {
+  async function loadOrders(signal) {
+
     try {
-      const response = await getOrders();
+      const response = await getOrders(signal);
       const completedOrdersList = response.filter(
         (order) => order.status === "completed"
       );
@@ -73,7 +74,14 @@ function Orders() {
   }
 
   useEffect(() => {
-    loadOrders();
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    loadOrders(signal);
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   return (

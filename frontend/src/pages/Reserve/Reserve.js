@@ -362,6 +362,9 @@ export default function Reserve() {
   }, [date]);
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
     function handleResponse(response) {
       if (response.available) {
         setRealTime(response.available.time);
@@ -379,13 +382,18 @@ export default function Reserve() {
 
     const fetchChecker = async () => {
       try {
-        const response = await checkReservation(numGuests, date, time);
+        const response = await checkReservation(numGuests, date, time, signal);
         handleResponse(response);
       } catch (error) {
         console.error("Error checking reservation", error);
       }
     };
     if (numGuests && date && time) fetchChecker();
+
+    return () => {
+      abortController.abort();
+    };
+
   }, [numGuests, date, time]);
 
   return (

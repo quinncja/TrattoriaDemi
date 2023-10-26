@@ -34,15 +34,23 @@ function OrderStatus() {
   }, []);
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
     const loadOrder = async () => {
       try {
-        const responseData = await getOrderById(id);
+        const responseData = await getOrderById(id, signal);
         setOrder(responseData);
       } catch (error) {
         console.error(error);
       }
     };
     loadOrder();
+
+    
+    return () => {
+      abortController.abort();
+    };
   }, [id]);
 
   function displayModifiers(modifiers) {
