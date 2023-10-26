@@ -40,7 +40,7 @@ function Input(obj) {
               obj.error && `reserve-select-error`
             }`}
             onChange={(event) => obj.handleChange(event)}
-            placeholder={obj.name === "other" && obj.value}
+            placeholder={obj.name === "other" ? obj.value : undefined}
           ></input>
         );
     }
