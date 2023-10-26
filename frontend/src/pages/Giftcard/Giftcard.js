@@ -23,9 +23,9 @@ function Giftcard() {
   const { ref } = usePlacesWidget({
     apiKey: PLACES_KEY,
     options: {
-      location: "42.0451%2C-87.6877°",
+      location: { lat: 42.0451, lng: -87.6877 }, 
       radius: 200,
-      types: "street-adress",
+      types: ['address'], 
     },
     onPlaceSelected: (place) => {
       setShipAddress(place.formatted_address);

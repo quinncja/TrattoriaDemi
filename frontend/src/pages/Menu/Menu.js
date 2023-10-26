@@ -24,7 +24,6 @@ export default function Menu() {
   });
 
   const scrollToTop = () => {
-    console.log("here");
     window.scrollTo(0, 0);
   };
 

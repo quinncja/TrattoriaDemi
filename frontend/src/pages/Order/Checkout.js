@@ -28,9 +28,9 @@ function Checkout() {
   const { ref } = usePlacesWidget({
     apiKey: PLACES_KEY,
     options: {
-      location: "42.0451%2C-87.6877°",
+      location: { lat: 42.0451, lng: -87.6877 }, 
       radius: 200,
-      types: "street-adress",
+      types: ['address'], 
     },
     onPlaceSelected: (place) => {
       setAddress(place.formatted_address);
@@ -371,7 +371,7 @@ function Checkout() {
           <div className="reciept-line" />
           <div className="checkout-items">
             {items.map((item) => (
-              <CheckoutItem item={item} />
+              <CheckoutItem item={item} key={item}/>
             ))}
           </div>
           <div className="reciept-line" />
