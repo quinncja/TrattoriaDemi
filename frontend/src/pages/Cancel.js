@@ -23,7 +23,7 @@ function Cancel() {
         console.error(error);
       }
     };
-    
+
     loadReservation();
 
     return () => {
@@ -84,7 +84,7 @@ function Cancel() {
                   </div>
                 </div>
               </div>
-              <br/>
+              <br />
               <button
                 className="submit-button res-cancel-btn"
                 onClick={() => cancelRes()}

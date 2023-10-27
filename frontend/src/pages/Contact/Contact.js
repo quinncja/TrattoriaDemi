@@ -65,8 +65,8 @@ function Contact() {
       text: inputText.message,
       error: errorStates.message,
       handleChange,
-    }
-  }
+    },
+  };
 
   function clearForm() {
     document.getElementById("contact-form").reset();
@@ -124,16 +124,12 @@ function Contact() {
             {Input(inputObjs.name)}
             {Input(inputObjs.email)}
             {Input(inputObjs.message)}
-              <button
-                className="submit-button"
-                type="button"
-                onClick={onSubmit}
-              >
-                Send
-              </button>
-            </div>
+            <button className="submit-button" type="button" onClick={onSubmit}>
+              Send
+            </button>
           </div>
         </div>
+      </div>
     </form>
   );
 }

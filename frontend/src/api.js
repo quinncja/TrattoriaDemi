@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = process.env.REACT_APP_DEPLOYED_BACKEND;
+const API_URL = process.env.REACT_APP_LOCAL_BACKEND;
 
 export async function getReservationById(id, signal) {
   try {
@@ -11,9 +11,9 @@ export async function getReservationById(id, signal) {
     return response.data;
   } catch (error) {
     if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -27,10 +27,10 @@ export async function getReservationsByDate(date, signal) {
     });
     return response.data;
   } catch (error) {
-        if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+    if (axios.isCancel(error)) {
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -43,7 +43,7 @@ export async function patchReservation(id, state) {
     });
     return response;
   } catch (error) {
-      throw error
+    throw error;
   }
 }
 
@@ -61,10 +61,10 @@ export async function checkReservation(numGuests, date, time, signal) {
     });
     return response.data;
   } catch (error) {
-        if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+    if (axios.isCancel(error)) {
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -78,7 +78,7 @@ export async function postReservation(newRes) {
     });
     return response.status;
   } catch (error) {
-      throw error
+    throw error;
   }
 }
 
@@ -91,7 +91,7 @@ export async function postAdminReservation(newRes) {
     });
     return response;
   } catch (error) {
-      throw error
+    throw error;
   }
 }
 
@@ -104,7 +104,7 @@ export async function postContact(newContact) {
     });
     return response.status;
   } catch (error) {
-      throw error
+    throw error;
   }
 }
 
@@ -117,7 +117,7 @@ export async function postGiftcard(newGiftcard) {
     });
     return response;
   } catch (error) {
-      throw error
+    throw error;
   }
 }
 
@@ -130,10 +130,10 @@ export async function getMenus(signal) {
     });
     return response;
   } catch (error) {
-        if (axios.isCancel(error)) {
-          console.log(error.message);
+    if (axios.isCancel(error)) {
+      console.log(error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -147,10 +147,10 @@ export async function checkForUpdate(signal) {
     });
     return response;
   } catch (error) {
-        if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+    if (axios.isCancel(error)) {
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -164,10 +164,10 @@ export async function checkoutCart(newOrder) {
     });
     return response;
   } catch (error) {
-        if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+    if (axios.isCancel(error)) {
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -181,10 +181,10 @@ export async function placePickupOrder(newOrder) {
     });
     return response;
   } catch (error) {
-        if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+    if (axios.isCancel(error)) {
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -198,10 +198,10 @@ export async function getOrders(signal) {
     });
     return response.data;
   } catch (error) {
-        if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+    if (axios.isCancel(error)) {
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -215,10 +215,10 @@ export async function getOrderById(id, signal) {
     });
     return response.data;
   } catch (error) {
-        if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+    if (axios.isCancel(error)) {
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -234,10 +234,10 @@ export async function patchOrderConfirm(id, time) {
     });
     return response.data;
   } catch (error) {
-        if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+    if (axios.isCancel(error)) {
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -251,9 +251,9 @@ export async function markComplete(id) {
     return response.data;
   } catch (error) {
     if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -268,9 +268,9 @@ export async function getSystemStatus(signal) {
     return response.data;
   } catch (error) {
     if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -285,9 +285,9 @@ export async function patchSystemStatus(status) {
     return response.data;
   } catch (error) {
     if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }
@@ -301,9 +301,9 @@ export async function deleteOrder(id) {
     });
   } catch (error) {
     if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message);
+      console.log("Request canceled", error.message);
     } else {
-      throw error
+      throw error;
     }
   }
 }

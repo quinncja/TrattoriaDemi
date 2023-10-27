@@ -5,7 +5,7 @@ import { checkoutCart, placePickupOrder } from "../../api";
 import CartContext from "../../context/CartContext";
 import FancyLine from "../../images/FancyLine.png";
 import { usePlacesWidget } from "react-google-autocomplete";
-import Input from "../../components/Input"
+import Input from "../../components/Input";
 import { useStatus } from "../../context/StatusContext";
 import "./Order.css";
 
@@ -28,9 +28,9 @@ function Checkout() {
   const { ref } = usePlacesWidget({
     apiKey: PLACES_KEY,
     options: {
-      location: { lat: 42.0451, lng: -87.6877 }, 
+      location: { lat: 42.0451, lng: -87.6877 },
       radius: 200,
-      types: ['address'], 
+      types: ["address"],
     },
     onPlaceSelected: (place) => {
       setAddress(place.formatted_address);
@@ -60,7 +60,7 @@ function Checkout() {
   const handlePhoneChange = (value) => {
     setPhone(value);
     setError((errorStates) => ({ ...errorStates, phone: false }));
-  }
+  };
 
   const handleChange = (event) => {
     if (event.target.id === "name") {
@@ -114,8 +114,8 @@ function Checkout() {
       type: "textarea",
       text: inputText.notes,
       handleChange,
-    }
-  }
+    },
+  };
 
   const checkoutValidator = () => {
     let isError = false;
@@ -371,7 +371,7 @@ function Checkout() {
           <div className="reciept-line" />
           <div className="checkout-items">
             {items.map((item) => (
-              <CheckoutItem item={item} key={item}/>
+              <CheckoutItem item={item} key={item} />
             ))}
           </div>
           <div className="reciept-line" />
@@ -549,8 +549,7 @@ function Checkout() {
           {" "}
           {inputText[input]}{" "}
         </label>
-        {input === "type"
-          && orderTypeInput()}
+        {input === "type" && orderTypeInput()}
       </div>
     );
   }

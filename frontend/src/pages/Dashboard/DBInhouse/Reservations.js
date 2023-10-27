@@ -4,7 +4,7 @@ import ReservationDisplayer from "./ReservationDisplayer";
 import NewRes from "./NewRes";
 import { successfulAdminResAlert } from "../../../swal2";
 import ReservationSSE from "./ReservationSSE";
-import moment from 'moment-timezone';
+import moment from "moment-timezone";
 import {
   getReservationsByDate,
   patchReservation,
@@ -23,10 +23,10 @@ function Reversations() {
   );
 
   function getChicagoDateISO() {
-    const chicagoTime = moment().tz('America/Chicago').toISOString();
+    const chicagoTime = moment().tz("America/Chicago").toISOString();
     return chicagoTime;
   }
-  
+
   const [date, setDate] = useState(getChicagoDateISO());
 
   const { data: reservation } = ReservationSSE();
@@ -54,7 +54,7 @@ function Reversations() {
   function addResLocal(newRes) {
     const updatedReservations = [...reservations, newRes];
     updatedReservations.sort((a, b) => new Date(a.date) - new Date(b.date));
-    setReservations(updatedReservations)
+    setReservations(updatedReservations);
   }
 
   async function submitRes(res) {
@@ -81,8 +81,10 @@ function Reversations() {
   async function loadReservations(date, signal) {
     try {
       const response = await getReservationsByDate(date, signal);
-      const sortedReservations = response.sort((a, b) => new Date(a.date) - new Date(b.date));
-    setReservations(sortedReservations);
+      const sortedReservations = response.sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
+      setReservations(sortedReservations);
     } catch (error) {
       console.log(error);
     }

@@ -15,7 +15,7 @@ function DBLogin(props) {
     }
   };
 
-   async function onSubmit() {
+  async function onSubmit() {
     try {
       const response = await Userfront.login({
         method: "password",
@@ -23,18 +23,16 @@ function DBLogin(props) {
         password,
       });
       if (response) {
-        setAuthenticated(true)
+        setAuthenticated(true);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
   return (
     <div className="login-input">
-        <div className="new-res-header">
-            Dashboard Login
-        </div>
+      <div className="new-res-header">Dashboard Login</div>
       <input
         className="new-res-input"
         id="username"
@@ -53,7 +51,7 @@ function DBLogin(props) {
         className="submit-button submit-new-res"
         type="button"
         onClick={() => {
-            onSubmit();
+          onSubmit();
         }}
       >
         Login

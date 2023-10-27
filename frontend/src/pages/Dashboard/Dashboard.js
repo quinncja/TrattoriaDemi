@@ -5,26 +5,30 @@ import DBInhouse from "./DBInhouse/DBInhouse";
 import DBLogin from "./DBLogin.js";
 import Userfront from "@userfront/react";
 
-import "./Dashboard.css"
+import "./Dashboard.css";
 function Dashboard() {
   const [view, setView] = useState("inhouse");
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    setAuthenticated(Userfront.tokens.accesstoken)
-  },[])
-  
+    setAuthenticated(Userfront.tokens.accesstoken);
+  }, []);
+
   return (
     <>
-      <DashboardNav setView={setView} currentView={view} authenticated={authenticated}/>
-        <div className="db-background">
-          {!authenticated ? 
-            <DBLogin setAuthenticated={setAuthenticated} />
-           : (
-            (view === "admin" && <DBAdmin />) ||
-            (view === "inhouse" && <DBInhouse />)
-          )}
-        </div>
+      <DashboardNav
+        setView={setView}
+        currentView={view}
+        authenticated={authenticated}
+      />
+      <div className="db-background">
+        {!authenticated ? (
+          <DBLogin setAuthenticated={setAuthenticated} />
+        ) : (
+          (view === "admin" && <DBAdmin />) ||
+          (view === "inhouse" && <DBInhouse />)
+        )}
+      </div>
     </>
   );
 }

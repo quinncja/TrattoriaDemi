@@ -1,23 +1,23 @@
-.db-background{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: calc(100vh - 81px);
-    background-color: black;
+.db-background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 81px);
+  background-color: black;
 }
 
-.login-input{
-    display: flex;
-    flex-direction: column;
-    width: 20%;
-    min-width: 300px;
-    max-width: 500px;
-    font-size: 16px !important;
-    color: white;
-    margin-top: -81px;
+.login-input {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  min-width: 300px;
+  max-width: 500px;
+  font-size: 16px !important;
+  color: white;
+  margin-top: -81px;
 }
 
-.invisible{
-    opacity: 0;
-    cursor: unset;
+.invisible {
+  opacity: 0;
+  cursor: unset;
 }

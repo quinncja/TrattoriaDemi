@@ -10,16 +10,19 @@ export function Navbar() {
   const location = useLocation();
   const [showNav, setShowNav] = useState(false);
 
-  const changeActive = useCallback((newLoc) => {
-    if (currentPage)
-      document.getElementById(currentPage).className = "navbar-link";
+  const changeActive = useCallback(
+    (newLoc) => {
+      if (currentPage)
+        document.getElementById(currentPage).className = "navbar-link";
 
-    if (newLoc === "home") return;
+      if (newLoc === "home") return;
 
-    document.getElementById(newLoc).className =
-      "navbar-link navbar-link-active";
-    setCurrentPage(newLoc);
-  }, [currentPage]);
+      document.getElementById(newLoc).className =
+        "navbar-link navbar-link-active";
+      setCurrentPage(newLoc);
+    },
+    [currentPage]
+  );
 
   useEffect(() => {
     let loc = location.pathname.substring(1);
@@ -31,7 +34,7 @@ export function Navbar() {
     if (loc === "email") loc = "home";
     if (loc.match(/^order-status\/.*/)) loc = "home";
     if (loc.match(/^cancel\/.*/)) loc = "home";
-    
+
     changeActive(loc);
   }, [changeActive, location.pathname, mobile]);
 
