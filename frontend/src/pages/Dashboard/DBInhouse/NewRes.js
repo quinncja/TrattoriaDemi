@@ -46,7 +46,7 @@ function NewRes(props) {
     if (event.target.id === "guests") {
       setGuests(event.target.selectedIndex);
     }
-    if (event.target.id === "date") {  
+    if (event.target.id === "date") {
       setDate(event.target.value);
     }
     if (event.target.id === "time") {

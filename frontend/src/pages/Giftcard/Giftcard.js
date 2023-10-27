@@ -23,9 +23,9 @@ function Giftcard() {
   const { ref } = usePlacesWidget({
     apiKey: PLACES_KEY,
     options: {
-      location: { lat: 42.0451, lng: -87.6877 }, 
+      location: { lat: 42.0451, lng: -87.6877 },
       radius: 200,
-      types: ['address'], 
+      types: ["address"],
     },
     onPlaceSelected: (place) => {
       setShipAddress(place.formatted_address);
@@ -42,7 +42,6 @@ function Giftcard() {
     button: errorStates.button ? "Please select an amount" : "Giftcard Amount",
     message: "Message to recipient",
   };
-
 
   const handleChange = (event) => {
     if (event.target.id === "recipient") {
@@ -93,7 +92,7 @@ function Giftcard() {
       ref: ref,
       handleChange,
     },
-  }
+  };
 
   const values = [
     { price: 15, id: "price_1NwtqREFXALc8iLMZINi83Oc" },
@@ -102,7 +101,7 @@ function Giftcard() {
     { price: 75, id: "price_1NwtrUEFXALc8iLMfdwgyR89" },
     { price: 100, id: "price_1NwtreEFXALc8iLMGc0nAK57" },
   ];
-  
+
   const buttons = values.map((button) => (
     <button
       className={`giftcard-button ${

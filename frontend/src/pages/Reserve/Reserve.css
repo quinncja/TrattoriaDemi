@@ -6,8 +6,8 @@
   display: flex;
   align-items: stretch;
 }
-.cancel-container{
-  min-height: calc(100vh - 150px)
+.cancel-container {
+  min-height: calc(100vh - 150px);
 }
 .reserve-top {
   position: sticky;
@@ -483,7 +483,7 @@
     font-size: 0.7rem;
   }
   .submit-button {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
   .input-text {
     font-size: 0.8rem;
@@ -544,4 +544,71 @@
 .fuck-adobe-focused {
   border-color: var(--gold);
   color: black;
+}
+
+.table-finder-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.table-finder {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.res-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.found-table{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding-inline: 10px;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+@media (width <= 520px) {
+  .table-finder{
+    grid-template-columns: 1fr;
+  }
+  .found-table{
+    font-size: .9rem;
+  }
+}
+.table-info{
+  padding: 10px;
+  padding-block: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;  
+  color: var(--color-bg-light);
+}
+
+.edit-btn{
+  background: none;
+  border: none; 
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+  color: var(--color-bg-light);
+  font-weight: 600;
+}
+
+.edit-btn:hover{
+  color: var(--gold);
+}
+.flex-end{
+  align-items: flex-end;
+}
+
+.br{
+  height: 8px;
 }

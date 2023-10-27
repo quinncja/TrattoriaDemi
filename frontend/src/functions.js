@@ -23,7 +23,6 @@ export function convertTo24Hour(time) {
     .padStart(2, "0")}`;
 }
 
-
 export function convertTo12Hour(time) {
   let [hours, minutes] = time.split(":");
   hours = parseInt(hours, 10);
@@ -79,7 +78,6 @@ export function dateToString(date) {
 export function capitalizeFirstLetter(string) {
   return string.charAt(0) + string.slice(1).toLowerCase();
 }
-
 
 export function minutesUntilTime(date, targetTime) {
   const target = moment.tz(

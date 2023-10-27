@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { useAnimate } from "framer-motion";
 import moment from "moment-timezone";
-import { convertTo12Hour, formatPhoneNumber, getTimeFromDate } from "../../../functions";
+import {
+  convertTo12Hour,
+  formatPhoneNumber,
+  getTimeFromDate,
+} from "../../../functions";
 
 function Order(props) {
   const order = props.order;

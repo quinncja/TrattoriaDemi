@@ -47,7 +47,6 @@ function OrderStatus() {
     };
     loadOrder();
 
-    
     return () => {
       abortController.abort();
     };
@@ -112,8 +111,8 @@ function OrderStatus() {
           {order.type === "delivery" && (
             <div className="order-status-subheader">
               {" "}
-              Delivery expected in {minutesUntilTime(date, order.estimatedReady)}{" "}
-              minutes
+              Delivery expected in{" "}
+              {minutesUntilTime(date, order.estimatedReady)} minutes
             </div>
           )}
         </div>

@@ -19,7 +19,6 @@ function Orders() {
   }, [order]);
 
   async function loadOrders(signal) {
-
     try {
       const response = await getOrders(signal);
       const completedOrdersList = response.filter(
@@ -93,9 +92,7 @@ function Orders() {
           </div>
         </div>
         <div className="orders-hide-overflow">
-          <OrderDisplayer orders={completeOrders} 
-          setState={setState}
- />
+          <OrderDisplayer orders={completeOrders} setState={setState} />
           <OrderDisplayer
             orders={orders}
             setState={setState}

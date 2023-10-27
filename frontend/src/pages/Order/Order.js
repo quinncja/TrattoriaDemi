@@ -17,10 +17,10 @@ function Order() {
   const [dinnerMenu, setDinnerMenu] = useState(null);
   const [wineList, setWineList] = useState(null);
   const [loaded, setLoaded] = useState(null);
-  const [isLunch, setLunch] = useState(isBefore4PMChicago())
+  const [isLunch, setLunch] = useState(isBefore4PMChicago());
 
   function isBefore4PMChicago() {
-    const chicagoTime = moment().tz('America/Chicago');
+    const chicagoTime = moment().tz("America/Chicago");
     const currentHour = chicagoTime.hours();
     return currentHour < 16;
   }
@@ -120,11 +120,11 @@ function Order() {
         handleResponseData(menus);
 
         let times = await checkLastUpdated();
-        if(times){
+        if (times) {
           const upToDate = checkForUpdates(menus, times);
           if (!upToDate) {
             menus = await fetchMenusFromServer();
-            if (menus){
+            if (menus) {
               setMenuLocal(menus);
               handleResponseData(menus);
             }
@@ -132,19 +132,18 @@ function Order() {
         }
       } else {
         menus = await fetchMenusFromServer();
-          if (menus){
-            setMenuLocal(menus);
-            handleResponseData(menus);
+        if (menus) {
+          setMenuLocal(menus);
+          handleResponseData(menus);
         }
       }
     };
 
     getMenu();
 
-  return () => {
-    abortController.abort();
-  };
-
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
   const handleOptionClick = (selectedId) => {
