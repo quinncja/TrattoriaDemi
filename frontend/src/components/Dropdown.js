@@ -2,9 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import {
     convertTo12Hour,
   } from "../functions";
-
+  import { useMobile } from "../context/MobileContext";
+  import { motion, AnimatePresence } from "framer-motion";
 function Dropdown(props) {
-  const { options, selected, onSelect, id, svg } = props;
+  const { object, selected, onSelect, id, svg } = props;
+  const mobile = useMobile();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -31,9 +33,9 @@ function Dropdown(props) {
       <button type="button" className="dropdown-button" onClick={() => setIsOpen(!isOpen)}>
         {svg()}  {selected ? id === "time" ? convertTo12Hour(selected) : selected : "Select"}
       </button>
-      { isOpen ? !options ?
-       <div className="dropdown-menu">
-         <div className="dropdown-line"/>
+      <AnimatePresence>
+      { isOpen ? !object.options ?
+       <motion.div className="dropdown-menu">
          <button
            id={id}
            className="dropdown-item item-disabled disabled"
@@ -41,12 +43,16 @@ function Dropdown(props) {
          >
            Select a date first
          </button>
-     </div> 
+     </motion.div> 
      :
-        <div className="dropdown-menu">
-          {options.map((option) => (
+        <motion.div className="dropdown-menu mobile-menu">
+        {mobile &&
+          <div className="dropdown-header">
+              {svg()} {object.name}
+          </div>
+        }
+          {object.options.map((option) => (
             <>
-            <div className="dropdown-line"/>
             <button
               key={option.value} 
               id={id}
@@ -59,8 +65,9 @@ function Dropdown(props) {
             </button>
             </>
           ))}
-        </div> : ""
+        </motion.div> : ""
       }
+      </AnimatePresence>
     </div>
   );
 }

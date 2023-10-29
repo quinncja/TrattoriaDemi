@@ -202,6 +202,7 @@ const TableFinder = forwardRef((props, ref) => {
       time: btnTime,
       tableSize: btnTable,
     });
+    setEditing(false);
   };
 
   const getTimeButtons = (list) => {
@@ -294,7 +295,6 @@ const TableFinder = forwardRef((props, ref) => {
     const fetchChecker = async () => {
       try {
         const response = await checkReservation(numGuests, convertDateToIso(date.$d), time, signal);
-        console.log(response)
         handleResponse(response);
       } catch (error) {
         console.error("Error checking reservation", error);
@@ -308,11 +308,14 @@ const TableFinder = forwardRef((props, ref) => {
     
   }, [numGuests, date, time, setTable, setEditing]);
 
-  const guestOptions = [
-    { value: 1, label: '1 guest' },
-    ...[...Array(9)].map((_, index) => ({ value: index + 2, label: `${index + 2} guests` })),
-    { value: '', label: 'For parties exceeding 10 guests please call the restaurant', disabled: true },
-  ];
+  const guestOptions = {
+    name: 'Party Size',
+    options: [
+      { value: 1, label: '1 guest' },
+      ...[...Array(9)].map((_, index) => ({ value: index + 2, label: `${index + 2} guests` })),
+      { value: '', label: 'For parties exceeding 10 guests please call the restaurant', disabled: true },
+    ],
+  };
 
   const newTheme = (theme) => createTheme({
     ...theme,
@@ -429,7 +432,7 @@ const TableFinder = forwardRef((props, ref) => {
             <motion.div {...fadeIn} className={`table-finder`}>
               <div className="input-group">
                 <div className={`input-text`}> {inputText.guestNum} </div>
-                  <Dropdown options={guestOptions} selected={numGuests} onSelect={handleChange} id={"guests"} svg={peopleSvg}/>
+                  <Dropdown object={guestOptions} selected={numGuests} onSelect={handleChange} id={"guests"} svg={peopleSvg}/>
               </div>
               <div className="input-group">
                 <span id="date" className={`input-text ${calOpen ? "gold" : ""}`}>
@@ -444,7 +447,7 @@ const TableFinder = forwardRef((props, ref) => {
               </div>
               <div className="input-group">
                 <div className="input-text"> {inputText.timeTxt} </div>
-                <Dropdown options={timeList} selected={time} onSelect={handleChange} id={"time"} svg={clockSvg}/>
+                <Dropdown object={{name: "Time", options: timeList}} selected={time} onSelect={handleChange} id={"time"} svg={clockSvg}/>
               </div>
             </motion.div>
             {availableTimes && (

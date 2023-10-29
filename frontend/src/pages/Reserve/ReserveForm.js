@@ -76,7 +76,7 @@ function ReserveForm(props) {
 
   return (
     <>
-      <div className="row flex-end">
+      <div className="row flex-end mobile">
         {Input(inputObjs.name)}
         {Input(inputObjs.phone)}
       </div>
