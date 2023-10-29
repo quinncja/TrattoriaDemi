@@ -5,6 +5,8 @@ import { postContact } from "../../api";
 import { successfulContactAlert } from "../../swal2";
 import { isValidEmail } from "../../functions";
 import Input from "../../components/Input";
+import { motion, AnimatePresence } from "framer-motion";
+import { fadeIn } from "../../animations.js";
 
 function Contact() {
   const [name, setName] = useState("");
@@ -120,14 +122,20 @@ function Contact() {
         <div className="reserve-section">
           <div className="menu-section-header">Contact Us</div>
           <img className="fancy-line" src={FancyLine} alt="" />
-          <div className="contact-inputs">
-            {Input(inputObjs.name)}
-            {Input(inputObjs.email)}
-            {Input(inputObjs.message)}
-            <button className="submit-button" type="button" onClick={onSubmit}>
-              Send
-            </button>
-          </div>
+          <AnimatePresence>
+            <motion.div {...fadeIn} className="contact-inputs">
+              {Input(inputObjs.name)}
+              {Input(inputObjs.email)}
+              {Input(inputObjs.message)}
+              <button
+                className="submit-button"
+                type="button"
+                onClick={onSubmit}
+              >
+                Send
+              </button>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </form>

@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 const orderType = ["pickup", "delivery"];
-const status = ["waiting", "confirmed", "completed"]
+const status = ["waiting", "confirmed", "completed"];
 const orderSchema = new mongoose.Schema({
   customerName: {
     type: String,
     required: true,
   },
-  subtotal:{
+  subtotal: {
     type: Number,
   },
-  status:{
-    type: String, 
-    default: "waiting"
+  status: {
+    type: String,
+    default: "waiting",
   },
   tip: {
     type: Number,
@@ -56,7 +56,7 @@ const orderSchema = new mongoose.Schema({
   },
   paymentIntent: {
     type: String,
-  }
+  },
 });
 
 module.exports = mongoose.model("Order", orderSchema);

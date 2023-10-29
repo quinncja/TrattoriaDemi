@@ -4,6 +4,8 @@ import FancyLine from "../../images/FancyLine.png";
 import { usePlacesWidget } from "react-google-autocomplete";
 import { successfulGiftcardAlert } from "../../swal2.js";
 import Input from "../../components/Input.js";
+import { motion, AnimatePresence } from "framer-motion";
+import { fadeIn } from "../../animations.js";
 const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
 
 function Giftcard() {
@@ -194,31 +196,33 @@ function Giftcard() {
           <div className="reserve-section">
             <div className="menu-section-header">Order a giftcard</div>
             <img className="fancy-line" src={FancyLine} alt="" />
-            <div className=" giftcard-inputs">
-              <div className="giftcard-input">
-                <div className="input-group">
-                  <label
-                    className={`input-text ${
-                      errorStates.button && `input-text-error`
-                    }`}
+            <AnimatePresence>
+              <motion.div {...fadeIn} className=" giftcard-inputs">
+                <div className="giftcard-input">
+                  <div className="input-group">
+                    <label
+                      className={`input-text ${
+                        errorStates.button && `input-text-error`
+                      }`}
+                    >
+                      {" "}
+                      {inputText.button}{" "}
+                    </label>
+                    <div className="giftcard-buttons">{buttons}</div>
+                  </div>
+                  {Input(inputObjs.name)}
+                  {Input(inputObjs.address)}
+                  {Input(inputObjs.message)}
+                  <button
+                    className="submit-button mt-10"
+                    type="button"
+                    onClick={onSubmit}
                   >
-                    {" "}
-                    {inputText.button}{" "}
-                  </label>
-                  <div className="giftcard-buttons">{buttons}</div>
+                    Checkout with Stripe
+                  </button>
                 </div>
-                {Input(inputObjs.name)}
-                {Input(inputObjs.address)}
-                {Input(inputObjs.message)}
-                <button
-                  className="submit-button mt-10"
-                  type="button"
-                  onClick={onSubmit}
-                >
-                  Checkout with Stripe
-                </button>
-              </div>
-            </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </form>

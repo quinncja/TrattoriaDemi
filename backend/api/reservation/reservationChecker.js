@@ -13,13 +13,13 @@ const tableSizes = {
   10: ["xl"],
 };
 
-const maxTables = { "2top": 5, "3top": 2, "4top": 3, "6top": 2, "xl": 1 };
+const maxTables = { "2top": 5, "3top": 2, "4top": 3, "6top": 2, xl: 1 };
 const secondaryMaxTables = {
   "2top": 4,
   "3top": 2,
   "4top": 3,
   "6top": 1,
-  "xl": 0,
+  xl: 0,
 };
 
 function timeToMinutes(timeStr) {
@@ -38,7 +38,7 @@ function checkTableAvailability(overlapRes, tableSize) {
   let tableAmount;
   if (overlapRes.some((res) => res.tableSize === "xl"))
     tableAmount = secondaryMaxTables[tableSize];
-  else tableAmount = maxTables[tableSize]
+  else tableAmount = maxTables[tableSize];
   const count = overlapRes.filter((res) => res.tableSize === tableSize).length;
   if (count + 1 > tableAmount) return false;
   return true;
@@ -49,7 +49,8 @@ function checkAvailability(reservations, tableOptions, time) {
     return false;
   const overlapRes = reservations.filter(
     (reservation) =>
-    isWithinOneHourAndFifteen(time, reservation.time) && reservation.state !== "cancel",
+      isWithinOneHourAndFifteen(time, reservation.time) &&
+      reservation.state !== "cancel",
   );
   for (let i = 0; i < tableOptions.length; i++) {
     if (checkTableAvailability(overlapRes, tableOptions[i]))
@@ -95,7 +96,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
     if (foundTable) return { available: foundTable, suggestions: [] };
   }
   let i = 0;
-  while (suggestedTimes.length < 5){
+  while (suggestedTimes.length < 5) {
     const prev = getPrevSlot(desiredTime, i);
     const next = getNextSlot(desiredTime, i);
     const nextSuggestion = checkAvailability(reservations, tableOptions, next);

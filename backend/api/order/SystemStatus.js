@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const systemStatusSchema = new mongoose.Schema({
   pickup: {
@@ -8,9 +8,9 @@ const systemStatusSchema = new mongoose.Schema({
   delivery: {
     type: Boolean,
     default: true,
-  }
+  },
 });
 
-const SystemStatus = mongoose.model('SystemStatus', systemStatusSchema);
+const SystemStatus = mongoose.model("SystemStatus", systemStatusSchema);
 
 module.exports = SystemStatus;
