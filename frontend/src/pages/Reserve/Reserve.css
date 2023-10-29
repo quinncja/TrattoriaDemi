@@ -699,6 +699,7 @@
   margin-inline: auto;
   padding-top: 16px;
   padding-left: 25px;
+  color: var(--black);
   position: relative;
 }
 .dropdown-item::before{
