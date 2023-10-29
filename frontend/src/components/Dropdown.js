@@ -51,8 +51,8 @@ function Dropdown(props) {
               {svg()} {object.name}
           </div>
         }
+        <div className="items-container">
           {object.options.map((option) => (
-            <>
             <button
               key={option.value} 
               id={id}
@@ -63,8 +63,8 @@ function Dropdown(props) {
             >
               {option.label}
             </button>
-            </>
           ))}
+        </div>
         </motion.div> : ""
       }
       </AnimatePresence>
