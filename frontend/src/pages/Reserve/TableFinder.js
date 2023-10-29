@@ -1,27 +1,43 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from "react";
-import { convertTo24Hour, convertTo12Hour, dateToString } from "../../functions";
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+import {
+  convertTo24Hour,
+  convertTo12Hour,
+  dateToString,
+} from "../../functions";
 import { checkReservation } from "../../api";
 import { motion, AnimatePresence } from "framer-motion";
+import { fadeIn, fadeInDown } from "../../animations";
+import Dropdown from "../../components/Dropdown";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { calendarSvg, peopleSvg, clockSvg } from "../../svg";
+import { convertDateToIso } from "../../functions";
+import dayjs from 'dayjs';
 
 const TableFinder = forwardRef((props, ref) => {
-  const { table, setTable } = props;
-  const [numGuests, setGuests] = useState(null);
-  const [selectedGuest, setSelectedGuest] = useState("")
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [realTime, setRealTime] = useState(null);
+  const { table, setTable, editing, setEditing } = props;
+  const [numGuests, setGuests] = useState(table?.numGuests || null);
+  const [date, setDate] = useState(table?.date || null);
+  const [time, setTime] = useState(table?.time || "");
   const [timeList, setTimeList] = useState(null);
   const [availableTimes, setAvailableTimes] = useState(null);
+  const [calOpen, setCalOpen] = useState(false);
+
 
   const reset = () => {
-    setGuests(null)
-    setSelectedGuest("")
-    setDate("")
-    setTime("")
-    setRealTime("")
-    setTimeList("")
-    setAvailableTimes(null)
-  }
+    setGuests(null);
+    setDate("");
+    setTime("");
+    setTimeList("");
+    setAvailableTimes(null);
+  };
 
   useImperativeHandle(ref, () => ({
     reset,
@@ -170,19 +186,23 @@ const TableFinder = forwardRef((props, ref) => {
     const newDate = new Date(date);
     const dayOfWeek = newDate.getDay();
     const timeKey = days[dayOfWeek];
-    setTimeList(times[timeKey]);
+    const tL = times[timeKey]
+    const convertedTimeList = tL.map((time) => ({
+      label: time,
+      value: convertTo24Hour(time)
+    }));
+    setTimeList(convertedTimeList);
   };
 
   const handleTimeClick = (buttonId) => {
     const [btnTime, btnTable] = buttonId.split("-");
     setTable({
-        numGuests,
-        date,
-        time: btnTime,
-        tableSize: btnTable,
+      numGuests,
+      date,
+      time: btnTime,
+      tableSize: btnTable,
     });
-    setRealTime(btnTime);
-    }
+  };
 
   const getTimeButtons = (list) => {
     return list.map((obj, index) => (
@@ -199,23 +219,23 @@ const TableFinder = forwardRef((props, ref) => {
       </button>
     ));
   };
+  
+  const handleDateChange = (value) => {
+      setTime("");
+      setAvailableTimes(null);
+      setDate(value);
+      getTimeList(value);
+  }
 
   const handleChange = (event) => {
     if (event.target.id === "guests") {
-      setGuests(event.target.selectedIndex);
-      setSelectedGuest(event.target.value)
-    }
-    if (event.target.id === "date") {
-      setTime('')
-      setAvailableTimes(null)
-      setDate(event.target.value);
-      getTimeList(event.target.value);
+      setGuests(event.target.value);
     }
     if (event.target.id === "time") {
       setTime(event.target.value);
     }
   };
-
+  
   function balancedTrim(array) {
     const desiredLength = 5;
 
@@ -243,12 +263,18 @@ const TableFinder = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
+    if(editing && date?.$d){
+      getTimeList(date.$d)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
     function handleResponse(response) {
       if (response.available) {
-        setRealTime(response.available.time);
         setAvailableTimes(null);
         setTable({
           numGuests,
@@ -256,18 +282,19 @@ const TableFinder = forwardRef((props, ref) => {
           time: response.available.time,
           tableSize: response.available.table,
         });
+        setEditing(false);
       } else {
-        setTable(null)
-        setRealTime(null);
+        setTable(null);
         let times = sortResponse(response.suggestions);
         times = balancedTrim(times);
         setAvailableTimes(times);
       }
     }
-
+    
     const fetchChecker = async () => {
       try {
-        const response = await checkReservation(numGuests, date, time, signal);
+        const response = await checkReservation(numGuests, convertDateToIso(date.$d), time, signal);
+        console.log(response)
         handleResponse(response);
       } catch (error) {
         console.error("Error checking reservation", error);
@@ -278,157 +305,159 @@ const TableFinder = forwardRef((props, ref) => {
     return () => {
       abortController.abort();
     };
-  }, [numGuests, date, time, setTable]);
+    
+  }, [numGuests, date, time, setTable, setEditing]);
 
-  const calendarSvg = () => {
+  const guestOptions = [
+    { value: 1, label: '1 guest' },
+    ...[...Array(9)].map((_, index) => ({ value: index + 2, label: `${index + 2} guests` })),
+    { value: '', label: 'For parties exceeding 10 guests please call the restaurant', disabled: true },
+  ];
+
+  const newTheme = (theme) => createTheme({
+    ...theme,
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            boxShadow: 'none',
+            "& .Mui-selected": {
+              backgroundColor: '#d3963a !important',
+            },
+            "& .MuiPickersDay-today": {
+              backgroundColor: '#yd3963a !important',
+              color: '#yd3963a !important',
+            },
+            "&.MuiPickersDay-today:hover": {
+              backgroundColor: '#yd3963a',
+            },
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                border: '1px solid #b6b6b6',
+              },
+              "&:hover fieldset": {
+                border: '1px solid #b6b6b6',
+              },
+              "&.Mui-focused fieldset": {
+                border: '1px solid #b6b6b6',
+              },
+            },
+          },
+        },
+      },
+      MuiDateCalendar: {
+        styleOverrides: {
+          root: {
+            color: '#121212',
+            borderRadius: '0px 5px 5px 5px',
+            borderWidth: 1,
+            borderColor: '#b6b6b6',
+            border: '1px solid #b6b6b6',
+            backgroundColor: '#f8f4f1',
+            minWidth: '100%',
+            "& .Mui-selected": {
+              backgroundColor: '#d3963a !important',
+            },
+            "& .MuiPickersDay-today:hover": {
+              backgroundColor: '#yourDesiredHoverColor !important',
+            },
+          }
+        }
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            boxShadow: '6px 8px rgba(0, 0, 0, 0.1) !important',
+          }
+        }
+    }
+  }
+}
+  )
+
+  function ButtonField(props){
+    const {
+      InputProps: { ref } = {},
+      inputProps: { 'aria-label': ariaLabel } = {},
+    } = props;
+
     return(
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="#2d2d34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M16 2V6" stroke="#2d2d34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M8 2V6" stroke="#2d2d34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M3 10H21" stroke="#2d2d34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+      <button
+      type="button"
+      ref={ref}
+      className={`date-picker ${calOpen ? "date-picker-open" : ""}`}
+      aria-label={ariaLabel}
+      onClick={() => setCalOpen?.((prev) => !prev)}
+    >
+      {calendarSvg()}
+      {date ? `${dateToString(date)}` : 'Select'}
+    </button>
     )
   }
-
-  const peopleSvg = () => {
-    return(
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="#2d2d34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="#2d2d34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="#2d2d34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M16 3.13C16.8604 3.3503 17.623 3.8507 18.1676 4.55231C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89317 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="#2d2d34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-    )
-  }
-
-  const clockSvg = () => {
-    return(
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#2d2d34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 6V12L16 14" stroke="#2d2d34" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-    )
+  function ButtonDatePicker(props) {
+    return (
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ThemeProvider theme={newTheme}>
+      <DatePicker    
+        slots={{ field: ButtonField, ...props.slots }}
+        slotProps={{ field: { setCalOpen } }}
+        {...props}               
+        onChange={(newValue) => handleDateChange(newValue)}
+        type="date"
+        id="date"
+                value={date}
+        closeOnSelect={true}
+        minDate={dayjs().startOf('day')}
+        open={calOpen}
+        onClose={() => setCalOpen(false)}
+        onOpen={() => setCalOpen(true)}
+        renderInput={({ inputRef, inputProps, InputProps }) => (
+          <div style={{ display: 'none' }}>
+            <input ref={inputRef} {...inputProps} />
+            {InputProps?.endAdornment}
+          </div>
+        )}
+        />
+        </ThemeProvider>
+    </LocalizationProvider>
+    );
   }
 
   return (
     <div className="table-finder-container">
-        {table ?
-        <AnimatePresence>
-            <motion.div
-                initial={{ opacity: 0}}
-                animate={{ opacity: 1}}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-            >
-            <div className="input-text"> Your table </div>
-            <div className="found-table">
-                <div className="table-info">
-                    {peopleSvg()}
-                    {numGuests}
-                </div>
-                <div className="table-info">
-                    {calendarSvg()}
-                    {dateToString(date)}
-                </div>
-                <div className="table-info">
-                    {clockSvg()}
-                    {convertTo12Hour(realTime)}
-                </div>
-                <button className="edit-btn" type="button" onClick={() => setTable(null)}>
-                    Edit
-                </button>
-                </div>
+          <AnimatePresence>
+            <motion.div {...fadeIn} className={`table-finder`}>
+              <div className="input-group">
+                <div className={`input-text`}> {inputText.guestNum} </div>
+                  <Dropdown options={guestOptions} selected={numGuests} onSelect={handleChange} id={"guests"} svg={peopleSvg}/>
+              </div>
+              <div className="input-group">
+                <span id="date" className={`input-text ${calOpen ? "gold" : ""}`}>
+                  {" "}
+                  {inputText.dateTxt}{" "}
+                </span>
+                <ButtonDatePicker
+                        label={date == null ? null : date}
+                        value={date}
+                        onChange={(newValue) => handleDateChange(newValue)}
+                />
+              </div>
+              <div className="input-group">
+                <div className="input-text"> {inputText.timeTxt} </div>
+                <Dropdown options={timeList} selected={time} onSelect={handleChange} id={"time"} svg={clockSvg}/>
+              </div>
             </motion.div>
-        </AnimatePresence>
-        : 
-        <> 
-        <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className={`table-finder`}>
-        <div className="input-group">
-          <div className={`input-text`}> {inputText.guestNum} </div>
-          <select
-            className={`reserve-select`}
-            onChange={(event) => handleChange(event)}
-            id="guests"
-            value={selectedGuest}
-          >
-            <option default hidden value="">
-              {" "}
-              Select{" "}
-            </option>
-            <option>1 guest</option>
-            {[...Array(9)].map((_, index) => (
-              <option data={index + 2} key={index + 2}>
-                {index + 2} guests
-              </option>
-            ))}
-            <option disabled value="">
-              For parties exceding 10 guests please call the restaurant
-            </option>
-          </select>
-        </div>
-        <div className="input-group">
-          <span id="date" className="input-text">
-            {" "}
-            {inputText.dateTxt}{" "}
-          </span>
-
-          <input
-            onChange={(event) => handleChange(event)}
-            type="date"
-            id="date"
-            className={`reserve-select`}
-            value={date}
-          />
-        </div>
-        <div className="input-group">
-          <div className="input-text"> {inputText.timeTxt} </div>
-          <select
-            className={`reserve-select`}
-            id="time"
-            onChange={(event) => handleChange(event)}
-            value={time}
-          >
-            <option default hidden value="">
-              {" "}
-              Select{" "}
-            </option>
-            {date && timeList ? (
-              timeList.map((time, index) => (
-                <option key={index} value={convertTo24Hour(time)}>
-                  {time}
-                </option>
-              ))
-            ) : (
-              <option disabled value="">
-                Select a date first
-              </option>
+            {availableTimes && (
+              <AnimatePresence>
+                <motion.div {...fadeInDown}>
+                  <label className="input-text"> {inputText.button} </label>
+                  <div className="reserve-buttons">
+                    {getTimeButtons(availableTimes)}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             )}
-          </select>
-        </div>
-      </motion.div>
-      {availableTimes && (
-        <AnimatePresence>
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -40 }}
-            transition={{ duration: 0.5 }}
-          >
-            <label className="input-text"> {inputText.button} </label>
-            <div className="reserve-buttons">
-              {getTimeButtons(availableTimes)}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      )}
-              </>
-        }
+            </AnimatePresence>
     </div>
   );
 });

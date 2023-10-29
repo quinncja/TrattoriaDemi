@@ -3,9 +3,9 @@ const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 const domain = process.env.DEPLOYED_DOMAIN;
 const orderRouter = express.Router();
 const Order = require("./Order");
-const SystemStatus = require("./SystemStatus")
-const { sendOrderText, sendOrderCancelText } = require("./sendOrderText")
-const moment = require('moment-timezone');
+const SystemStatus = require("./SystemStatus");
+const { sendOrderText, sendOrderCancelText } = require("./sendOrderText");
+const moment = require("moment-timezone");
 const { Item, Menu, Section } = require("./Menu");
 const { ObjectId } = require("mongoose").Types;
 const endpointSecret = process.env.STRIPE_ORDER_ENDPOINT_SECRET;
@@ -162,17 +162,17 @@ function getTax(price) {
   return price * 0.1025;
 }
 
-async function checkStatus(type){
+async function checkStatus(type) {
   const status = await SystemStatus.findOne();
-  return status[type]
+  return status[type];
 }
 
 orderRouter.post("/pickup", async (req, res) => {
   try {
     const { customerName, type, tip, address, notes, utensils, phone, items } =
       req.body;
-    if(!checkStatus(type)) res.status(500).json({ message: `${type} closed` });
-    
+    if (!checkStatus(type)) res.status(500).json({ message: `${type} closed` });
+
     const serverItemsList = items.flatMap((item) => {
       return Array(item.qty).fill(item.serverItem);
     });
@@ -197,7 +197,7 @@ orderRouter.post("/pickup", async (req, res) => {
     });
     const savedOrder = await newOrder.save();
     clients.forEach((client) =>
-    client.write(`data: ${JSON.stringify(newOrder)}\n\n`),
+      client.write(`data: ${JSON.stringify(newOrder)}\n\n`),
     );
     res.status(200).json(savedOrder);
   } catch (error) {
@@ -210,12 +210,12 @@ orderRouter.post("/checkout", async (req, res) => {
   try {
     const { customerName, type, tip, address, notes, utensils, phone, items } =
       req.body;
-    if(!checkStatus(type)) res.status(500).json({ message: `${type} closed` });
+    if (!checkStatus(type)) res.status(500).json({ message: `${type} closed` });
     const serverItemsList = items.flatMap((item) => {
       return Array(item.qty).fill(item.serverItem);
     });
     const subtotal = await getCartTotal(serverItemsList);
-    let total = subtotal; 
+    let total = subtotal;
     const tax = getTax(total);
     total += tax;
     if (type === "delivery") {
@@ -240,7 +240,7 @@ orderRouter.post("/checkout", async (req, res) => {
       total,
       savedOrder._id.toString(),
     );
-    
+
     res.status(200).json({ url: session.url });
   } catch (error) {
     console.error(error);
@@ -249,25 +249,24 @@ orderRouter.post("/checkout", async (req, res) => {
 });
 
 orderRouter.get("/today", async (req, res) => {
-    try {
-      const startOfToday = moment.tz("America/Chicago").startOf('day').toDate();
-      const endOfToday = moment.tz("America/Chicago").endOf('day').toDate();
-  
-      const orders = await Order.find({
-        timePlaced: {
-          $gte: startOfToday,
-          $lte: endOfToday
-        }
-      });
-  
-      res.status(200).json(orders);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error retrieving the orders" });
-    }
-  });
+  try {
+    const startOfToday = moment.tz("America/Chicago").startOf("day").toDate();
+    const endOfToday = moment.tz("America/Chicago").endOf("day").toDate();
 
-  
+    const orders = await Order.find({
+      timePlaced: {
+        $gte: startOfToday,
+        $lte: endOfToday,
+      },
+    });
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving the orders" });
+  }
+});
+
 orderRouter.get("/orders", async (req, res) => {
   try {
     const orders = await Order.find(); // This fetches all the orders from the database
@@ -315,12 +314,14 @@ orderRouter.patch("/id/:id", async (req, res) => {
     const order = await getOrder(orderId);
 
     if (!order) {
-      return res.status(404).json({ message: `No order found with ID: ${orderId}` });
+      return res
+        .status(404)
+        .json({ message: `No order found with ID: ${orderId}` });
     }
 
     order.estimatedReady = time;
     order.status = "confirmed";
-    await order.save(); 
+    await order.save();
     sendOrderText(order);
     return res.status(200).json(order);
   } catch (error) {
@@ -336,25 +337,27 @@ orderRouter.put("/id/:id", async (req, res) => {
     const order = await getOrder(orderId);
 
     if (!order) {
-      return res.status(404).json({ message: `No order found with ID: ${orderId}` });
+      return res
+        .status(404)
+        .json({ message: `No order found with ID: ${orderId}` });
     }
-    order.status = "completed"
-    await order.save()
+    order.status = "completed";
+    await order.save();
 
     return res.status(200).json(order);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error updating the order" , error});
+    return res.status(500).json({ message: "Error updating the order", error });
   }
 });
 
-async function refundOrder(paymentIntent){
+async function refundOrder(paymentIntent) {
   try {
     await stripe.refunds.create({
-    payment_intent: paymentIntent,
-  })
-  }catch (error) {
-    throw (error);
+      payment_intent: paymentIntent,
+    });
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -373,7 +376,9 @@ orderRouter.delete("/id/:id", async (req, res) => {
     const order = await getOrder(orderId);
 
     if (!order) {
-      return res.status(404).json({ message: `No order found with ID: ${orderId}` });
+      return res
+        .status(404)
+        .json({ message: `No order found with ID: ${orderId}` });
     }
 
     await refundOrder(order.paymentIntent);
@@ -383,7 +388,7 @@ orderRouter.delete("/id/:id", async (req, res) => {
     return res.status(200).json(order);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error updating the order" , error});
+    return res.status(500).json({ message: "Error updating the order", error });
   }
 });
 
@@ -416,7 +421,6 @@ orderRouter.post("/payment-webhook", async (request, response) => {
   response.send(event.type);
 });
 module.exports = orderRouter;
-
 
 orderRouter.get("/events", (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -455,12 +459,13 @@ orderRouter.get("/status", async (req, res) => {
   }
 });
 
-
 orderRouter.patch("/status", async (req, res) => {
   const updates = req.body;
   try {
-    let updatedStatus = await SystemStatus.findOneAndUpdate({}, updates, { new: true });
-    res.json(updatedStatus);  
+    let updatedStatus = await SystemStatus.findOneAndUpdate({}, updates, {
+      new: true,
+    });
+    res.json(updatedStatus);
   } catch (error) {
     console.error("Error updating system status:", error);
     res.status(500).send("Internal Server Error");

@@ -1239,7 +1239,7 @@ async function updateMenuData(menuType, menuData) {
 
     const section = new Section({
       ...sectionData,
-      menuId: menuId, 
+      menuId: menuId,
     });
     await section.save();
 
@@ -1249,7 +1249,7 @@ async function updateMenuData(menuType, menuData) {
     const itemPromises = items.map((itemData) => {
       const item = new Item({
         ...itemData,
-        sectionId: section._id, 
+        sectionId: section._id,
         menuId: menuId,
       });
       return item.save();

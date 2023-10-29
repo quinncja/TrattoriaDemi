@@ -45,4 +45,4 @@ describe("getPrevSlot", () => {
   });
 });
 
-describe("checkTableAvailability", )
+describe("checkTableAvailability");

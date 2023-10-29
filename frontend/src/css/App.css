@@ -355,6 +355,7 @@ body {
   filter: brightness(110%);
   background-color: var(--gold) !important;
   border: 1px solid var(--gold) !important;
+  box-shadow: 4px 6px rgba(0, 0, 0, 0.1);;
 }
 
 .giftcard-button-active:hover {

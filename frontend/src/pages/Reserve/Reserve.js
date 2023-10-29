@@ -6,23 +6,35 @@ import { successfulReserveAlert } from "../../swal2";
 import TableFinder from "./TableFinder";
 import ReserveForm from "./ReserveForm";
 import { motion, AnimatePresence } from "framer-motion";
+import { fadeInDown } from "../../animations";
+import FoundTable from "./FoundTable";
+import { convertDateToIso } from "../../functions";
 export default function Reserve() {
+  const [editing, setEditing] = useState(false)
   const [table, setTable] = useState(null);
   const childRef = useRef(null);
 
   async function createRes(formData) {
-
     const newRes = {
       ...table,
-      ...formData
+      date: convertDateToIso(table.date.$d),
+      ...formData,
     };
-    
+
     const status = await postReservation(newRes);
     if (status === 201) {
       successfulReserveAlert();
-      setTable(null)
+      setTable(null);
       childRef.current.reset();
     } else console.log(status);
+  }
+
+  const returnToEdit = () => {
+    setTable((prevTable) => ({
+      ...prevTable,
+      time: ""
+    }));
+    setEditing(true)
   }
 
   return (
@@ -34,17 +46,16 @@ export default function Reserve() {
         <div className="reserve-section">
           <div className="menu-section-header">For a Reservation</div>
           <img className="fancy-line" src={FancyLine} alt="" />
+          {(!table || editing) &&
+          <div className="table-finder-container"> 
+            <TableFinder table={table} setTable={setTable} editing={editing} setEditing={setEditing} ref={childRef} />
+          </div> 
+          }
           <div className="reserve-inputs">
-            <TableFinder table={table} setTable={setTable} ref={childRef}/>
-            {table && (
+            {table && !editing && (
               <AnimatePresence>
-                <motion.div
-                  className="res-info"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5 }}
-                >
+                <motion.div className="res-info" {...fadeInDown}>
+                <FoundTable table={table} setEditing={returnToEdit}/>
                   <ReserveForm createRes={createRes} />
                 </motion.div>
               </AnimatePresence>
