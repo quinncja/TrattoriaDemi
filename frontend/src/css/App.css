@@ -343,6 +343,7 @@ body {
   border-radius: 7px;
   background: none;
   transition: all 0.3s ease-in-out;
+  color: var(--black);
 }
 
 .giftcard-button:hover {
