@@ -760,13 +760,13 @@
     flex-direction: column;
   }
   .dropdown-item{
-    padding-left: 10;
+    padding-left: 5px;
     padding-top: 24px;
     padding-bottom: 12px;
     
   }
   .dropdown-item::before{
-    transform: translateX(calc(-50% + 10px));
+    transform: translateX(-50%);
   }
 }
 
