@@ -45,6 +45,8 @@ function Dropdown(props) {
          </button>
      </motion.div> 
      :
+     <>
+      <div className="overlay" onClick={() => setIsOpen(false)}></div>
         <motion.div className="dropdown-menu mobile-menu">
         {mobile &&
           <div className="dropdown-header">
@@ -65,8 +67,11 @@ function Dropdown(props) {
             </button>
           ))}
         </div>
-        </motion.div> : ""
+        </motion.div> 
+        </>
+        : ""
       }
+      
       </AnimatePresence>
     </div>
   );
