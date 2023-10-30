@@ -730,6 +730,7 @@
   font-size: 1rem;
   position: sticky;
   padding: 20px;
+  padding-bottom: 10px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -756,7 +757,20 @@
     border-radius: 5px;
     border: 1px solid var(--border-color) !important;
     max-height: 70vh; 
+    background-color: white;
   } 
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with 70% opacity */
+    border: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+  }
   .mobile{
     flex-direction: column;
   }
@@ -764,10 +778,13 @@
     padding-left: 10px;
     padding-top: 24px;
     padding-bottom: 12px;
-    
+    font-size: 16px;
   }
   .dropdown-item::before{
     transform: translateX(-50%);
+  }
+  .items-container{
+    background-color: var(--nice-white);
   }
 }
 
