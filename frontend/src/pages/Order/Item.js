@@ -1,10 +1,14 @@
 import { useContext, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CartContext from "../../context/CartContext";
+import {replaceSpaceW_ } from "../../functions"
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 
 function Item({ item }) {
-  const [isOpen, setOpen] = useState(false);
+  let [searchParams, setSearchParams] = useSearchParams();
+  let name = searchParams.get('item');
+
   const [price, setPrice] = useState(item.price);
   const [qty, setQty] = useState(1);
   const [pasta, setPasta] = useState(null);
@@ -28,6 +32,13 @@ function Item({ item }) {
     setRequestTxt("");
     setDressing(false);
     setDressingQty(1);
+  }
+
+  const itemPusher = (item) => {
+    if(!item) setSearchParams()
+      setSearchParams(
+        `?item=${item.toLowerCase()}`
+      )
   }
 
   function handleButtonClick() {
@@ -57,9 +68,9 @@ function Item({ item }) {
       serverItem,
     };
     addItemToCart(localItem);
-    setOpen(false);
-    clearItem();
-  }
+      itemPusher(false)
+      clearItem()
+;    }
 
   function Dressing() {
     function dressingHandler(id) {
@@ -334,7 +345,7 @@ function Item({ item }) {
                 {item.sizes.length > 1 ? "+" : ""}{" "}
               </div>{" "}
             </div>
-            <button className="close-btn" onClick={() => setOpen(false)}>
+            <button className="close-btn" onClick={() => itemPusher(false)}>
               X
             </button>
           </div>
@@ -395,7 +406,7 @@ function Item({ item }) {
   }
   return (
     <>
-      <button className="item-container" onClick={() => setOpen(true)}>
+      <button className="item-container" onClick={() => itemPusher(replaceSpaceW_(item.name))}>
         <div className="item-closed-header">
           <div className="item-name"> {item.name} </div>
           <div className="item-price">
@@ -408,11 +419,11 @@ function Item({ item }) {
       </button>
       <Modal
         blockScroll={false}
-        open={isOpen}
+        open={name === replaceSpaceW_(item.name).toLowerCase()}
         center={true}
         showCloseIcon={false}
         classNames={{ modal: "item-modal" }}
-        onClose={() => setOpen(false)}
+        onClose={() => itemPusher(false)}
       >
         {openItem()}
       </Modal>
