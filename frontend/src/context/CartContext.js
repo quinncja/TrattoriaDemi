@@ -22,7 +22,7 @@ export function CartProvider(props) {
   const addItemToCart = (item) => {
     setItems((prevItems) => [...prevItems, item]);
     setPrice((prevPrice) => prevPrice + convertPriceToNumber(item.totalPrice));
-    setQty((prevQty) => prevQty + item.qty);
+    setQty((prevQty) => prevQty + Number(item.qty));
   };
 
   const deleteItemFromCart = (item) => {

@@ -113,3 +113,7 @@ export const convertDateToIso = (date) => {
   const formattedDate = dateAsUTC.toISOString();
   return formattedDate;
 }
+
+export function replaceSpaceW_(str) {
+  return str.replace(/ /g, '_')
+}
