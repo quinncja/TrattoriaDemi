@@ -111,51 +111,56 @@ async function createCheckoutSession(price, orderId) {
 }
 
 async function getCartTotal(serverItemsList) {
+  console.log(serverItemsList)
   let total = 0;
 
   for (let serverItem of serverItemsList) {
-    const item = await Item.findById(new ObjectId(serverItem.itemId));
-    total += item.price;
+    let itemCost = 0;
+    let modifiers = serverItem.modifiers
+    const item = await Item.findById(new ObjectId(serverItem._id));
+    itemCost += item.price;
 
-    if (serverItem.size) {
-      const size = item.sizes.find((s) => s._id.toString() === serverItem.size);
+    if (modifiers.size) {
+      const size = item.sizes.find((s) => s._id.toString() === modifiers.size.id);
       if (size) {
-        total += size.price;
+        itemCost += size.price;
       }
     }
 
-    if (serverItem.sauce) {
+    if (modifiers.sauce) {
       const sauce = item.sauces.find(
-        (s) => s._id.toString() === serverItem.sauce,
+        (s) => s._id.toString() === modifiers.sauce.id,
       );
       if (sauce) {
-        total += sauce.price;
+        itemCost += sauce.price;
       }
     }
 
-    if (serverItem.pasta) {
+    if (modifiers.pasta) {
       const pasta = item.pastas.find(
-        (p) => p._id.toString() === serverItem.pasta,
+        (p) => p._id.toString() === modifiers.pasta.id,
       );
       if (pasta) {
-        total += pasta.price;
+        itemCost += pasta.price;
       }
     }
-    if (serverItem.platter.length > 0) {
-      total += (serverItem.platter.length - 1) * 5;
+    if (modifiers.platter.length > 0) {
+      itemCost += (modifiers.platter.length - 1) * 5;
     }
-    if (serverItem.options.length > 0) {
-      for (let optionId of serverItem.options) {
-        const option = item.options.find((o) => o._id.toString() === optionId);
+    if (modifiers.options.length > 0) {
+      for (let opt of modifiers.options) {
+        const option = item.options.find((o) => o._id.toString() === opt.id);
         if (option) {
-          total += option.price;
+          itemCost += option.price;
         }
       }
     }
-    if (serverItem.dressing) {
-      total += serverItem.dressingQty * 0.75;
+    if (modifiers.dressing) {
+      itemCost += modifiers.dressing * 0.75;
     }
+    total += (itemCost * serverItem.qty);
   }
+
   return total;
 }
 function getTax(price) {
@@ -173,16 +178,9 @@ orderRouter.post("/pickup", async (req, res) => {
       req.body;
     if (!checkStatus(type)) res.status(500).json({ message: `${type} closed` });
 
-    const serverItemsList = items.flatMap((item) => {
-      return Array(item.qty).fill(item.serverItem);
-    });
-    let total = await getCartTotal(serverItemsList);
+    let total = await getCartTotal(items);
     const tax = getTax(total);
     total += tax;
-    if (type === "delivery") {
-      total += Number(tip);
-      total += 5;
-    }
     total = Number(total.toFixed(2));
     const newOrder = new Order({
       type,
@@ -211,10 +209,8 @@ orderRouter.post("/checkout", async (req, res) => {
     const { customerName, type, tip, address, notes, utensils, phone, items } =
       req.body;
     if (!checkStatus(type)) res.status(500).json({ message: `${type} closed` });
-    const serverItemsList = items.flatMap((item) => {
-      return Array(item.qty).fill(item.serverItem);
-    });
-    const subtotal = await getCartTotal(serverItemsList);
+
+    const subtotal = await getCartTotal(items);
     let total = subtotal;
     const tax = getTax(total);
     total += tax;

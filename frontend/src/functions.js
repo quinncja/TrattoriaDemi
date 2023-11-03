@@ -109,11 +109,20 @@ export function getTimeFromDate(dateStr) {
 }
 
 export const convertDateToIso = (date) => {
-  const dateAsUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
+  const dateAsUTC = new Date(
+    Date.UTC(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      date.getHours(),
+      date.getMinutes(),
+      date.getSeconds()
+    )
+  );
   const formattedDate = dateAsUTC.toISOString();
   return formattedDate;
-}
+};
 
 export function replaceSpaceW_(str) {
-  return str.replace(/ /g, '_')
+  return str.replace(/ /g, "_");
 }

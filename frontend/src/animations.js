@@ -13,26 +13,26 @@ export const fadeInDown = {
 };
 
 export const variants = {
-  hidden: { 
+  hidden: {
     opacity: 0,
     height: 0,
     transition: {
-      when: 'afterChildren',
-      duration: 0.2
-    }
+      when: "afterChildren",
+      duration: 0.2,
+    },
   },
   visible: {
     opacity: 1,
-    height: 'auto',
+    height: "auto",
     transition: {
-      when: 'beforeChildren',
+      when: "beforeChildren",
       staggerChildren: 0.05,
-      duration: 0.2
-    }
-  }
+      duration: 0.2,
+    },
+  },
 };
 
 export const itemVariants = {
   hidden: { opacity: 0, y: -10 },
-  visible: { opacity: 1, y: 0 }
+  visible: { opacity: 1, y: 0 },
 };

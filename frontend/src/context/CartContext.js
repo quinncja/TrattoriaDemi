@@ -20,15 +20,44 @@ export function CartProvider(props) {
   };
 
   const addItemToCart = (item) => {
-    setItems((prevItems) => [...prevItems, item]);
-    setPrice((prevPrice) => prevPrice + convertPriceToNumber(item.totalPrice));
-    setQty((prevQty) => prevQty + Number(item.qty));
+    setItems((prevItems) => {
+      const newItem = { ...item, u_id: generateUniqueId() };
+      return [...prevItems, newItem];
+    });
   };
 
-  const deleteItemFromCart = (item) => {
-    setItems((prevItems) => prevItems.filter((prevItem) => prevItem !== item));
-    setPrice((prevPrice) => prevPrice - convertPriceToNumber(item.totalPrice));
-    setQty((prevQty) => prevQty - item.qty);
+  const generateUniqueId = () => {
+    return "_" + Math.random().toString(36).substr(2, 9);
+  };
+
+  useEffect(() => {
+    let tot = 0;
+    let qty = 0;
+    items.forEach((item) => {
+      tot += convertPriceToNumber(item.totalPrice);
+      qty += Number(item.qty);
+    });
+    setPrice(tot);
+    setQty(qty);
+  }, [items]);
+
+  const updateCartItem = (updatedItem) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.u_id === updatedItem.u_id ? { ...item, ...updatedItem } : item
+      )
+    );
+  };
+
+  useEffect(() => {
+    console.log(items);
+  }, [items]);
+
+  const deleteItemFromCart = (itemId) => {
+    console.log(items);
+    setItems((prevItems) => {
+      return prevItems.filter((item) => item.u_id !== itemId);
+    });
   };
 
   useEffect(() => {
@@ -54,6 +83,7 @@ export function CartProvider(props) {
         price,
         quantity,
         addItemToCart,
+        updateCartItem,
         deleteItemFromCart,
         clearCart,
       }}
