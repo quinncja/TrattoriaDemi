@@ -53,22 +53,26 @@ function OrderStatus() {
   }, [id]);
 
   function displayModifiers(modifiers) {
-    const optionArr = [];
+    let optionArr = [];
     if (modifiers.size) {
-      optionArr.push(modifiers.size);
+      optionArr.push(modifiers.size.name);
     }
     if (modifiers.sauce) {
-      optionArr.push(modifiers.sauce);
+      optionArr.push(modifiers.sauce.name);
     }
     if (modifiers.pasta) {
-      optionArr.push("Sub " + modifiers.pasta);
+      optionArr.push("Sub " + modifiers.pasta.name);
     }
     if (modifiers.options) {
       for (let i = 0; i < modifiers.options.length; i++)
-        optionArr.push(modifiers.options[i]);
+        optionArr.push(modifiers.options[i].name);
     }
     if (modifiers.dressing) {
-      optionArr.push(`extra dressing (${modifiers.dressingQty})`);
+      optionArr.push(`extra dressing (${modifiers.dressing})`);
+    }
+    if (modifiers.platter) {
+      for (let i = 0; i < modifiers.platter.length; i++)
+        optionArr.push(modifiers.platter[i].name);
     }
     return optionArr.join(", ");
   }

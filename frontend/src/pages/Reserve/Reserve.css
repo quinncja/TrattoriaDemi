@@ -237,7 +237,7 @@
 
 .reserve-select:focus {
   outline: none;
-  box-shadow: 4px 6px rgba(0, 0, 0, 0.1);;
+  box-shadow: 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .input-text-error {
@@ -593,26 +593,26 @@
   color: var(--color-bg-light);
 }
 @media (width <= 470px) {
-  .table-info{
+  .table-info {
     flex-direction: column;
     gap: 10px;
     text-align: center;
   }
 }
-.dropdown{
+.dropdown {
   position: relative;
   border: 1px solid var(--border-color);
   border-radius: 5px;
 }
 
-.dropdown-open{
+.dropdown-open {
   background-color: var(--nice-white);
   box-shadow: 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 5px 5px 0px 0px; 
+  border-radius: 5px 5px 0px 0px;
   border-bottom: 1px solid var(--nice-white);
 }
 
-.dropdown-button{
+.dropdown-button {
   padding: 10px;
   padding-block: 20px;
   display: flex;
@@ -629,7 +629,7 @@
   position: relative;
 }
 
-.date-picker{
+.date-picker {
   padding: 10px;
   padding-block: 20px;
   display: flex;
@@ -646,17 +646,17 @@
   transition: all 1s ease-in-out;
 }
 
-.date-picker-open{
+.date-picker-open {
   border-radius: 5px 5px 0px 0px;
   transition: all 1s ease-in-out;
   box-shadow: 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.dropdown-open .dropdown-button{
+.dropdown-open .dropdown-button {
   border: none;
 }
 
-.dropdown-menu{
+.dropdown-menu {
   scrollbar-color: var(--gold) var(--nice-white);
   background-color: var(--nice-white);
   position: absolute;
@@ -664,7 +664,7 @@
   left: -1px;
   width: 100%;
   z-index: 1000;
-  max-height: 300px; 
+  max-height: 300px;
   scrollbar-width: 0px;
   border-radius: 0px 0px 5px 5px;
   border: 1px solid var(--border-color);
@@ -682,25 +682,25 @@
 }
 
 .dropdown-menu::-webkit-scrollbar-thumb {
-  border-radius: 5px; 
+  border-radius: 5px;
 }
 
-.dropdown-open .dropdown-menu{
+.dropdown-open .dropdown-menu {
   box-shadow: 4px 8px rgba(0, 0, 0, 0.1);
   border-top: 1px solid var(--nice-white);
 }
-.dropdown-wrapper{
+.dropdown-wrapper {
   border: 1px solid blueviolet;
 }
 
-.dropdown-item{
+.dropdown-item {
   border-radius: 0;
   background: none;
   outline: none;
   cursor: pointer;
   border: none;
   font-weight: 500;
-  transition: all .1s ease-in-out;
+  transition: all 0.1s ease-in-out;
   text-align: center;
   width: 100%;
   margin-inline: auto;
@@ -709,8 +709,8 @@
   color: var(--black);
   position: relative;
 }
-.dropdown-item::before{
-  content: '';
+.dropdown-item::before {
+  content: "";
   position: absolute;
   height: 1px;
   background-color: var(--border-color);
@@ -718,15 +718,15 @@
   margin: auto;
   top: 0;
   left: 50%;
-  transform: translateX( calc(-50% + 10px));
-  opacity: .6;
+  transform: translateX(calc(-50% + 10px));
+  opacity: 0.6;
 }
 
-.dropdown-item:hover{
-  color: var(--gold)
+.dropdown-item:hover {
+  color: var(--gold);
 }
 
-.dropdown-header{
+.dropdown-header {
   font-size: 1rem;
   position: sticky;
   padding: 20px;
@@ -738,7 +738,7 @@
   justify-content: center;
 }
 
-.items-container{
+.items-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -756,9 +756,9 @@
     box-sizing: border-box;
     border-radius: 5px;
     border: 1px solid var(--border-color) !important;
-    max-height: 70vh; 
+    max-height: 70vh;
     background-color: white;
-  } 
+  }
   .overlay {
     position: fixed;
     top: 0;
@@ -771,19 +771,19 @@
     margin: 0;
     z-index: 1;
   }
-  .mobile{
+  .mobile {
     flex-direction: column;
   }
-  .dropdown-item{
+  .dropdown-item {
     padding-left: 10px;
     padding-top: 24px;
     padding-bottom: 12px;
     font-size: 16px;
   }
-  .dropdown-item::before{
+  .dropdown-item::before {
     transform: translateX(-50%);
   }
-  .items-container{
+  .items-container {
     background-color: var(--nice-white);
   }
 }
@@ -796,10 +796,10 @@
   color: var(--color-bg-light);
   font-weight: 600;
 }
-.item-disabled{
-cursor: unset;
-text-align: center;
-padding-left: 15px;
+.item-disabled {
+  cursor: unset;
+  text-align: center;
+  padding-left: 15px;
 }
 .edit-btn:hover {
   color: var(--gold);
@@ -820,7 +820,7 @@ padding-left: 15px;
   pointer-events: none;
 }
 
-.table-finder-container{
+.table-finder-container {
   width: 90%;
   margin-inline: auto;
   margin-top: 1rem;

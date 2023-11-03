@@ -245,6 +245,7 @@
   width: 90%;
   justify-content: space-between;
   margin-top: 1.5rem;
+  align-items: flex-end;
 }
 
 .qty-btn-container {
@@ -483,12 +484,32 @@
 .checkout-item-left {
   flex-grow: 1;
 }
+.checkout-item-left-button {
+  flex-grow: 1;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  background-color: var(--nice-white);
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  padding: 0.4rem;
+}
+.checkout-item-left-button:hover {
+  filter: brightness(90%);
+}
+
+.cilb-d {
+  cursor: unset;
+}
+.cilb-d:hover {
+  filter: unset;
+}
 .checkout-item-header {
   display: flex;
   gap: 1vw;
   align-content: baseline;
   justify-content: space-between;
-  padding-top: 0.4rem;
 }
 .row {
   display: flex;
@@ -546,8 +567,8 @@
 }
 
 .delete-btn {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
   outline: none;
   border: none;
@@ -816,7 +837,7 @@
 
 .is-deleting-buttons {
   display: flex;
-  gap: 10px;
+  gap: 5px;
 }
 
 .order-status {
@@ -975,4 +996,18 @@
 
 .smallllll-text {
   font-size: 0.7rem;
+}
+
+.delete-option {
+  height: 40px;
+  width: 40px !important;
+  display: flex;
+  align-items: center;
+  width: min-content !important;
+  min-width: unset;
+  align-self: flex-end;
+}
+
+.delete-option:hover {
+  background-color: var(--black-hover);
 }

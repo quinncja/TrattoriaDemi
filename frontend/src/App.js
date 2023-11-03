@@ -10,13 +10,14 @@ Userfront.init(USERFRONT_ID);
 
 function App() {
   const location = useLocation();
-
-  if ('scrollRestoration' in window.history) {
-    window.history.scrollRestoration = 'manual';
-  }
-  
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const isOrderPath =
+      location.pathname === "/order" ||
+      location.pathname.startsWith("/order?item=");
+
+    if (!isOrderPath) {
+      window.scrollTo(0, 0);
+    }
   }, [location]);
 
   return (

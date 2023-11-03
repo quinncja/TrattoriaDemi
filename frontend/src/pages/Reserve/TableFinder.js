@@ -13,13 +13,13 @@ import { checkReservation } from "../../api";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, fadeInDown } from "../../animations";
 import Dropdown from "../../components/Dropdown";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { calendarSvg, peopleSvg, clockSvg } from "../../svg";
 import { convertDateToIso } from "../../functions";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 const TableFinder = forwardRef((props, ref) => {
   const { table, setTable, editing, setEditing } = props;
@@ -29,7 +29,6 @@ const TableFinder = forwardRef((props, ref) => {
   const [timeList, setTimeList] = useState(null);
   const [availableTimes, setAvailableTimes] = useState(null);
   const [calOpen, setCalOpen] = useState(false);
-
 
   const reset = () => {
     setGuests(null);
@@ -186,10 +185,10 @@ const TableFinder = forwardRef((props, ref) => {
     const newDate = new Date(date);
     const dayOfWeek = newDate.getDay();
     const timeKey = days[dayOfWeek];
-    const tL = times[timeKey]
+    const tL = times[timeKey];
     const convertedTimeList = tL.map((time) => ({
       label: time,
-      value: convertTo24Hour(time)
+      value: convertTo24Hour(time),
     }));
     setTimeList(convertedTimeList);
   };
@@ -220,13 +219,13 @@ const TableFinder = forwardRef((props, ref) => {
       </button>
     ));
   };
-  
+
   const handleDateChange = (value) => {
-      setTime("");
-      setAvailableTimes(null);
-      setDate(value);
-      getTimeList(value);
-  }
+    setTime("");
+    setAvailableTimes(null);
+    setDate(value);
+    getTimeList(value);
+  };
 
   const handleChange = (event) => {
     if (event.target.id === "guests") {
@@ -236,7 +235,7 @@ const TableFinder = forwardRef((props, ref) => {
       setTime(event.target.value);
     }
   };
-  
+
   function balancedTrim(array) {
     const desiredLength = 5;
 
@@ -264,11 +263,11 @@ const TableFinder = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
-    if(editing && date?.$d){
-      getTimeList(date.$d)
+    if (editing && date?.$d) {
+      getTimeList(date.$d);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -291,10 +290,15 @@ const TableFinder = forwardRef((props, ref) => {
         setAvailableTimes(times);
       }
     }
-    
+
     const fetchChecker = async () => {
       try {
-        const response = await checkReservation(numGuests, convertDateToIso(date.$d), time, signal);
+        const response = await checkReservation(
+          numGuests,
+          convertDateToIso(date.$d),
+          time,
+          signal
+        );
         handleResponse(response);
       } catch (error) {
         console.error("Error checking reservation", error);
@@ -305,162 +309,180 @@ const TableFinder = forwardRef((props, ref) => {
     return () => {
       abortController.abort();
     };
-    
   }, [numGuests, date, time, setTable, setEditing]);
 
   const guestOptions = {
-    name: 'Party Size',
+    name: "Party Size",
     options: [
-      { value: 1, label: '1 guest' },
-      ...[...Array(9)].map((_, index) => ({ value: index + 2, label: `${index + 2} guests` })),
-      { value: '', label: 'For parties exceeding 10 guests please call the restaurant', disabled: true },
+      { value: 1, label: "1 guest" },
+      ...[...Array(9)].map((_, index) => ({
+        value: index + 2,
+        label: `${index + 2} guests`,
+      })),
+      {
+        value: "",
+        label: "For parties exceeding 10 guests please call the restaurant",
+        disabled: true,
+      },
     ],
   };
 
-  const newTheme = (theme) => createTheme({
-    ...theme,
-    components: {
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            boxShadow: 'none',
-            "& .Mui-selected": {
-              backgroundColor: '#d3963a !important',
-            },
-            "& .MuiPickersDay-today": {
-              backgroundColor: '#yd3963a !important',
-              color: '#yd3963a !important',
-            },
-            "&.MuiPickersDay-today:hover": {
-              backgroundColor: '#yd3963a',
-            },
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                border: '1px solid #b6b6b6',
+  const newTheme = (theme) =>
+    createTheme({
+      ...theme,
+      components: {
+        MuiTextField: {
+          styleOverrides: {
+            root: {
+              boxShadow: "none",
+              "& .Mui-selected": {
+                backgroundColor: "#d3963a !important",
               },
-              "&:hover fieldset": {
-                border: '1px solid #b6b6b6',
+              "& .MuiPickersDay-today": {
+                backgroundColor: "#yd3963a !important",
+                color: "#yd3963a !important",
               },
-              "&.Mui-focused fieldset": {
-                border: '1px solid #b6b6b6',
+              "&.MuiPickersDay-today:hover": {
+                backgroundColor: "#yd3963a",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  border: "1px solid #b6b6b6",
+                },
+                "&:hover fieldset": {
+                  border: "1px solid #b6b6b6",
+                },
+                "&.Mui-focused fieldset": {
+                  border: "1px solid #b6b6b6",
+                },
               },
             },
           },
         },
-      },
-      MuiDateCalendar: {
-        styleOverrides: {
-          root: {
-            color: '#121212',
-            borderRadius: '0px 5px 5px 5px',
-            borderWidth: 1,
-            borderColor: '#b6b6b6',
-            border: '1px solid #b6b6b6',
-            backgroundColor: '#f8f4f1',
-            minWidth: '100%',
-            "& .Mui-selected": {
-              backgroundColor: '#d3963a !important',
+        MuiDateCalendar: {
+          styleOverrides: {
+            root: {
+              color: "#121212",
+              borderRadius: "0px 5px 5px 5px",
+              borderWidth: 1,
+              borderColor: "#b6b6b6",
+              border: "1px solid #b6b6b6",
+              backgroundColor: "#f8f4f1",
+              minWidth: "100%",
+              "& .Mui-selected": {
+                backgroundColor: "#d3963a !important",
+              },
+              "& .MuiPickersDay-today:hover": {
+                backgroundColor: "#yourDesiredHoverColor !important",
+              },
             },
-            "& .MuiPickersDay-today:hover": {
-              backgroundColor: '#yourDesiredHoverColor !important',
+          },
+        },
+        MuiPaper: {
+          styleOverrides: {
+            root: {
+              boxShadow: "6px 8px rgba(0, 0, 0, 0.1) !important",
             },
-          }
-        }
+          },
+        },
       },
-      MuiPaper: {
-        styleOverrides: {
-          root: {
-            boxShadow: '6px 8px rgba(0, 0, 0, 0.1) !important',
-          }
-        }
-    }
-  }
-}
-  )
+    });
 
-  function ButtonField(props){
+  function ButtonField(props) {
     const {
       InputProps: { ref } = {},
-      inputProps: { 'aria-label': ariaLabel } = {},
+      inputProps: { "aria-label": ariaLabel } = {},
     } = props;
 
-    return(
+    return (
       <button
-      type="button"
-      ref={ref}
-      className={`date-picker ${calOpen ? "date-picker-open" : ""}`}
-      aria-label={ariaLabel}
-      onClick={() => setCalOpen?.((prev) => !prev)}
-    >
-      {calendarSvg()}
-      {date ? `${dateToString(date)}` : 'Select'}
-    </button>
-    )
+        type="button"
+        ref={ref}
+        className={`date-picker ${calOpen ? "date-picker-open" : ""}`}
+        aria-label={ariaLabel}
+        onClick={() => setCalOpen?.((prev) => !prev)}
+      >
+        {calendarSvg()}
+        {date ? `${dateToString(date)}` : "Select"}
+      </button>
+    );
   }
   function ButtonDatePicker(props) {
     return (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <ThemeProvider theme={newTheme}>
-      <DatePicker    
-        slots={{ field: ButtonField, ...props.slots }}
-        slotProps={{ field: { setCalOpen } }}
-        {...props}               
-        onChange={(newValue) => handleDateChange(newValue)}
-        type="date"
-        id="date"
-                value={date}
-        closeOnSelect={true}
-        minDate={dayjs().startOf('day')}
-        open={calOpen}
-        onClose={() => setCalOpen(false)}
-        onOpen={() => setCalOpen(true)}
-        renderInput={({ inputRef, inputProps, InputProps }) => (
-          <div style={{ display: 'none' }}>
-            <input ref={inputRef} {...inputProps} />
-            {InputProps?.endAdornment}
-          </div>
-        )}
-        />
+        <ThemeProvider theme={newTheme}>
+          <DatePicker
+            slots={{ field: ButtonField, ...props.slots }}
+            slotProps={{ field: { setCalOpen } }}
+            {...props}
+            onChange={(newValue) => handleDateChange(newValue)}
+            type="date"
+            id="date"
+            value={date}
+            closeOnSelect={true}
+            minDate={dayjs().startOf("day")}
+            open={calOpen}
+            onClose={() => setCalOpen(false)}
+            onOpen={() => setCalOpen(true)}
+            renderInput={({ inputRef, inputProps, InputProps }) => (
+              <div style={{ display: "none" }}>
+                <input ref={inputRef} {...inputProps} />
+                {InputProps?.endAdornment}
+              </div>
+            )}
+          />
         </ThemeProvider>
-    </LocalizationProvider>
+      </LocalizationProvider>
     );
   }
 
   return (
     <div className="table-finder-container">
+      <AnimatePresence>
+        <motion.div {...fadeIn} className={`table-finder`}>
+          <div className="input-group">
+            <div className={`input-text`}> {inputText.guestNum} </div>
+            <Dropdown
+              object={guestOptions}
+              selected={numGuests}
+              onSelect={handleChange}
+              id={"guests"}
+              svg={peopleSvg}
+            />
+          </div>
+          <div className="input-group">
+            <span id="date" className={`input-text ${calOpen ? "gold" : ""}`}>
+              {" "}
+              {inputText.dateTxt}{" "}
+            </span>
+            <ButtonDatePicker
+              label={date == null ? null : date}
+              value={date}
+              onChange={(newValue) => handleDateChange(newValue)}
+            />
+          </div>
+          <div className="input-group">
+            <div className="input-text"> {inputText.timeTxt} </div>
+            <Dropdown
+              object={{ name: "Time", options: timeList }}
+              selected={time}
+              onSelect={handleChange}
+              id={"time"}
+              svg={clockSvg}
+            />
+          </div>
+        </motion.div>
+        {availableTimes && (
           <AnimatePresence>
-            <motion.div {...fadeIn} className={`table-finder`}>
-              <div className="input-group">
-                <div className={`input-text`}> {inputText.guestNum} </div>
-                  <Dropdown object={guestOptions} selected={numGuests} onSelect={handleChange} id={"guests"} svg={peopleSvg}/>
-              </div>
-              <div className="input-group">
-                <span id="date" className={`input-text ${calOpen ? "gold" : ""}`}>
-                  {" "}
-                  {inputText.dateTxt}{" "}
-                </span>
-                <ButtonDatePicker
-                        label={date == null ? null : date}
-                        value={date}
-                        onChange={(newValue) => handleDateChange(newValue)}
-                />
-              </div>
-              <div className="input-group">
-                <div className="input-text"> {inputText.timeTxt} </div>
-                <Dropdown object={{name: "Time", options: timeList}} selected={time} onSelect={handleChange} id={"time"} svg={clockSvg}/>
+            <motion.div {...fadeInDown}>
+              <label className="input-text"> {inputText.button} </label>
+              <div className="reserve-buttons">
+                {getTimeButtons(availableTimes)}
               </div>
             </motion.div>
-            {availableTimes && (
-              <AnimatePresence>
-                <motion.div {...fadeInDown}>
-                  <label className="input-text"> {inputText.button} </label>
-                  <div className="reserve-buttons">
-                    {getTimeButtons(availableTimes)}
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            )}
-            </AnimatePresence>
+          </AnimatePresence>
+        )}
+      </AnimatePresence>
     </div>
   );
 });

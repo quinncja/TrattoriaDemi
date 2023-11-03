@@ -1,26 +1,47 @@
 import { useContext, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import CartContext from "../../context/CartContext";
-import {replaceSpaceW_ } from "../../functions"
+import { useNavigate } from "react-router-dom";
+import { replaceSpaceW_ } from "../../functions";
 import { Modal } from "react-responsive-modal";
+import { trashCanSvg, checkMargSvg, cancelSvg } from "../../svg";
 import "react-responsive-modal/styles.css";
 
-function Item({ item }) {
-  let [searchParams, setSearchParams] = useSearchParams();
-  let name = searchParams.get('item');
-
+function Item({ type, item }) {
+  const navigate = useNavigate();
+  let [searchParams] = useSearchParams();
+  let name = searchParams.get("item");
+  const [isEditing, setEditing] = useState(false);
+  const [isDeleting, setDeleting] = useState(false);
   const [price, setPrice] = useState(item.price);
-  const [qty, setQty] = useState(1);
-  const [pasta, setPasta] = useState(null);
-  const [size, setSize] = useState(null);
-  const [sauce, setSauce] = useState(null);
-  const [options, setOptions] = useState([]);
-  const [platter, setPlatter] = useState([]);
-  const [requestTxt, setRequestTxt] = useState("");
-  const [dressing, setDressing] = useState(false);
-  const [dressingQty, setDressingQty] = useState(1);
+  const [qty, setQty] = useState(type === "checkout" ? item.qty : 1);
+  const [pasta, setPasta] = useState(
+    type === "checkout" ? item.modifiers.pasta : null
+  );
+  const [size, setSize] = useState(
+    type === "checkout" ? item.modifiers.size : null
+  );
+  const [sauce, setSauce] = useState(
+    type === "checkout" ? item.modifiers.sauce : null
+  );
+  const [options, setOptions] = useState(
+    type === "checkout" ? item.modifiers.options : []
+  );
+  const [platter, setPlatter] = useState(
+    type === "checkout" ? item.modifiers.platter : []
+  );
+  const [requestTxt, setRequestTxt] = useState(
+    type === "checkout" ? item.modifiers.instructions : ""
+  );
+  const [dressing, setDressing] = useState(
+    type === "checkout" ? item.modifiers.dressing : false
+  );
+  const [dressingQty, setDressingQty] = useState(
+    type === "checkout" ? item.modifiers.dressing : 1
+  );
   const dressingPrice = dressingQty * 0.75;
-  const { addItemToCart } = useContext(CartContext);
+  const { addItemToCart, deleteItemFromCart, updateCartItem } =
+    useContext(CartContext);
 
   function clearItem() {
     setQty(1);
@@ -35,42 +56,51 @@ function Item({ item }) {
   }
 
   const itemPusher = (item) => {
-    if(!item) setSearchParams()
-      setSearchParams(
-        `?item=${item.toLowerCase()}`
-      )
-  }
+    if (!item) {
+      navigate(
+        {
+          pathname: window.location.pathname,
+          search: "",
+          state: { noScroll: true },
+        },
+        { replace: true }
+      );
+    } else {
+      navigate(
+        {
+          pathname: window.location.pathname,
+          search: `?item=${item.toLowerCase()}`,
+          state: { noScroll: true },
+        },
+        { replace: true }
+      );
+    }
+  };
 
   function handleButtonClick() {
-    const serverItem = {
-      itemId: item._id,
-      size: size?.id,
-      sauce: sauce?.id,
-      pasta: pasta?.id,
-      options: options?.map((obj) => obj.id),
-      platter: platter?.map((plat) => plat.id),
-      dressing,
-      dressingQty,
-    };
     const localItem = {
-      name: item.name,
+      ...item,
       modifiers: {
         instructions: requestTxt,
-        size: size?.name,
-        sauce: sauce?.name,
-        pasta: pasta?.name,
-        options: options?.map((obj) => obj.name),
-        platter: platter?.map((plat) => plat.name),
+        size: size,
+        sauce: sauce,
+        pasta: pasta,
+        options: options,
+        platter: platter,
         dressing: dressing ? dressingQty : null,
       },
       qty,
       totalPrice: getTotalPrice(),
-      serverItem,
     };
-    addItemToCart(localItem);
-      itemPusher(false)
-      clearItem()
-;    }
+    if (type === "checkout") {
+      updateCartItem(localItem);
+      setEditing(false);
+    } else {
+      addItemToCart(localItem);
+      itemPusher(false);
+      clearItem();
+    }
+  }
 
   function Dressing() {
     function dressingHandler(id) {
@@ -116,6 +146,17 @@ function Item({ item }) {
           </div>
         )}
       </div>
+    );
+  }
+
+  function Delete() {
+    return (
+      <button
+        className="option-btn delete-option"
+        onClick={() => setDeleting(true)}
+      >
+        {trashCanSvg()}
+      </button>
     );
   }
 
@@ -169,21 +210,21 @@ function Item({ item }) {
   }
 
   function SubmitButton() {
-    if (item.sauces.length > 1 && !sauce) {
+    if (item.sauces && item.sauces.length > 1 && !sauce) {
       return (
         <button type="button" className="add-btn add-btn-disabled">
           Select a sauce
         </button>
       );
     }
-    if (item.sizes.length > 1 && !size) {
+    if (item.sizes && item.sizes.length > 1 && !size) {
       return (
         <button type="button" className="add-btn add-btn-disabled">
           Select a size
         </button>
       );
     }
-    if (item.platters.length > 1 && platter.length === 0) {
+    if (item.platters && item.platters.length > 1 && platter.length === 0) {
       return (
         <button type="button" className="add-btn add-btn-disabled">
           Select an option
@@ -191,7 +232,11 @@ function Item({ item }) {
       );
     }
     return (
-      <button type="button" className="add-btn" onClick={handleButtonClick}>
+      <button
+        type="button"
+        className="add-btn"
+        onClick={() => handleButtonClick()}
+      >
         {getTotalPrice()}
       </button>
     );
@@ -333,19 +378,22 @@ function Item({ item }) {
 
   function openItem() {
     return (
-      <div className="inside-modal" key={item._id + "-modal"}>
+      <div className="inside-modal" key={item.u_id + "-modal"}>
         <div className="item-header">
           {" "}
           <div className="header-row">
             <div className="item-info-left">
               <div className="item-name item-name-open"> {item.name} </div>{" "}
-              <div className="item-price item-price-open">
-                {" "}
-                ${item.price}
-                {item.sizes.length > 1 ? "+" : ""}{" "}
-              </div>{" "}
+              <div className="item-price item-price-open"> ${item.price}</div>{" "}
             </div>
-            <button className="close-btn" onClick={() => itemPusher(false)}>
+            <button
+              className="close-btn"
+              onClick={
+                type === "checkout"
+                  ? () => setEditing(false)
+                  : () => itemPusher(false)
+              }
+            >
               X
             </button>
           </div>
@@ -353,31 +401,31 @@ function Item({ item }) {
         </div>
 
         <div className="item-section">
-          {item.platters.length >= 1 && (
+          {item.platters && item.platters.length >= 1 && (
             <div>
               <div className="item-subheader"> $5 per selection </div>
               <div className="item-options">{platterMapper(item.platters)}</div>
             </div>
           )}
-          {item.sauces.length >= 1 && (
+          {item.sauces && item.sauces.length >= 1 && (
             <div>
               <div className="item-subheader"> Choose a sauce</div>
               <div className="item-options">{sauceMapper(item.sauces)}</div>
             </div>
           )}
-          {item.sizes.length >= 1 && (
+          {item.sizes && item.sizes.length >= 1 && (
             <div>
               <div className="item-subheader"> Choose a size </div>
               <div className="item-options">{sizeMapper(item.sizes)}</div>
             </div>
           )}
-          {item.pastas.length >= 1 && (
+          {item.pastas && item.pastas.length >= 1 && (
             <div>
               <div className="item-subheader"> Pasta options </div>
               <div className="item-options">{pastaMapper(item.pastas)}</div>
             </div>
           )}
-          {item.options.length >= 1 && (
+          {item.options && item.options.length >= 1 && (
             <div>
               <div className="item-subheader"> Additonal options </div>
               <div className="item-options">{optionsMapper(item.options)}</div>
@@ -390,23 +438,121 @@ function Item({ item }) {
               className="req-input"
               placeholder="Add any requests here"
               onChange={(event) => setRequestTxt(event.target.value)}
+              value={requestTxt}
             />
           </div>
         </div>
 
         <div className="item-footer">
-          <Quantity />
+          <div className="row">
+            <Quantity />
+            {item.type === "checkout" && <Delete />}
+          </div>
           <div>
-            <div className="item-subheader"> Add to order </div>
+            <div className="item-subheader">
+              {" "}
+              {type === "checkout" ? "Update" : "Add to order"}{" "}
+            </div>
             <SubmitButton />
           </div>
         </div>
       </div>
     );
   }
-  return (
-    <>
-      <button className="item-container" onClick={() => itemPusher(replaceSpaceW_(item.name))}>
+
+  function displayModifiers(modifiers) {
+    let optionArr = [];
+    if (modifiers.size) {
+      optionArr.push(modifiers.size.name);
+    }
+    if (modifiers.sauce) {
+      optionArr.push(modifiers.sauce.name);
+    }
+    if (modifiers.pasta) {
+      optionArr.push("Sub " + modifiers.pasta.name);
+    }
+    if (modifiers.options) {
+      for (let i = 0; i < modifiers.options.length; i++)
+        optionArr.push(modifiers.options[i].name);
+    }
+    if (modifiers.dressing) {
+      optionArr.push(`extra dressing (${modifiers.dressing})`);
+    }
+    if (modifiers.platter) {
+      for (let i = 0; i < modifiers.platter.length; i++)
+        optionArr.push(modifiers.platter[i].name);
+    }
+    return optionArr.join(", ");
+  }
+
+  function checkoutItem() {
+    if (isDeleting)
+      return (
+        <div className="checkout-item">
+          <button className="checkout-item-left-button cilb-d">
+            <div className="checkout-item-header">
+              <div className="checkout-header-row">
+                <div className="checkout-item-qty">{item.qty}</div>
+                <div className="checkout-item-name item-name">
+                  {`Remove ${item.name}?`}
+                </div>
+              </div>
+            </div>
+            <div className="item-options">
+              {displayModifiers(item.modifiers)}
+            </div>
+          </button>
+          <div className="is-deleting-buttons">
+            {" "}
+            <button className="delete-btn" onClick={() => setDeleting(false)}>
+              {cancelSvg()}
+            </button>
+            <button
+              className="delete-btn"
+              onClick={() => deleteItemFromCart(item.u_id)}
+            >
+              {checkMargSvg()}
+            </button>{" "}
+          </div>
+        </div>
+      );
+    else
+      return (
+        <div className="checkout-item">
+          <button
+            className="checkout-item-left-button"
+            type="button"
+            onClick={() => setEditing(true)}
+          >
+            <div className="checkout-item-header">
+              <div className="checkout-header-row">
+                <div className="checkout-item-qty">{item.qty}</div>
+                <div className="checkout-item-name item-name">{item.name}</div>
+              </div>
+              <div className="item-price">{item.totalPrice}</div>
+            </div>
+            <div className="item-options">
+              {displayModifiers(item.modifiers)}
+            </div>
+            {item.instructions && (
+              <div className="item-options">{item.instructions}</div>
+            )}
+          </button>
+          <div className="is-deleting-buttons">
+            <button className="delete-btn" onClick={() => setDeleting(true)}>
+              {trashCanSvg()}
+            </button>
+          </div>
+        </div>
+      );
+  }
+
+  function menuItem() {
+    return (
+      <button
+        className="item-container"
+        onClick={() => itemPusher(replaceSpaceW_(item.name))}
+      >
         <div className="item-closed-header">
           <div className="item-name"> {item.name} </div>
           <div className="item-price">
@@ -417,13 +563,32 @@ function Item({ item }) {
         </div>
         <div className="item-desc"> {item.description} </div>
       </button>
+    );
+  }
+
+  function switchType() {
+    switch (type) {
+      case "checkout":
+        return checkoutItem();
+      default:
+        return menuItem();
+    }
+  }
+
+  return (
+    <>
+      {switchType()}
       <Modal
         blockScroll={false}
-        open={name === replaceSpaceW_(item.name).toLowerCase()}
+        open={name === replaceSpaceW_(item.name).toLowerCase() || isEditing}
         center={true}
         showCloseIcon={false}
         classNames={{ modal: "item-modal" }}
-        onClose={() => itemPusher(false)}
+        onClose={
+          type === "checkout"
+            ? () => setEditing(false)
+            : () => itemPusher(false)
+        }
       >
         {openItem()}
       </Modal>

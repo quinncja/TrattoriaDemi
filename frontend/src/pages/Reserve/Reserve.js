@@ -10,7 +10,7 @@ import { fadeInDown } from "../../animations";
 import FoundTable from "./FoundTable";
 import { convertDateToIso } from "../../functions";
 export default function Reserve() {
-  const [editing, setEditing] = useState(false)
+  const [editing, setEditing] = useState(false);
   const [table, setTable] = useState(null);
   const childRef = useRef(null);
 
@@ -32,10 +32,10 @@ export default function Reserve() {
   const returnToEdit = () => {
     setTable((prevTable) => ({
       ...prevTable,
-      time: ""
+      time: "",
     }));
-    setEditing(true)
-  }
+    setEditing(true);
+  };
 
   return (
     <form id="res-form">
@@ -46,16 +46,22 @@ export default function Reserve() {
         <div className="reserve-section">
           <div className="menu-section-header">For a Reservation</div>
           <img className="fancy-line" src={FancyLine} alt="" />
-          {(!table || editing) &&
-          <div className="table-finder-container"> 
-            <TableFinder table={table} setTable={setTable} editing={editing} setEditing={setEditing} ref={childRef} />
-          </div> 
-          }
+          {(!table || editing) && (
+            <div className="table-finder-container">
+              <TableFinder
+                table={table}
+                setTable={setTable}
+                editing={editing}
+                setEditing={setEditing}
+                ref={childRef}
+              />
+            </div>
+          )}
           <div className="reserve-inputs">
             {table && !editing && (
               <AnimatePresence>
                 <motion.div className="res-info" {...fadeInDown}>
-                <FoundTable table={table} setEditing={returnToEdit}/>
+                  <FoundTable table={table} setEditing={returnToEdit} />
                   <ReserveForm createRes={createRes} />
                 </motion.div>
               </AnimatePresence>
