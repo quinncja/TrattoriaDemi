@@ -193,6 +193,7 @@
   padding: 0.8rem;
   flex-grow: 2;
   transition: all 0.3s ease-in-out;
+  color: black;
 }
 
 .reserve-button:hover {

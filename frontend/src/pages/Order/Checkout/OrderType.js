@@ -13,6 +13,7 @@ function OrderType(props) {
       {type ? (
         <motion.div {...fadeIn}>
           <div className="order-type">
+          <div className="order-type-column"> 
             <div className="order-type-top">
               {svg}
               {capitalizeFirstLetter(type)}
@@ -21,13 +22,12 @@ function OrderType(props) {
               </div>}
             </div>
             <div className="order-type-bottom ">
-              <div className="order-type-column"> 
               {eta}
               </div>
-              <button className="change" onClick={() => setType(null)}>
+            </div>
+            <button className="change" onClick={() => setType(null)}>
                 Change
               </button>
-            </div>
           </div>
         </motion.div>
       ) : (
@@ -37,7 +37,7 @@ function OrderType(props) {
 
             <div className="order-type-container">
               <button
-                className={`reserve-button order-type ${
+                className={`reserve-button order-type-btn ${
                   type === "pickup" && "reserve-button-active"
                 } ${!pickup && "disabled-type"}`}
                 disabled={!pickup}
@@ -47,7 +47,7 @@ function OrderType(props) {
                 {pickup ? "Pickup" : "Pickup unavailable"}
               </button>
               <button
-                className={`reserve-button order-type ${
+                className={`reserve-button order-type-btn ${
                   type === "delivery" && "reserve-button-active"
                 } ${!delivery && "disabled-type"}`}
                 disabled={!delivery}
