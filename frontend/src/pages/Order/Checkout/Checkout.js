@@ -226,6 +226,11 @@ function Checkout(props) {
               {Input(inputObjs.notes)}
               {utensils()}
             </div>
+            <div className="reserve-small-text ord">
+              {" "}
+              Wait times may vary.
+              <div className="br" /> You will receive a text once your order has been confirmed.
+            </div>
             <div className="mockline" />
             <button className="submit-button" onClick={() => handleSubmit()}>
               {" "}
