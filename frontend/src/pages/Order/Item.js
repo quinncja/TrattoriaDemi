@@ -37,7 +37,11 @@ function Item({ type, item }) {
     type === "checkout" ? item.modifiers.dressing : false
   );
   const [dressingQty, setDressingQty] = useState(
-    type === "checkout" ? item.modifiers.dressing : 1
+    type === "checkout"
+      ? item.modifiers.dressing
+        ? item.modifiers.dressing
+        : 1
+      : 1
   );
   const dressingPrice = dressingQty * 0.75;
   const { addItemToCart, deleteItemFromCart, updateCartItem } =

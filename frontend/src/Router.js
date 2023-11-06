@@ -5,7 +5,6 @@ import Home from "./pages/Home.js";
 import "./css/index.css";
 import Reserve from "./pages/Reserve/Reserve";
 import Order from "./pages/Order/Order";
-import Checkout from "./pages/Order/Checkout";
 import Contact from "./pages/Contact/Contact";
 import Giftcard from "./pages/Giftcard/Giftcard";
 import GalleryPopulator from "./pages/Gallery/GalleryPopulator";
@@ -13,6 +12,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Email from "./components/Email";
 import Cancel from "./pages/Cancel";
 import OrderStatus from "./pages/Order/OrderStatus";
+import CheckoutPage from "./pages/Order/Checkout/CheckoutPage";
 
 export function Router() {
   return (
@@ -28,7 +28,7 @@ export function Router() {
           <Route path="/gallery" element={<GalleryPopulator />} />
           <Route path="/giftcards" element={<Giftcard />} />
           <Route path="/order" element={<Order />} />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/email" element={<Email />} />
           <Route path="/cancel/*" element={<Cancel />} />
