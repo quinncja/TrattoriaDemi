@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { postGiftcard } from "../../api.js";
 import FancyLine from "../../images/FancyLine.png";
-import { usePlacesWidget } from "react-google-autocomplete";
 import { successfulGiftcardAlert } from "../../swal2.js";
 import Input from "../../components/Input.js";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn } from "../../animations.js";
-const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
 
 function Giftcard() {
   const [recipient, setRecipient] = useState(null);
@@ -20,18 +18,6 @@ function Giftcard() {
     message: false,
     button: false,
     emailFormat: false,
-  });
-
-  const { ref } = usePlacesWidget({
-    apiKey: PLACES_KEY,
-    options: {
-      location: { lat: 42.0451, lng: -87.6877 },
-      radius: 200,
-      types: ["address"],
-    },
-    onPlaceSelected: (place) => {
-      setShipAddress(place.formatted_address);
-    },
   });
 
   const inputText = {
@@ -91,7 +77,6 @@ function Giftcard() {
       type: "address",
       text: inputText.address,
       error: errorStates.address,
-      ref: ref,
       handleChange,
     },
   };

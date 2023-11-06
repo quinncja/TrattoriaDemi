@@ -1,15 +1,23 @@
 import PhoneInput from "react-phone-number-input/input";
+import Autocomplete from "react-google-autocomplete";
+const PLACES_KEY = process.env.REACT_APP_PLACES_KEY;
+
 
 function Input(obj) {
   function addressBody(obj) {
     return (
-      <input
-        ref={obj.ref}
+      <Autocomplete
+        apiKey={PLACES_KEY}
         type="text"
-        id={obj.id}
+        id="address"
         value={obj.value}
-        className={`reserve-select ${obj.error && `reserve-select-error`}`}
+        className={`reserve-select ${obj.error ? 'reserve-select-error' : ''}`}
         onChange={(event) => obj.handleChange(event)}
+        options={{
+          location: { lat: 42.0451, lng: -87.6877 },
+          radius: 200,
+          types: ["address"],
+        }}
       />
     );
   }

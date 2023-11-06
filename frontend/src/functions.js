@@ -76,7 +76,10 @@ export function dateToString(date) {
 }
 
 export function capitalizeFirstLetter(string) {
-  return string.charAt(0) + string.slice(1).toLowerCase();
+  if (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  }
+  return string;
 }
 
 export function minutesUntilTime(date, targetTime) {
