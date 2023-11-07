@@ -542,7 +542,7 @@ function Item({ type, item }) {
               <div className="item-options">{item.instructions}</div>
             )}
           </button>
-            <button className="delete-btn" onClick={() => setDeleting(true)}>
+            <button className="new-delete" onClick={() => setDeleting(true)}>
               {trashCanSvg()}
             </button>
         </div>
