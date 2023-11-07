@@ -341,16 +341,15 @@ body {
   outline: none;
   border: 1px solid var(--border-color);
   border-radius: 7px;
-  background: none;
+  background-color: var(--nice-white);
   transition: all 0.3s ease-in-out;
   color: var(--black);
+  cursor: pointer;
 }
 
 .giftcard-button:hover {
-  background: var(--border-color);
-  color: white;
+  filter: brightness(95%);
 }
-
 .giftcard-button-active {
   color: white;
   filter: brightness(110%);
@@ -360,9 +359,7 @@ body {
 }
 
 .giftcard-button-active:hover {
-  color: white;
-  background-color: var(--gold);
-  border: 1px solid var(--gold);
+  filter: brightness(100%);
 }
 
 .gc-bottom-left-grid {
