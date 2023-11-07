@@ -622,7 +622,7 @@
 
 .delete-btn {
   width: 1.6vw;
-  height: 1.8vw;
+  height: 32px;
   cursor: pointer;
   outline: none;
   border: none;
