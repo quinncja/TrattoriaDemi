@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { lunchMenu, dinnerMenu, wineList } from "./MenuList.js";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useMobile } from "../../context/MobileContext.js";
+import { motion } from "framer-motion"
+import { fadeInMany } from "../../animations";
 import FancyLine from "../../images/FancyLine.png";
 import "./Menu.css";
 export default function Menu() {
@@ -49,7 +51,12 @@ export default function Menu() {
       <ResponsiveMasonry columnsCountBreakPoints={{ 700: 1, 750: 2 }}>
         <Masonry gutter="45px">
           {list.sections.map((section, index) => (
-            <div className="menu-section" key={index}>
+            <motion.div               
+            initial="hidden"
+            animate="visible"
+            variants={fadeInMany}
+            custom={index}
+            className="menu-section" key={index}>
               <div className="menu-section-header">{section.header}</div>
               <img className="fancy-line" src={FancyLine} alt="" />
               <div className="item-group-container">
@@ -64,7 +71,7 @@ export default function Menu() {
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
         </Masonry>
       </ResponsiveMasonry>

@@ -8,6 +8,8 @@ import localForage from "localforage";
 import { useStatus } from "../../context/StatusContext";
 import { statusAlert } from "../../swal2";
 import { capitalizeFirstLetter } from "../../functions";
+import { motion } from "framer-motion"
+import { fadeInMany } from "../../animations";
 import moment from "moment";
 
 function Order() {
@@ -189,11 +191,15 @@ function Order() {
   function displayItems(menu) {
     return (
       <>
-        {menu.sections.map((section) => (
-          <div
+        {menu.sections.map((section, index) => (
+          <motion.div
             className="order-section"
             key={section.header}
             id={section.header}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInMany}
+            custom={index}
           >
             <div className="order-section-header">
               {" "}
@@ -204,7 +210,7 @@ function Order() {
                 <Item item={item} key={item._id} />
               ))}
             </div>
-          </div>
+          </motion.div>
         ))}
       </>
     );
