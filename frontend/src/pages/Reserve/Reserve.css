@@ -188,18 +188,17 @@
   flex-basis: content;
   min-width: unset;
   border-radius: 7px;
-  background: none;
+  background-color: var(--nice-white);
   border: 1px solid var(--border-color);
   padding: 0.8rem;
   flex-grow: 2;
   transition: all 0.3s ease-in-out;
   color: black;
+  cursor: pointer;
 }
 
 .reserve-button:hover {
-  background-color: var(--border-color);
-  color: white;
-  border-color: var(--border-color);
+  filter: brightness(95%);
 }
 
 .reserve-button-active {
@@ -210,9 +209,7 @@
 }
 
 .reserve-button-active:hover {
-  color: white;
-  background-color: var(--gold);
-  border: 1px solid var(--gold);
+  filter: brightness(100%);
 }
 
 @keyframes shake {

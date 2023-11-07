@@ -508,11 +508,11 @@ function Item({ type, item }) {
           </button>
           <div className="is-deleting-buttons">
             {" "}
-            <button className="delete-btn" onClick={() => setDeleting(false)}>
+            <button className="new-delete" onClick={() => setDeleting(false)}>
               {cancelSvg()}
             </button>
             <button
-              className="delete-btn"
+              className="new-delete"
               onClick={() => deleteItemFromCart(item.u_id)}
             >
               {checkMargSvg()}

@@ -620,29 +620,8 @@
   font-weight: 600;
 }
 
-.delete-btn {
-  width: 28px;
-  height: 32px;
-  cursor: pointer;
-  outline: none;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--nice-white);
-  border-radius: 5px;
-  transition: all 0.3s ease-in-out;
-  align-self: flex-start;
-}
-
-.delete-btn svg {
-  width: 100%;
-  height: auto;
-  flex-grow: 1;
-}
-
 .delete-btn:hover {
-  filter: brightness(90%);
+  filter: brightness(95%);
 }
 
 .new-delete{
@@ -653,10 +632,10 @@
   background-color: var(--nice-white);
   cursor: pointer;
   border-radius: 5px;
-  padding: 3px;
+  padding: 4px;
 }
 .new-delete:hover {
-  filter: brightness(90%);
+  filter: brightness(95%);
 }
 
 .left {
