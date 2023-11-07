@@ -760,9 +760,6 @@
   .item-section {
     gap: 1.5rem;
   }
-  .option-btn {
-    padding: 10px 15px;
-  }
   .item-modal {
     width: 82%;
     margin-inline: auto;
