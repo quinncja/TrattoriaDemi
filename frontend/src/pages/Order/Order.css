@@ -653,6 +653,7 @@
   background-color: var(--nice-white);
   cursor: pointer;
   border-radius: 5px;
+  padding: 3px;
 }
 .new-delete:hover {
   filter: brightness(90%);
