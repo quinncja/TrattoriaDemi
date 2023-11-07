@@ -133,17 +133,6 @@
   line-height: 1.2;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 1);
 }
-.menu-section:before {
-  content: "";
-  position: absolute;
-  right: 35px;
-  top: 0px;
-  width: 0px;
-  background-color: var(--red);
-  height: calc(100%);
-  border-left: 10px solid var(--gold);
-  z-index: 0;
-}
 
 .menu-section-header {
   text-align: center;
@@ -189,16 +178,6 @@
   .menu-container {
     position: relative;
     z-index: 2;
-  }
-  .menu-section:after {
-    content: "";
-    position: absolute;
-    left: 35px;
-    top: 0px;
-    width: 0;
-    height: calc(100%);
-    border: 5px solid var(--gold);
-    z-index: -1;
   }
 }
 

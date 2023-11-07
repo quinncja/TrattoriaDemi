@@ -1,5 +1,6 @@
 import React from "react";
 import ImageDisplayer from "./ImageDisplayer";
+import { motion } from "framer-motion"
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import Baked_Rigatoni from "../../food_pictures/BakedRigatoni.jpg";
 import Petite_Chicken from "../../food_pictures/Chicken.jpg";
@@ -10,6 +11,8 @@ import Walnut_Gorgonzola from "../../food_pictures/Salad.jpg";
 import Grilled_New_York_Strip_Steak from "../../food_pictures/Steak.jpg";
 import Tirimisu from "../../food_pictures/Tirimisu.jpg";
 import "./Gallery.css";
+import { fadeInMany } from "../../animations";
+
 
 function GalleryPopulator() {
   const pictures = [
@@ -28,14 +31,22 @@ function GalleryPopulator() {
 
   return (
     <div className="gallery-container">
-      <ResponsiveMasonry columnsCountBreakPoints={{ 700: 1, 750: 2 }}>
+      <ResponsiveMasonry columnsCountBreakPoints={{ 700: 1, 750: 2, }}>
         <Masonry gutter="15px">
-          {pictures.map((image) => (
-            <ImageDisplayer
+          {pictures.map((image, index) => (
+            <motion.div 
               key={image.name}
+              custom={index}
+              initial="hidden"
+              animate="visible"
+              variants={fadeInMany}
+            >
+            <ImageDisplayer
+              
               pic={image.file}
               name={image.name}
             />
+            </motion.div>
           ))}
         </Masonry>
       </ResponsiveMasonry>

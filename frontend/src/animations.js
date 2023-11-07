@@ -5,6 +5,16 @@ export const fadeIn = {
   transition: { duration: 0.5 },
 };
 
+export const fadeInMany = {
+  hidden: { opacity: 0 },
+  visible: (i) => ({
+    opacity: 1,
+    transition: {
+      delay: i * 0.1 + 0.15,
+    },
+  }),
+};
+
 export const fadeInDown = {
   initial: { opacity: 0, y: -20 },
   animate: { opacity: 1, y: 0 },
