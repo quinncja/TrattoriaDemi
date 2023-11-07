@@ -13,21 +13,17 @@ function OrderType(props) {
       {type ? (
         <motion.div {...fadeIn}>
           <div className="order-type">
-          <div className="order-type-column"> 
-            <div className="order-type-top">
-              {svg}
-              {capitalizeFirstLetter(type)}
-              {type === "delivery" && 
-              <div className="fee-text"> $5 fee
-              </div>}
-            </div>
-            <div className="order-type-bottom ">
-              {eta}
+            <div className="order-type-column">
+              <div className="order-type-top">
+                {svg}
+                {capitalizeFirstLetter(type)}
+                {type === "delivery" && <div className="fee-text"> $5 fee</div>}
               </div>
+              <div className="order-type-bottom ">{eta}</div>
             </div>
             <button className="change" onClick={() => setType(null)}>
-                Change
-              </button>
+              Change
+            </button>
           </div>
         </motion.div>
       ) : (

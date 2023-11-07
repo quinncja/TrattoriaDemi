@@ -11,13 +11,13 @@ import Checkout from "./Checkout";
 import OrderType from "./OrderType";
 
 function CheckoutPage() {
-  const { items, price} = useContext(CartContext);
+  const { items, price } = useContext(CartContext);
   const mobile = useMobile();
   const { status, updated } = useStatus();
   const { delivery, pickup } = status || {};
   const navigate = useNavigate();
   const [type, setType] = useState(null);
-  const [tip, setTip] = useState(0)
+  const [tip, setTip] = useState(0);
 
   async function submitCheckout(newOrder, optional) {
     if (optional === "pickup") {
@@ -42,7 +42,7 @@ function CheckoutPage() {
   function closedStatus() {
     return (
       <>
-        <div className="reciept-container empty-order">
+        <div className="empty-order">
           <div className="menu-section-header "> Check back soon </div>
           <div className="empty-order-subheader no-change">
             {" "}
@@ -57,7 +57,7 @@ function CheckoutPage() {
   function emptyOrder() {
     return (
       <>
-        <div className="reciept-container empty-order">
+        <div className="empty-order">
           <div className="menu-section-header "> Your order is empty</div>
           <button
             className="empty-order-subheader"
@@ -74,9 +74,13 @@ function CheckoutPage() {
 
   return updated ? (
     price === 0 ? (
-      <div className="empty-container"> {emptyOrder()} </div>
+      <div className="reserve-container no-top-line">
+        <div className="reserve-section">{emptyOrder()}</div>
+      </div>
     ) : status && !status.delivery && !status.pickup ? (
-      <div className="empty-container"> {closedStatus()} </div>
+      <div className="reserve-container no-top-line">
+        <div className="reserve-section"> {closedStatus()} </div>{" "}
+      </div>
     ) : (
       <div className="reserve-container no-top-line">
         <div className="reserve-section">
@@ -101,7 +105,7 @@ function CheckoutPage() {
               />
             </div>
             <div className="your-order-container">
-            <YourOrder tip={tip} type={type} price={price} items={items} />
+              <YourOrder tip={tip} type={type} price={price} items={items} />
             </div>
           </div>
         </div>

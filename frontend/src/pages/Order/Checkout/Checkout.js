@@ -11,7 +11,7 @@ function Checkout(props) {
   const [phone, setPhone] = useState(null);
   const [notes, setNotes] = useState(null);
   const [checkbox, setCheckbox] = useState(null);
-  const [tipString, setTipString] = useState('')
+  const [tipString, setTipString] = useState("");
 
   const handleChange = (event) => {
     if (event.target.id === "name") {
@@ -104,15 +104,14 @@ function Checkout(props) {
 
   const handleTipChange = (event) => {
     const value = event.target.value;
-    if ( /^\d*\.?\d{0,2}$/.test(value)) {
+    if (/^\d*\.?\d{0,2}$/.test(value)) {
       setTipString(value);
-      setTip(parseFloat(value))
+      setTip(parseFloat(value));
     }
-    if (value === '' ) {
-      setTip(Number(0))
+    if (value === "") {
+      setTip(Number(0));
     }
   };
-
 
   function tipInput(input) {
     return (
@@ -130,9 +129,9 @@ function Checkout(props) {
               activeBtn === 15 && "reserve-button-active"
             }`}
             onClick={() => {
-              setActiveButton(15)
+              setActiveButton(15);
               setTip(price * 15 * 0.01);
-              }}
+            }}
           >
             15%
           </button>
@@ -142,9 +141,9 @@ function Checkout(props) {
               activeBtn === 20 && "reserve-button-active"
             }`}
             onClick={() => {
-              setActiveButton(20)
+              setActiveButton(20);
               setTip(price * 20 * 0.01);
-              }}
+            }}
           >
             20%
           </button>
@@ -154,28 +153,28 @@ function Checkout(props) {
               activeBtn === 25 && "reserve-button-active"
             }`}
             onClick={() => {
-              setActiveButton(25)
+              setActiveButton(25);
               setTip(price * 25 * 0.01);
-              }}
+            }}
           >
             25%
           </button>
-              <input
-                type="text"
-                id="other"
-                className={`reserve-select select-other`}
-                onChange={handleTipChange}
-                onClick={() => setActiveButton(null)}
-                placeholder="Other"
-                value={tipString}
-            ></input>
+          <input
+            type="text"
+            id="other"
+            className={`reserve-select select-other`}
+            onChange={handleTipChange}
+            onClick={() => setActiveButton(null)}
+            placeholder="Other"
+            value={tipString}
+          ></input>
         </div>
       </div>
     );
   }
 
   const checkoutValidator = () => {
-    console.log(address)
+    console.log(address);
     let isError = false;
     if (!name) {
       setError((errorStates) => ({ ...errorStates, name: true }));
@@ -229,7 +228,8 @@ function Checkout(props) {
             <div className="reserve-small-text ord">
               {" "}
               Wait times may vary.
-              <div className="br" /> You will receive a text once your order has been confirmed.
+              <div className="br" /> You will receive a text once your order has
+              been confirmed.
             </div>
             <div className="mockline" />
             <button className="submit-button" onClick={() => handleSubmit()}>

@@ -444,11 +444,11 @@
   color: white;
   filter: invert(100%);
 }
-.order-type-column{
+.order-type-column {
   display: flex;
   flex-direction: column;
 }
-.fee-text{
+.fee-text {
   font-size: 1rem;
   font-weight: 500;
 }
@@ -624,7 +624,7 @@
   filter: brightness(95%);
 }
 
-.new-delete{
+.new-delete {
   width: 28px;
   height: 100;
   max-height: 32px;
@@ -632,7 +632,7 @@
   background-color: var(--nice-white);
   cursor: pointer;
   border-radius: 5px;
-  padding: 4px;
+  padding: 2.5px;
 }
 .new-delete:hover {
   filter: brightness(95%);
@@ -867,7 +867,9 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 50%;
+  margin-inline: auto;
+  width: 100%;
+  min-width: 700px;
 }
 
 .empty-order-subheader {
@@ -882,7 +884,7 @@
 }
 
 .empty-order-subheader:hover {
-  transform: scale(105%);
+  text-decoration: underline;
 }
 
 .is-deleting-buttons {
@@ -922,7 +924,8 @@
 
 @media (width <= 780px) {
   .empty-order {
-    width: 80%;
+    width: 100%;
+    min-width: unset;
   }
   .order-items {
     width: 100%;
@@ -1079,21 +1082,21 @@
   .checkout-side {
     order: 1; /* this ensures 'checkout-side' remains second */
   }
-  .checkout-row{
+  .checkout-row {
     display: flex;
     flex-direction: column;
   }
-  .checkout-items{
+  .checkout-items {
     padding-inline: 0px;
   }
-  .checkout-prices{
+  .checkout-prices {
     padding-inline: 0px;
   }
 }
-.no-top-line{
+.no-top-line {
   min-height: calc(100vh - 150px);
 }
-.ord{
+.ord {
   margin-top: 1.1rem;
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
