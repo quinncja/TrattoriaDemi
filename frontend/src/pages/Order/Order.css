@@ -635,6 +635,12 @@
   align-self: flex-start;
 }
 
+.delete-btn svg {
+  width: 100%;
+  height: auto;
+  flex-grow: 1;
+}
+
 .delete-btn:hover {
   filter: brightness(90%);
 }
