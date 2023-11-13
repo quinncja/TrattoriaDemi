@@ -2731,10 +2731,10 @@
     "@typescript-eslint/types" "5.35.1"
     eslint-visitor-keys "^3.3.0"
 
-"@userfront/core@^0.6.5":
-  version "0.6.6"
-  resolved "https://registry.npmjs.org/@userfront/core/-/core-0.6.6.tgz"
-  integrity sha512-j/qRAwkmXshysmeHklsIyYwsjhH0SxuR2sVwAwlQuH147BHHsN5aHWcweCyoPyzLua6ZlNc5rhR5ye6WHXYkDA==
+"@userfront/core@^0.6.5", "@userfront/core@^0.6.7":
+  version "0.6.7"
+  resolved "https://registry.npmjs.org/@userfront/core/-/core-0.6.7.tgz"
+  integrity sha512-2JhRtfZsKHQViRZc81XX8SC12kfJGHCXXbSAz5bMC5mfwaOUfk8vW54ikN+DH+vwKOuqjkmwKIYYn1gfAFrnQQ==
   dependencies:
     axios "^0.21.1"
     js-cookie "^2.2.1"
