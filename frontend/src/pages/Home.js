@@ -29,14 +29,14 @@ export default function Home() {
                         onClick={() => navigate("/order")}
                       >
                         {" "}
-                        ORDER NOW
+                        Order
                       </button>
                       <button
                         className="button-main"
                         onClick={() => navigate("/reserve")}
                       >
                         {" "}
-                        RESERVE NOW{" "}
+                        Reserve{" "}
                       </button>
                     </div>
                   </div>

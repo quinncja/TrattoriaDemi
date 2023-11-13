@@ -1,5 +1,7 @@
 import { useState } from "react";
-import Userfront from "@userfront/react";
+import Userfront from "@userfront/core";
+const USERFRONT_ID = process.env.REACT_APP_USERFRONT_ID;
+Userfront.init(USERFRONT_ID);
 
 function DBLogin(props) {
   const setAuthenticated = props.setAuthenticated;

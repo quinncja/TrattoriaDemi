@@ -3,7 +3,7 @@ import DashboardNav from "./DashboardNav/DashboardNav";
 import DBAdmin from "./DBAdmin";
 import DBInhouse from "./DBInhouse/DBInhouse";
 import DBLogin from "./DBLogin.js";
-import Userfront from "@userfront/react";
+import Userfront from "@userfront/core";
 
 import "./Dashboard.css";
 function Dashboard() {
@@ -11,7 +11,8 @@ function Dashboard() {
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    setAuthenticated(Userfront.tokens.accesstoken);
+    if(Userfront.tokens.accessToken)
+      setAuthenticated(true);
   }, []);
 
   return (
