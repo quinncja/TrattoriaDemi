@@ -3,22 +3,18 @@ import Cart from "./Cart";
 import Item from "./Item";
 import "./Order.css";
 import { useMobile } from "../../context/MobileContext";
-import { checkForUpdate, getMenus } from "../../api";
-import localForage from "localforage";
 import { useStatus } from "../../context/StatusContext";
+import { useMenu } from "../../context/MenuContext";
 import { statusAlert } from "../../swal2";
 import { capitalizeFirstLetter } from "../../functions";
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 import { fadeInMany } from "../../animations";
 import moment from "moment";
 
 function Order() {
   const mobile = useMobile();
+  const { menu } = useMenu();
   const { status } = useStatus();
-  const [lunchMenu, setLunchMenu] = useState(null);
-  const [dinnerMenu, setDinnerMenu] = useState(null);
-  const [wineList, setWineList] = useState(null);
-  const [loaded, setLoaded] = useState(null);
   const [isLunch, setLunch] = useState(isBefore4PMChicago());
 
   function isBefore4PMChicago() {
@@ -55,101 +51,8 @@ function Order() {
     "WINE",
   ];
 
-  function handleResponseData(data) {
-    setLunchMenu(data.lunch);
-    setDinnerMenu(data.dinner);
-    setWineList(data.wine);
-    setLoaded(true);
-  }
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
-
-    const setMenuLocal = async (menus) => {
-      try {
-        await localForage.setItem("menus", menus);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const fetchMenusFromServer = async () => {
-      try {
-        const response = await getMenus(signal);
-        return response.data;
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fetchMenusFromLocal = async () => {
-      try {
-        const menus = await localForage.getItem("menus");
-
-        return menus;
-      } catch (error) {
-        console.log(error);
-        return null;
-      }
-    };
-
-    const checkLastUpdated = async () => {
-      try {
-        const lastUpdatedTimes = await checkForUpdate(signal);
-        return lastUpdatedTimes;
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    function checkForUpdates(menus, times) {
-      let upToDate = true;
-      for (let menuType in times.data) {
-        if (
-          !menus[menuType] ||
-          new Date(times[menuType]) > new Date(menus[menuType].lastUpdated)
-        ) {
-          upToDate = false;
-        }
-      }
-      return upToDate ? menus : upToDate;
-    }
-
-    const getMenu = async () => {
-      let menus = await fetchMenusFromLocal();
-
-      if (menus) {
-        handleResponseData(menus);
-
-        let times = await checkLastUpdated();
-        if (times) {
-          const upToDate = checkForUpdates(menus, times);
-          if (!upToDate) {
-            menus = await fetchMenusFromServer();
-            if (menus) {
-              setMenuLocal(menus);
-              handleResponseData(menus);
-            }
-          }
-        }
-      } else {
-        menus = await fetchMenusFromServer();
-        if (menus) {
-          setMenuLocal(menus);
-          handleResponseData(menus);
-        }
-      }
-    };
-
-    getMenu();
-
-    return () => {
-      abortController.abort();
-    };
-  }, []);
-
   const handleOptionClick = (selectedId) => {
-    if (!loaded) return;
+    if (!menu) return;
     const menuSection = document.getElementById(selectedId);
     if (menuSection) {
       const scrollOptions = {
@@ -220,21 +123,21 @@ function Order() {
     <div className="background-color">
       {orderTopBar()}
 
-      {loaded && isLunch && (
+      {menu && isLunch && (
         <div id="LUNCH" className="order-container">
           <div className="sub-menu-header"> Lunch Menu </div>
-          <div className="sub-menu-container">{displayItems(lunchMenu)}</div>
+          <div className="sub-menu-container">{displayItems(menu.lunch)}</div>
         </div>
       )}
 
-      {loaded && (
-        <div className="order-container">{displayItems(dinnerMenu)}</div>
+      {menu && (
+        <div className="order-container">{displayItems(menu.dinner)}</div>
       )}
 
-      {loaded && (
+      {menu && (
         <div id="WINE" className="order-container order-container-sub">
           <div className="sub-menu-header"> Wine List </div>
-          <div className="sub-menu-container">{displayItems(wineList)}</div>
+          <div className="sub-menu-container">{displayItems(menu.wine)}</div>
         </div>
       )}
     </div>
