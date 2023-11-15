@@ -34,7 +34,8 @@
 html,
 body {
   height: 100%;
-  scrollbar-color: var(--gold) var(--black);
+  scrollbar-color: var(--gold) var(--black) !important;
+  scrollbar-gutter: stable;
 }
 
 ::-webkit-scrollbar {
