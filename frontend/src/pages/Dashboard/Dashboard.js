@@ -11,8 +11,7 @@ function Dashboard() {
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    if(Userfront.tokens.accessToken)
-      setAuthenticated(true);
+    if (Userfront.tokens.accessToken) setAuthenticated(true);
   }, []);
 
   return (

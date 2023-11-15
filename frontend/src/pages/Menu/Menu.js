@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { lunchMenu, dinnerMenu, wineList } from "./MenuList.js";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useMobile } from "../../context/MobileContext.js";
-import { motion } from "framer-motion"
+import { useMenu } from "../../context/MenuContext";
+import { motion } from "framer-motion";
 import { fadeInMany } from "../../animations";
 import FancyLine from "../../images/FancyLine.png";
 import "./Menu.css";
+
 export default function Menu() {
+  const { menu } = useMenu();
   const [currentMenu, setCurrent] = useState("");
   const mobile = useMobile();
 
@@ -51,12 +53,14 @@ export default function Menu() {
       <ResponsiveMasonry columnsCountBreakPoints={{ 700: 1, 750: 2 }}>
         <Masonry gutter="45px">
           {list.sections.map((section, index) => (
-            <motion.div               
-            initial="hidden"
-            animate="visible"
-            variants={fadeInMany}
-            custom={index}
-            className="menu-section" key={index}>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeInMany}
+              custom={index}
+              className="menu-section"
+              key={index}
+            >
               <div className="menu-section-header">{section.header}</div>
               <img className="fancy-line" src={FancyLine} alt="" />
               <div className="item-group-container">
@@ -81,13 +85,13 @@ export default function Menu() {
   function renderSwitch() {
     switch (currentMenu) {
       default:
-        return displayMenu(dinnerMenu);
+        return displayMenu(menu.dinner);
       case "Full":
-        return displayMenu(dinnerMenu);
+        return displayMenu(menu.dinner);
       case "Lunch":
-        return displayMenu(lunchMenu);
+        return displayMenu(menu.lunch);
       case "Wine":
-        return displayMenu(wineList);
+        return displayMenu(menu.wine);
     }
   }
 
@@ -135,7 +139,7 @@ export default function Menu() {
     <>
       {menuTopbar()}
       <div className={`menu-container ${mobile && "menu-container-mobile"}`}>
-        <div className="menu-bottom">{renderSwitch()}</div>
+        {menu && <div className="menu-bottom">{renderSwitch()}</div>}
       </div>
     </>
   );
