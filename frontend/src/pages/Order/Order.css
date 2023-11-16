@@ -458,7 +458,26 @@
   flex-direction: row;
   justify-content: space-between;
   font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
 }
+
+.order-type-btn{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-block: 16px
+}
+.order-type-btn svg{
+  filter: invert(100%);
+  pointer-events: none;
+}
+
+.inner-div,svg{
+  pointer-events: none;
+}
+
 .change {
   background: none;
   border: none;
