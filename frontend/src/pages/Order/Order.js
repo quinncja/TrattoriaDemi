@@ -16,7 +16,6 @@ function Order() {
   const { menu } = useMenu();
   const { status } = useStatus();
   const [isLunch, setLunch] = useState(isBefore4PMChicago());
-
   function isBefore4PMChicago() {
     const chicagoTime = moment().tz("America/Chicago");
     const currentHour = chicagoTime.hours();
@@ -110,7 +109,7 @@ function Order() {
             </div>
             <div className="section-items">
               {section.items.map((item) => (
-                <Item item={item} key={item._id} />
+                <Item item={item} key={item._id} section={menu.menuType}/>
               ))}
             </div>
           </motion.div>
@@ -123,7 +122,7 @@ function Order() {
     <div className="background-color">
       {orderTopBar()}
 
-      {menu && isLunch && (
+      {menu  && (
         <div id="LUNCH" className="order-container">
           <div className="sub-menu-header"> Lunch Menu </div>
           <div className="sub-menu-container">{displayItems(menu.lunch)}</div>

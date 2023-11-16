@@ -7,7 +7,7 @@ import { Modal } from "react-responsive-modal";
 import { trashCanSvg, checkMargSvg, cancelSvg } from "../../svg";
 import "react-responsive-modal/styles.css";
 
-function Item({ type, item }) {
+function Item({ type, item, section }) {
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
   let name = searchParams.get("item");
@@ -553,7 +553,7 @@ function Item({ type, item }) {
     return (
       <button
         className="item-container"
-        onClick={() => itemPusher(replaceSpaceW_(item.name))}
+        onClick={() => itemPusher(replaceSpaceW_(`${section && section === "lunch" ? "lunch_" : ""} ${item.name}`))}
       >
         <div className="item-closed-header">
           <div className="item-name"> {item.name} </div>
@@ -577,12 +577,13 @@ function Item({ type, item }) {
     }
   }
 
+
   return (
     <>
       {switchType()}
       <Modal
         blockScroll={false}
-        open={name === replaceSpaceW_(item.name).toLowerCase() || isEditing}
+        open={name === replaceSpaceW_(`${section && section === "lunch" ? "lunch_" : ""} ${item.name}`).toLowerCase() || isEditing}
         center={true}
         showCloseIcon={false}
         classNames={{ modal: "item-modal" }}

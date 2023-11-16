@@ -49,12 +49,8 @@ export function CartProvider(props) {
     );
   };
 
-  useEffect(() => {
-    console.log(items);
-  }, [items]);
 
   const deleteItemFromCart = (itemId) => {
-    console.log(items);
     setItems((prevItems) => {
       return prevItems.filter((item) => item.u_id !== itemId);
     });
