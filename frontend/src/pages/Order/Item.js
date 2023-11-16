@@ -11,7 +11,9 @@ function Item({ type, item, section }) {
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
   let name = searchParams.get("item");
-  const openName = `${section && section === "lunch" ? "lunch_" : ""} ${item.name}`
+  const openName = `${section && section === "lunch" ? "lunch_" : ""} ${
+    item.name
+  }`;
   const [isEditing, setEditing] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
   const [price, setPrice] = useState(item.price);
@@ -554,7 +556,7 @@ function Item({ type, item, section }) {
     return (
       <button
         className="item-container"
-        onClick={() => itemPusher(replaceSpaceW_(openName).toLowerCase() )}
+        onClick={() => itemPusher(replaceSpaceW_(openName).toLowerCase())}
       >
         <div className="item-closed-header">
           <div className="item-name"> {item.name} </div>
@@ -577,7 +579,6 @@ function Item({ type, item, section }) {
         return menuItem();
     }
   }
-
 
   return (
     <>

@@ -462,19 +462,20 @@
   flex-direction: column;
 }
 
-.order-type-btn{
+.order-type-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding-block: 16px
+  padding-block: 16px;
 }
-.order-type-btn svg{
+.order-type-btn svg {
   filter: invert(100%);
   pointer-events: none;
 }
 
-.inner-div,svg{
+.inner-div,
+svg {
   pointer-events: none;
 }
 
