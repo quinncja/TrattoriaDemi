@@ -25,7 +25,6 @@ const sizeSchema = new mongoose.Schema({
   price: Number,
 });
 
-// Items as a separate collection with reference to section
 const itemSchema = new mongoose.Schema({
   name: String,
   description: String,
@@ -35,14 +34,13 @@ const itemSchema = new mongoose.Schema({
   pastas: [pastaSchema],
   platters: [platterSchema],
   price: Number,
-  sectionId: { type: mongoose.Schema.Types.ObjectId, ref: "Section" }, // Reference to section
+  sectionId: { type: mongoose.Schema.Types.ObjectId, ref: "Section" }, 
 });
 
-// Sections as a separate collection with reference to menu
 const sectionSchema = new mongoose.Schema({
   header: String,
   description: String,
-  menuId: { type: mongoose.Schema.Types.ObjectId, ref: "Menu" }, // Reference to menu
+  menuId: { type: mongoose.Schema.Types.ObjectId, ref: "Menu" }, 
 });
 
 const menuSchema = new mongoose.Schema({

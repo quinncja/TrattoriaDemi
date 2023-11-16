@@ -104,15 +104,15 @@ const lunchMenu = {
         "served on our fresh baked italian bread with a small salad and sweet potato chips",
       items: [
         {
-          name: "TURKEY MONA LISA",
+          name: "PEITE TURKEY MONA LISA",
           price: 8.75,
         },
         {
-          name: "BOCCOCINI",
+          name: "PEITE BOCCOCINI",
           price: 8.75,
         },
         {
-          name: "TURKEY SICILIANO",
+          name: "PEITE TURKEY SICILIANO",
           price: 8.75,
         },
       ],
