@@ -145,7 +145,7 @@ export async function checkForUpdate(signal) {
       url: `${API_URL}api/order/menu-check`,
       signal,
     });
-    return response;
+    return response.data;
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log("Request canceled", error.message);

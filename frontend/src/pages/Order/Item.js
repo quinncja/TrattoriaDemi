@@ -11,6 +11,7 @@ function Item({ type, item, section }) {
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
   let name = searchParams.get("item");
+  const openName = `${section && section === "lunch" ? "lunch_" : ""} ${item.name}`
   const [isEditing, setEditing] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
   const [price, setPrice] = useState(item.price);
@@ -73,7 +74,7 @@ function Item({ type, item, section }) {
       navigate(
         {
           pathname: window.location.pathname,
-          search: `?item=${item.toLowerCase()}`,
+          search: `?item=${item}`,
           state: { noScroll: true },
         },
         { replace: true }
@@ -553,7 +554,7 @@ function Item({ type, item, section }) {
     return (
       <button
         className="item-container"
-        onClick={() => itemPusher(replaceSpaceW_(`${section && section === "lunch" ? "lunch_" : ""} ${item.name}`))}
+        onClick={() => itemPusher(replaceSpaceW_(openName).toLowerCase() )}
       >
         <div className="item-closed-header">
           <div className="item-name"> {item.name} </div>
@@ -582,8 +583,9 @@ function Item({ type, item, section }) {
     <>
       {switchType()}
       <Modal
+        id={name}
         blockScroll={false}
-        open={name === replaceSpaceW_(`${section && section === "lunch" ? "lunch_" : ""} ${item.name}`).toLowerCase() || isEditing}
+        open={name === replaceSpaceW_(openName).toLowerCase() || isEditing}
         center={true}
         showCloseIcon={false}
         classNames={{ modal: "item-modal" }}

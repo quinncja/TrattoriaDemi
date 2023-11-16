@@ -24,6 +24,7 @@ export const MenuProvider = ({ children }) => {
   const checkLastUpdated = async () => {
     try {
       const lastUpdatedTimes = await checkForUpdate(signal);
+      console.log(lastUpdatedTimes)
       return lastUpdatedTimes;
     } catch (error) {
       console.log(error);
@@ -49,7 +50,7 @@ export const MenuProvider = ({ children }) => {
 
   function checkForUpdates(menus, times) {
     let upToDate = true;
-    for (let menuType in times.data) {
+    for (let menuType in times) {
       if (
         !menus[menuType] ||
         new Date(times[menuType]) > new Date(menus[menuType].lastUpdated)
@@ -57,6 +58,7 @@ export const MenuProvider = ({ children }) => {
         upToDate = false;
       }
     }
+    console.log(upToDate)
     return upToDate ? menus : upToDate;
   }
 
