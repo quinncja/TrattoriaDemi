@@ -46,8 +46,7 @@ function CheckoutPage() {
           <div className="menu-section-header "> Check back soon </div>
           <div className="empty-order-subheader no-change">
             {" "}
-            Our online ordering system is currently closed. <br /> We're sorry,
-            we know you're hungry.
+            Our online ordering system is currently closed. <br />
           </div>
         </div>
       </>
