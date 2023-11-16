@@ -24,7 +24,7 @@ export const MenuProvider = ({ children }) => {
   const checkLastUpdated = async () => {
     try {
       const lastUpdatedTimes = await checkForUpdate(signal);
-      console.log(lastUpdatedTimes)
+      console.log(lastUpdatedTimes);
       return lastUpdatedTimes;
     } catch (error) {
       console.log(error);
@@ -58,7 +58,7 @@ export const MenuProvider = ({ children }) => {
         upToDate = false;
       }
     }
-    console.log(upToDate)
+    console.log(upToDate);
     return upToDate ? menus : upToDate;
   }
 

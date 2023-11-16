@@ -49,7 +49,6 @@ export function CartProvider(props) {
     );
   };
 
-
   const deleteItemFromCart = (itemId) => {
     setItems((prevItems) => {
       return prevItems.filter((item) => item.u_id !== itemId);
