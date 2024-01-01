@@ -25,21 +25,25 @@ function Dropdown(props) {
     onSelect(option);
     setIsOpen(false);
   };
+  const fadeOut = {
+    exit: { opacity: 0, transition: { duration: 0.5 } }
+  };
+
 
   return (
-    <div className={`dropdown ${isOpen && `dropdown-open`}`} ref={dropdownRef}>
-      <button
-        type="button"
-        className="dropdown-button"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {svg()}{" "}
-        {selected
-          ? id === "time"
-            ? convertTo12Hour(selected)
-            : selected
-          : "Select"}
-      </button>
+    <div className={`dropdown ${isOpen && `dropdown-open`}`}ref={dropdownRef}>
+        <motion.button
+          type="button"
+          className="dropdown-button"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {svg()}{" "}
+          {selected
+            ? id === "time"
+              ? convertTo12Hour(selected)
+              : selected
+            : "Select"}
+        </motion.button>
       <AnimatePresence>
         {isOpen ? (
           !object.options ? (
@@ -63,7 +67,8 @@ function Dropdown(props) {
                 )}
                 <div className="items-container">
                   {object.options.map((option) => (
-                    <button
+                    <motion.button
+                      exit={fadeOut}
                       key={option.value}
                       id={id}
                       value={option.value}
@@ -76,7 +81,7 @@ function Dropdown(props) {
                       }
                     >
                       {option.label}
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               </motion.div>

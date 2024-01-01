@@ -658,7 +658,6 @@
   top: 100%;
   left: -1px;
   width: 100%;
-  z-index: 1000;
   max-height: 300px;
   scrollbar-width: 0px;
   border-radius: 0px 0px 5px 5px;
@@ -695,7 +694,6 @@
   cursor: pointer;
   border: none;
   font-weight: 500;
-  transition: all 0.1s ease-in-out;
   text-align: center;
   width: 100%;
   margin-inline: auto;
@@ -704,6 +702,7 @@
   color: var(--black);
   position: relative;
 }
+
 .dropdown-item::before {
   content: "";
   position: absolute;
