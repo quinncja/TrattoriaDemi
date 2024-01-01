@@ -440,7 +440,7 @@ const TableFinder = forwardRef((props, ref) => {
     <div className="table-finder-container">
       <AnimatePresence>
         <motion.div {...fadeIn} className={`table-finder`}>
-          <div className="input-group">
+          <div className="input-group"layoutId="guest-outline" >
             <div className={`input-text`}> {inputText.guestNum} </div>
             <Dropdown
               object={guestOptions}
@@ -448,6 +448,7 @@ const TableFinder = forwardRef((props, ref) => {
               onSelect={handleChange}
               id={"guests"}
               svg={peopleSvg}
+              layoutId={"guest-outline"}
             />
           </div>
           <div className="input-group">
@@ -469,6 +470,7 @@ const TableFinder = forwardRef((props, ref) => {
               onSelect={handleChange}
               id={"time"}
               svg={clockSvg}
+              layoutId={"time-outline"}
             />
           </div>
         </motion.div>
