@@ -51,6 +51,17 @@ p {
   margin: 0px;
   line-height: 1.7rem;
 }
+@media (width <= 470px) {
+  p{
+    font-size: .8rem;
+  }
+  h2 {
+    font-size: 1.2rem;
+  }
+  .subtle-button{
+    font-size: .8rem !important;
+  }
+}
 html,
 body {
   height: 100%;
@@ -667,6 +678,9 @@ body {
   }
   .button-main {
     font-size: 0.75rem;
+  }
+  .embla-container{
+    margin-top: 0px;
   }
 }
 
