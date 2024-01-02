@@ -8,11 +8,11 @@ function Details() {
       <div>
         <h2>Hours</h2>
         <div className="time-div">
-          <p>Monday - Thursday</p>
+          <p>Mon - Thurs</p>
           <p>11:30am - 8:30pm</p>
         </div>
         <div className="time-div">
-          <p>Friday - Saturday</p>
+          <p>Fri - Sat</p>
           <p>11:30am - 9:30pm</p>
         </div>
         <div className="time-div">
