@@ -26,24 +26,23 @@ function Dropdown(props) {
     setIsOpen(false);
   };
   const fadeOut = {
-    exit: { opacity: 0, transition: { duration: 0.5 } }
+    exit: { opacity: 0, transition: { duration: 0.5 } },
   };
 
-
   return (
-    <div className={`dropdown ${isOpen && `dropdown-open`}`}ref={dropdownRef}>
-        <motion.button
-          type="button"
-          className="dropdown-button"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {svg()}{" "}
-          {selected
-            ? id === "time"
-              ? convertTo12Hour(selected)
-              : selected
-            : "Select"}
-        </motion.button>
+    <div className={`dropdown ${isOpen && `dropdown-open`}`} ref={dropdownRef}>
+      <motion.button
+        type="button"
+        className="dropdown-button"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {svg()}{" "}
+        {selected
+          ? id === "time"
+            ? convertTo12Hour(selected)
+            : selected
+          : "Select"}
+      </motion.button>
       <AnimatePresence>
         {isOpen ? (
           !object.options ? (

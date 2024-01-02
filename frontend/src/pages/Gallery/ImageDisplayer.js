@@ -11,7 +11,9 @@ function ImageDisplayer(props) {
         loading="lazy"
         onLoad={() => setLoaded(true)}
       />
-      {isLoaded && <div className="image-description">{props.name}</div>}
+      {isLoaded && props.name && (
+        <div className="image-description">{props.name}</div>
+      )}
     </div>
   );
 }

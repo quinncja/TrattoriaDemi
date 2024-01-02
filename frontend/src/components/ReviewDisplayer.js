@@ -42,10 +42,12 @@ export const EmblaCarousel = () => {
 
 function ReviewDisplayer() {
   return (
-    <div className="review-display-container">
-      <img className="left-branch" src={LeftBranch} alt="LeftBranch" />
-      <div className="embla-container"> {EmblaCarousel()} </div>
-      <img className="right-branch" src={RightBranch} alt="RightBranch" />
+    <div className="review-display-wrapper">
+      <div className="review-display-container">
+        <img className="left-branch" src={LeftBranch} alt="LeftBranch" />
+        <div className="embla-container"> {EmblaCarousel()} </div>
+        <img className="right-branch" src={RightBranch} alt="RightBranch" />
+      </div>
     </div>
   );
 }
