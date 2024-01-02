@@ -1058,7 +1058,7 @@ svg {
   transform: none !important;
   cursor: unset !important;
 }
-.no-change:hover{
+.no-change:hover {
   text-decoration: none;
 }
 .padding-bottom {

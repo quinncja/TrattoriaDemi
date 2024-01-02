@@ -440,7 +440,7 @@ const TableFinder = forwardRef((props, ref) => {
     <div className="table-finder-container">
       <AnimatePresence>
         <motion.div {...fadeIn} className={`table-finder`}>
-          <div className="input-group"layoutId="guest-outline" >
+          <div className="input-group" layoutId="guest-outline">
             <div className={`input-text`}> {inputText.guestNum} </div>
             <Dropdown
               object={guestOptions}
