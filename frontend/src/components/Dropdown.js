@@ -1,12 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import { convertTo12Hour } from "../functions";
 import { useMobile } from "../context/MobileContext";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 function Dropdown(props) {
   const { object, selected, onSelect, id, svg } = props;
   const mobile = useMobile();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpenState] = useState(false);
   const dropdownRef = useRef(null);
+
+  const setIsOpen = (open) => {
+    document.body.classList.toggle('no-scroll', open);
+    setIsOpenState(open);
+  };
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -19,6 +24,7 @@ function Dropdown(props) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSelect = (option) => {
@@ -43,7 +49,6 @@ function Dropdown(props) {
             : selected
           : "Select"}
       </motion.button>
-      <AnimatePresence>
         {isOpen ? (
           !object.options ? (
             <motion.div className="dropdown-menu">
@@ -57,8 +62,8 @@ function Dropdown(props) {
             </motion.div>
           ) : (
             <>
-              <div className="overlay" onClick={() => setIsOpen(false)}></div>
-              <motion.div className="dropdown-menu mobile-menu">
+              <div className="overlay" onClick={() => setIsOpen(false)}>
+              <motion.div className={!mobile ? "dropdown-menu" : "mobile-menu"}>
                 {mobile && (
                   <div className="dropdown-header">
                     {svg()} {object.name}
@@ -84,12 +89,12 @@ function Dropdown(props) {
                   ))}
                 </div>
               </motion.div>
+              </div>
             </>
           )
         ) : (
           ""
         )}
-      </AnimatePresence>
     </div>
   );
 }
