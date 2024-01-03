@@ -45,7 +45,8 @@
     "react-scroll-parallax": "^3.4.2",
     "resend": "^1.0.0",
     "sweetalert2": "^11.7.27",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "worker-loader": "^3.0.8"
   },
   "scripts": {
     "start": "react-scripts start",

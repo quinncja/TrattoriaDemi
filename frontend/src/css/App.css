@@ -682,6 +682,13 @@ body {
   .embla-container{
     margin-top: 0px;
   }
+  .emblem-block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-block: 50px;
+  }
+
 }
 
 @media (width <= 380px) {
@@ -777,6 +784,12 @@ body {
   justify-content: center;
   gap: 20px;
 }
+
+.emblem-block div{
+  width: 150px;
+  height: 150px;
+}
+
 
 .hb-row {
   display: flex;

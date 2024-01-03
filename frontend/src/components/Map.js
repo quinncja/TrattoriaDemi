@@ -1,5 +1,6 @@
 import React from "react";
 import ReactMapboxGl, { Marker } from "react-mapbox-gl";
+import mapboxgl from 'mapbox-gl';
 import { useMobile } from "../context/MobileContext";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -10,6 +11,8 @@ function Map() {
   const Map = ReactMapboxGl({
     accessToken: MAPBOX_KEY,
   });
+  // eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
   const center = [-87.681559, 42.04616];
   return (
@@ -17,7 +20,7 @@ function Map() {
       containerStyle={{
         height: "400px",
         width: mobile ? "95vw" : "35vw",
-        borderRadius: "10px",
+        borderRadius: "2px",
       }}
       center={center}
       zoom={[16]}
@@ -32,7 +35,7 @@ function Map() {
         >
           <path
             d="M19 10C19 17 10 23 10 23C10 23 1 17 1 10C1 7.61305 1.94821 5.32387 3.63604 3.63604C5.32387 1.94821 7.61305 1 10 1C12.3869 1 14.6761 1.94821 16.364 3.63604C18.0518 5.32387 19 7.61305 19 10Z"
-            fill="#B32F26"
+            fill="#d21e1e"
             stroke="#861109"
             stroke-linecap="round"
             stroke-linejoin="round"
