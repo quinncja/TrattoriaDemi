@@ -2,7 +2,7 @@
   width: 100%;
   min-height: 100vh;
   background-color: var(--order-background);
-  padding-bottom: 150px;
+  padding-bottom: 50px;
 }
 
 .cart-button {

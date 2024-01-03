@@ -5,18 +5,18 @@ function EmblemBanner(){
         <link href="https://awards.infcdn.net/circ5_n.css" rel="stylesheet" />
         <div
           id="rest_circ5"
-          onclick={(event) =>
+          onClick={(event) =>
             event.target.nodeName.toLowerCase() !== "a"
               ? window.open(this.querySelector(".circ_top_title").href)
               : ""
           }
         >
-          <div class="circ_cont">
+          <div className="circ_cont">
             <div
-              class="circ_img"
+              className="circ_img"
               style={{
                 background: "url('https://awards.infcdn.net/img/star_red.svg')",
-                repeat: "no-repeat",
+                repeat: "4 1fr",
                 align: "center",
               }}
             >
@@ -26,11 +26,11 @@ function EmblemBanner(){
               href="https://restaurantguru.com"
               rel="noreferrer"
               target="_blank"
-              class="circ_top_title"
+              className="circ_top_title"
             >
               Restaurant Guru 2023
             </a>
-            <span class="">Best italian restaurant</span>{" "}
+            <span className="">Best italian restaurant</span>{" "}
             <a
               href="https://restaurantguru.com/Trattoria-Demi-Chicago"
               rel="noreferrer"
