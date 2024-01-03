@@ -747,6 +747,7 @@
     border: 1px solid var(--border-color) !important;
     max-height: unset;
     height: 60vh;
+    margin-top: 10vh;
     width: 85%;
     background-color: rgb(255, 255, 255);
     z-index: 1002;
