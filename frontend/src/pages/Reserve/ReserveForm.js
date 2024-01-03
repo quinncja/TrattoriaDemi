@@ -27,7 +27,7 @@ function ReserveForm(props) {
       setError((errorStates) => ({ ...errorStates, name: false }));
       setName(event.target.value);
     }
-    if (event.target.id === "notes") {
+    if (event.target.id === "message") {
       setNotes(event.target.value);
     }
   };

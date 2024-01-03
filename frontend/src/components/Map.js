@@ -18,7 +18,7 @@ mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worke
   return (
     <Map
       containerStyle={{
-        height: "400px",
+        height:  mobile ? "350px" : "400px",
         width: mobile ? "95vw" : "35vw",
         borderRadius: "2px",
       }}
