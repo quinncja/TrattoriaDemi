@@ -3,6 +3,7 @@ import { Parallax, ParallaxBanner } from "react-scroll-parallax";
 import Patio from "../images/OutsidePatio.jpg";
 import ReviewDisplayer from "../components/ReviewDisplayer";
 import { useNavigate } from "react-router-dom";
+import { useMobile } from "../context/MobileContext";
 import ImageDisplayer from "./Gallery/ImageDisplayer";
 import ManyItems from "../food_pictures/ManyItems.jpg";
 import Interior from "../images/Interior.JPG";
@@ -11,6 +12,7 @@ import Details from "../components/Details";
 
 export default function Home() {
   const navigate = useNavigate();
+  const mobile = useMobile();
   const image = { file: ManyItems };
 
   return (
@@ -132,6 +134,8 @@ export default function Home() {
                 background: "url('https://awards.infcdn.net/img/star_red.svg')",
                 repeat: "no-repeat",
                 align: "center",
+                height: mobile ? "60px" : "150px",
+                width: mobile ? "60px" : "150px"
               }}
             >
               &nbsp;
@@ -162,8 +166,8 @@ export default function Home() {
           rel="noreferrer"
         >
           <img
-            height="150px"
-            width="150px"
+            height={mobile ? "60px" : "150px"}
+            width={mobile ? "60px" : "150px"}
             src="https://restaurant.opentable.com/badge/ot/DC-2022.png"
             alt="Open table"
           />
