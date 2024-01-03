@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import FancyLine from "../../images/FancyLine.png";
 import "./Reserve.css";
 import { postReservation } from "../../api";
@@ -9,10 +9,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { fadeInDown } from "../../animations";
 import FoundTable from "./FoundTable";
 import { convertDateToIso } from "../../functions";
+
 export default function Reserve() {
   const [editing, setEditing] = useState(false);
   const [table, setTable] = useState(null);
-  const childRef = useRef(null);
 
   async function createRes(formData) {
     const newRes = {
@@ -25,7 +25,6 @@ export default function Reserve() {
     if (status === 201) {
       successfulReserveAlert();
       setTable(null);
-      childRef.current.reset();
     } else console.log(status);
   }
 
@@ -53,7 +52,6 @@ export default function Reserve() {
                 setTable={setTable}
                 editing={editing}
                 setEditing={setEditing}
-                ref={childRef}
               />
             </div>
           )}

@@ -751,7 +751,8 @@
     border-radius: 5px;
     border: 1px solid var(--border-color) !important;
     max-height: 70vh;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
+    z-index: 2;
   }
   .overlay {
     position: fixed;
@@ -778,7 +779,7 @@
     transform: translateX(-50%);
   }
   .items-container {
-    background-color: var(--nice-white);
+    background-color: white;
   }
 }
 
