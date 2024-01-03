@@ -324,7 +324,7 @@ body {
 
 .footer {
   padding: 1rem;
-  border-top: 2px solid var(--nice-white);
+  border-top: 2px solid var(--border-color);
   background-color: black;
   position: relative;
   z-index: 3;
@@ -332,14 +332,14 @@ body {
 .footer-links {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: right;
   gap: 2rem;
 }
 
 .footer-link {
   color: antiquewhite;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.6rem;
+  font-weight: 500;
   transition: color 0.2s linear;
   cursor: pointer;
 }
