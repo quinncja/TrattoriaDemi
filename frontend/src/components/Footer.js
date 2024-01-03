@@ -10,9 +10,8 @@ export function Footer() {
       <img src={Vases} alt="vases" width="10%" className="vases" />
       <div className="footer">
         <div className="footer-links">
-          <div className="footer-link">847-332-2330</div>
           <div className="footer-link">
-            1571 Sherman Ave, Evanston, IL 60201
+            Made with <div style={{display: "inline", fontWeight: "800", fontSize: ".8rem"}}> ♡ </div>
           </div>
         </div>
       </div>

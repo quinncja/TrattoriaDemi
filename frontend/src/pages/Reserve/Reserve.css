@@ -1,7 +1,7 @@
 .reserve-container {
   position: relative;
   width: 60vw;
-  min-height: calc(100vh - 100px - 100px);
+  min-height: calc(100vh - 100px);
   margin-inline: auto;
   display: flex;
   align-items: stretch;
@@ -746,7 +746,7 @@
     border-radius: 5px;
     border: 1px solid var(--border-color) !important;
     max-height: unset;
-    height: 50vh;
+    height: 70vh;
     width: 85%;
     background-color: rgb(255, 255, 255);
     z-index: 1002;
