@@ -759,7 +759,7 @@ body {
 
 .subtle-button {
   color: white;
-  background-color: var(--transparent-border-color);
+  background-color: var(  --gold-2);
   border: none;
   outline: none;
   font-size: 1rem;
