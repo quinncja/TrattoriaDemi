@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import FancyLine from "../../images/FancyLine.png";
+import FancyLine from "images/FancyLine.png";
 import "./Reserve.css";
-import { postReservation } from "../../api";
-import { successfulReserveAlert } from "../../swal2";
+import { postReservation } from "api";
+import { successfulReserveAlert } from "swal2";
 import TableFinder from "./TableFinder";
 import ReserveForm from "./ReserveForm";
 import { motion, AnimatePresence } from "framer-motion";
-import { fadeInDown } from "../../animations";
+import { fadeInDown } from "animations";
 import FoundTable from "./FoundTable";
-import { convertDateToIso } from "../../functions";
+import { convertDateToIso } from "functions";
 
 export default function Reserve() {
   const [editing, setEditing] = useState(false);

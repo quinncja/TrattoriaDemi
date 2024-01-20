@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getReservationById, patchReservation } from "../api";
-import { successfulCancelAlert } from "../swal2";
-import FancyLine from "../images/FancyLine.png";
-import { convertTo12Hour, dateToString } from "../functions";
+import { getReservationById, patchReservation } from "api";
+import { successfulCancelAlert } from "swal2";
+import FancyLine from "images/FancyLine.png";
+import { convertTo12Hour, dateToString } from "functions";
 
 function Cancel() {
   const param = useParams();

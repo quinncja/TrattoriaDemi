@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import Cart from "./Cart";
 import Item from "./Item";
 import "./Order.css";
-import { useMobile } from "../../context/MobileContext";
-import { useStatus } from "../../context/StatusContext";
-import { useMenu } from "../../context/MenuContext";
-import { statusAlert } from "../../swal2";
-import { capitalizeFirstLetter } from "../../functions";
+import { useMobile } from "context/MobileContext";
+import { useStatus } from "context/StatusContext";
+import { useMenu } from "context/MenuContext";
+import { statusAlert } from "swal2";
+import { capitalizeFirstLetter } from "functions";
 import { motion } from "framer-motion";
-import { fadeInMany } from "../../animations";
+import { fadeInMany } from "animations";
 import moment from "moment";
 
 function Order() {

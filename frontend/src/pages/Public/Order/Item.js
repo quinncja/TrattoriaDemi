@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import CartContext from "../../context/CartContext";
+import CartContext from "context/CartContext";
 import { useNavigate } from "react-router-dom";
-import { replaceSpaceW_ } from "../../functions";
+import { replaceSpaceW_ } from "functions";
 import { Modal } from "react-responsive-modal";
-import { trashCanSvg, checkMargSvg, cancelSvg } from "../../svg";
+import { trashCanSvg, checkMargSvg, cancelSvg } from "svg";
 import "react-responsive-modal/styles.css";
 
 function Item({ type, item, section }) {

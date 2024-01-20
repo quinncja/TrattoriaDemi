@@ -1,7 +1,7 @@
-import { convertTo12Hour, dateToString } from "../../functions";
-import { fadeInDown } from "../../animations";
+import { convertTo12Hour, dateToString } from "functions";
+import { fadeInDown } from "animations";
 import { motion, AnimatePresence } from "framer-motion";
-import { calendarSvg, peopleSvg, clockSvg } from "../../svg";
+import { calendarSvg, peopleSvg, clockSvg } from "svg";
 
 function FoundTable(props) {
   const { table, setEditing } = props;

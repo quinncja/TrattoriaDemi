@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DashboardNav from "./DashboardNav/DashboardNav";
-import DBAdmin from "./DBAdmin";
-import DBInhouse from "./DBInhouse/DBInhouse";
+import DBAdmin from "./Admin/DBAdmin";
+import DBInhouse from "./InHouse/DBInhouse";
 import DBLogin from "./DBLogin.js";
 import Userfront from "@userfront/core";
 

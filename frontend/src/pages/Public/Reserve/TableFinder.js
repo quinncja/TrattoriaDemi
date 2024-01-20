@@ -8,17 +8,17 @@ import {
   convertTo24Hour,
   convertTo12Hour,
   dateToString,
-} from "../../functions";
-import { checkReservation } from "../../api";
+} from "functions";
+import { checkReservation } from "api";
 import { motion, AnimatePresence } from "framer-motion";
-import { fadeIn, fadeInDown } from "../../animations";
-import Dropdown from "../../components/Dropdown";
+import { fadeIn, fadeInDown } from "animations";
+import Dropdown from "components/Dropdown";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { calendarSvg, peopleSvg, clockSvg } from "../../svg";
-import { convertDateToIso } from "../../functions";
+import { calendarSvg, peopleSvg, clockSvg } from "svg";
+import { convertDateToIso } from "functions";
 import dayjs from "dayjs";
 
 const TableFinder = forwardRef((props, ref) => {

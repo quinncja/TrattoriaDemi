@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import { useMobile } from "../../../context/MobileContext";
+import { useMobile } from "context/MobileContext";
 import { useNavigate } from "react-router-dom";
-import { checkoutCart, placePickupOrder } from "../../../api";
-import CartContext from "../../../context/CartContext";
-import { useStatus } from "../../../context/StatusContext";
-import FancyLine from "../../../images/FancyLine.png";
+import { checkoutCart, placePickupOrder } from "api";
+import CartContext from "context/CartContext";
+import { useStatus } from "context/StatusContext";
+import FancyLine from "images/FancyLine.png";
 import YourOrder from "./YourOrder";
 import "../Order.css";
 import Checkout from "./Checkout";

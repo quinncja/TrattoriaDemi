@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { useMobile } from "../../context/MobileContext.js";
-import { useMenu } from "../../context/MenuContext";
+import { useMobile } from "context/MobileContext.js";
+import { useMenu } from "context/MenuContext";
 import { motion } from "framer-motion";
-import { fadeInMany } from "../../animations";
-import FancyLine from "../../images/FancyLine.png";
+import { fadeInMany } from "animations";
+import FancyLine from "images/FancyLine.png";
 import "./Menu.css";
 
 export default function Menu() {
