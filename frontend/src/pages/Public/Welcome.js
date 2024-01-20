@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../images/LogoAllWhite.png";
+import Logo from "images/LogoAllWhite.png";
 import { useNavigate } from "react-router-dom";
 
 export default function Welcome() {

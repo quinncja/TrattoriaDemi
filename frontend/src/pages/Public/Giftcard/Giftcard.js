@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { postGiftcard } from "../../api.js";
-import FancyLine from "../../images/FancyLine.png";
-import { successfulGiftcardAlert } from "../../swal2.js";
-import Input from "../../components/Input.js";
+import { postGiftcard } from "api.js";
+import FancyLine from "images/FancyLine.png";
+import { successfulGiftcardAlert } from "swal2.js";
+import Input from "components/Input.js";
 import { motion, AnimatePresence } from "framer-motion";
-import { fadeIn } from "../../animations.js";
+import { fadeIn } from "animations.js";
 
 function Giftcard() {
   const [recipient, setRecipient] = useState(null);

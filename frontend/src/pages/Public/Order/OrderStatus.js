@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { getOrderById } from "../../api";
+import { getOrderById } from "api";
 import moment from "moment-timezone";
-import FancyLine from "../../images/FancyLine.png";
-import { orderSuccess } from "../../swal2";
-import CartContext from "../../context/CartContext";
-import { minutesUntilTime } from "../../functions";
+import FancyLine from "images/FancyLine.png";
+import { orderSuccess } from "swal2";
+import CartContext from "context/CartContext";
+import { minutesUntilTime } from "functions";
 
 function OrderStatus() {
   const param = useParams();

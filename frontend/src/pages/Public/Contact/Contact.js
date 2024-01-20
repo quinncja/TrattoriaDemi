@@ -1,12 +1,12 @@
 import { useState } from "react";
-import FancyLine from "../../images/FancyLine.png";
+import FancyLine from "images/FancyLine.png";
 import "../Reserve/Reserve.css";
-import { postContact } from "../../api";
-import { successfulContactAlert } from "../../swal2";
-import { isValidEmail } from "../../functions";
-import Input from "../../components/Input";
+import { postContact } from "api.js";
+import { successfulContactAlert } from "swal2.js";
+import { isValidEmail } from "functions.js";
+import Input from "components/Input.js";
 import { motion, AnimatePresence } from "framer-motion";
-import { fadeIn } from "../../animations.js";
+import { fadeIn } from "animations.js";
 
 function Contact() {
   const [name, setName] = useState("");

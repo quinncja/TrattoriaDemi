@@ -1,12 +1,12 @@
 import React from "react";
 import { Parallax, ParallaxBanner } from "react-scroll-parallax";
-import Patio from "../images/OutsidePatio.jpg";
-import ReviewDisplayer from "../components/ReviewDisplayer";
+import Patio from "images/OutsidePatio.jpg";
+import ReviewDisplayer from "components/ReviewDisplayer";
 import { useNavigate } from "react-router-dom";
 import ImageDisplayer from "./Gallery/ImageDisplayer";
-import ManyItems from "../food_pictures/ManyItems.jpg";
-import Interior from "../images/Interior.JPG";
-import EmblemBanner from "../components/EmblemBanner";
+import ManyItems from "food_pictures/ManyItems.jpg";
+import Interior from "images/Interior.JPG";
+import EmblemBanner from "components/EmblemBanner";
 
 export default function Home() {
   const navigate = useNavigate();

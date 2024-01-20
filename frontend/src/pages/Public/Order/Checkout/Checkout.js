@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { fadeIn } from "../../../animations";
-import Input from "../../../components/Input";
+import { fadeIn } from "animations";
+import Input from "components/Input";
 
 function Checkout(props) {
   const { type, submitCheckout, items, price, mobile, tip, setTip } = props;

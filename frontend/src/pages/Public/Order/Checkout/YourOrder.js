@@ -1,6 +1,6 @@
 import Item from "../Item";
 import { motion } from "framer-motion";
-import { fadeIn } from "../../../animations";
+import { fadeIn } from "animations";
 
 function YourOrder(props) {
   const { type, tip, items, price } = props;

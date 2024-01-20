@@ -1,7 +1,7 @@
-import { capitalizeFirstLetter } from "../../../functions";
-import { deliverySvg, pickupSvg } from "../../../svg";
+import { capitalizeFirstLetter } from "functions";
+import { deliverySvg, pickupSvg } from "svg";
 import { AnimatePresence, motion } from "framer-motion";
-import { fadeIn } from "../../../animations";
+import { fadeIn } from "animations";
 
 function OrderType(props) {
   const { type, setType, delivery, pickup } = props;

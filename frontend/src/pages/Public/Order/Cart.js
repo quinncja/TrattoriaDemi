@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import CartContext from "../../context/CartContext";
+import CartContext from "context/CartContext";
 import { motion, useAnimate } from "framer-motion";
 
 function Cart() {

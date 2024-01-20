@@ -1,18 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import App from "./App";
-import Menu from "./pages/Menu/Menu.js";
-import Home from "./pages/Home.js";
-import "./css/index.css";
-import Reserve from "./pages/Reserve/Reserve";
-import Order from "./pages/Order/Order";
-import Contact from "./pages/Contact/Contact";
-import Giftcard from "./pages/Giftcard/Giftcard";
-import GalleryPopulator from "./pages/Gallery/GalleryPopulator";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Email from "./components/Email";
-import Cancel from "./pages/Cancel";
-import OrderStatus from "./pages/Order/OrderStatus";
-import CheckoutPage from "./pages/Order/Checkout/CheckoutPage";
+import App from "App";
+import Menu from "pages/Public/Menu/Menu.js";
+import Home from "pages/Public/Home.js";
+import "css/index.css";
+import Reserve from "pages/Public/Reserve/Reserve";
+import Order from "pages/Public/Order/Order";
+import Contact from "pages/Public/Contact/Contact";
+import Giftcard from "pages/Public/Giftcard/Giftcard";
+import GalleryPopulator from "pages/Public/Gallery/GalleryPopulator";
+import Dashboard from "pages/Dashboard/Dashboard";
+import Email from "components/Email";
+import Cancel from "pages/Public/Cancel";
+import OrderStatus from "pages/Public/Order/OrderStatus";
+import CheckoutPage from "pages/Public/Order/Checkout/CheckoutPage";
 
 export function Router() {
   return (
