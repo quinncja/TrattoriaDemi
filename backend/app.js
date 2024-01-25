@@ -6,6 +6,7 @@ const reservationRouter = require("./api/reservation/reservationRouter");
 const messageRouter = require("./api/message/messageRouter");
 const giftcardRouter = require("./api/giftcard/giftcardRouter");
 const orderRouter = require("./api/order/orderRouter");
+const payrollRouter = require("./api/payroll/payrollRouter");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -44,6 +45,7 @@ app.use("/api/reservations", reservationRouter);
 app.use("/api/messages", messageRouter);
 app.use("/api/giftcard", giftcardRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/payroll", payrollRouter);
 
 app.listen(port, () => {
   console.log(`Trattoria Demi listening on port ${port}`);
