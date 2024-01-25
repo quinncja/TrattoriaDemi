@@ -1,7 +1,10 @@
 import React from "react";
 import "./DashboardNav.css";
+import { useSearchParams } from "react-router-dom";
+
 function DashboardNav(props) {
-  const setView = props.setView;
+
+  const [searchParams, setSearchParams] = useSearchParams();
   const currentView = props.currentView;
   const authenticated = props.authenticated;
 
@@ -14,7 +17,12 @@ function DashboardNav(props) {
             className={`dbn-button ${
               currentView === "inhouse" && "dbn-button-active"
             } ${!authenticated && "invisible"}`}
-            onClick={() => setView("inhouse")}
+            onClick={() => {  
+              setSearchParams({})
+              searchParams.delete("body")
+              searchParams.set("view", "inhouse")
+              setSearchParams(searchParams)
+            }}
           >
             In house
           </button>
@@ -22,8 +30,12 @@ function DashboardNav(props) {
             className={`dbn-button ${
               currentView === "admin" && "dbn-button-active"
             } ${!authenticated && "invisible"}`}
-            onClick={() => setView("admin")}
-          >
+            onClick={() =>  {     
+              searchParams.delete("body")
+              searchParams.set("view", "admin")
+              setSearchParams(searchParams)
+            }}
+            >
             Admin
           </button>
         </div>
