@@ -1,5 +1,6 @@
 import React from "react";
 import { dateToString } from "../../../functions";
+import { leftArrow, rightArrow } from "svg";
 
 function ReservationHeader(props) {
   const { date, setDate, numGuests, numRes } = props;
@@ -24,23 +25,7 @@ function ReservationHeader(props) {
           id="back"
           onClick={(event) => buttonClick(event.target.id)}
         >
-          <svg
-            id="back"
-            className="svg"
-            width="24"
-            height="24"
-            viewBox="3 3 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M15 18L9 12L15 6"
-              stroke="#ffffff"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          {leftArrow()}
         </button>
         <div className="date-changer-text"> {dateToString(date)} </div>
         <button
@@ -48,23 +33,7 @@ function ReservationHeader(props) {
           id="forward"
           onClick={(event) => buttonClick(event.target.id)}
         >
-          <svg
-            width="24"
-            className="svg"
-            id="forward"
-            height="24"
-            viewBox="2 3 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M9 18L15 12L9 6"
-              stroke="#ffffff"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+            {rightArrow()}
         </button>
       </div>
     );

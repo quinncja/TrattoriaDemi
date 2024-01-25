@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = process.env.REACT_APP_DEPLOYED_BACKEND;
+const API_URL = process.env.REACT_APP_LOCAL_BACKEND;
 
 export async function getReservationById(id, signal) {
   try {
@@ -305,5 +305,47 @@ export async function deleteOrder(id) {
     } else {
       throw error;
     }
+  }
+}
+
+
+export async function getEmployees(){
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/payroll/employees`,
+    });
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+      throw error;
+  }
+}
+
+export async function getPayrollByPeriod(period) {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/payroll/`,
+      params: { period }
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function savePayroll(payrollData) {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${API_URL}api/payroll/`,
+      data: payrollData
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw error;
   }
 }

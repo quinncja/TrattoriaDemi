@@ -1,8 +1,5 @@
 .db-background {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 81px);
+  min-height: calc(100vh - 81px);
   background-color: black;
 }
 

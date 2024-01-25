@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
+import { useSearchParams } from "react-router-dom";
 import DashboardNav from "./DashboardNav/DashboardNav";
 import DBAdmin from "./Admin/DBAdmin";
 import DBInhouse from "./InHouse/DBInhouse";
@@ -7,7 +8,9 @@ import Userfront from "@userfront/core";
 
 import "./Dashboard.css";
 function Dashboard() {
-  const [view, setView] = useState("inhouse");
+  const [searchParams] = useSearchParams();
+  const view = searchParams.get('view') || "inhouse"
+
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -17,7 +20,6 @@ function Dashboard() {
   return (
     <>
       <DashboardNav
-        setView={setView}
         currentView={view}
         authenticated={authenticated}
       />
