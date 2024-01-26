@@ -10,7 +10,7 @@ const PayrollRow = forwardRef((props, ref) => {
             ...values,
             [field]: value,
         })
-        handleItemChange(index, field, value, net);
+        handleItemChange(index, field, Number(value), net);
     };
 
     const changeRow = (newRowData) => {
@@ -116,7 +116,7 @@ const PayrollRow = forwardRef((props, ref) => {
                     text: `Hours @ $${employee.rate[0].rate}/hr`,
                     id: "total-hours",
                     type: "hours",
-                    handleChange: (e) => fillValues(e.target.value),
+                    handleChange: (e) => fillValues(Number(e.target.value)),
                     value: values.hours,
                 }} />
 
@@ -124,13 +124,13 @@ const PayrollRow = forwardRef((props, ref) => {
                     text: `Hours @ $${employee.rate[1].rate}/hr`,
                     id: "second-total-hours",
                     type: "hours",
-                    handleChange: (e) => fillValues(e.target.value, true),
+                    handleChange: (e) => fillValues(Number(e.target.value), true),
                     value: values.secondHours,
                 }} /> }
                 {employee.tips && <PayrollInput obj={{
                     text: `Tips`,
                     id: "tips",
-                    handleChange: (e) => fillValues(e.target.value, false, true),
+                    handleChange: (e) => fillValues(Number(e.target.value), false, true),
                     value: values.tips,
                 }} /> }
                 </div> 

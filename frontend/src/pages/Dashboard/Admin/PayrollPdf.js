@@ -1,7 +1,9 @@
+import { calculateDates } from "functions";
 import { forwardRef } from "react";
 
 const PayrollPdf = forwardRef((props, ref) => {
-    const { payrollData } = props;
+    const { payrollData, currentPeriod } = props;
+    const dates = calculateDates(currentPeriod);
 
     function safeToFixed(value) {
         if (typeof value === 'number' && !isNaN(value)) {
@@ -15,24 +17,28 @@ const PayrollPdf = forwardRef((props, ref) => {
         <div ref={ref} className="payroll-pdf"> 
         {payrollData.payrolls.map((row) => {
             const { employee, ...values } = row;
+            console.log(values)
             return(
                 <div key={employee.employee} className="employee-box"> 
                 <div className="bold">
-                    {employee.employee}
+                    {employee.name}
                 </div>
                 <div>
-                    Total Hours: {values.hours}
+                    Pay period: {dates[0]} - {dates[1]}
                 </div>
                 <div>
-                    Hourly Rate: ${safeToFixed(employee.rate[0].rate)} {employee.rate[1] && `($${safeToFixed(values.firstgross)} )`}
+                    Total hours: {values.hours}
+                </div>
+                <div>
+                    Hourly rate: ${safeToFixed(employee.rate[0].rate)} {employee.rate[1] && `($${safeToFixed(values.hours * employee.rate[0].rate)})`}
                 </div>
                 {employee.rate[1] && 
                 <> 
                 <div>
-                    Total Hours: {values.secondHours}
+                    Total hours: {values.secondHours}
                 </div>
                 <div>
-                    Hourly Rate: ${safeToFixed(employee.rate[1].rate)} (${safeToFixed(values.secondgross)} ) 
+                    Hourly rate: ${safeToFixed(employee.rate[1].rate)} (${safeToFixed(values.hours * employee.rate[1].rate)}) 
                 </div>
                  </>
                 }

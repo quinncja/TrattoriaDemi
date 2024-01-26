@@ -129,3 +129,31 @@ export const convertDateToIso = (date) => {
 export function replaceSpaceW_(str) {
   return str.replace(/ /g, "_");
 }
+
+
+export function calculateDates(periodNumber) {
+  const baseDate = new Date('2024-01-01');
+
+  const endDate = new Date(baseDate);
+  endDate.setDate(baseDate.getDate() + (periodNumber * 14) );
+
+  const startDate = new Date(endDate);
+  startDate.setDate(endDate.getDate() - 13);
+
+  const formatDate = (date) => {
+      let dd = date.getDate();
+      let mm = date.getMonth() + 1;
+      const yyyy = date.getFullYear().toString()
+
+      if(dd < 10) {
+          dd = '0' + dd;
+      } 
+      if(mm < 10) {
+          mm = '0' + mm;
+      } 
+
+      return mm + '/' + dd + '/' + yyyy;
+  }
+
+  return( [formatDate(startDate), formatDate(endDate)] )
+}
