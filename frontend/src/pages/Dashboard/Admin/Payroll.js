@@ -56,6 +56,7 @@ function Payroll(){
 
     const handleSave = () => {
         savePayroll(payrollData)
+        console.log("onsave", payrollData)
         print();
     };
 
@@ -73,7 +74,7 @@ function Payroll(){
         })}
 
         <div className="payroll-pdf-hider"> 
-        {payrollData && <PayrollPdf payrollData={payrollData} ref={componentRef}/>}
+        {payrollData && <PayrollPdf payrollData={payrollData} currentPeriod={currentPeriod} ref={componentRef}/>}
         </div> 
         </>
     )
