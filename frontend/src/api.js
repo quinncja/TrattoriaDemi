@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = process.env.REACT_APP_LOCAL_BACKEND;
+const API_URL = process.env.REACT_APP_URL;
 
 export async function getReservationById(id, signal) {
   try {
