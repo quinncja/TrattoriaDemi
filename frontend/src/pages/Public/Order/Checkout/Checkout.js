@@ -34,6 +34,10 @@ function Checkout(props) {
       setError((errorStates) => ({ ...errorStates, time: false }));
     }
   };
+  const handlePlaceSelect = (place) => {
+    setError((errorStates) => ({ ...errorStates, address: false }));
+    setAddress(place)
+  }
   const handlePhoneChange = (value) => {
     setPhone(value);
     setError((errorStates) => ({ ...errorStates, phone: false }));
@@ -75,6 +79,7 @@ function Checkout(props) {
       error: errorStates.address,
       hidden: type === "pickup" ? true : false,
       handleChange,
+      handlePlaceSelect,
     },
     notes: {
       name: "notes",

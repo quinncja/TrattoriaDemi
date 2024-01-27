@@ -111,7 +111,6 @@ async function createCheckoutSession(price, orderId) {
 }
 
 async function getCartTotal(serverItemsList) {
-  console.log(serverItemsList)
   let total = 0;
 
   for (let serverItem of serverItemsList) {
@@ -204,12 +203,30 @@ orderRouter.post("/pickup", async (req, res) => {
   }
 });
 
+function verifyAddress(address) {
+  const legalPostalCodes = [
+    "60601",
+    "60202",
+    "60203",
+    "60204",
+    "60208",
+  ]
+  const postalCodeObject = address.address_components.find(component => component.types.includes('postal_code'));
+  return legalPostalCodes.find((item) => item === postalCodeObject.short_name)
+}
+
 orderRouter.post("/checkout", async (req, res) => {
   try {
     const { customerName, type, tip, address, notes, utensils, phone, items } =
       req.body;
-    if (!checkStatus(type)) res.status(500).json({ message: `${type} closed` });
-
+    if (!checkStatus(type)) {
+      res.status(500).json({ message: `${type} closed` });
+      return;
+    }
+    if (!verifyAddress(address)) {
+      res.status(400).json({ message: "Address not within Evanston"})
+      return;
+    }
     const subtotal = await getCartTotal(items);
     let total = subtotal;
     const tax = getTax(total);
@@ -223,7 +240,7 @@ orderRouter.post("/checkout", async (req, res) => {
       type,
       subtotal,
       customerName,
-      address,
+      address: address.formatted_address,
       notes,
       phone,
       items,
