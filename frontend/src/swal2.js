@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 
+
 export function successfulReserveAlert() {
   return Swal.fire({
     title: `Reservation Successful!`,
@@ -115,6 +116,23 @@ export function statusAlert() {
     title: `Check back soon`,
     text: `We are not currently taking online orders`,
     icon: "warning",
+    iconColor: "#d3963a",
+    timer: 10500,
+    padding: "2rem",
+    customClass: {
+      title: "swal-header",
+    },
+    timerProgressBar: true,
+    showConfirmButton: false,
+  });
+}
+
+
+export function locationAlert() {
+  return Swal.fire({
+    title: `Address out of range`,
+    text: `Were sorry, we do not offer delivery outside of Evanston`,
+    icon: "error",
     iconColor: "#d3963a",
     timer: 10500,
     padding: "2rem",

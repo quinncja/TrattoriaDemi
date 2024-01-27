@@ -9,6 +9,7 @@ import YourOrder from "./YourOrder";
 import "../Order.css";
 import Checkout from "./Checkout";
 import OrderType from "./OrderType";
+import { locationAlert } from "swal2";
 
 function CheckoutPage() {
   const { items, price } = useContext(CartContext);
@@ -35,7 +36,9 @@ function CheckoutPage() {
         const body = response.data;
         window.location.href = body.url;
       } catch (error) {
-        console.log("i need error statements");
+        if(error.response.status === 400)
+          locationAlert()
+        else console.log(error)
       }
   }
 
