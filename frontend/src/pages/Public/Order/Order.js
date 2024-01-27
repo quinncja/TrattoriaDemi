@@ -46,8 +46,6 @@ function Order() {
     "SIDES",
     "DESSERTS",
     "DRINKS",
-    "BEER",
-    "WINE",
   ];
 
   const handleOptionClick = (selectedId) => {
@@ -91,9 +89,11 @@ function Order() {
   }
 
   function displayItems(menu) {
+    console.log(menu)
     return (
       <>
         {menu.sections.map((section, index) => (
+        section.header !== "BEER" && 
           <motion.div
             className="order-section"
             key={section.header}
@@ -131,13 +131,6 @@ function Order() {
 
       {menu && (
         <div className="order-container">{displayItems(menu.dinner)}</div>
-      )}
-
-      {menu && (
-        <div id="WINE" className="order-container order-container-sub">
-          <div className="sub-menu-header"> Wine List </div>
-          <div className="sub-menu-container">{displayItems(menu.wine)}</div>
-        </div>
       )}
     </div>
   );
