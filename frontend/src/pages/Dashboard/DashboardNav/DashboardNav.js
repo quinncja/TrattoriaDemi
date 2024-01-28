@@ -1,5 +1,6 @@
 import React from "react";
 import "./DashboardNav.css";
+import Userfront from "@userfront/core";
 import { useSearchParams } from "react-router-dom";
 
 function DashboardNav(props) {
@@ -7,8 +8,11 @@ function DashboardNav(props) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentView = props.currentView;
   const authenticated = props.authenticated;
-
+  
   return (
+    Userfront.user.hasRole("owner", {
+      tenantId: "7n8p6r7n",
+    }) && 
     <div className="dashboard-navbar-wrapper">
       <div className="dashboard-navbar">
         <div className="dbn-name">Trattoria Demi Dashboard</div>

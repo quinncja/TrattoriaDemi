@@ -1,6 +1,13 @@
 .db-background {
-  min-height: calc(100vh - 81px);
   background-color: black;
+  min-height: calc(100dvh - 49px);
+}
+.login-input-wrapper{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  height: calc(100dvh);
+  align-items: center;
 }
 
 .login-input {
@@ -11,7 +18,6 @@
   max-width: 500px;
   font-size: 16px !important;
   color: white;
-  margin-top: -81px;
 }
 
 .invisible {

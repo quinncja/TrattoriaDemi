@@ -17,7 +17,7 @@
     background-color: black;
     width: max-content;
     border-bottom: 1px solid var(--border-color);
-    top: 81px;
+    top: 49px;
     width: 100%;
     box-sizing: border-box;
     z-index: 100;
@@ -42,7 +42,7 @@
     align-items: center;
     justify-content: space-between;
     position: sticky;
-    top: 137px;
+    top: 105px;
     background-color: black;
     z-index: 80;
     align-self: flex-start;

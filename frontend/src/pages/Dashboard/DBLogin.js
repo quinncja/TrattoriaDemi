@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Userfront from "@userfront/core";
 const USERFRONT_ID = process.env.REACT_APP_USERFRONT_ID;
 Userfront.init(USERFRONT_ID);
@@ -7,6 +7,13 @@ function DBLogin(props) {
   const setAuthenticated = props.setAuthenticated;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [incorrect, setIncorrect] = useState(false);
+
+  useEffect(() => {
+    if(incorrect){
+      setTimeout(() => setIncorrect(false), 5000)
+    }
+  }, [incorrect])
 
   const handleChange = (event) => {
     if (event.target.id === "username") {
@@ -24,40 +31,41 @@ function DBLogin(props) {
         username,
         password,
       });
-      if (response) {
-        setAuthenticated(true);
-      }
+      if (response) setAuthenticated(true);
     } catch (error) {
       console.log(error);
+      setIncorrect(true)
     }
   }
 
   return (
-    <div className="login-input">
-      <div className="new-res-header">Dashboard Login</div>
-      <input
-        className="new-res-input"
-        id="username"
-        type="username"
-        placeholder="Username"
-        onChange={(event) => handleChange(event)}
-      ></input>
-      <input
-        className="new-res-input"
-        id="password"
-        placeholder="Password"
-        onChange={(event) => handleChange(event)}
-        type="password"
-      ></input>
-      <button
-        className="submit-button submit-new-res"
-        type="button"
-        onClick={() => {
-          onSubmit();
-        }}
-      >
-        Login
-      </button>
+    <div className="login-input-wrapper">
+      <div className="login-input">
+        <div className={`new-res-header`}> {incorrect ? "Incorrect Login" : "Dashboard Login"}  </div>
+        <input
+          className={` ${incorrect ? "reserve-select-error" : ""} new-res-input`}
+          id="username"
+          type="username"
+          placeholder="Username"
+          onChange={(event) => handleChange(event)}
+        ></input>
+        <input
+          className={` ${incorrect ? "reserve-select-error" : ""} new-res-input`}
+          id="password"
+          placeholder="Password"
+          onChange={(event) => handleChange(event)}
+          type="password"
+        ></input>
+        <button
+          className="submit-button submit-new-res"
+          type="button"
+          onClick={() => {
+            onSubmit();
+          }}
+        >
+          Login
+        </button>
+      </div>
     </div>
   );
 }
