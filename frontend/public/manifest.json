@@ -1,0 +1,10 @@
+
+  {
+    "short_name": "Trattoria Demi",
+    "name": "Trattoria Demi Dashboard",
+    "start_url": ".",
+    "display": "fullscreen",
+    "orientation": "any",
+    "background_color": "#ffffff",
+    "theme_color": "#000000"
+  }
