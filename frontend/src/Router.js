@@ -13,6 +13,7 @@ import Email from "components/Email";
 import Cancel from "pages/Public/Cancel";
 import OrderStatus from "pages/Public/Order/OrderStatus";
 import CheckoutPage from "pages/Public/Order/Checkout/CheckoutPage";
+import Signout from "pages/Dashboard/Signout";
 
 export function Router() {
   return (
@@ -33,7 +34,8 @@ export function Router() {
           <Route path="/email" element={<Email />} />
           <Route path="/cancel/*" element={<Cancel />} />
           <Route path="/order-status/*" element={<OrderStatus />} />
-        </Route>
+          <Route path="/signout" element={<Signout/>} />
+        </Route> 
       </Routes>
     </BrowserRouter>
   );
