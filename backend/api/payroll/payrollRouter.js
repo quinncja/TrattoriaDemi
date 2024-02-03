@@ -25,10 +25,11 @@ payrollRouter.get("/", async (req, res) => {
       let payroll = await Payroll.findOne({ period: parseInt(period) }).populate('payrolls.employee');
       if (!payroll) {
         const employees = await Employee.find({});
-        const newPayrolls = employees.map(emp => ({ employee: emp }));
+        const newPayrolls = employees.map(emp => ({ employee: emp._id }));
   
         payroll = new Payroll({ period: parseInt(period), payrolls: newPayrolls });
         await payroll.save();
+        payroll = await Payroll.findOne({ _id: payroll._id }).populate('payrolls.employee');
       }
       res.json(payroll);
     } catch (error) {

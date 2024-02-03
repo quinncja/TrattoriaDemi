@@ -51,6 +51,7 @@ p {
   margin: 0px;
   line-height: 1.7rem;
 }
+
 @media (width <= 470px) {
   p{
     font-size: .8rem;

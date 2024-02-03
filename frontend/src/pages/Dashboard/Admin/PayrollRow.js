@@ -10,7 +10,7 @@ const PayrollRow = forwardRef((props, ref) => {
             ...values,
             [field]: value,
         })
-        handleItemChange(index, field, Number(value), net);
+        handleItemChange(index, field, value, net);
     };
 
     const changeRow = (newRowData) => {
@@ -37,12 +37,12 @@ const PayrollRow = forwardRef((props, ref) => {
             ...values,
             secondHours: hours,
             secondgross: secondgross,
-            gross: (values.firstgross || 0)+ secondgross,
+            gross: rounder((values.firstgross || 0) + secondgross),
         };
     }
 
     function calcTips(tips) {
-        const tipsgross = rounder((values.gross || 0) + Number(tips))
+        const tipsgross = rounder((values.gross || 0) + tips)
         return{
             ...values,
             tips: tips,
@@ -115,22 +115,25 @@ const PayrollRow = forwardRef((props, ref) => {
                 <PayrollInput obj={{
                     text: `Hours @ $${employee.rate[0].rate}/hr`,
                     id: "total-hours",
-                    type: "hours",
-                    handleChange: (e) => fillValues(Number(e.target.value)),
+                    type: "number",
+                    step: "0.01",
+                    handleChange: (e) => fillValues(e.target.value),
                     value: values.hours,
                 }} />
 
                 {employee.rate.length > 1 && <PayrollInput obj={{
                     text: `Hours @ $${employee.rate[1].rate}/hr`,
                     id: "second-total-hours",
-                    type: "hours",
-                    handleChange: (e) => fillValues(Number(e.target.value), true),
+                    type: "number",
+                    step: "0.01",
+                    handleChange: (e) => fillValues(e.target.value, true),
                     value: values.secondHours,
                 }} /> }
                 {employee.tips && <PayrollInput obj={{
                     text: `Tips`,
-                    id: "tips",
-                    handleChange: (e) => fillValues(Number(e.target.value), false, true),
+                    id: "number",
+                    step: "0.01",
+                    handleChange: (e) => fillValues(e.target.value, false, true),
                     value: values.tips,
                 }} /> }
                 </div> 

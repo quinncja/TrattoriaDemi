@@ -2,7 +2,6 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 const Employee = require("./Employee");
 
-
 const rowSchema = new mongoose.Schema({
     employee: { type: Schema.Types.ObjectId, ref: 'Employee' },
     federalAmnt: { type: Schema.Types.Mixed, default: "" },

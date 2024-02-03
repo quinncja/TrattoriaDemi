@@ -3,6 +3,19 @@ import { forwardRef } from "react";
 
 const PayrollPdf = forwardRef((props, ref) => {
     const { payrollData, currentPeriod } = props;
+    const emptyData = {
+        employee: {
+            name: "",
+            rate: [{rate: ""}]
+        },
+        hours: "",
+        gross: "",
+        ficaAmnt: "",
+        stateAmnt: "",
+        federalAmnt: "",
+        netWage: "",
+    }
+    payrollData.payrolls.push(emptyData);
     const dates = calculateDates(currentPeriod);
 
     function safeToFixed(value) {
@@ -17,7 +30,6 @@ const PayrollPdf = forwardRef((props, ref) => {
         <div ref={ref} className="payroll-pdf"> 
         {payrollData.payrolls.map((row) => {
             const { employee, ...values } = row;
-            console.log(values)
             return(
                 <div key={employee.employee} className="employee-box"> 
                 <div className="bold">

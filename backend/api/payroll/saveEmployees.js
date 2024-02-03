@@ -9,7 +9,7 @@ const employees = [
         state: .3,
         federal: true,
         ilChoice: false,
-        loan: {amount: 275, payment: 25},
+        loan: {amount: 775, payment: 25},
         rate: [{rate: 18.50}]
     },
     {
@@ -61,7 +61,7 @@ const employees = [
         federal: true,
         ilChoice: false,
         loan: {amount: 1600, payment: 200},
-        rate: [{rate: 27.00}]
+        rate: [{rate: 30.00}]
     },
     {
         name: "Miguel Patino",
