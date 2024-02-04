@@ -15,7 +15,6 @@ const PayrollPdf = forwardRef((props, ref) => {
         federalAmnt: "",
         netWage: "",
     }
-    payrollData.payrolls.push(emptyData);
     const dates = calculateDates(currentPeriod);
 
     function safeToFixed(value) {
@@ -26,62 +25,67 @@ const PayrollPdf = forwardRef((props, ref) => {
         }
     }
 
+    function employeeCard({employee, ...values}) {
+        return(
+            <div key={employee.employee} className="employee-box"> 
+            <div className="bold">
+                {employee.name}
+            </div>
+            <div>
+                Pay period: {dates[0]} - {dates[1]}
+            </div>
+            <div>
+                Total hours: {values.hours}
+            </div>
+            <div>
+                Hourly rate: ${safeToFixed(employee.rate[0].rate)} {employee.rate[1] && `($${safeToFixed(values.hours * employee.rate[0].rate)})`}
+            </div>
+            {employee.rate[1] && 
+            <> 
+            <div>
+                Total hours: {values.secondHours}
+            </div>
+            <div>
+                Hourly rate: ${safeToFixed(employee.rate[1].rate)} (${safeToFixed(values.secondHours * employee.rate[1].rate)}) 
+            </div>
+             </>
+            }
+            <div>
+                Gross wages: ${safeToFixed(values.gross)}
+            </div>
+            <div>
+                Fica: ${safeToFixed(values.ficaAmnt)}
+            </div>
+            <div>
+                State: ${safeToFixed(values.stateAmnt)}
+            </div>
+            <div>
+                Federal: ${safeToFixed(values.federalAmnt)}
+            </div>
+            {employee.loan && 
+                <div>
+                    Loan: ${safeToFixed(values.loanAmnt)}
+                </div>
+            }
+            {employee.il && 
+                <div>
+                    Il Secure Choice: ${safeToFixed(values.ilChoice)}
+                </div>
+            }
+            <div>
+                Net wages: ${safeToFixed(values.netWage)}
+            </div>
+            </div>
+        )
+    }
+
     return (
         <div ref={ref} className="payroll-pdf"> 
         {payrollData.payrolls.map((row) => {
-            const { employee, ...values } = row;
-            return(
-                <div key={employee.employee} className="employee-box"> 
-                <div className="bold">
-                    {employee.name}
-                </div>
-                <div>
-                    Pay period: {dates[0]} - {dates[1]}
-                </div>
-                <div>
-                    Total hours: {values.hours}
-                </div>
-                <div>
-                    Hourly rate: ${safeToFixed(employee.rate[0].rate)} {employee.rate[1] && `($${safeToFixed(values.hours * employee.rate[0].rate)})`}
-                </div>
-                {employee.rate[1] && 
-                <> 
-                <div>
-                    Total hours: {values.secondHours}
-                </div>
-                <div>
-                    Hourly rate: ${safeToFixed(employee.rate[1].rate)} (${safeToFixed(values.hours * employee.rate[1].rate)}) 
-                </div>
-                 </>
-                }
-                <div>
-                    Gross wages: ${safeToFixed(values.gross)}
-                </div>
-                <div>
-                    Fica: ${safeToFixed(values.ficaAmnt)}
-                </div>
-                <div>
-                    State: ${safeToFixed(values.stateAmnt)}
-                </div>
-                <div>
-                    Federal: ${safeToFixed(values.federalAmnt)}
-                </div>
-                {employee.loan && 
-                    <div>
-                        Loan: ${safeToFixed(values.loanAmnt)}
-                    </div>
-                }
-                {employee.il && 
-                    <div>
-                        Il Secure Choice: ${safeToFixed(values.ilChoice)}
-                    </div>
-                }
-                <div>
-                    Net wages: ${safeToFixed(values.netWage)}
-                </div>
-                </div>
-            )
+            return(employeeCard(row));
         })}
+        {employeeCard(emptyData)}
+        
         </div>
     );
 });
