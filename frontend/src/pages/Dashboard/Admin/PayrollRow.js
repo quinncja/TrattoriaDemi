@@ -42,7 +42,8 @@ const PayrollRow = forwardRef((props, ref) => {
     }
 
     function calcTips(tips) {
-        const tipsgross = rounder((values.gross || 0) + tips)
+
+        const tipsgross = rounder((values.gross || 0) + Number(tips))
         return{
             ...values,
             tips: tips,
@@ -52,7 +53,8 @@ const PayrollRow = forwardRef((props, ref) => {
 
     function calcTax(values) {
         let gross;
-        if(employee.tips) gross = (values.tipsgross || values.gross) 
+        console.log("tax", values)
+        if(values.tipsgross) gross = (values.tipsgross || values.gross) 
         else gross = values.gross
 
         const ficaAmnt = rounder(0.0765 * gross);
