@@ -4,23 +4,48 @@
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    padding-bottom: 100px;
+    height: 100%;
 }
 .admin-nav{
-    position: sticky;
     display: flex;
     flex-direction: row;
-    gap: 10px;
-    align-self: flex-start;
-    padding-inline: 10%;
-    padding-block: 8px;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
     background-color: black;
-    width: max-content;
-    border-bottom: 1px solid var(--border-color);
-    top: 49px;
     width: 100%;
     box-sizing: border-box;
     z-index: 100;
+    height: calc(100vh - 50px);
+}
+.admin-selector{
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 30px;
+    font-size: 16px;
+    background-color: rgb(8, 8, 8);
+    border-radius: 15px;
+    color: white;
+    font-weight: 800;
+    box-shadow: inset 0 0 0.5px 1px hsla(0, 0%,  
+              100%, 0.075),
+              0 0 0 1px hsla(0, 0%, 0%, 0.05),
+              0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),
+              0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),
+              0 3.5px 6px hsla(0, 0%, 0%, 0.09);
+    gap: 10px;         
+    border: 1px solid var(--border-color);
+}
+.admin-selector svg{
+    width: 100%;
+    height: 50px;
+}
+.admin-selector svg path{
+    stroke: white;
 }
 .payroll-input-group{
     display: flex;
@@ -32,8 +57,10 @@
 }
 
 .payroll-header{
-    width: 80%;
-    margin-left: calc(10% + 10px);
+    width: 100%;
+    padding-left: calc(10% + 10px);
+    padding-right: calc(10% - 10px);
+    box-sizing: border-box;
     color: white;
     display: flex;
     margin-bottom: 30px;
@@ -42,11 +69,11 @@
     align-items: center;
     justify-content: space-between;
     position: sticky;
-    top: 105px;
+    top: 49px;
     background-color: black;
     z-index: 80;
     align-self: flex-start;
-    padding-top: 15px
+    padding-top: 15px;  
 }
 .payroll-row{
     display: block;
@@ -150,5 +177,9 @@
     align-content: center;
 }
 .right-row button{
-    width: 30%;
+    width: 60px;
+}
+
+.dbn-name-bigger{
+    font-size: 1.3rem;
 }
