@@ -8,7 +8,7 @@ import "./Admin.css"
 
 function DBAdmin() {
   const [searchParams] = useSearchParams();
-  const body = searchParams.get('body') || "home"
+  const body = searchParams.get('body') || ""
 
   const renderBody = () => {
     switch(body) {
@@ -19,15 +19,14 @@ function DBAdmin() {
       case "payroll":
         return <Payroll />;
       default:
-        return <Home />;
+        return "";
     }
   };
 
   return(
     <> 
       <div className="dbadmin"> 
-      <AdminNav/>
-        {renderBody()}
+        {body ? renderBody() : <AdminNav/>}
       </div>
     </>
   );

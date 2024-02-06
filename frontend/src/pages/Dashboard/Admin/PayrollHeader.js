@@ -14,8 +14,8 @@ function PayrollHeader({handleClick, currentPeriod, setCurrentPeriod}){
     return(
         <div className="payroll-header">
             <div> 
-                <div className="dbn-name">
-                    Payroll Period
+                <div className="dbn-name dbn-name-bigger">
+                    Payroll
                 </div>
                 <div className="payroll-dates">
                     {dates[0]} - {dates[1]}
