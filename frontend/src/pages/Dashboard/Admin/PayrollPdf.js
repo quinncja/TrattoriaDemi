@@ -50,8 +50,12 @@ const PayrollPdf = forwardRef((props, ref) => {
             </div>
              </>
             }
+            {values.tips &&
             <div>
-                Gross wages: ${safeToFixed(values.gross)}
+                Tips: ${values.tips}
+            </div>}
+            <div>
+                Gross wages: ${safeToFixed(values.tips ? values.tips + values.gross : values.gross)}
             </div>
             <div>
                 Fica: ${safeToFixed(values.ficaAmnt)}
@@ -67,9 +71,9 @@ const PayrollPdf = forwardRef((props, ref) => {
                     Loan: ${safeToFixed(values.loanAmnt)}
                 </div>
             }
-            {employee.il && 
+            {employee.ilChoice && 
                 <div>
-                    Il Secure Choice: ${safeToFixed(values.ilChoice)}
+                    IL Secure Choice: ${safeToFixed(values.ilChoice)}
                 </div>
             }
             <div>

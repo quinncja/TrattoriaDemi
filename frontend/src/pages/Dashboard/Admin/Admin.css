@@ -124,6 +124,7 @@
 .payroll-pdf-hider{
     position: fixed;
     z-index: -5000;
+    opacity: 0;
 }
 
 .payroll-pdf{
