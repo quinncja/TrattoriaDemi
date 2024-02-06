@@ -117,7 +117,7 @@ const PayrollRow = forwardRef((props, ref) => {
                 <PayrollInput obj={{
                     text: `Hours @ $${employee.rate[0].rate}/hr`,
                     id: "total-hours",
-                    type: "number",
+                    type: "hours",
                     step: "0.01",
                     handleChange: (e) => fillValues(e.target.value),
                     value: values.hours,
@@ -126,7 +126,7 @@ const PayrollRow = forwardRef((props, ref) => {
                 {employee.rate.length > 1 && <PayrollInput obj={{
                     text: `Hours @ $${employee.rate[1].rate}/hr`,
                     id: "second-total-hours",
-                    type: "number",
+                    type: "hours",
                     step: "0.01",
                     handleChange: (e) => fillValues(e.target.value, true),
                     value: values.secondHours,
