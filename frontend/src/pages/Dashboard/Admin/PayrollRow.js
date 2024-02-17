@@ -53,7 +53,6 @@ const PayrollRow = forwardRef((props, ref) => {
 
     function calcTax(values) {
         let gross;
-        console.log("tax", values)
         if(values.tipsgross) gross = (values.tipsgross || values.gross) 
         else gross = values.gross
 

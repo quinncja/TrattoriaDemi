@@ -21,7 +21,7 @@ const PayrollPdf = forwardRef((props, ref) => {
         if (typeof value === 'number' && !isNaN(value)) {
             return value.toFixed(2);
         } else {
-            return ""
+            return value;
         }
     }
 
@@ -55,7 +55,7 @@ const PayrollPdf = forwardRef((props, ref) => {
                 Tips: ${values.tips}
             </div>}
             <div>
-                Gross wages: ${safeToFixed(values.tips ? values.tips + values.gross : values.gross)}
+                Gross wages: ${safeToFixed(values.tips ? values.tipsgross : values.gross)}
             </div>
             <div>
                 Fica: ${safeToFixed(values.ficaAmnt)}
