@@ -17,8 +17,11 @@ const PayrollRow = forwardRef((props, ref) => {
         handleRowChange(index, newRowData);
     };
 
-    const rounder = (num) => {
-        return(Math.round(num * 100) / 100)
+    const rounder = (n, d=2) => {
+        var x = n * Math.pow(10, d);
+        var r = Math.round(x);
+        var br = Math.abs(x) % 1 === 0.5 ? (r % 2 === 0 ? r : r-1) : r;
+        return br / Math.pow(10, d);
     }
 
     function calcGross(values, hours) {
@@ -42,7 +45,6 @@ const PayrollRow = forwardRef((props, ref) => {
     }
 
     function calcTips(tips) {
-
         const tipsgross = rounder((values.gross || 0) + Number(tips))
         return{
             ...values,
@@ -80,13 +82,16 @@ const PayrollRow = forwardRef((props, ref) => {
 
     function calcNet(values) {
         const netWage = values.gross - values.ficaAmnt - values.stateAmnt - values.federalAmnt - (values.loanAmnt || 0) - (values.ilChoice || 0);
-        return rounder(netWage);
+        return netWage;
     }
 
     function roundOffFed(values) {
         const newNet = Math.round(values.netWage);
-        const difference = newNet - values.netWage;
-        const newFed = values.federalAmnt + difference;
+        console.log("newNet", newNet)
+        const difference = Math.abs(rounder(newNet - values.netWage));
+        console.log("difference", difference)
+        const newFed = rounder(values.federalAmnt + difference);
+        console.log("newFed", newFed)
         return {
             ...values,
             netWage: newNet,
@@ -103,8 +108,9 @@ const PayrollRow = forwardRef((props, ref) => {
         if(employee.loan) newValues = calcLoan(newValues);
     
         newValues.netWage = calcNet(newValues);
+        console.log("beforeFed", newValues)
         if(employee.federal) newValues = roundOffFed(newValues); 
-    
+        console.log("afterFed", newValues)
         changeRow(newValues);
     }
 
