@@ -30,6 +30,10 @@ function Payroll(){
     }, [])
 
     useEffect(() => {
+        console.log(payrollData);
+    }, [payrollData])
+
+    useEffect(() => {
         const loadPayroll = async () => {
             const payrollData = await getPayrollByPeriod(currentPeriod);
             payrollRowRefs.current = payrollData.payrolls.map(() => React.createRef());

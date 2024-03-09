@@ -5,6 +5,7 @@ import Menu from "./Menu";
 import Payroll from "./Payroll";
 import Home from "./Home";
 import "./Admin.css"
+import Employees from "./Employees";
 
 function DBAdmin() {
   const [searchParams] = useSearchParams();
@@ -18,6 +19,8 @@ function DBAdmin() {
         return <Menu />;
       case "payroll":
         return <Payroll />;
+      case "employees":
+        return <Employees/>;
       default:
         return "";
     }
