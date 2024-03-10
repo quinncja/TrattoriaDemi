@@ -17,15 +17,13 @@ stripeRouter.post("/payment-webhook", async (request, response) => {
     }
     const session = event.data.object;
     console.log(session)
-    switch (session.metadata.type){
-        case "giftcard": 
+    if (session.metadata.type === "giftcard") {
             if (event.type === "checkout.session.completed") handleGiftcardSuccess(session.metadata, session.customer_details.email)
             else deleteGiftcard(session.metadata.id);
-        case "order":
-            if (event.type === "checkout.session.completed") handleOrderSuccess(session.metadata.orderId, session.payment_intent)
-            else  deleteOrder(order);
-        default: 
-            ""
+    }
+    if (session.metadata.type === "order"){
+      if (event.type === "checkout.session.completed") handleOrderSuccess(session.metadata.orderId, session.payment_intent)
+      else  deleteOrder(order);
     }
     response.send(event.type);
   });
