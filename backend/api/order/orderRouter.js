@@ -101,6 +101,7 @@ async function createCheckoutSession(price, orderId) {
     ],
     mode: "payment",
     metadata: {
+      type: 'order',
       orderId,
     },
     success_url: `${domain}/order-status/${orderId}?status=success`,
