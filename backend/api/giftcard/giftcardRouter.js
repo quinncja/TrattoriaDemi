@@ -3,7 +3,6 @@ const express = require("express");
 const giftcardRouter = express.Router();
 const Giftcard = require("./Giftcard");
 const domain = process.env.DEPLOYED_DOMAIN;
-const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
