@@ -16,6 +16,7 @@ stripeRouter.post("/payment-webhook", async (request, response) => {
       return;
     }
     const session = event.data.object;
+    console.log(session)
     switch (session.metadata.type){
         case "giftcard": 
             if (event.type === "checkout.session.completed") handleGiftcardSuccess(session.metadata, session.customer_details.email)
