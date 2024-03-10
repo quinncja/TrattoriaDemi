@@ -3,7 +3,8 @@ const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 const stripeRouter = express.Router();
 const { handleGiftcardSuccess, deleteGiftcard } = require('./giftcard/giftcardRouter');
 const { handleOrderSuccess } = require ('./order/orderRouter')
-  
+const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
+
 stripeRouter.post("/payment-webhook", async (request, response) => {
     const sig = request.headers["stripe-signature"];
   
