@@ -831,3 +831,52 @@
   margin-inline: auto;
   margin-top: 1rem;
 }
+
+.reservation-overlay{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--nice-white);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+  background: rgb(248, 244, 241, .3);
+  backdrop-filter: blur(6px);
+}
+.reservation-overlay-text{
+  text-align: center;
+  color: black;
+  font-weight: 500;
+  font-size: 16px;
+}
+.open-table-button{
+  width: 100%;
+  background-color: #d21e1e;
+  color: rgb(255, 255, 255);
+  outline: none;
+  border: none;
+  border-radius: 2px;
+  width: fit-content;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.order-overlay{
+  background: rgb(0, 0, 0, .8);
+  height: 100vh;
+  padding-bottom: 50px;
+}
+.order-overlay div{
+  color: white;
+}
+
+@media (max-width: 770px){
+.reservation-overlay div{
+  margin-inline: 20px;
+}
+}
