@@ -67,6 +67,7 @@ async function markPaid(giftcard) {
 }
 
 async function sendReciept(data) {
+  console.log("send reciept")
   try {
     const module = await import("../../dist/sendEmailReciept.js");
     module.sendEmailReciept(data);
@@ -76,6 +77,7 @@ async function sendReciept(data) {
 }
 
 async function handleGiftcardSuccess(metadata, email) {
+  console.log("handle success")
   try {
     const giftcard = await getGiftcard(metadata.id);
     if (giftcard) {
