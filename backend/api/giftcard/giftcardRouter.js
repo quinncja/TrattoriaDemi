@@ -1,4 +1,4 @@
-const stripe = require("stripe")(process.env.STRIPE_LIVE_KEY);
+const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 const express = require("express");
 const giftcardRouter = express.Router();
 const Giftcard = require("./Giftcard");
@@ -28,6 +28,7 @@ giftcardRouter.post("/", async (req, res) => {
       ],
       mode: "payment",
       metadata: {
+        type: "giftcard",
         recipientName,
         amount,
         shippingAddress,
@@ -75,16 +76,7 @@ async function sendReciept(data) {
   }
 }
 
-async function deleteGiftcard(id) {
-  try {
-    const giftcard = await Giftcard.findById(id);
-    giftcard.delete();
-  } catch (error) {
-    console.error(id, error);
-  }
-}
-
-async function onCheckeoutSuccess(metadata, email) {
+async function handleGiftcardSuccess(metadata, email) {
   try {
     const giftcard = await getGiftcard(metadata.id);
     if (giftcard) {
@@ -99,25 +91,13 @@ async function onCheckeoutSuccess(metadata, email) {
   }
 }
 
-giftcardRouter.post("/payment-webhook", (request, response) => {
-  const sig = request.headers["stripe-signature"];
-
-  let event;
+async function deleteGiftcard(id) {
   try {
-    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-  } catch (err) {
-    response.status(400).send(`Webhook Error: ${err.message}`);
-    return;
+    const giftcard = await Giftcard.findById(id);
+    giftcard.delete();
+  } catch (error) {
+    console.error(id, error);
   }
-  const session = event.data.object;
-  switch (event.type) {
-    case "checkout.session.completed":
-      onCheckeoutSuccess(session.metadata, session.customer_details.email);
-      break;
-    default:
-      deleteGiftcard(session.metadata.id);
-  }
-  response.send(event.type);
-});
+}
 
-module.exports = giftcardRouter;
+module.exports = {giftcardRouter, handleGiftcardSuccess, deleteGiftcard};
