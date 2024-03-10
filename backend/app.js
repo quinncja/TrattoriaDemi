@@ -32,11 +32,7 @@ async function main() {
 
 app.use(cors());
 app.use(
-  "/api/giftcard/payment-webhook",
-  express.raw({ type: "application/json" }),
-);
-app.use(
-  "/api/order/payment-webhook",
+  "/api/stripe/payment-webhook",
   express.raw({ type: "application/json" }),
 );
 app.use(express.json());
