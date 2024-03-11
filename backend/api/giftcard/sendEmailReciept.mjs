@@ -3,6 +3,7 @@ import Email from "./email.js";
 const resend = new Resend(process.env.RESEND_KEY);
 
 async function sendEmailReciept(giftCard, email) {
+  console.log(giftCard, email)
   try {
     const data = await resend.emails.send({
       from: "Trattoria Demi <noreply@trattoriademi.site>",
