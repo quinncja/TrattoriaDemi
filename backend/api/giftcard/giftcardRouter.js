@@ -61,6 +61,7 @@ async function getDate(){
   const now = DateTime.now();
   return now.toLocaleString(DateTime.DATE_FULL)
 }
+
 async function setEmail(email, giftcard) {
   giftcard.email = email;
   await giftcard.save();
@@ -71,10 +72,10 @@ async function markPaid(giftcard) {
   await giftcard.save();
 }
 
-async function sendReciept(data) {
+async function sendReciept(data, date) {
   try {
     const module = await import("../../dist/sendEmailReciept.js");
-    module.sendEmailReciept(data);
+    module.sendEmailReciept(data, date);
   } catch (error) {
     console.error("Error importing or executing sendEmailReciept:", error);
   }

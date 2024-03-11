@@ -874,6 +874,9 @@ svg {
 
 .tai {
   resize: none;
+  font: default;
+  font-family: default;
+  font-size: default;
 }
 
 .empty-order {
