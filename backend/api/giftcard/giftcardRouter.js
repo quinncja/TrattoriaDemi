@@ -57,10 +57,7 @@ async function getGiftcard(id) {
   }
 }
 
-async function getDate(){
-  const now = DateTime.now();
-  return now.toLocaleString(DateTime.DATE_FULL)
-}
+
 
 async function setEmail(email, giftcard) {
   giftcard.email = email;
@@ -72,10 +69,10 @@ async function markPaid(giftcard) {
   await giftcard.save();
 }
 
-async function sendReciept(data, date) {
+async function sendReciept(data) {
   try {
     const module = await import("../../dist/sendEmailReciept.js");
-    module.sendEmailReciept(data, date);
+    module.sendEmailReciept(data, DateTime.now().toLocaleString(DateTime.DATE_FULL));
   } catch (error) {
     console.error("Error importing or executing sendEmailReciept:", error);
   }
@@ -87,7 +84,7 @@ async function handleGiftcardSuccess(metadata, email) {
     if (giftcard) {
       await markPaid(giftcard);
       await setEmail(email, giftcard);
-      await sendReciept(giftcard, getDate());
+      await sendReciept(giftcard);
     } else {
       console.error("No giftcard found with ID:", metadata.id);
     }

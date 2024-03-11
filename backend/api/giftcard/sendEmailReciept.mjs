@@ -14,7 +14,7 @@ async function sendEmailReciept(giftCard, date) {
         address: giftCard.shippingAddress,
         message: giftCard.message,
         id: giftCard.id,
-        date
+        date: date,
       }),
     });
   } catch (error) {
