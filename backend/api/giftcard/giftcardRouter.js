@@ -59,7 +59,7 @@ async function getGiftcard(id) {
 
 async function getDate(){
   const now = DateTime.now();
-  return now.toLocaleString(DATE_FULL)
+  return now.toLocaleString(DateTime.DATE_FULL)
 }
 async function setEmail(email, giftcard) {
   giftcard.email = email;
