@@ -4,18 +4,18 @@ const resend = new Resend(process.env.RESEND_KEY);
 
 async function sendEmailReciept(giftCard) {
   try {
-    const data = await resend.emails.send({
+    await resend.emails.send({
       from: "Trattoria Demi <noreply@trattoriademi.site>",
       to: giftCard.email,
       subject: "Your giftcard reciept",
       react: Email({
-        amount: giftCard.amount,
+        amount: `$${giftCard.amount}`,
         recipient: giftCard.recipientName,
         address: giftCard.shippingAddress,
         message: giftCard.message,
+        id: giftCard.id
       }),
     });
-    console.log(data)
   } catch (error) {
     console.error(error);
   }

@@ -11,8 +11,7 @@ function Input(obj) {
         id="address"
         value={obj.value}
         className={`reserve-select ${obj.error ? "reserve-select-error" : ""}`}
-        onChange={(event) => {console.log(event) 
-          obj.handleChange(event)}}
+        onChange={(event) => obj.handleChange(event)}
         onPlaceSelected={(place) => obj.handlePlaceSelect(place)}
         options={{
           location: { lat: 42.0451, lng: -87.6877 },
