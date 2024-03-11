@@ -49,6 +49,9 @@ function Giftcard() {
       setEmail(event.target.value);
     }
   };
+  const handlePlaceSelect = (value) => {
+    setShipAddress(value.formatted_address)
+  }
 
   const inputObjs = {
     name: {
@@ -78,6 +81,7 @@ function Giftcard() {
       text: inputText.address,
       error: errorStates.address,
       handleChange,
+      handlePlaceSelect,
     },
   };
 

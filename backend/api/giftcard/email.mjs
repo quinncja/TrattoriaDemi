@@ -9,7 +9,7 @@ import { Preview } from "@react-email/preview";
 import { Container } from "@react-email/container";
 
 function Email(props) {
-  const { amount, recipient, adress, message, date } = props;
+  const { amount, recipient, address, message, id } = props;
   const currentDate = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = currentDate.toLocaleDateString(undefined, options);
@@ -87,7 +87,7 @@ function Email(props) {
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
                 {" "}
-                {adress || "address"}
+                {address || "address"}
               </Text>
             </Column>
           </Row>
@@ -131,6 +131,16 @@ function Email(props) {
           }}
         >
           Cheers!
+        </Text>
+        <Text
+          style={{
+            ...smallerText,
+            marginTop: "40px",
+            textAlign: "center",
+            marginBottom: "35px",
+          }}
+        >
+          {id}
         </Text>
       </Container>
     </Html>
@@ -177,6 +187,12 @@ const text = {
   ...paragraph,
   color: "#444444",
   fontWeight: "500",
+};
+
+const smallerText = {
+  ...paragraph,
+  color: "#a1a1a1",
+  fontWeight: "200",
 };
 
 const row = {
