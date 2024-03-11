@@ -5,6 +5,7 @@ const Giftcard = require("./Giftcard");
 const domain = process.env.DEPLOYED_DOMAIN;
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
+const { DateTime } = require("luxon");
 
 // Create new Giftcard
 giftcardRouter.post("/", async (req, res) => {
@@ -56,6 +57,10 @@ async function getGiftcard(id) {
   }
 }
 
+async function getDate(){
+  const now = DateTime.now();
+  return now.toLocaleString(DATE_FULL)
+}
 async function setEmail(email, giftcard) {
   giftcard.email = email;
   await giftcard.save();
@@ -81,7 +86,7 @@ async function handleGiftcardSuccess(metadata, email) {
     if (giftcard) {
       await markPaid(giftcard);
       await setEmail(email, giftcard);
-      await sendReciept(giftcard);
+      await sendReciept(giftcard, getDate());
     } else {
       console.error("No giftcard found with ID:", metadata.id);
     }

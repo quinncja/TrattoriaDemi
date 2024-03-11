@@ -2,7 +2,7 @@ import { Resend } from "resend";
 import Email from "./email.js";
 const resend = new Resend(process.env.RESEND_KEY);
 
-async function sendEmailReciept(giftCard) {
+async function sendEmailReciept(giftCard, date) {
   try {
     await resend.emails.send({
       from: "Trattoria Demi <noreply@trattoriademi.site>",
@@ -13,7 +13,8 @@ async function sendEmailReciept(giftCard) {
         recipient: giftCard.recipientName,
         address: giftCard.shippingAddress,
         message: giftCard.message,
-        id: giftCard.id
+        id: giftCard.id,
+        date
       }),
     });
   } catch (error) {
