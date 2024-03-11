@@ -83,7 +83,7 @@ async function handleGiftcardSuccess(metadata, email) {
     if (giftcard) {
       await markPaid(giftcard);
       await setEmail(email, giftcard);
-      await sendReciept({ ...metadata, email });
+      await sendReciept(giftcard);
     } else {
       console.error("No giftcard found with ID:", metadata.id);
     }
