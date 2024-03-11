@@ -9,10 +9,7 @@ import { Preview } from "@react-email/preview";
 import { Container } from "@react-email/container";
 
 function Email(props) {
-  const { amount, recipient, address, message, id } = props;
-  const currentDate = new Date();
-  const options = { year: "numeric", month: "long", day: "numeric" };
-  const formattedDate = currentDate.toLocaleDateString(undefined, options);
+  const { amount, recipient, address, message, id, date } = props;
 
   return (
     <Html lang="en">
@@ -77,7 +74,7 @@ function Email(props) {
             </Column>
           </Row>
           <Row style={row}>
-            <Column>
+            <Column style={{display: "flex"}}>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
                 Address
@@ -94,7 +91,7 @@ function Email(props) {
           <Row style={row}>
             <Column>
               {" "}
-              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left"}}>
                 Purchase Date
               </Text>
             </Column>
@@ -102,14 +99,14 @@ function Email(props) {
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
                 {" "}
-                {formattedDate || "date of purchase"}
+                {date || "date of purchase"}
               </Text>
             </Column>
           </Row>
           <Row style={row}>
-            <Column>
+            <Column style={{display: "flex"}}>
               {" "}
-              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left", top: 0 }}>
                 Message
               </Text>
             </Column>
@@ -127,7 +124,6 @@ function Email(props) {
             ...text,
             marginTop: "40px",
             textAlign: "center",
-            marginBottom: "35px",
           }}
         >
           Cheers!
@@ -135,7 +131,6 @@ function Email(props) {
         <Text
           style={{
             ...smallerText,
-            marginTop: "40px",
             textAlign: "center",
             marginBottom: "35px",
           }}
