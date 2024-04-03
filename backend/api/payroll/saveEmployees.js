@@ -89,6 +89,23 @@ const employees = [
         ilChoice: false,
         rate: [{rate: 15.00}]
     },
+    {
+        name: "Monica Veronica",
+        fica: true,
+        state: 0,
+        federal: false,
+        ilChoice: false,
+        rate: [{rate: 15.00}]
+    },
+    {
+        name: "Luis Moto",
+        fica: true,
+        state: 0,
+        federal: false,
+        ilChoice: false,
+        rate: [{rate: 12.00}, {rate: 16.00}],
+        loan: {amount: 200, payment: 0},
+    }
 ]
 const mongo_uri = process.env.MONGO_URI;
 

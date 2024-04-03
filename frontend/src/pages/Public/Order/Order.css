@@ -1,8 +1,9 @@
 .background-color {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   background-color: var(--order-background);
   padding-bottom: 50px;
+  overflow: hidden;
 }
 
 .cart-button {
@@ -53,7 +54,7 @@
 .order-top {
   background-color: black;
   position: sticky;
-  top: 97px;
+  /*top: 97px;*/
   z-index: 100;
   display: flex;
   flex-direction: row;
@@ -680,7 +681,6 @@ svg {
 }
 @media (width <= 1000px) {
   .order-top {
-    top: 67px;
     padding-left: 4.4vw;
   }
   .cart-section {
@@ -874,6 +874,9 @@ svg {
 
 .tai {
   resize: none;
+  font: default;
+  font-family: default;
+  font-size: default;
 }
 
 .empty-order {

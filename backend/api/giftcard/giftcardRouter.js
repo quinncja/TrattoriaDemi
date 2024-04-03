@@ -1,11 +1,11 @@
-const stripe = require("stripe")(process.env.STRIPE_LIVE_KEY);
+const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 const express = require("express");
 const giftcardRouter = express.Router();
 const Giftcard = require("./Giftcard");
 const domain = process.env.DEPLOYED_DOMAIN;
-const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
+const { DateTime } = require("luxon");
 
 // Create new Giftcard
 giftcardRouter.post("/", async (req, res) => {
@@ -28,6 +28,7 @@ giftcardRouter.post("/", async (req, res) => {
       ],
       mode: "payment",
       metadata: {
+        type: "giftcard",
         recipientName,
         amount,
         shippingAddress,
@@ -56,6 +57,8 @@ async function getGiftcard(id) {
   }
 }
 
+
+
 async function setEmail(email, giftcard) {
   giftcard.email = email;
   await giftcard.save();
@@ -69,9 +72,24 @@ async function markPaid(giftcard) {
 async function sendReciept(data) {
   try {
     const module = await import("../../dist/sendEmailReciept.js");
-    module.sendEmailReciept(data);
+    module.sendEmailReciept(data, DateTime.now().toLocaleString(DateTime.DATE_FULL));
   } catch (error) {
     console.error("Error importing or executing sendEmailReciept:", error);
+  }
+}
+
+async function handleGiftcardSuccess(metadata, email) {
+  try {
+    const giftcard = await getGiftcard(metadata.id);
+    if (giftcard) {
+      await markPaid(giftcard);
+      await setEmail(email, giftcard);
+      await sendReciept(giftcard);
+    } else {
+      console.error("No giftcard found with ID:", metadata.id);
+    }
+  } catch (error) {
+    console.error("Error in onCheckoutSuccess:", error);
   }
 }
 
@@ -84,40 +102,4 @@ async function deleteGiftcard(id) {
   }
 }
 
-async function onCheckeoutSuccess(metadata, email) {
-  try {
-    const giftcard = await getGiftcard(metadata.id);
-    if (giftcard) {
-      await markPaid(giftcard);
-      await setEmail(email, giftcard);
-      await sendReciept({ ...metadata, email });
-    } else {
-      console.error("No giftcard found with ID:", metadata.id);
-    }
-  } catch (error) {
-    console.error("Error in onCheckoutSuccess:", error);
-  }
-}
-
-giftcardRouter.post("/payment-webhook", (request, response) => {
-  const sig = request.headers["stripe-signature"];
-
-  let event;
-  try {
-    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-  } catch (err) {
-    response.status(400).send(`Webhook Error: ${err.message}`);
-    return;
-  }
-  const session = event.data.object;
-  switch (event.type) {
-    case "checkout.session.completed":
-      onCheckeoutSuccess(session.metadata, session.customer_details.email);
-      break;
-    default:
-      deleteGiftcard(session.metadata.id);
-  }
-  response.send(event.type);
-});
-
-module.exports = giftcardRouter;
+module.exports = {giftcardRouter, handleGiftcardSuccess, deleteGiftcard};

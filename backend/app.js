@@ -4,9 +4,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const reservationRouter = require("./api/reservation/reservationRouter");
 const messageRouter = require("./api/message/messageRouter");
-const giftcardRouter = require("./api/giftcard/giftcardRouter");
-const orderRouter = require("./api/order/orderRouter");
+const { giftcardRouter } = require("./api/giftcard/giftcardRouter");
+const { orderRouter } = require("./api/order/orderRouter");
 const payrollRouter = require("./api/payroll/payrollRouter");
+const stripeRouter = require("./api/stripe")
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -31,11 +32,7 @@ async function main() {
 
 app.use(cors());
 app.use(
-  "/api/giftcard/payment-webhook",
-  express.raw({ type: "application/json" }),
-);
-app.use(
-  "/api/order/payment-webhook",
+  "/api/stripe/payment-webhook",
   express.raw({ type: "application/json" }),
 );
 app.use(express.json());
@@ -46,6 +43,7 @@ app.use("/api/messages", messageRouter);
 app.use("/api/giftcard", giftcardRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/payroll", payrollRouter);
+app.use("/api/stripe", stripeRouter)
 
 app.listen(port, () => {
   console.log(`Trattoria Demi listening on port ${port}`);
