@@ -9,7 +9,7 @@ import { Preview } from "@react-email/preview";
 import { Container } from "@react-email/container";
 
 function Email(props) {
-  const { amount, recipient, adress, message } = props;
+  const { amount, recipient, address, message } = props;
   const currentDate = new Date();
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = currentDate.toLocaleDateString(undefined, options);
@@ -62,7 +62,7 @@ function Email(props) {
             </Column>
           </Row>
           <Row style={row}>
-            <Column>
+            <Column style={{display: "flex"}}>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
                 Recipient
@@ -87,14 +87,14 @@ function Email(props) {
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
                 {" "}
-                {adress || "address"}
+                {address || "address"}
               </Text>
             </Column>
           </Row>
           <Row style={row}>
             <Column>
               {" "}
-              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left"}}>
                 Purchase Date
               </Text>
             </Column>
@@ -107,18 +107,18 @@ function Email(props) {
             </Column>
           </Row>
           <Row style={row}>
-            <Column>
+            <Column style={{display: "flex"}}>
               {" "}
-              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left"}}>
                 Message
               </Text>
             </Column>
             <Column>
               {" "}
-              <Text style={{ ...text, textAlign: "right" }}>
-                {" "}
-                {message || "message"}
-              </Text>
+                <Text style={{ ...text, textAlign: "right" }}>
+                  {" "}
+                  {message || "Here is a long message, i have to see how it will interact with the email. I think i should set a max limit to this input ,and gosh, when i type a lot the slider looks terrible! ill have to fix that too. So much to be done. All these little details are killing me! But, what can i say. Gotta get it done."}
+                </Text>
             </Column>
           </Row>
         </Container>
@@ -127,10 +127,18 @@ function Email(props) {
             ...text,
             marginTop: "40px",
             textAlign: "center",
-            marginBottom: "35px",
           }}
         >
           Cheers!
+        </Text>
+        <Text
+          style={{
+            ...smallerText,
+            textAlign: "center",
+            marginBottom: "35px",
+          }}
+        >
+          65ee7157f78447beccf9f3fe
         </Text>
       </Container>
     </Html>
@@ -177,6 +185,13 @@ const text = {
   ...paragraph,
   color: "#444444",
   fontWeight: "500",
+  marginBottom: 0,
+};
+
+const smallerText = {
+  ...paragraph,
+  color: "#a1a1a1",
+  fontWeight: "200",
 };
 
 const row = {

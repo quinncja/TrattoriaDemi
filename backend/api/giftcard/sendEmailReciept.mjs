@@ -1,18 +1,20 @@
 import { Resend } from "resend";
 import Email from "./email.js";
-const resend = new Resend("re_GgxLzxLg_Cke5P6gTBjw8kANtKT9ZcZFG");
+const resend = new Resend(process.env.RESEND_KEY);
 
-async function sendEmailReciept(giftCard, email) {
+async function sendEmailReciept(giftCard, date) {
   try {
-    const data = await resend.emails.send({
+    await resend.emails.send({
       from: "Trattoria Demi <noreply@trattoriademi.site>",
-      to: [giftCard.email],
+      to: giftCard.email,
       subject: "Your giftcard reciept",
       react: Email({
-        amount: giftCard.amount,
+        amount: `$${giftCard.amount}`,
         recipient: giftCard.recipientName,
         address: giftCard.shippingAddress,
         message: giftCard.message,
+        id: giftCard.id,
+        date: date,
       }),
     });
   } catch (error) {

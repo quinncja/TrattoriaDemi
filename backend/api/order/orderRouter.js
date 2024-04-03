@@ -101,6 +101,7 @@ async function createCheckoutSession(price, orderId) {
     ],
     mode: "payment",
     metadata: {
+      type: 'order',
       orderId,
     },
     success_url: `${domain}/order-status/${orderId}?status=success`,
@@ -374,6 +375,13 @@ async function refundOrder(paymentIntent) {
   }
 }
 
+async function handleOrderSuccess(orderId, paymentIntent){
+  const order = await Order.findById(orderId);
+  order.isPaid = true;
+  order.paymentIntent = paymentIntent;
+  await order.save(); 
+}
+
 async function deleteOrder(orderId) {
   try {
     await Order.findByIdAndRemove(orderId);
@@ -405,35 +413,7 @@ orderRouter.delete("/id/:id", async (req, res) => {
   }
 });
 
-async function onCheckeoutSuccess(orderId, paymentIntent) {
-  const order = await Order.findById(orderId);
-  order.isPaid = true;
-  order.paymentIntent = paymentIntent;
-  await order.save();
-}
-
-orderRouter.post("/payment-webhook", async (request, response) => {
-  const sig = request.headers["stripe-signature"];
-
-  let event;
-  try {
-    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-  } catch (err) {
-    response.status(400).send(`Webhook Error: ${err.message}`);
-    return;
-  }
-  const session = event.data.object;
-
-  switch (event.type) {
-    case "checkout.session.completed":
-      onCheckeoutSuccess(session.metadata.orderId, session.payment_intent);
-      break;
-    default:
-      deleteOrder(order);
-  }
-  response.send(event.type);
-});
-module.exports = orderRouter;
+module.exports = {orderRouter, handleOrderSuccess};
 
 orderRouter.get("/events", (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
