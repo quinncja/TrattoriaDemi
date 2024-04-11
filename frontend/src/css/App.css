@@ -19,7 +19,8 @@
   --black: #121212;
   --dark-black: black;
   --light-black: #444444;
-  --border-color: #b6b6b6;
+  --border-color: #5b5b5b;
+  --subtle-border-color: #b6b6b6;
   --transparent-border-color: #b6b6b62c;
   --disabled: #808080;
   --black-hover: #f8f2eb;
@@ -27,10 +28,14 @@
   --black-text: #ecceb5;
   background-color: rgb(255, 255, 255);
   --asdkfnr: #faebd7;
-  --color-bg-light: #2d2d34;
+  --color-bg-light: #1c1c1f;
   --color-bg-green-tint: hsl(148, 45%, 13%);
   --color-bg-red-tint: hsla(0, 24%, 30%, 0.855);
-  --dark-container-color: #121212;
+  --dark-container-color: #1d1d1d;
+  --box-shadow: 0 0 5px rgba(228, 228, 228, 0.1),
+                0 0 10px rgba(210, 210, 210, 0.2) inset;
+  --highlight: #323335;        
+              
 }
 
 h2 {
@@ -755,7 +760,7 @@ body {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
 }
 
 .subtle-button {
@@ -861,4 +866,12 @@ body {
 .selector-active {
   color: var(--gold);
   font-weight: bold;
+}
+
+.animation-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  z-index: 1500;
 }

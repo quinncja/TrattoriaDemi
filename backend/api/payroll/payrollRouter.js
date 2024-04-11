@@ -1,73 +1,302 @@
 const express = require("express");
 const payrollRouter = express.Router();
 const Employee = require("./Employee");
-const Payroll = require("./Payroll")
+const Payroll = require("./Payroll");
+const Payment = require("./Payment");
+const Loan = require("./Loan");
+const LoanPayment = require("./LoanPayment");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 payrollRouter.get("/employees", async (req, res) => {
-    try {
-      const employees = await Employee.find();
-      res.status(200).json(employees);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error retrieving employee list"});
+  try {
+    const employees = await Employee.find();
+    res.status(200).json(employees);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving employee list" });
+  }
+});
+
+payrollRouter.delete("/employees/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedEmployee = await Employee.findByIdAndDelete(id);
+
+    if (!deletedEmployee) {
+      return res.status(404).json({ message: "Employee not found" });
     }
+
+    res.status(200).json({ message: "Employee deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error deleting employee" });
+  }
+});
+
+payrollRouter.put("/employees/rate/:id", async (req, res) => {
+  const { id } = req.params;
+  const { rates } = req.body;
+
+  if (
+    !Array.isArray(rates) ||
+    !rates.every((rate) => !isNaN(parseFloat(rate)) && isFinite(rate))
+  ) {
+    return res
+      .status(400)
+      .json({
+        message:
+          "Invalid rates array. Every item must be a number or a string that can be cast to a number.",
+      });
+  }
+
+  try {
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      id,
+      { $set: { rates } },
+      { new: true },
+    );
+
+    if (!updatedEmployee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    res.status(200).json(updatedEmployee);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating employee rates" });
+  }
+});
+
+async function findPayrollByPeriod(period) {
+  let payroll = await Payroll.findOne({period}).populate({
+    path: "payments",
+    populate: [
+      {
+        path: "loan",
+      },
+      {
+        path: "employee",
+        populate: {
+          path: "loan",
+        },
+      },
+    ],
+  });
+  return payroll;
+}
+
+async function populatePayroll(payroll){
+  const populated = await Payroll.populate(payroll,
+    {
+      path: "payments",
+      populate: [
+        {
+          path: "loan",
+        },
+        {
+          path: "employee",
+          populate: {
+            path: "loan",
+          },
+        },
+      ],
+    });
+  return populated;
+}
+
+async function makeEmptyRow(employee, period) {
+  const paymentData = {
+    employee: employee._id,
+    fica: 0,
+    state: 0,
+    federal: 0,
+    ilChoice: 0,
+    hours: [0],
+    tips: 0,
+    gross: [0],
+    net: 0,
+    loan: undefined,
+    rates: [...employee.rates],
+  };
+
+  if (employee.loan) {
+    const emptyLoan = await LoanPayment.create({
+      amount: 0,
+      period: period,
+    });
+    paymentData.loan = emptyLoan._id;
+  }
+
+  return paymentData;
+}
+
+async function makeEmptyPayroll(period) {
+  const employees = await Employee.find({}).populate("loan");
+  const paymentsData = [];
+
+  for (const employee of employees) {
+    paymentsData.push(await makeEmptyRow(employee, period));
+  }
+
+  const payments = await Payment.insertMany(paymentsData);
+
+  let newPayroll = new Payroll({
+    period: period,
+    payments: payments.map((payment) => payment._id),
   });
 
-  
+  newPayroll = await newPayroll.save();
+  return newPayroll;
+}
+
 payrollRouter.get("/", async (req, res) => {
-    try {
-      const { period } = req.query;
+  try {
+    let { period } = req.query;
 
-      if (!period) {
-        return res.status(400).send('Period is required');
+    if (!period) {
+      return res.status(400).send("Period is required");
+    } else period = parseInt(period);
+
+    let payroll = await findPayrollByPeriod(period);
+
+    if (payroll && !payroll.total) {
+      await Payroll.deleteOne(payroll);
+      payroll = null;
+    }
+
+    if (!payroll) {
+      payroll = await makeEmptyPayroll(period);
+      payroll = await populatePayroll(payroll);
+    }
+
+    res.json(payroll);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred while fetching payroll data");
+  }
+});
+
+payrollRouter.get("/all", async (req, res) => {
+  try {
+    let payrolls = await Payroll.find();
+    res.json(payrolls);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred while fetching payroll data");
+  }
+});
+
+payrollRouter.delete("/all", async (req, res) => {
+  try {
+    await Payroll.deleteMany();
+    res.json("Delete Successful");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred while fetching payroll data");
+  }
+});
+
+async function handleLoan(row, period) {
+  let paymentId;
+  const loan = await Loan.findById(row.employee.loan);
+  if (!loan) return;
+  else {
+    const existingPayment = await LoanPayment.find({
+      _id: { $in: loan.payments },
+      period: period,
+    });
+    if (existingPayment.length > 0) {
+      await LoanPayment.findByIdAndUpdate(existingPayment[0]._id, {
+        amount: row.loan.amount,
+      });
+      paymentId = existingPayment[0]._id;
+    } else {
+      const newPayment = new LoanPayment({
+        amount: row.loan.amount,
+        period: period,
+      });
+      await newPayment.save();
+      paymentId = newPayment._id;
+      loan.payments.push(newPayment._id);
+      await loan.save();
+    }
+  }
+
+  const paymentDocs = await LoanPayment.find({ _id: { $in: loan.payments } });
+  const totalPaid = paymentDocs.reduce(
+    (acc, payment) => acc + payment.amount,
+    0,
+  );
+  const remaining = loan.total - totalPaid;
+  loan.remaining = remaining;
+
+  await loan.save();
+  return paymentId;
+}
+
+async function handleRow(row) {
+  const oldRow = await Payment.findById(row._id);
+  for (const key in row) {
+    if (key !== "_id") {
+      oldRow[key] = row[key];
+    }
+  }
+
+  await oldRow.save();
+  return oldRow._id;
+}
+
+async function handleRowLoan(row, loanPayment) {
+  const oldRow = await Payment.findById(row._id);
+  for (const key in row) {
+    if (key !== "_id") {
+      oldRow[key] = row[key];
+    }
+  }
+  oldRow.loan = loanPayment;
+  await oldRow.save();
+  return oldRow._id;
+}
+
+async function handlePayroll(period, paymentIds, total) {
+  const payroll = await Payroll.findOne({ period });
+  payroll.total = total;
+  payroll.payments = paymentIds;
+  let newPayroll = await payroll.save();
+  return newPayroll
+}
+
+payrollRouter.post("/", async (req, res) => {
+  try {
+    const payrollData = req.body;
+    const period = payrollData.period;
+    const paymentIds = [];
+    const payrollTotal = payrollData.payments.reduce(
+      (acc, row) => acc + row.gross[0],
+      0,
+    );
+
+    for (const row of payrollData.payments) {
+      let paymentId;
+      if (!row.loan || row.loan.amount === 0) {
+        paymentId = await handleRow(row);
+      } else {
+        const loanPayment = await handleLoan(row, period);
+        paymentId = await handleRowLoan(row, loanPayment);
       }
-  
-      let payroll = await Payroll.findOne({ period: parseInt(period) }).populate('payrolls.employee');
-      if (!payroll) {
-        const employees = await Employee.find({});
-        const newPayrolls = employees.map(emp => ({ employee: emp._id }));
-  
-        payroll = new Payroll({ period: parseInt(period), payrolls: newPayrolls });
-        await payroll.save();
-        payroll = await Payroll.findOne({ _id: payroll._id }).populate('payrolls.employee');
-      }
-      res.json(payroll);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('An error occurred while fetching payroll data');
+      paymentIds.push(paymentId);
     }
-  });
 
-  payrollRouter.get("/all", async (req, res) => {
-    try{
-        let payrolls = await Payroll.find()
-        res.json(payrolls)
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('An error occurred while fetching payroll data');
-    }
-  })
+    let returnPayroll = await handlePayroll(period, paymentIds, payrollTotal)
+    returnPayroll = await populatePayroll(returnPayroll);
 
-  payrollRouter.delete("/all", async (req, res) => {
-    try{
-        await Payroll.deleteMany()
-        res.json("Delete Successful")
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('An error occurred while fetching payroll data');
-    }
-  })
-
-  payrollRouter.post("/", async (req, res) => {
-    try {
-        const payrollData = req.body;
-        
-        await Payroll.findOneAndUpdate({period: payrollData.period}, {payrolls: payrollData.payrolls})
-        res.status(201).json("Saved successfully");
-        } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error saving payroll" });
-    }
+    res.status(201).json(returnPayroll);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error saving payroll" });
+  }
 });
 
 module.exports = payrollRouter;
