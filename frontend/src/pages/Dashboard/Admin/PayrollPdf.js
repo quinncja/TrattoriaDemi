@@ -3,18 +3,6 @@ import { forwardRef } from "react";
 
 const PayrollPdf = forwardRef((props, ref) => {
     const { payrollData, currentPeriod } = props;
-    const emptyData = {
-        employee: {
-            name: "",
-            rate: [{rate: ""}]
-        },
-        hours: "",
-        gross: "",
-        ficaAmnt: "",
-        stateAmnt: "",
-        federalAmnt: "",
-        netWage: "",
-    }
     const dates = calculateDates(currentPeriod);
 
     function safeToFixed(value) {
@@ -35,40 +23,40 @@ const PayrollPdf = forwardRef((props, ref) => {
                 Pay period: {dates[0]} - {dates[1]}
             </div>
             <div>
-                Total hours: {values.hours}
+                Total hours: {values.hours[0]}
             </div>
             <div>
-                Hourly rate: ${safeToFixed(employee.rate[0].rate)} {employee.rate[1] && `($${safeToFixed(values.hours * employee.rate[0].rate)})`}
+                Hourly rate: ${safeToFixed(values?.rates[0])} {values?.rates[1] && `($${safeToFixed(values.hours[0] * values?.rates[0])})`}
             </div>
-            {employee.rate[1] && 
+            {employee?.rates[1] && 
             <> 
             <div>
-                Total hours: {values.secondHours}
+                Total hours: {values.hours[1]}
             </div>
             <div>
-                Hourly rate: ${safeToFixed(employee.rate[1].rate)} (${safeToFixed(values.secondHours * employee.rate[1].rate)}) 
+                Hourly rate: ${safeToFixed(values?.rates[1])} (${(safeToFixed(values.hours[1] * values?.rates[1]) || "0.00")}) 
             </div>
              </>
             }
-            {values.tips &&
+            {(employee.tips) &&
             <div>
-                Tips: ${values.tips}
+                Tips: ${values.gross[1] || "0.00"}
             </div>}
             <div>
-                Gross wages: ${safeToFixed(values.tips ? values.tipsgross : values.gross)}
+                Gross wages: ${safeToFixed(values.gross[0] + values.gross[1]) || "0.00"}
             </div>
             <div>
-                Fica: ${safeToFixed(values.ficaAmnt)}
+                Fica: ${safeToFixed(values.fica)}
             </div>
             <div>
-                State: ${safeToFixed(values.stateAmnt)}
+                State: ${safeToFixed(values.state)}
             </div>
             <div>
-                Federal: ${safeToFixed(values.federalAmnt)}
+                Federal: ${safeToFixed(values.federal)}
             </div>
             {employee.loan && 
                 <div>
-                    Loan: ${safeToFixed(values.loanAmnt)}
+                    Loan: ${safeToFixed(values.loan.amount) || "0.00"}
                 </div>
             }
             {employee.ilChoice && 
@@ -77,7 +65,7 @@ const PayrollPdf = forwardRef((props, ref) => {
                 </div>
             }
             <div>
-                Net wages: ${safeToFixed(values.netWage)}
+                Net wages: ${safeToFixed(values.net)}
             </div>
             </div>
         )
@@ -85,11 +73,9 @@ const PayrollPdf = forwardRef((props, ref) => {
 
     return (
         <div ref={ref} className="payroll-pdf"> 
-        {payrollData.payrolls.map((row) => {
+        {payrollData.payments.map((row) => {
             return(employeeCard(row));
-        })}
-        {employeeCard(emptyData)}
-        
+        })}  
         </div>
     );
 });

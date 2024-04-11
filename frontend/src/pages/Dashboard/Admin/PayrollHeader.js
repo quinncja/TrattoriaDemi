@@ -1,9 +1,9 @@
 import { calculateDates } from "functions";
 import React, { useState, useEffect} from "react";
-import { leftArrow, rightArrow } from "svg";
+import { cancelSvg, editSvg, leftArrow, printSvg, rightArrow, saveSvg } from "svg";
 
 
-function PayrollHeader({handleClick, currentPeriod, setCurrentPeriod}){
+function PayrollHeader({handleClick, isNew, currentPeriod, setCurrentPeriod, editing, handleEdit, handlePrint}){
     const [dates, setDates] = useState([])
 
     useEffect(() => {
@@ -22,6 +22,20 @@ function PayrollHeader({handleClick, currentPeriod, setCurrentPeriod}){
                 </div>
             </div>
             <div className="right-row"> 
+            {editing ? 
+                
+                <div className="button-row"> 
+                { !isNew &&
+                <button className="submit-button less-height payroll-btn" type="button" onClick={handleEdit}> {cancelSvg()} </button>
+                }
+                <button className="submit-button less-height payroll-btn" type="button" onClick={handleClick}> {saveSvg()} </button> 
+                </div>
+                :
+                <div className="button-row">
+                    <button className="submit-button less-height payroll-btn" type="button" onClick={handleEdit}> {editSvg()} </button>
+                    <button className="submit-button less-height payroll-btn" type="button" onClick={handlePrint}> {printSvg()} </button>
+                </div>
+            }
             <div className="payroll-date-buttons"> 
             <button className="date-changer-btn dcbb" onClick={currentPeriod > 1 ? () => setCurrentPeriod(currentPeriod - 1) : () => {return}}>
                 {leftArrow()}
@@ -31,7 +45,7 @@ function PayrollHeader({handleClick, currentPeriod, setCurrentPeriod}){
                 {rightArrow()}
             </button>
             </div>
-            <button className="submit-button less-height" type="button" onClick={handleClick}> Save </button>
+           
             </div>
         </div>
         
