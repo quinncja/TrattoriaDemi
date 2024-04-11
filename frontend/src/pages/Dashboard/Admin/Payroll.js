@@ -1,12 +1,17 @@
 import { getPayrollByPeriod, savePayroll } from "api";
 import React, { useState, useEffect, useRef} from "react";
 import { useReactToPrint } from 'react-to-print';
-import PayrollRow from "./PayrollRow";
 import PayrollPdf from "./PayrollPdf";
 import PayrollHeader from "./PayrollHeader";
+import PayrollEditor from "./PayrollEditor";
+import { fadeIn, loadingAnimation } from "animations";
+import { motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 function Payroll(){
     const [payrollData, setPayrollData] = useState(null);
+    const [newData, setNewData] = useState(null);
+    const [editing, setEditing] = useState(true);
     const [currentPeriod, setCurrentPeriod] = useState();
     const payrollRowRefs = useRef([]);
     const componentRef = useRef();
@@ -22,7 +27,7 @@ function Payroll(){
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
         const currentPeriod = Math.ceil(diffDays / 14);
-        setCurrentPeriod(currentPeriod)
+        setCurrentPeriod(currentPeriod - 1)
     }
 
     useEffect(() => {
@@ -30,56 +35,71 @@ function Payroll(){
     }, [])
 
     useEffect(() => {
-        console.log(payrollData);
-    }, [payrollData])
-
-    useEffect(() => {
         const loadPayroll = async () => {
+            setPayrollData()
             const payrollData = await getPayrollByPeriod(currentPeriod);
-            payrollRowRefs.current = payrollData.payrolls.map(() => React.createRef());
+            if(payrollData.total) setEditing(false)
+            else setEditing(true)
+            payrollRowRefs.current = payrollData.payments.map(() => React.createRef());
             setPayrollData(payrollData)
         }
         if(currentPeriod) loadPayroll();
     }, [currentPeriod])
 
-    const handleItemChange = (index, field, value, net) => {
-        setPayrollData((prevData) => {
-            const newData = { ...prevData };
-            newData.payrolls[index] = { ...newData.payrolls[index], [field]: value, netWage: net };
-            return newData;
-        });
+    const handleEdit = () => {
+        setEditing(!editing)
+    }
+    const handleEditedData = (newData) => {
+        setPayrollData(newData);
+    };
+    
+    const handleSave = async () => {
+       try {
+        const returnPayroll = await savePayroll(newData)
+        setPayrollData(returnPayroll)
+       } catch (error) {
+        console.log(error)
+        return;
+       }
+        setEditing(false)
     };
 
-    const handleRowChange = (rowIndex, newRowData) => {
-        setPayrollData(prevData => {
-            const newData = { ...prevData };
-            newData.payrolls[rowIndex] = { ...newData.payrolls[rowIndex], ...newRowData, employee: newData.payrolls[rowIndex].employee };
-            return newData;
-        });
-    };
-
-    const handleSave = () => {
-        savePayroll(payrollData)
-        console.log("onsave", payrollData)
+    const handlePrint = () => {
         print();
-    };
+    }
 
     const print = useReactToPrint({
         content: () => componentRef.current,
-      });
+    });
 
+    const sortPayroll = (payrollData) => {
+        if(payrollData?.payments){
+            payrollData.payments.sort((a, b) => {
+                const lastNameA = a.employee.name.split(' ').pop().toLowerCase();
+                const lastNameB = b.employee.name.split(' ').pop().toLowerCase();
+        
+                if (lastNameA > lastNameB) return 1;
+                if (lastNameA < lastNameB) return -1;
+                return 0;
+            });
+
+            return payrollData;
+        }
+    }
     return(
         <>
-        <PayrollHeader handleClick={handleSave} currentPeriod={currentPeriod} setCurrentPeriod={setCurrentPeriod}/>
-        {payrollData && payrollData.payrolls.map((row, index) => {
-            return(
-                <PayrollRow key={row.employee.id} row={row} index={index} handleRowChange={handleRowChange} handleItemChange={handleItemChange} />            
-            )
-        })}
-
-        <div className="payroll-pdf-hider"> 
-        {payrollData && <PayrollPdf payrollData={payrollData} currentPeriod={currentPeriod} ref={componentRef}/>}
-        </div> 
+        <PayrollHeader editing={editing} isNew={!payrollData?.total} handleEditedData={handleEditedData} handleEdit={handleEdit} handleClick={handleSave} handlePrint={handlePrint} currentPeriod={currentPeriod} setCurrentPeriod={setCurrentPeriod}/>
+        <AnimatePresence> 
+        {payrollData ? 
+            editing ? 
+                <PayrollEditor payrollData={sortPayroll(payrollData)} currentPeriod={currentPeriod} setNewData={setNewData}/> :
+                <motion.div {...fadeIn} className="saved-payroll">
+                <PayrollPdf payrollData={sortPayroll(payrollData)} currentPeriod={currentPeriod} ref={componentRef}/>
+                </motion.div>
+            : 
+                loadingAnimation()
+        }
+        </AnimatePresence>
         </>
     )
 }

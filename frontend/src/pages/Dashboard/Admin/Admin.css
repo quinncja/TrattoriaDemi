@@ -4,8 +4,10 @@
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    height: 100%;
+    min-height: 100vh;
+    padding-bottom: 100px;
 }
+
 .admin-nav{
     display: flex;
     flex-direction: row;
@@ -27,7 +29,7 @@
     justify-content: space-around;
     padding: 30px;
     font-size: 16px;
-    background-color: rgb(8, 8, 8);
+    background-color: #1d1d1d;
     border-radius: 15px;
     color: white;
     font-weight: 800;
@@ -47,7 +49,7 @@
     flex-direction: column;
     width: min-content;
     min-width: 120px;
-    padding-top: 10px;
+    padding-top: 5px;
     gap: 5px;
 }
 
@@ -58,7 +60,8 @@
     box-sizing: border-box;
     color: white;
     display: flex;
-    padding-bottom: 20px;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
     gap: 40px;
     align-items: center;
     justify-content: space-between;
@@ -73,7 +76,7 @@
     display: block;
     color: white;
     font-weight: 600;
-    padding-bottom: 40px;
+    padding-bottom: 30px;
     box-sizing: border-box;
     width: 80%;
     margin-left: calc(10% + 10px);
@@ -98,6 +101,12 @@
     grid-template-columns: .4fr 1fr auto;
     justify-content: space-between;
     gap: 15px;
+    z-index: 10;
+    position: relative;
+}
+.row-employee{
+    z-index: 10;
+    position: relative;
 }
 
 .payroll-input-group:focus-within input{
@@ -119,7 +128,7 @@
   }
 
 .reserve-select-payroll{
-    background-color: var( --dark-container-color);
+    background-color: var(--color-bg-light);
     color: white;
     text-align: right;
     font-size: 14px;
@@ -157,11 +166,13 @@
     font-size: 18px;
 }
 
-
-.payroll-pdf-hider{
-    position: fixed;
-    z-index: -5000;
-    opacity: 0;
+.saved-payroll{
+    background-color: var(--highlight);
+    color: white;
+    width: 60.5%;
+    max-width: 1000px;
+    margin-inline: auto;
+    border-radius: 8px;
 }
 
 .payroll-pdf{
@@ -171,7 +182,7 @@
 }
 
 .employee-box{
-    padding: 30px;
+    padding: 29px;
     padding-inline: 20px;
     border: 1px solid black;
 }
@@ -180,10 +191,9 @@
 }
 .right-row{
     display: flex;
-    width: 20%;
     gap: 30px;
     align-items: flex-end;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-content: center;
 }
 .right-row button{
@@ -292,3 +302,26 @@
     cursor: pointer;
 }
 
+.payroll-btn svg{
+    filter: brightness(100)
+}
+.payroll-btn{
+    padding: .5rem;
+    width: 45px !important;
+    height: 40px
+}
+
+.row-background{
+    position: absolute;
+    background-color: var(--highlight);
+    border-radius: 5px;
+    height: 120px;
+    width: 82%;
+    margin-left: -1%;
+    margin-top: -10px;
+}
+
+.payroll-input-inactive{
+    cursor: default;
+    background-color: var(--color-bg-light);
+}
