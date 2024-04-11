@@ -28,6 +28,7 @@
     "embla-carousel-autoplay": "^8.0.0-rc12",
     "embla-carousel-react": "^8.0.0-rc12",
     "framer-motion": "^10.16.4",
+    "ldrs": "^1.0.1",
     "localforage": "^1.10.0",
     "mapbox-gl": "^3.0.1",
     "moment": "^2.29.4",
