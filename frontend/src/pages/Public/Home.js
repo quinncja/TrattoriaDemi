@@ -114,7 +114,7 @@ export default function Home() {
       <div className="home-block hb-even">
         <ReviewDisplayer />
       </div>
-      <EmblemBanner/>
+      <EmblemBanner />
     </>
   );
 }

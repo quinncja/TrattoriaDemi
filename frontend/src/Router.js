@@ -34,8 +34,8 @@ export function Router() {
           <Route path="/email" element={<Email />} />
           <Route path="/cancel/*" element={<Cancel />} />
           <Route path="/order-status/*" element={<OrderStatus />} />
-          <Route path="/signout" element={<Signout/>} />
-        </Route> 
+          <Route path="/signout" element={<Signout />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

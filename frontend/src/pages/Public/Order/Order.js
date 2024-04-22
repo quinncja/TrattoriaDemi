@@ -91,61 +91,65 @@ function Order() {
   function displayItems(menu) {
     return (
       <>
-        {menu.sections.map((section, index) => (
-        section.header !== "BEER" && 
-          <motion.div
-            className="order-section"
-            key={section.header}
-            id={section.header}
-            initial="hidden"
-            animate="visible"
-            variants={fadeInMany}
-            custom={index}
-          >
-            <div className="order-section-header">
-              {" "}
-              {capitalizeFirstLetter(section.header)}{" "}
-            </div>
-            <div className="section-items">
-              {section.items.map((item) => (
-                <Item item={item} key={item._id} section={menu.menuType} />
-              ))}
-            </div>
-          </motion.div>
-        ))}
+        {menu.sections.map(
+          (section, index) =>
+            section.header !== "BEER" && (
+              <motion.div
+                className="order-section"
+                key={section.header}
+                id={section.header}
+                initial="hidden"
+                animate="visible"
+                variants={fadeInMany}
+                custom={index}
+              >
+                <div className="order-section-header">
+                  {" "}
+                  {capitalizeFirstLetter(section.header)}{" "}
+                </div>
+                <div className="section-items">
+                  {section.items.map((item) => (
+                    <Item item={item} key={item._id} section={menu.menuType} />
+                  ))}
+                </div>
+              </motion.div>
+            )
+        )}
       </>
     );
   }
 
   return (
-    <> 
-    <div className="reservation-overlay order-overlay">
-      <div className="reservation-overlay-text">
-        We will soon be introducing a custom ordering system. <br/> In the meantime, you can call the restaturant at 847-332-2330, <br/> or click below to order with Grubhub.
-      </div>
-      <a
-        href="https://www.grubhub.com/restaurant/trattoria-demi-1571-sherman-ave-evanston/77851"
-        target="_blank"
-        rel="noreferrer"
-      >
-      <button className="open-table-button" type="button">
-        Order with Grubhub
-      </button>
-      </a>
-    </div>
-    <div className="background-color">
-      {orderTopBar()}
-      {menu && (
-        <div id="LUNCH" className="order-container">
-          <div className="sub-menu-header"> Lunch Menu </div>
-          <div className="sub-menu-container">{displayItems(menu.lunch)}</div>
+    <>
+      <div className="reservation-overlay order-overlay">
+        <div className="reservation-overlay-text">
+          We will soon be introducing a custom ordering system. <br /> In the
+          meantime, you can call the restaturant at 847-332-2330, <br /> or
+          click below to order with Grubhub.
         </div>
-      )}
+        <a
+          href="https://www.grubhub.com/restaurant/trattoria-demi-1571-sherman-ave-evanston/77851"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <button className="open-table-button" type="button">
+            Order with Grubhub
+          </button>
+        </a>
+      </div>
+      <div className="background-color">
+        {orderTopBar()}
+        {menu && (
+          <div id="LUNCH" className="order-container">
+            <div className="sub-menu-header"> Lunch Menu </div>
+            <div className="sub-menu-container">{displayItems(menu.lunch)}</div>
+          </div>
+        )}
 
-      {menu && (
-        <div className="order-container">{displayItems(menu.dinner)}</div>
-      )}
-    </div>
+        {menu && (
+          <div className="order-container">{displayItems(menu.dinner)}</div>
+        )}
+      </div>
     </>
   );
 }

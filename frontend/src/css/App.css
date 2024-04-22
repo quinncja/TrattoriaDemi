@@ -33,9 +33,8 @@
   --color-bg-red-tint: hsla(0, 24%, 30%, 0.855);
   --dark-container-color: #1d1d1d;
   --box-shadow: 0 0 5px rgba(228, 228, 228, 0.1),
-                0 0 10px rgba(210, 210, 210, 0.2) inset;
-  --highlight: #323335;        
-              
+    0 0 10px rgba(210, 210, 210, 0.2) inset;
+  --highlight: #323335;
 }
 
 h2 {
@@ -58,14 +57,14 @@ p {
 }
 
 @media (width <= 470px) {
-  p{
-    font-size: .8rem;
+  p {
+    font-size: 0.8rem;
   }
   h2 {
     font-size: 1.2rem;
   }
-  .subtle-button{
-    font-size: .8rem !important;
+  .subtle-button {
+    font-size: 0.8rem !important;
   }
 }
 html,
@@ -685,16 +684,15 @@ body {
   .button-main {
     font-size: 0.75rem;
   }
-  .embla-container{
+  .embla-container {
     margin-top: 0px;
   }
-  .emblem-block{
+  .emblem-block {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
   }
-
 }
 
 @media (width <= 380px) {
@@ -765,7 +763,7 @@ body {
 
 .subtle-button {
   color: white;
-  background-color: var(  --gold-2);
+  background-color: var(--gold-2);
   border: none;
   outline: none;
   font-size: 1rem;
@@ -791,11 +789,10 @@ body {
   gap: 20px;
 }
 
-.emblem-block div{
+.emblem-block div {
   width: 150px;
   height: 150px;
 }
-
 
 .hb-row {
   display: flex;
@@ -846,13 +843,13 @@ body {
   }
 }
 
-.top-line{
+.top-line {
   border-top: 2px solid var(--border-color);
   z-index: 98;
   position: relative;
 }
 
-.selector{
+.selector {
   font-size: 1rem;
   text-align: right;
   cursor: pointer;
@@ -868,7 +865,7 @@ body {
   font-weight: bold;
 }
 
-.animation-container{
+.animation-container {
   display: flex;
   justify-content: center;
   align-items: center;

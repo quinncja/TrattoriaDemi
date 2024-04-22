@@ -1,7 +1,7 @@
-import { dotPulse } from 'ldrs'
+import { dotPulse } from "ldrs";
 import { motion } from "framer-motion";
 
-dotPulse.register()
+dotPulse.register();
 
 export const fadeIn = {
   initial: { opacity: 0 },
@@ -52,21 +52,10 @@ export const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-
-
-
 export const loadingAnimation = () => {
-  return(
-      <motion.div 
-      className='animation-container'
-      {...fadeIn}
-      > 
-        <l-dot-pulse
-        size="62"
-        speed="1.6" 
-        color="#d3963add" 
-        >
-        </l-dot-pulse>
-      </motion.div>
-  )
-}
+  return (
+    <motion.div className="animation-container" {...fadeIn}>
+      <l-dot-pulse size="62" speed="1.6" color="#d3963add"></l-dot-pulse>
+    </motion.div>
+  );
+};

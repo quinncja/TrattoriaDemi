@@ -740,7 +740,6 @@
 }
 
 @media (width <= 470px) {
-
   .mobile-menu {
     box-sizing: border-box;
     border-radius: 5px;
@@ -793,7 +792,6 @@
   overflow: hidden;
 }
 
-
 .edit-btn {
   background: none;
   border: none;
@@ -832,7 +830,7 @@
   margin-top: 1rem;
 }
 
-.reservation-overlay{
+.reservation-overlay {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -843,16 +841,16 @@
   justify-content: center;
   gap: 20px;
   align-items: center;
-  background: rgb(248, 244, 241, .3);
+  background: rgb(248, 244, 241, 0.3);
   backdrop-filter: blur(6px);
 }
-.reservation-overlay-text{
+.reservation-overlay-text {
   text-align: center;
   color: black;
   font-weight: 500;
   font-size: 16px;
 }
-.open-table-button{
+.open-table-button {
   width: 100%;
   background-color: #d21e1e;
   color: rgb(255, 255, 255);
@@ -866,17 +864,17 @@
   cursor: pointer;
 }
 
-.order-overlay{
-  background: rgb(0, 0, 0, .8);
+.order-overlay {
+  background: rgb(0, 0, 0, 0.8);
   height: 100vh;
   padding-bottom: 50px;
 }
-.order-overlay div{
+.order-overlay div {
   color: white;
 }
 
-@media (max-width: 770px){
-.reservation-overlay div{
-  margin-inline: 20px;
-}
+@media (max-width: 770px) {
+  .reservation-overlay div {
+    margin-inline: 20px;
+  }
 }

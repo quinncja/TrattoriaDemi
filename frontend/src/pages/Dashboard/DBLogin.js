@@ -10,10 +10,10 @@ function DBLogin(props) {
   const [incorrect, setIncorrect] = useState(false);
 
   useEffect(() => {
-    if(incorrect){
-      setTimeout(() => setIncorrect(false), 5000)
+    if (incorrect) {
+      setTimeout(() => setIncorrect(false), 5000);
     }
-  }, [incorrect])
+  }, [incorrect]);
 
   const handleChange = (event) => {
     if (event.target.id === "username") {
@@ -34,23 +34,30 @@ function DBLogin(props) {
       if (response) setAuthenticated(true);
     } catch (error) {
       console.log(error);
-      setIncorrect(true)
+      setIncorrect(true);
     }
   }
 
   return (
     <div className="login-input-wrapper">
       <div className="login-input">
-        <div className={`new-res-header`}> {incorrect ? "Incorrect Login" : "Dashboard Login"}  </div>
+        <div className={`new-res-header`}>
+          {" "}
+          {incorrect ? "Incorrect Login" : "Dashboard Login"}{" "}
+        </div>
         <input
-          className={` ${incorrect ? "reserve-select-error" : ""} new-res-input`}
+          className={` ${
+            incorrect ? "reserve-select-error" : ""
+          } new-res-input`}
           id="username"
           type="username"
           placeholder="Username"
           onChange={(event) => handleChange(event)}
         ></input>
         <input
-          className={` ${incorrect ? "reserve-select-error" : ""} new-res-input`}
+          className={` ${
+            incorrect ? "reserve-select-error" : ""
+          } new-res-input`}
           id="password"
           placeholder="Password"
           onChange={(event) => handleChange(event)}

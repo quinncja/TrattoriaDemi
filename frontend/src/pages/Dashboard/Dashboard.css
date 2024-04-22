@@ -2,7 +2,7 @@
   background-color: black;
   min-height: calc(100dvh - 49px);
 }
-.login-input-wrapper{
+.login-input-wrapper {
   display: flex;
   width: 100%;
   justify-content: center;

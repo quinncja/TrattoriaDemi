@@ -1,10 +1,5 @@
-function Menu(){
-
-    return(
-        <>
-        Menu
-        </>
-    )
+function Menu() {
+  return <>Menu</>;
 }
 
 export default Menu;
