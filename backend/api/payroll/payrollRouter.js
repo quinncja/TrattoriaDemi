@@ -299,4 +299,19 @@ payrollRouter.post("/", async (req, res) => {
   }
 });
 
+payrollRouter.get("/graph", async (req, res) => {
+  try {
+    const payrolls = await Payroll.find({}, 'period total -_id');
+
+    const graphData = payrolls.map(payroll => ({
+      x: payroll.period,
+      y: payroll.total
+    }));
+
+    res.json(graphData);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching payroll data', error: error.message });
+  }
+});
+
 module.exports = payrollRouter;
