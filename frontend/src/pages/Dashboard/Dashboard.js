@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import DashboardNav from "./DashboardNav/DashboardNav";
 import DBAdmin from "./Admin/DBAdmin";
@@ -9,7 +9,7 @@ import Userfront from "@userfront/core";
 import "./Dashboard.css";
 function Dashboard() {
   const [searchParams] = useSearchParams();
-  const view = searchParams.get('view') || "inhouse"
+  const view = searchParams.get("view") || "inhouse";
 
   const [authenticated, setAuthenticated] = useState(false);
 
@@ -19,10 +19,7 @@ function Dashboard() {
 
   return (
     <>
-      <DashboardNav
-        currentView={view}
-        authenticated={authenticated}
-      />
+      <DashboardNav currentView={view} authenticated={authenticated} />
       <div className="db-background">
         {!authenticated ? (
           <DBLogin setAuthenticated={setAuthenticated} />

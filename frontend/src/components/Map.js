@@ -1,6 +1,6 @@
 import React from "react";
 import ReactMapboxGl, { Marker } from "react-mapbox-gl";
-import mapboxgl from 'mapbox-gl';
+import mapboxgl from "mapbox-gl";
 import { useMobile } from "../context/MobileContext";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -12,13 +12,13 @@ function Map() {
     accessToken: MAPBOX_KEY,
   });
   // eslint-disable-next-line import/no-webpack-loader-syntax
-mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+  mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
   const center = [-87.681559, 42.04616];
   return (
     <Map
       containerStyle={{
-        height:  mobile ? "350px" : "400px",
+        height: mobile ? "350px" : "400px",
         width: mobile ? "95vw" : "35vw",
         borderRadius: "2px",
       }}

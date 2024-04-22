@@ -36,9 +36,8 @@ function CheckoutPage() {
         const body = response.data;
         window.location.href = body.url;
       } catch (error) {
-        if(error.response.status === 400)
-          locationAlert()
-        else console.log(error)
+        if (error.response.status === 400) locationAlert();
+        else console.log(error);
       }
   }
 

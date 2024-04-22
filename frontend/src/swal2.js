@@ -1,6 +1,5 @@
 import Swal from "sweetalert2";
 
-
 export function successfulReserveAlert() {
   return Swal.fire({
     title: `Reservation Successful!`,
@@ -126,7 +125,6 @@ export function statusAlert() {
     showConfirmButton: false,
   });
 }
-
 
 export function locationAlert() {
   return Swal.fire({

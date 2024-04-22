@@ -9,7 +9,7 @@ function Dropdown(props) {
   const dropdownRef = useRef(null);
 
   const setIsOpen = (open) => {
-    document.body.classList.toggle('no-scroll', open);
+    document.body.classList.toggle("no-scroll", open);
     setIsOpenState(open);
   };
 
@@ -24,7 +24,7 @@ function Dropdown(props) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSelect = (option) => {
@@ -49,20 +49,20 @@ function Dropdown(props) {
             : selected
           : "Select"}
       </motion.button>
-        {isOpen ? (
-          !object.options ? (
-            <motion.div className="dropdown-menu">
-              <button
-                id={id}
-                className="dropdown-item item-disabled disabled"
-                type="button"
-              >
-                Select a date first
-              </button>
-            </motion.div>
-          ) : (
-            <>
-              <div className="overlay" onClick={() => setIsOpen(false)}>
+      {isOpen ? (
+        !object.options ? (
+          <motion.div className="dropdown-menu">
+            <button
+              id={id}
+              className="dropdown-item item-disabled disabled"
+              type="button"
+            >
+              Select a date first
+            </button>
+          </motion.div>
+        ) : (
+          <>
+            <div className="overlay" onClick={() => setIsOpen(false)}>
               <motion.div className={!mobile ? "dropdown-menu" : "mobile-menu"}>
                 {mobile && (
                   <div className="dropdown-header">
@@ -89,12 +89,12 @@ function Dropdown(props) {
                   ))}
                 </div>
               </motion.div>
-              </div>
-            </>
-          )
-        ) : (
-          ""
-        )}
+            </div>
+          </>
+        )
+      ) : (
+        ""
+      )}
     </div>
   );
 }

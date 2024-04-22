@@ -33,7 +33,7 @@ function ReservationHeader(props) {
           id="forward"
           onClick={(event) => buttonClick(event.target.id)}
         >
-            {rightArrow()}
+          {rightArrow()}
         </button>
       </div>
     );

@@ -36,8 +36,8 @@ function Checkout(props) {
   };
   const handlePlaceSelect = (place) => {
     setError((errorStates) => ({ ...errorStates, address: false }));
-    setAddress(place)
-  }
+    setAddress(place);
+  };
   const handlePhoneChange = (value) => {
     setPhone(value);
     setError((errorStates) => ({ ...errorStates, phone: false }));

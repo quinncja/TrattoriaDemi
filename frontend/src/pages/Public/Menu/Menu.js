@@ -11,21 +11,20 @@ export default function Menu() {
   const { menu } = useMenu();
   const [currentMenu, setCurrent] = useState("");
   const menuOptions = [
-    {id: "Lunch", text: "Lunch Specials"},
-    {id: "Full", text: "Full Menu"},
-    {id: "Wine", text: "Wine List"}
-  ]
+    { id: "Lunch", text: "Lunch Specials" },
+    { id: "Full", text: "Full Menu" },
+    { id: "Wine", text: "Wine List" },
+  ];
   const mobile = useMobile();
 
   useEffect(() => {
     let current = window.sessionStorage.getItem("currentMenu");
     if (current !== null) {
       setMenu(current);
+    } else {
+      setMenu("Full");
     }
-    else {
-      setMenu("Full")
-    } 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const scrollToTop = () => {
@@ -38,13 +37,13 @@ export default function Menu() {
       const oldMenu = Array.from(
         document.getElementsByClassName("menu-selector menu-selector-active")
       );
-      if (oldMenu[0]){
+      if (oldMenu[0]) {
         oldMenu[0].className = "menu-selector";
       }
     }
     if (id !== "")
-    document.getElementById(id).className =
-      "menu-selector menu-selector-active";
+      document.getElementById(id).className =
+        "menu-selector menu-selector-active";
     if (id === "Lunch")
       document.getElementById("lunch-group").className =
         "lunch-group lunch-group-active";
@@ -141,22 +140,30 @@ export default function Menu() {
     );
   }
 
-  function menuBottomBar(){
-    const otherMenuOptions = menuOptions.filter((option) => option.id !== currentMenu);
+  function menuBottomBar() {
+    const otherMenuOptions = menuOptions.filter(
+      (option) => option.id !== currentMenu
+    );
 
-    return(
+    return (
       <div className="menu-bottom-bar">
         <button className="subtle-button" onClick={() => scrollToTop()}>
           Back to Top
         </button>
-        <button className="subtle-button" onClick={() => setMenu(otherMenuOptions[0].id)}>
-          View {otherMenuOptions[0].text} 
+        <button
+          className="subtle-button"
+          onClick={() => setMenu(otherMenuOptions[0].id)}
+        >
+          View {otherMenuOptions[0].text}
         </button>
-        <button className="subtle-button" onClick={() => setMenu(otherMenuOptions[1].id)}>
-          View {otherMenuOptions[1].text}  
+        <button
+          className="subtle-button"
+          onClick={() => setMenu(otherMenuOptions[1].id)}
+        >
+          View {otherMenuOptions[1].text}
         </button>
       </div>
-    )
+    );
   }
 
   return (

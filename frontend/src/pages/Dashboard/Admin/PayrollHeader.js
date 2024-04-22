@@ -1,55 +1,108 @@
 import { calculateDates } from "functions";
-import React, { useState, useEffect} from "react";
-import { cancelSvg, editSvg, leftArrow, printSvg, rightArrow, saveSvg } from "svg";
+import { useSearchParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  cancelSvg,
+  editSvg,
+  leftArrow,
+  printSvg,
+  rightArrow,
+  saveSvg,
+} from "svg";
 
+function PayrollHeader({
+  handleClick,
+  isNew,
+  currentPeriod,
+  setCurrentPeriod,
+  editing,
+  handleEdit,
+  handlePrint,
+}) {
+  const [dates, setDates] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const clickHandler = (newPeriod) => {
+    searchParams.set("period", newPeriod)
+    setSearchParams(searchParams);
+  };
 
-function PayrollHeader({handleClick, isNew, currentPeriod, setCurrentPeriod, editing, handleEdit, handlePrint}){
-    const [dates, setDates] = useState([])
+  useEffect(() => {
+    setDates(calculateDates(currentPeriod));
+  }, [currentPeriod]);
 
-    useEffect(() => {
-       setDates(calculateDates(currentPeriod))
-    }, [currentPeriod])
-
-
-    return(
-        <div className="payroll-header">
-            <div> 
-                <div className="dbn-name dbn-name-bigger">
-                    Payroll
-                </div>
-                <div className="payroll-dates">
-                    {dates[0]} - {dates[1]}
-                </div>
-            </div>
-            <div className="right-row"> 
-            {editing ? 
-                
-                <div className="button-row"> 
-                { !isNew &&
-                <button className="submit-button less-height payroll-btn" type="button" onClick={handleEdit}> {cancelSvg()} </button>
-                }
-                <button className="submit-button less-height payroll-btn" type="button" onClick={handleClick}> {saveSvg()} </button> 
-                </div>
-                :
-                <div className="button-row">
-                    <button className="submit-button less-height payroll-btn" type="button" onClick={handleEdit}> {editSvg()} </button>
-                    <button className="submit-button less-height payroll-btn" type="button" onClick={handlePrint}> {printSvg()} </button>
-                </div>
-            }
-            <div className="payroll-date-buttons"> 
-            <button className="date-changer-btn dcbb" onClick={currentPeriod > 1 ? () => setCurrentPeriod(currentPeriod - 1) : () => {return}}>
-                {leftArrow()}
-            </button>
-            <button className="date-changer-btn dcbf" onClick={() => setCurrentPeriod(currentPeriod + 1)}>
-
-                {rightArrow()}
-            </button>
-            </div>
-           
-            </div>
+  return (
+    <div className="payroll-header">
+      <div>
+        <div className="dbn-name dbn-name-bigger">Payroll</div>
+        <div className="payroll-dates">
+          {dates[0]} - {dates[1]}
         </div>
-        
-    )
+      </div>
+      <div className="right-row">
+        {editing ? (
+          <div className="button-row">
+            {!isNew && (
+              <button
+                className="submit-button less-height payroll-btn"
+                type="button"
+                onClick={handleEdit}
+              >
+                {" "}
+                {cancelSvg()}{" "}
+              </button>
+            )}
+            <button
+              className="submit-button less-height payroll-btn"
+              type="button"
+              onClick={handleClick}
+            >
+              {" "}
+              {saveSvg()}{" "}
+            </button>
+          </div>
+        ) : (
+          <div className="button-row">
+            <button
+              className="submit-button less-height payroll-btn"
+              type="button"
+              onClick={handleEdit}
+            >
+              {" "}
+              {editSvg()}{" "}
+            </button>
+            <button
+              className="submit-button less-height payroll-btn"
+              type="button"
+              onClick={handlePrint}
+            >
+              {" "}
+              {printSvg()}{" "}
+            </button>
+          </div>
+        )}
+        <div className="payroll-date-buttons">
+          <button
+            className="date-changer-btn dcbb"
+            onClick={
+              currentPeriod > 1
+                ? () => clickHandler(Number(currentPeriod) - 1)
+                : () => {
+                    return;
+                  }
+            }
+          >
+            {leftArrow()}
+          </button>
+          <button
+            className="date-changer-btn dcbf"
+            onClick={() => clickHandler(Number(currentPeriod) + 1)}
+          >
+            {rightArrow()}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default PayrollHeader;

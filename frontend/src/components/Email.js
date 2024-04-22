@@ -62,7 +62,7 @@ function Email(props) {
             </Column>
           </Row>
           <Row style={row}>
-            <Column style={{display: "flex"}}>
+            <Column style={{ display: "flex" }}>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
                 Recipient
@@ -94,7 +94,7 @@ function Email(props) {
           <Row style={row}>
             <Column>
               {" "}
-              <Text style={{ ...text, fontWeight: "800", textAlign: "left"}}>
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
                 Purchase Date
               </Text>
             </Column>
@@ -107,18 +107,19 @@ function Email(props) {
             </Column>
           </Row>
           <Row style={row}>
-            <Column style={{display: "flex"}}>
+            <Column style={{ display: "flex" }}>
               {" "}
-              <Text style={{ ...text, fontWeight: "800", textAlign: "left"}}>
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
                 Message
               </Text>
             </Column>
             <Column>
               {" "}
-                <Text style={{ ...text, textAlign: "right" }}>
-                  {" "}
-                  {message || "Here is a long message, i have to see how it will interact with the email. I think i should set a max limit to this input ,and gosh, when i type a lot the slider looks terrible! ill have to fix that too. So much to be done. All these little details are killing me! But, what can i say. Gotta get it done."}
-                </Text>
+              <Text style={{ ...text, textAlign: "right" }}>
+                {" "}
+                {message ||
+                  "Here is a long message, i have to see how it will interact with the email. I think i should set a max limit to this input ,and gosh, when i type a lot the slider looks terrible! ill have to fix that too. So much to be done. All these little details are killing me! But, what can i say. Gotta get it done."}
+              </Text>
             </Column>
           </Row>
         </Container>

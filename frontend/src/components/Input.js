@@ -16,7 +16,7 @@ function Input(obj) {
         options={{
           location: { lat: 42.0451, lng: -87.6877 },
           radius: 100,
-          types: ["address"]
+          types: ["address"],
         }}
       />
     );

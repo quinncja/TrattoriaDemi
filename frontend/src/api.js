@@ -308,17 +308,16 @@ export async function deleteOrder(id) {
   }
 }
 
-
-export async function getEmployees(){
+export async function getEmployees() {
   try {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/payroll/employees`,
     });
-    console.log(response.data)
+    console.log(response.data);
     return response.data;
   } catch (error) {
-      throw error;
+    throw error;
   }
 }
 
@@ -327,7 +326,7 @@ export async function getPayrollByPeriod(period) {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/payroll/`,
-      params: { period }
+      params: { period },
     });
     console.log(response.data);
     return response.data;
@@ -341,9 +340,21 @@ export async function savePayroll(payrollData) {
     const response = await axios({
       method: "post",
       url: `${API_URL}api/payroll/`,
-      data: payrollData
+      data: payrollData,
     });
     console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getPayrollGraph() {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/payroll/graph`,
+    });
     return response.data;
   } catch (error) {
     throw error;

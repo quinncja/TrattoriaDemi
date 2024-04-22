@@ -191,9 +191,27 @@ export const cancelSvg = () => {
 
 export const editSvg = () => {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M20 14.66V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V6C2 5.46957 2.21071 4.96086 2.58579 4.58579C2.96086 4.21071 3.46957 4 4 4H9.34" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M18 2L22 6L12 16H8V12L18 2Z" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M20 14.66V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H4C3.46957 22 2.96086 21.7893 2.58579 21.4142C2.21071 21.0391 2 20.5304 2 20V6C2 5.46957 2.21071 4.96086 2.58579 4.58579C2.96086 4.21071 3.46957 4 4 4H9.34"
+        stroke="#111111"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18 2L22 6L12 16H8V12L18 2Z"
+        stroke="#111111"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 };
@@ -273,30 +291,30 @@ export const pickupSvg = () => {
 };
 
 export const rightArrow = () => {
-  return(
+  return (
     <svg
-    width="24"
-    className="svg"
-    id="forward"
-    height="24"
-    viewBox="2 3 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M9 18L15 12L9 6"
-      stroke="#ffffff"
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-  )
-}
+      width="24"
+      className="svg"
+      id="forward"
+      height="24"
+      viewBox="2 3 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M9 18L15 12L9 6"
+        stroke="#ffffff"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
 
 export const leftArrow = () => {
-  return(
-      <svg
+  return (
+    <svg
       id="back"
       className="svg"
       width="24"
@@ -313,47 +331,155 @@ export const leftArrow = () => {
         strokeLinejoin="round"
       />
     </svg>
-  )
-}
+  );
+};
 
 export const homeSvg = () => {
-  return(
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M14.78 21.25H9.22V15.3C9.22 14.75 9.67 14.3 10.22 14.3H13.78C14.33 14.3 14.78 14.75 14.78 15.3V21.25V21.25Z" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M21.25 11.39V18.1C21.25 19.84 19.91 21.25 18.25 21.25H5.75C4.09 21.25 2.75 19.84 2.75 18.1V11.39C2.75 10.45 3.14 9.57 3.83 8.97L10.08 3.48C11.19 2.5 12.81 2.5 13.92 3.48L20.17 8.97C20.86 9.57 21.25 10.45 21.25 11.39Z" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M14.78 21.25H9.22V15.3C9.22 14.75 9.67 14.3 10.22 14.3H13.78C14.33 14.3 14.78 14.75 14.78 15.3V21.25V21.25Z"
+        stroke="black"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M21.25 11.39V18.1C21.25 19.84 19.91 21.25 18.25 21.25H5.75C4.09 21.25 2.75 19.84 2.75 18.1V11.39C2.75 10.45 3.14 9.57 3.83 8.97L10.08 3.48C11.19 2.5 12.81 2.5 13.92 3.48L20.17 8.97C20.86 9.57 21.25 10.45 21.25 11.39Z"
+        stroke="black"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
-  )
-}
+  );
+};
 
 export const menuSvg = () => {
-  return(
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 19.31H4.81C3.68 19.31 2.75 18.38 2.75 17.25V6.96997C2.75 5.83997 3.68 4.90997 4.81 4.90997H5.72" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M12 4.91999V19.31C11.69 18.81 10.77 17.48 8.98999 16.75C8.17999 16.42 7.41 16.31 6.81 16.28C6.26 16.26 5.84 15.8 5.84 15.26V3.87C5.84 3.29 6.31001 2.82003 6.89001 2.84003C7.46001 2.86003 8.14 2.94999 8.87 3.16999C10.4 3.61999 11.45 4.42999 12 4.91999Z" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M21.25 6.96997V17.25C21.25 18.38 20.32 19.31 19.19 19.31H12V4.91998H19.19C20.32 4.91998 21.25 5.83997 21.25 6.96997Z" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M15.07 7.96997H18.18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M15.07 12.11H18.18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M15.07 16.26H18.18" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 19.31H4.81C3.68 19.31 2.75 18.38 2.75 17.25V6.96997C2.75 5.83997 3.68 4.90997 4.81 4.90997H5.72"
+        stroke="black"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 4.91999V19.31C11.69 18.81 10.77 17.48 8.98999 16.75C8.17999 16.42 7.41 16.31 6.81 16.28C6.26 16.26 5.84 15.8 5.84 15.26V3.87C5.84 3.29 6.31001 2.82003 6.89001 2.84003C7.46001 2.86003 8.14 2.94999 8.87 3.16999C10.4 3.61999 11.45 4.42999 12 4.91999Z"
+        stroke="black"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M21.25 6.96997V17.25C21.25 18.38 20.32 19.31 19.19 19.31H12V4.91998H19.19C20.32 4.91998 21.25 5.83997 21.25 6.96997Z"
+        stroke="black"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M15.07 7.96997H18.18"
+        stroke="black"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M15.07 12.11H18.18"
+        stroke="black"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M15.07 16.26H18.18"
+        stroke="black"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
-  )
-}
+  );
+};
 
 export const printSvg = () => {
-  return(
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M6 9V2H18V9" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M6 18H4C3.46957 18 2.96086 17.7893 2.58579 17.4142C2.21071 17.0391 2 16.5304 2 16V11C2 10.4696 2.21071 9.96086 2.58579 9.58579C2.96086 9.21071 3.46957 9 4 9H20C20.5304 9 21.0391 9.21071 21.4142 9.58579C21.7893 9.96086 22 10.4696 22 11V16C22 16.5304 21.7893 17.0391 21.4142 17.4142C21.0391 17.7893 20.5304 18 20 18H18" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M18 14H6V22H18V14Z" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M6 9V2H18V9"
+        stroke="#111111"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6 18H4C3.46957 18 2.96086 17.7893 2.58579 17.4142C2.21071 17.0391 2 16.5304 2 16V11C2 10.4696 2.21071 9.96086 2.58579 9.58579C2.96086 9.21071 3.46957 9 4 9H20C20.5304 9 21.0391 9.21071 21.4142 9.58579C21.7893 9.96086 22 10.4696 22 11V16C22 16.5304 21.7893 17.0391 21.4142 17.4142C21.0391 17.7893 20.5304 18 20 18H18"
+        stroke="#111111"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18 14H6V22H18V14Z"
+        stroke="#111111"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
-  )
-}
+  );
+};
 
 export const saveSvg = () => {
-  return(
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16L21 8V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21Z" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M17 21V13H7V21" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M7 3V8H15" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16L21 8V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21Z"
+        stroke="#111111"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M17 21V13H7V21"
+        stroke="#111111"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7 3V8H15"
+        stroke="#111111"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
-  )
-}
+  );
+};

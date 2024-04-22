@@ -242,7 +242,7 @@
   }
 }
 
-.menu-bottom-bar{
+.menu-bottom-bar {
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -250,12 +250,12 @@
 }
 
 @media (width <= 470px) {
-  .menu-bottom-bar{
+  .menu-bottom-bar {
     flex-direction: column;
     width: 95%;
     align-items: center;
   }
-  .menu-bottom-bar button{
+  .menu-bottom-bar button {
     width: 50%;
   }
 }

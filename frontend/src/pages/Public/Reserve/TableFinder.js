@@ -4,11 +4,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import {
-  convertTo24Hour,
-  convertTo12Hour,
-  dateToString,
-} from "functions";
+import { convertTo24Hour, convertTo12Hour, dateToString } from "functions";
 import { checkReservation } from "api";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, fadeInDown } from "animations";
