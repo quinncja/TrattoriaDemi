@@ -14,7 +14,6 @@ function PayrollHeader({
   handleClick,
   isNew,
   currentPeriod,
-  setCurrentPeriod,
   editing,
   handleEdit,
   handlePrint,

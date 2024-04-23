@@ -7,6 +7,7 @@ import DBLogin from "./DBLogin.js";
 import Userfront from "@userfront/core";
 
 import "./Dashboard.css";
+import { BackProvider } from "context/BackContext";
 function Dashboard() {
   const [searchParams] = useSearchParams();
   const view = searchParams.get("view") || "inhouse";
@@ -18,7 +19,7 @@ function Dashboard() {
   }, []);
 
   return (
-    <>
+    <BackProvider> 
       <DashboardNav currentView={view} authenticated={authenticated} />
       <div className="db-background">
         {!authenticated ? (
@@ -28,7 +29,7 @@ function Dashboard() {
           (view === "inhouse" && <DBInhouse />)
         )}
       </div>
-    </>
+    </BackProvider>
   );
 }
 

@@ -6,15 +6,19 @@ const tooltipStyle = {
   borderRadius: "3px",
   border: "none",
 };
-export function LineGraph({ data }) {
+export function LineGraph({ data, clickHandler }) {
 
   return (
     <ResponsiveContainer width="100%" height={400}> 
         <LineChart
         data={data}
         margin={{ top: 5, right: 10, left: 10, bottom: 5 }}
+        onClick={(e) => clickHandler(e.activeLabel)}
         >
-        <XAxis dataKey="x" />
+        <XAxis dataKey="x" 
+            tick={{ fill: '#f8f4f1c1' }} 
+            stroke="#f8f4f1c1" 
+        />
         <YAxis domain={["dataMin - 500", "dataMax + 500"]} hide />
         <Tooltip
             position={{ x: 29, y: 0 }}
