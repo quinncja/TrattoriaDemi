@@ -42,6 +42,9 @@
   gap: 10px;
   border: none;
 }
+.admin-selector:hover{
+    filter: brightness(120%);
+}
 .admin-selector svg {
   width: 100%;
   height: 50px;
