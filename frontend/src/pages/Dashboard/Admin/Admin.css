@@ -8,6 +8,12 @@
   padding-bottom: 100px;
 }
 
+.dbn-left{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .admin-nav {
   display: flex;
   flex-direction: row;
@@ -29,13 +35,12 @@
   justify-content: space-around;
   padding: 30px;
   font-size: 16px;
-  background-color: #1d1d1d;
+  background-color: var(--color-bg-light);
   border-radius: 15px;
   color: white;
   font-weight: 800;
-  box-shadow: var(--box-shadow);
   gap: 10px;
-  border: 1px solid var(--border-color);
+  border: none;
 }
 .admin-selector svg {
   width: 100%;
@@ -217,7 +222,6 @@
 
 .employee-card {
   height: 100px;
-  box-shadow: var(--box-shadow);
 }
 
 .employee-overlay {
@@ -241,7 +245,6 @@
   padding: 20px;
   justify-content: space-between;
   align-items: center;
-  box-shadow: var(--box-shadow);
 }
 
 .employee-body {
@@ -326,21 +329,24 @@
   background-color: var(--color-bg-light);
 }
 
+.dash-wrapper{ 
+    padding-top: 4rem;
+    margin-inline: 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .payroll-dash {
   display: flex;
-  padding-top: 5rem;
-  margin-inline: 3rem;
-  gap: 40px;
+  gap: 30px;
   box-sizing: border-box;
-  align-items: center;
 }
+
 .graph-wrapper {
   width: 60%;
   padding: 3rem;
-  box-shadow: var(--box-shadow);
   background-color: var(--color-bg-light);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
+  border-radius: 3px;
 }
 
 .graph-title {
@@ -354,19 +360,23 @@
 .dash-column{
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
     gap: 30px;
-    width: 50%;
-    height: fit-content;
+    width: 35%;
 }
+
 .old-payrolls{
-    border-radius: 25px;
     display: flex;
     flex-direction: column;
-    gap: 3px
+    gap: 3px;
+    color: var(--paper-white);
+    overflow-y: scroll;
+    max-height: 400px;
+    font-weight: 500;
 }
 
 .old-payroll{
-    width: 100%;
     background-color: var(--color-bg-light);
     color: white;
     height: 50px;
@@ -380,6 +390,33 @@
 }
 
 .old-payroll:hover{
-    box-shadow: var(--box-shadow);
-    border: 1px solid var(--border-color);
+    filter: brightness(120%);
+}
+
+.new-payroll{
+    margin: auto;
+    width: fit-content;
+    padding-inline: 35px;
+    padding-block: 25px;
+}
+
+.nav-back-button{
+    background: none;
+    border: none;
+    border-radius: 3px;
+    outline: none;
+    padding: 12px;
+    height: 46px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.nav-back-button:hover{
+    filter: brightness(80%);
+}
+
+.nav-back-hidden{
+    opacity: 0;
+    z-index: -100;
+    cursor: unset;
 }

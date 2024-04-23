@@ -2,6 +2,7 @@ import React from "react";
 import "./DashboardNav.css";
 import Userfront from "@userfront/core";
 import { useSearchParams } from "react-router-dom";
+import BackButton from "components/BackButton";
 
 function DashboardNav(props) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -14,7 +15,10 @@ function DashboardNav(props) {
     }) && (
       <div className="dashboard-navbar-wrapper">
         <div className="dashboard-navbar">
-          <div className="dbn-name">Trattoria Demi Dashboard</div>
+          <div className="dbn-left">
+            <BackButton/>
+            <div className="dbn-name">Trattoria Demi Dashboard</div>
+          </div>
           <div className="dbn-buttons">
             <button
               className={`dbn-button ${
