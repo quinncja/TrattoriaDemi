@@ -69,6 +69,37 @@ payrollRouter.put("/employees/rate/:id", async (req, res) => {
   }
 });
 
+payrollRouter.put("/employees/loan/:id", async (req, res) => {
+  const { id } = req.params;
+  const { total, remaining, paymentAmount } = req.body;
+
+  try {
+    let newLoan = new Loan({
+      total,
+      remaining,
+      paymentAmount
+    });
+
+    newLoan = await newLoan.save()
+
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      id,
+      { $set: { loan: newLoan._id } },
+      { new: true }
+    );
+
+    if (!updatedEmployee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    res.status(200).json(updatedEmployee);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating employee rates" });
+  }
+});
+
+
 async function findPayrollByPeriod(period) {
   let payroll = await Payroll.findOne({period}).populate({
     path: "payments",
