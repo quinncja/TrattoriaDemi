@@ -1,9 +1,7 @@
-import React from "react";
-import LeftBranch from "../images/LeftLeaf.png";
-import RightBranch from "../images/RightLeaf.png";
-import useEmblaCarousel from "embla-carousel-react";
-import AutoHeight from "embla-carousel-auto-height";
-import Autoplay from "embla-carousel-autoplay";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import LeftLeaf from "images/LeftLeaf.js";
+import RightLeaf from "images/RightLeaf";
 
 const reviews = [
   '"A wonderful small authentic Italian restaurant that reminded me of my travels in Italy. The angel hair was delicate and sauce heavenly. The gnocchi with chicken was exquisite. Wonderful and attentive service."',
@@ -15,39 +13,81 @@ const reviews = [
   '"Weve been eating here since 1996, and it never disappoints"',
 ];
 
-export const EmblaCarousel = () => {
-  const autoplayOptions = {
-    delay: 8000,
-    rootNode: (emblaRoot) => emblaRoot.parentElement,
+function ReviewDisplayer() {
+  const [currentReview, setCurrentReview] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    startInterval();
+    return () => clearInterval(intervalRef.current);
+  });
+
+  const startInterval = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    intervalRef.current = setInterval(() => {
+      paginate(1);
+    }, 6500);
   };
 
-  const [emblaRef] = useEmblaCarousel(
-    { loop: true },
-    [Autoplay(autoplayOptions)],
-    [AutoHeight()]
-  );
+  const variants = {
+    enter: (direction) => ({
+      x: direction > 0 ? 500 : -500,
+      opacity: 0,
+      transition: {
+        x: { duration: 0.5 }, 
+        opacity: { duration: 0.3 } 
+      }
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        x: { duration: 0.5 },
+        opacity: { duration: 0.2 } 
+      }
+    },
+    exit: (direction) => ({
+      x: direction < 0 ? 500 : -500,
+      opacity: 0,
+      transition: {
+        x: { duration: 0.5 },  
+        opacity: { duration: 0.2 } 
+      }
+    }),
+  };
+  
+
+  const paginate = (newDirection) => {
+    setDirection(newDirection);
+    setCurrentReview(
+      (prev) => (prev + newDirection + reviews.length) % reviews.length
+    );
+    startInterval();
+  };
 
   return (
-    <div className="embla" ref={emblaRef}>
-      <div className="embla__container">
-        {reviews.map((review, index) => (
-          <div key={index} className="embla__slide">
-            {review}
-          </div>
-        ))}
+    <div className="review-container">
+      <LeftLeaf handleClick={() => paginate(-1)} />
+      <div className="review-wrapper">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={currentReview}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="review"
+            transition={{ duration: 0.5 }}
+          >
+            {reviews[currentReview]}
+          </motion.div>
+        </AnimatePresence>
       </div>
-    </div>
-  );
-};
-
-function ReviewDisplayer() {
-  return (
-    <div className="review-display-wrapper">
-      <div className="review-display-container">
-        <img className="left-branch" src={LeftBranch} alt="LeftBranch" />
-        <div className="embla-container"> {EmblaCarousel()} </div>
-        <img className="right-branch" src={RightBranch} alt="RightBranch" />
-      </div>
+      <RightLeaf handleClick={() => paginate(+1)} />
     </div>
   );
 }

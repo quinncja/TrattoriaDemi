@@ -21,7 +21,7 @@ function DBAdmin() {
       case "payroll":
         return <PayrollDash />;
       case "payroll-editor":
-        return <Payroll/>;
+        return <Payroll />;
       case "employees":
         return <Employees />;
       default:

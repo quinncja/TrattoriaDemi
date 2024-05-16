@@ -480,63 +480,90 @@ body {
   width: 100%;
 }
 
-.review-display-wrapper {
+.review-wrapper {
+  position: relative;
+  width: 300px;
+  height: 300px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
-.review-display-container {
+.review-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   height: 300px;
-  width: 45%;
-  gap: -20px;
+  width: 600px;
+  margin-inline: auto;
+  overflow: hidden;
+  padding-block: 80px;
+}
+
+.home{
+  overflow-x: hidden;
+}
+
+.left-branch,
+.right-branch {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  height: 300px;
+  width: 200px;
+  display: block;
+  pointer-events: all;
+}
+
+.left-branch {
+  margin-right: -10%;
+}
+.right-branch {
+  margin-left: -10%;
+}
+
+.left-branch:hover,
+.right-branch:hover {
+  transform: scale(1.01);
   transition: all 0.3s ease-in-out;
 }
-.review-text {
-  position: relative;
-  text-align: center;
-  color: white;
-  align-self: center;
-  height: fit-content;
-  width: 50%;
-  overflow: hidden;
-}
 
-.animate-text-out {
-  animation: fade-out 1s;
-}
-
-.animate-text-in {
-  animation: fade-in 1s;
-}
-
-.next {
-  transform: translate(100%);
-}
-.embla-container {
-  position: relative;
-  width: 50%;
-  height: 100%;
-  margin-top: 8%;
-}
-.embla {
-  overflow: hidden;
-}
-.embla__container {
-  display: flex;
-  align-items: center;
-}
-.embla__slide {
-  flex: 0 0 100%;
-  min-width: 0;
+.review {
+  position: absolute;
+  width: 300px;
   text-align: center;
   color: var(--nice-white);
-  height: fit-content;
   font-size: 1rem;
+}
+
+@media (width <= 600px) {
+  .review-container {
+    width: 120%;
+    overflow: hidden;
+    margin-left: -10%;
+    padding-block: 150px;
+  }
+  .review-wrapper {
+    position: relative;
+    width: 275px;
+  }
+  .review{
+    width: 300px !important;
+  }
+  .left-branch,
+  .right-branch {
+    height: 700px;
+    width: 600px;
+  }
+  .left-branch{
+    margin-right: -15%;
+  }
+  .right-branch{
+    margin-left: -15%;
+  }
 }
 
 @keyframes fade-out {
@@ -559,20 +586,9 @@ body {
   }
 }
 
-.left-branch {
-  margin-right: -10%;
-}
-.right-branch {
-  margin-left: -10%;
-}
-
 @media (width <= 1300px) {
   .vases {
     width: 12vw;
-  }
-  .embla-container {
-    position: relative;
-    width: 80%;
   }
 }
 
@@ -597,13 +613,6 @@ body {
     width: 20vw;
     right: 2vw;
   }
-  .embla-container {
-    position: relative;
-    width: 85%;
-  }
-  .embla {
-    margin-top: 0;
-  }
 }
 
 @media (width <= 700px) {
@@ -622,22 +631,12 @@ body {
   .pic-overlay {
     font-size: 2rem;
   }
-  .embla-container {
-    position: relative;
-    width: 60%;
-  }
   .review-display-container {
     display: flex;
     flex-direction: row;
     height: 200px;
     width: 90%;
     margin-left: 4.5%;
-  }
-  .embla {
-    margin-top: 0px;
-  }
-  .embla__slide {
-    font-size: 0.8rem;
   }
   .welcome-buttons {
     flex-direction: column;
@@ -676,17 +675,8 @@ body {
     width: 95%;
     margin-left: 2.5%;
   }
-  .embla {
-    margin-top: -10px;
-  }
-  .embla__slide {
-    font-size: 0.8rem;
-  }
   .button-main {
     font-size: 0.75rem;
-  }
-  .embla-container {
-    margin-top: 0px;
   }
   .emblem-block {
     display: flex;

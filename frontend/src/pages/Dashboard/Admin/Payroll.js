@@ -1,6 +1,6 @@
 import { getPayrollByPeriod, savePayroll } from "api";
 import { useSearchParams } from "react-router-dom";
-import React, { useState, useEffect, useRef, useContext} from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useReactToPrint } from "react-to-print";
 import PayrollPdf from "./PayrollPdf";
 import PayrollHeader from "./PayrollHeader";
@@ -11,9 +11,9 @@ import { AnimatePresence } from "framer-motion";
 import { getCurrentPeriod } from "functions";
 import BackContext from "context/BackContext";
 
-function Payroll() { 
+function Payroll() {
   const [searchParams] = useSearchParams();
-  const { setter } = useContext(BackContext)
+  const { setter } = useContext(BackContext);
   const period = searchParams.get("period") || "";
   const [payrollData, setPayrollData] = useState(null);
   const [newData, setNewData] = useState(null);
@@ -23,18 +23,21 @@ function Payroll() {
   const componentRef = useRef();
 
   useEffect(() => {
-    if(!period) setCurrentPeriod(getCurrentPeriod());
+    if (!period) setCurrentPeriod(getCurrentPeriod());
   }, [period]);
 
   useEffect(() => {
-    setter([{
+    setter([
+      {
         body: "body",
         tag: "payroll",
-    },{
+      },
+      {
         body: "period",
-        tag: ""
-    }])
- }, [setter])
+        tag: "",
+      },
+    ]);
+  }, [setter]);
 
   useEffect(() => {
     const loadPayroll = async () => {

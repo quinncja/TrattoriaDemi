@@ -19,7 +19,7 @@ function Dashboard() {
   }, []);
 
   return (
-    <BackProvider> 
+    <BackProvider>
       <DashboardNav currentView={view} authenticated={authenticated} />
       <div className="db-background">
         {!authenticated ? (

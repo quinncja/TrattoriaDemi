@@ -16,7 +16,7 @@ function DashboardNav(props) {
       <div className="dashboard-navbar-wrapper">
         <div className="dashboard-navbar">
           <div className="dbn-left">
-            <BackButton/>
+            <BackButton />
             <div className="dbn-name">Trattoria Demi Dashboard</div>
           </div>
           <div className="dbn-buttons">

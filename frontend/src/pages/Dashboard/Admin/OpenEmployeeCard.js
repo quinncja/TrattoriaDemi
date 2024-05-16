@@ -8,7 +8,7 @@ function OpenEmployeeCard({ employee, handleClose, handleSave }) {
     setNewEmployeeData(employee);
   }, [employee]);
 
-/* const handleInputChange = (field, event) => {
+  /* const handleInputChange = (field, event) => {
     event.stopPropagation();
     setNewEmployeeData((prev) => ({
       ...prev,
@@ -23,7 +23,7 @@ function OpenEmployeeCard({ employee, handleClose, handleSave }) {
       ...prev,
       [field]: !prev[field],
     }));
-  };} */ 
+  };} */
 
   const handleChange = () => {};
 
