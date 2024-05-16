@@ -43,7 +43,7 @@ const PayrollPdf = forwardRef((props, ref) => {
         <div>Fica: ${safeToFixed(values.fica)}</div>
         <div>State: ${safeToFixed(values.state)}</div>
         <div>Federal: ${safeToFixed(values.federal)}</div>
-        {employee.loan && (
+        {values?.loan?.amount && (
           <div>Loan: ${safeToFixed(values.loan.amount) || "0.00"}</div>
         )}
         {employee.ilChoice && (
