@@ -21,7 +21,7 @@ function PayrollHeader({
   const [dates, setDates] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const clickHandler = (newPeriod) => {
-    searchParams.set("period", newPeriod)
+    searchParams.set("period", newPeriod);
     setSearchParams(searchParams);
   };
 

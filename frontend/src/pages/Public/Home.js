@@ -13,7 +13,7 @@ export default function Home() {
   const image = { file: ManyItems };
 
   return (
-    <>
+    <div className="home">
       <div className="home-header">
         <ParallaxBanner
           layers={[
@@ -111,10 +111,8 @@ export default function Home() {
           className="mid-pic aspect-[2/1]"
         />
       </div>
-      <div className="home-block hb-even">
         <ReviewDisplayer />
-      </div>
       <EmblemBanner />
-    </>
+    </div>
   );
 }

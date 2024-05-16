@@ -8,10 +8,10 @@
   padding-bottom: 100px;
 }
 
-.dbn-left{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.dbn-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .admin-nav {
@@ -42,8 +42,8 @@
   gap: 10px;
   border: none;
 }
-.admin-selector:hover{
-    filter: brightness(120%);
+.admin-selector:hover {
+  filter: brightness(120%);
 }
 .admin-selector svg {
   width: 100%;
@@ -332,12 +332,12 @@
   background-color: var(--color-bg-light);
 }
 
-.dash-wrapper{ 
-    padding-top: 4rem;
-    margin-inline: 6rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.dash-wrapper {
+  padding-top: 4rem;
+  margin-inline: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .payroll-dash {
   display: flex;
@@ -360,66 +360,66 @@
   padding-bottom: 20px;
 }
 
-.dash-column{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 30px;
-    width: 35%;
+.dash-column {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+  width: 35%;
 }
 
-.old-payrolls{
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    color: var(--paper-white);
-    overflow-y: scroll;
-    max-height: 400px;
-    font-weight: 500;
+.old-payrolls {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: var(--paper-white);
+  overflow-y: scroll;
+  max-height: 400px;
+  font-weight: 500;
 }
 
-.old-payroll{
-    background-color: var(--color-bg-light);
-    color: white;
-    height: 50px;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    border-radius: 3px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+.old-payroll {
+  background-color: var(--color-bg-light);
+  color: white;
+  height: 50px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.old-payroll:hover{
-    filter: brightness(120%);
+.old-payroll:hover {
+  filter: brightness(120%);
 }
 
-.new-payroll{
-    margin: auto;
-    width: fit-content;
-    padding-inline: 35px;
-    padding-block: 25px;
+.new-payroll {
+  margin: auto;
+  width: fit-content;
+  padding-inline: 35px;
+  padding-block: 25px;
 }
 
-.nav-back-button{
-    background: none;
-    border: none;
-    border-radius: 3px;
-    outline: none;
-    padding: 12px;
-    height: 46px;
-    width: 50px;
-    cursor: pointer;
+.nav-back-button {
+  background: none;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  padding: 12px;
+  height: 46px;
+  width: 50px;
+  cursor: pointer;
 }
 
-.nav-back-button:hover{
-    filter: brightness(80%);
+.nav-back-button:hover {
+  filter: brightness(80%);
 }
 
-.nav-back-hidden{
-    opacity: 0;
-    z-index: -100;
-    cursor: unset;
+.nav-back-hidden {
+  opacity: 0;
+  z-index: -100;
+  cursor: unset;
 }
