@@ -17,8 +17,8 @@
   --green: #008209;
   --dark-red: #ad1111;
   --nice-gray: rgb(10, 10, 10);
-  --black: #121212;
-  --dark-black: black;
+  --black: #151319;
+  --dark-black: #1d1b28;
   --light-black: #444444;
   --border-color: #5b5b5b;
   --subtle-border-color: #b6b6b6;
@@ -50,6 +50,7 @@ h3 {
   font-weight: 500;
   margin: 0px;
 }
+
 p {
   color: white;
   font-size: 1rem;
@@ -150,25 +151,29 @@ body {
 }
 
 .button-main {
-  width: 50%;
-  padding: 18px;
+  height: 35px;
   background: none;
   border-radius: 2px;
   outline: none;
   box-shadow: none;
-  background-color: #1212128d;
   color: white;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   transition: 0.3s;
-  border: solid 2px var(--white);
+  border: none;
   cursor: pointer;
+  transition: all 0.23s linear;
+  background-image: linear-gradient(var(--nice-white), var(--nice-white));
+  background-repeat: no-repeat;
+  background-size: 0px 0px, calc(100% - 0px) 100%;
+  background-position: center bottom;
 }
 
 .button-main:hover {
-  color: var(--black);
-  background-color: var(--black-hover);
   outline: none;
+  background-size: 90% 2px, calc(100% - 50px) 100%;
+  cursor: pointer;
+  color: white;
 }
 
 .button-main:active {
@@ -439,11 +444,27 @@ body {
   height: 90vh;
   aspect-ratio: 2/1 auto;
 }
-.mid-pic {
+
+.mid-pic-overlay {
+  z-index: 10;
+  position: relative;
   width: 100%;
   height: 45vh;
-  aspect-ratio: 2/1 auto;
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow: hidden;
 }
+
+.mid-pic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
 .pic-overlay {
   top: 0;
   width: 100%;
@@ -462,14 +483,20 @@ body {
   font-weight: 800;
   transition: all 0.25s ease-in-out;
   background-size: 100% 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .pic-content {
   width: fit-content;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  filter: drop-shadow(0px 0px 32px #21212135) drop-shadow(0px 0px 16px #212121)
+    drop-shadow(0px 0px 12px #000000);
+}
+
+.hero-text{
+  font-weight: 600;
 }
 
 .welcome-buttons {
@@ -478,6 +505,9 @@ body {
   gap: 10px;
   justify-content: space-between;
   width: 100%;
+  align-items: center;
+  height: 50px;
+  filter: drop-shadow(0px 0px 4px #212121);
 }
 
 .review-wrapper {
@@ -502,7 +532,7 @@ body {
   padding-block: 80px;
 }
 
-.home{
+.home {
   overflow-x: hidden;
 }
 
@@ -516,6 +546,7 @@ body {
   width: 200px;
   display: block;
   pointer-events: all;
+  transition: all 0.3s ease-in-out;
 }
 
 .left-branch {
@@ -527,8 +558,8 @@ body {
 
 .left-branch:hover,
 .right-branch:hover {
-  transform: scale(1.01);
-  transition: all 0.3s ease-in-out;
+  transform: scale(1.05);
+  filter: brightness(0.7);
 }
 
 .review {
@@ -550,19 +581,19 @@ body {
     position: relative;
     width: 275px;
   }
-  .review{
+  .review {
     width: 300px !important;
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
   .left-branch,
   .right-branch {
     height: 700px;
     width: 600px;
   }
-  .left-branch{
+  .left-branch {
     margin-right: -15%;
   }
-  .right-branch{
+  .right-branch {
     margin-left: -15%;
   }
 }
@@ -645,8 +676,8 @@ body {
     gap: 15px;
   }
   .button-main {
-    width: 75%;
-    font-size: 0.8rem;
+    width: 50%;
+    font-size: 1rem;
     padding: 14px;
   }
 }
@@ -677,7 +708,7 @@ body {
     margin-left: 2.5%;
   }
   .button-main {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
   }
   .emblem-block {
     display: flex;
@@ -736,7 +767,7 @@ body {
   flex-direction: column;
   padding-top: 1;
   justify-content: space-around;
-  gap: 10px;
+  gap: 40px;
 }
 
 .home-right {
