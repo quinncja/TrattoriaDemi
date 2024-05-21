@@ -11,8 +11,9 @@ function Map() {
   const Map = ReactMapboxGl({
     accessToken: MAPBOX_KEY,
   });
-  // eslint-disable-next-line import/no-webpack-loader-syntax
-  mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+  mapboxgl.workerClass =
+    // eslint-disable-next-line import/no-webpack-loader-syntax
+    require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
   const center = [-87.681559, 42.04616];
   return (

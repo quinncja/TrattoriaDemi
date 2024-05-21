@@ -1,59 +1,70 @@
 import React from "react";
-import { Parallax, ParallaxBanner } from "react-scroll-parallax";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Patio from "images/OutsidePatio.jpg";
 import ReviewDisplayer from "components/ReviewDisplayer";
 import { useNavigate } from "react-router-dom";
 import ImageDisplayer from "./Gallery/ImageDisplayer";
 import ManyItems from "food_pictures/ManyItems.jpg";
 import Interior from "images/Interior.JPG";
+import { useMobile } from "context/MobileContext";
 import EmblemBanner from "components/EmblemBanner";
 
 export default function Home() {
   const navigate = useNavigate();
+  const mobile = useMobile();
   const image = { file: ManyItems };
+  const { scrollY } = useScroll();
+  const y2 = useTransform(scrollY, [1, 800], [1, 200]);
+  const y3 = useTransform(scrollY, [0, 500], [0, 20]);
 
   return (
     <div className="home">
       <div className="home-header">
-        <ParallaxBanner
-          layers={[
-            { image: Patio, speed: 10 },
-            {
-              speed: -10,
-              children: (
-                <div className="pic-overlay">
-                  <div className="pic-content">
-                    <div>
-                      Old world Italian
-                      <br />
-                      in the heart of Evanston
-                    </div>
-                    <div className="welcome-buttons">
-                      <button
-                        className="button-main"
-                        type="button"
-                        onClick={() => navigate("/order")}
-                      >
-                        {" "}
-                        Order Online
-                      </button>
-                      <button
-                        className="button-main"
-                        type="button"
-                        onClick={() => navigate("/reserve")}
-                      >
-                        {" "}
-                        Reserve a table{" "}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ),
-            },
-          ]}
-          className="home-pic aspect-[2/1]"
-        />
-        <Parallax translate={[0, 20]}>
+        <motion.div
+          className="home-pic"
+          style={{
+            backgroundImage: `url(${Patio})`,
+            backgroundSize: "cover",
+            y: y2,
+          }}
+        >
+          <div className="pic-overlay">
+            <div className="pic-content">
+              <div className="hero-text">
+                Old world Italian
+                <br />
+                in the heart of Evanston
+              </div>
+              <div className="welcome-buttons">
+                <button
+                  className="button-main"
+                  type="button"
+                  onClick={() => navigate("/menu")}
+                >
+                  View Menu
+                </button>
+                {!mobile && "•"}
+                <button
+                  className="button-main"
+                  type="button"
+                  onClick={() => navigate("/order")}
+                >
+                  Order Online
+                </button>
+                {!mobile && "•"}
+                <button
+                  className="button-main"
+                  type="button"
+                  onClick={() => navigate("/reserve")}
+                >
+                  Reserve a table
+                </button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div style={{ y: y3 }}>
           <div className="home-block">
             <h2>Serving authentic Italian cuisine</h2>
             <h3>Since 1993</h3>
@@ -100,18 +111,14 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </Parallax>
-        <ParallaxBanner
-          layers={[
-            { image: Interior, speed: 10 },
-            {
-              speed: -10,
-            },
-          ]}
-          className="mid-pic aspect-[2/1]"
-        />
+        </motion.div>
       </div>
-        <ReviewDisplayer />
+
+      <div className="mid-pic-overlay">
+        <img className="mid-pic" src={Interior} alt="Cozy-interior" />
+      </div>
+
+      <ReviewDisplayer />
       <EmblemBanner />
     </div>
   );

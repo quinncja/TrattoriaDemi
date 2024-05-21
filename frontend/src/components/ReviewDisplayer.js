@@ -37,28 +37,27 @@ function ReviewDisplayer() {
       x: direction > 0 ? 500 : -500,
       opacity: 0,
       transition: {
-        x: { duration: 0.5 }, 
-        opacity: { duration: 0.3 } 
-      }
+        x: { duration: 0.5 },
+        opacity: { duration: 0.3 },
+      },
     }),
     center: {
       x: 0,
       opacity: 1,
       transition: {
         x: { duration: 0.5 },
-        opacity: { duration: 0.2 } 
-      }
+        opacity: { duration: 0.2 },
+      },
     },
     exit: (direction) => ({
       x: direction < 0 ? 500 : -500,
       opacity: 0,
       transition: {
-        x: { duration: 0.5 },  
-        opacity: { duration: 0.2 } 
-      }
+        x: { duration: 0.5 },
+        opacity: { duration: 0.2 },
+      },
     }),
   };
-  
 
   const paginate = (newDirection) => {
     setDirection(newDirection);
