@@ -6,16 +6,22 @@ import { useNavigate } from "react-router-dom";
 import ImageDisplayer from "./Gallery/ImageDisplayer";
 import ManyItems from "food_pictures/ManyItems.jpg";
 import Interior from "images/Interior.JPG";
-import { useMobile } from "context/MobileContext";
 import EmblemBanner from "components/EmblemBanner";
+import ScrollDown from "components/ScrollDown/ScrollDown";
 
 export default function Home() {
   const navigate = useNavigate();
-  const mobile = useMobile();
   const image = { file: ManyItems };
+
   const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [10, -500], [1, -500]);
   const y2 = useTransform(scrollY, [1, 800], [1, 200]);
-  const y3 = useTransform(scrollY, [0, 500], [0, 20]);
+  const y3 = useTransform(scrollY, [0, 200], [0, 40]);
+  const y4 = useTransform(scrollY, [0, 400], [80, 20]);
+  const y5 = useTransform(scrollY, [0, 700], [400, 20]);
+  const opacity = useTransform(scrollY, [300, 700], [0, 1]);
+  const opacity2 = useTransform(scrollY, [1200, 1600], [0, 1]);
+  const color = useTransform(scrollY, [100, 500], ["#ffffff", "#d3963a"]);
 
   return (
     <div className="home">
@@ -29,46 +35,22 @@ export default function Home() {
           }}
         >
           <div className="pic-overlay">
-            <div className="pic-content">
-              <div className="hero-text">
-                Old world Italian
-                <br />
-                in the heart of Evanston
-              </div>
-              <div className="welcome-buttons">
-                <button
-                  className="button-main"
-                  type="button"
-                  onClick={() => navigate("/menu")}
-                >
-                  View Menu
-                </button>
-                {!mobile && "•"}
-                <button
-                  className="button-main"
-                  type="button"
-                  onClick={() => navigate("/order")}
-                >
-                  Order Online
-                </button>
-                {!mobile && "•"}
-                <button
-                  className="button-main"
-                  type="button"
-                  onClick={() => navigate("/reserve")}
-                >
-                  Reserve a table
-                </button>
-              </div>
-            </div>
+            <motion.div style={{y: y1}} className="pic-content">
+              <ScrollDown/>
+            </motion.div>
           </div>
         </motion.div>
-
-        <motion.div style={{ y: y3 }}>
-          <div className="home-block">
-            <h2>Serving authentic Italian cuisine</h2>
-            <h3>Since 1993</h3>
-            <br />
+          <motion.div style={{ y: y3 }} className="home-block">
+          <motion.div style={{y: y4}}>
+          <div className="hero-text">
+            Old world Italian in the <motion.span style={{color: color}}> heart </motion.span> of Evanston
+          </div> 
+          <h2>
+            Since 1993 
+          </h2>
+          <br/>
+          <br/>
+          <motion.div style={{y: y5, opacity: opacity}}>
             <div className="home-flex">
               <div className="home-left">
                 <p>
@@ -110,7 +92,8 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
+            </motion.div>
+            </motion.div>
         </motion.div>
       </div>
 
@@ -118,7 +101,10 @@ export default function Home() {
         <img className="mid-pic" src={Interior} alt="Cozy-interior" />
       </div>
 
-      <ReviewDisplayer />
+      <motion.div className="review-container" style={{opacity: opacity2}}>
+        <ReviewDisplayer />
+      </motion.div>
+
       <EmblemBanner />
     </div>
   );

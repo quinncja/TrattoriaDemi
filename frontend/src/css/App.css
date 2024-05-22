@@ -53,7 +53,7 @@ h3 {
 
 p {
   color: white;
-  font-size: 1rem;
+  font-size: 1.1rem;
   margin: 0px;
   line-height: 1.7rem;
 }
@@ -189,7 +189,6 @@ body {
   height: 80px;
   top: 0;
   z-index: 1000;
-  padding-top: 15px;
 }
 
 .navbar-mobile {
@@ -205,7 +204,8 @@ body {
 .navbar-links {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+  height: 80px;
 }
 
 .navbar-logo {
@@ -231,7 +231,7 @@ body {
 .navbar-link {
   color: var(--nice-white);
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
   background-image: linear-gradient(var(--nice-white), var(--nice-white));
   background-repeat: no-repeat;
   background-size: 0px 0px, calc(100% - 0px) 100%;
@@ -242,6 +242,7 @@ body {
   margin-left: 0.75vw;
   margin-right: 0.75vw;
   z-index: 5;
+  padding-top: 8px;
 }
 
 .navbar-link:hover {
@@ -490,13 +491,34 @@ body {
   width: fit-content;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  height: 85vh;
   gap: 10px;
   filter: drop-shadow(0px 0px 32px #21212135) drop-shadow(0px 0px 16px #212121)
     drop-shadow(0px 0px 12px #000000);
 }
 
+@font-face {
+  font-family: 'Caxton Book BT';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Caxton Book BT'), url('CAXTON2.woff') format('woff');
+  }
+  @font-face {
+    font-family: 'Caxton Bold BT';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Caxton Bold BT'), url('caxton.woff') format('woff');
+    }
+    
+
+  
+  
+
 .hero-text{
-  font-weight: 600;
+  font-size: 3.2rem;
+  font-family: 'Caxton Bold BT';
+  color: var(--paper-white);
 }
 
 .welcome-buttons {
@@ -742,7 +764,7 @@ body {
   background-color: var(--black);
   z-index: 100;
   padding-inline: 10%;
-  padding-top: clamp(50px, 5%, 100px);
+  padding-top: clamp(10px, 3%, 50px);
   padding-bottom: clamp(100px, 8%, 200px);
   box-sizing: border-box;
 }
@@ -767,7 +789,7 @@ body {
   flex-direction: column;
   padding-top: 1;
   justify-content: space-around;
-  gap: 40px;
+  gap: 70px;
 }
 
 .home-right {
