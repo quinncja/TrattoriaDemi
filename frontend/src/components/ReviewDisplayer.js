@@ -13,7 +13,7 @@ const reviews = [
   '"Weve been eating here since 1996, and it never disappoints"',
 ];
 
-function ReviewDisplayer() {
+function ReviewDisplayer({opacity}) {
   const [currentReview, setCurrentReview] = useState(0);
   const [direction, setDirection] = useState(0);
   const intervalRef = useRef(null);
@@ -67,8 +67,14 @@ function ReviewDisplayer() {
     startInterval();
   };
 
+  useEffect(() => {
+    console.log("opacity")
+
+    console.log(opacity)
+  }, [opacity])
+
   return (
-    <div className="review-container">
+    <>
       <LeftLeaf handleClick={() => paginate(-1)} />
       <div className="review-wrapper">
         <AnimatePresence initial={false} custom={direction}>
@@ -87,7 +93,7 @@ function ReviewDisplayer() {
         </AnimatePresence>
       </div>
       <RightLeaf handleClick={() => paginate(+1)} />
-    </div>
+    </>
   );
 }
 
