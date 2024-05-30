@@ -148,19 +148,19 @@ export default function Menu() {
     return (
       <div className="menu-bottom-bar">
         <button className="subtle-button" onClick={() => scrollToTop()}>
-          Back to Top
+          To Top
         </button>
         <button
           className="subtle-button"
           onClick={() => setMenu(otherMenuOptions[0].id)}
         >
-          View {otherMenuOptions[0].text}
+          {otherMenuOptions[0].text}
         </button>
         <button
           className="subtle-button"
           onClick={() => setMenu(otherMenuOptions[1].id)}
         >
-          View {otherMenuOptions[1].text}
+          {otherMenuOptions[1].text}
         </button>
       </div>
     );

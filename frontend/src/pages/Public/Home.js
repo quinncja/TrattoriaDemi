@@ -100,9 +100,11 @@ export default function Home() {
       <div className="mid-pic-overlay">
         <img className="mid-pic" src={Interior} alt="Cozy-interior" />
       </div>
-
-      <motion.div className="review-container" style={{opacity: opacity2}}>
+        
+      <motion.div className="review-section" style={{opacity: opacity2}}>
+      <div className="review-container" >
         <ReviewDisplayer />
+      </div>
       </motion.div>
 
       <EmblemBanner />

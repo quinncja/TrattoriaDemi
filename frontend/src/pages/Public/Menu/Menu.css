@@ -252,9 +252,12 @@
 
 @media (width <= 470px) {
   .menu-bottom-bar {
-    flex-direction: column;
+    flex-direction: row;
     width: 95%;
+    gap: 10px;
     align-items: center;
+    margin-inline: auto;
+    padding-top: 20px;
   }
   .menu-bottom-bar button {
     width: 50%;
