@@ -13,7 +13,7 @@
   position: sticky;
   z-index: 10;
   background-color: black;
-  top: 97px;
+  top: 82px;
   z-index: 100;
   display: flex;
   justify-content: center;
@@ -371,7 +371,7 @@
     width: 90%;
   }
   .reserve-top {
-    top: 67px;
+    top: 62px;
     padding-left: 4.4vw;
     justify-content: left;
   }

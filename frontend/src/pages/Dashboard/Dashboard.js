@@ -19,17 +19,19 @@ function Dashboard() {
   }, []);
 
   return (
-    <BackProvider>
-      <DashboardNav currentView={view} authenticated={authenticated} />
-      <div className="db-background">
-        {!authenticated ? (
-          <DBLogin setAuthenticated={setAuthenticated} />
-        ) : (
-          (view === "admin" && <DBAdmin />) ||
-          (view === "inhouse" && <DBInhouse />)
-        )}
-      </div>
-    </BackProvider>
+    <div className="dashboard-wrapper">
+      <BackProvider>
+        <DashboardNav currentView={view} authenticated={authenticated} />
+        <div className="db-background">
+          {!authenticated ? (
+            <DBLogin setAuthenticated={setAuthenticated} />
+          ) : (
+            (view === "admin" && <DBAdmin />) ||
+            (view === "inhouse" && <DBInhouse />)
+          )}
+        </div>
+      </BackProvider>
+    </div>
   );
 }
 

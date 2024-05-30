@@ -36,6 +36,9 @@
 }
 
 @media (width <= 450px) {
+  .gallery-container{
+    width: 95vw;
+  }
   .image-description {
     padding: 5px;
     font-size: 0.8rem;
