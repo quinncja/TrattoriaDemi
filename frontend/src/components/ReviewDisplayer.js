@@ -77,6 +77,9 @@ function ReviewDisplayer({opacity}) {
     <>
       <LeftLeaf handleClick={() => paginate(-1)} />
       <div className="review-wrapper">
+      <h2> 
+          Hear it from the locals
+      </h2>
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={currentReview}

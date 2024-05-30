@@ -60,7 +60,7 @@ p {
 
 @media (width <= 470px) {
   p {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
   h2 {
     font-size: 1.2rem;
@@ -548,7 +548,7 @@ body {
   width: 600px;
   margin-inline: auto;
   overflow: hidden;
-  padding-block: 80px;
+  padding-bottom: 80px;
 }
 
 .home {
@@ -594,7 +594,7 @@ body {
     width: 120%;
     overflow: hidden;
     margin-left: -10%;
-    padding-block: 100px;
+    padding-block: 120px;
   }
   .review-wrapper {
     position: relative;
@@ -719,7 +719,10 @@ body {
     font-size: 1.5rem;
   }
   .mid-pic {
-    height: 35vh;
+    height: 70dvh;
+    object-fit: cover;
+    width: 1200px;
+    transform: translateX(-33%);
   }
   .review-display-container {
     height: 200px;
@@ -881,7 +884,7 @@ body {
     width: 99%;
   }
   .button-row {
-    padding-top: 20px;
+    padding-bottom: 80px;
   }
 }
 
@@ -926,4 +929,29 @@ button{
 
 .dashboard-wrapper button{
   font-family: "Arial";
+}
+
+.review-section{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 100px;
+  padding-bottom: 40px;
+}
+.review-section h2{
+  position: absolute;
+  text-align: center;
+  margin-top: -200px;
+}
+@media (max-width: 600px) {
+  .review-section{
+    padding-block: 40px;
+  }
+  .review-section h2{
+    margin-top: -170px;
+  }
+}
+
+.more-padding{
+  padding-block: 120px;
 }
