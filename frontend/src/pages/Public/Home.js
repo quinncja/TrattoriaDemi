@@ -14,7 +14,7 @@ export default function Home() {
   const image = { file: ManyItems };
 
   const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [10, -500], [1, -500]);
+  const y1 = useTransform(scrollY, [1, 80], [1, 80]);
   const y2 = useTransform(scrollY, [1, 800], [1, 200]);
   const y3 = useTransform(scrollY, [0, 200], [0, 40]);
   const y4 = useTransform(scrollY, [0, 400], [80, 20]);
