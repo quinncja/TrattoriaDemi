@@ -101,7 +101,7 @@ async function createCheckoutSession(price, orderId) {
     ],
     mode: "payment",
     metadata: {
-      type: 'order',
+      type: "order",
       orderId,
     },
     success_url: `${domain}/order-status/${orderId}?status=success`,
@@ -116,12 +116,14 @@ async function getCartTotal(serverItemsList) {
 
   for (let serverItem of serverItemsList) {
     let itemCost = 0;
-    let modifiers = serverItem.modifiers
+    let modifiers = serverItem.modifiers;
     const item = await Item.findById(new ObjectId(serverItem._id));
     itemCost += item.price;
 
     if (modifiers.size) {
-      const size = item.sizes.find((s) => s._id.toString() === modifiers.size.id);
+      const size = item.sizes.find(
+        (s) => s._id.toString() === modifiers.size.id,
+      );
       if (size) {
         itemCost += size.price;
       }
@@ -158,7 +160,7 @@ async function getCartTotal(serverItemsList) {
     if (modifiers.dressing) {
       itemCost += modifiers.dressing * 0.75;
     }
-    total += (itemCost * serverItem.qty);
+    total += itemCost * serverItem.qty;
   }
 
   return total;
@@ -205,15 +207,11 @@ orderRouter.post("/pickup", async (req, res) => {
 });
 
 function verifyAddress(address) {
-  const legalPostalCodes = [
-    "60601",
-    "60202",
-    "60203",
-    "60204",
-    "60208",
-  ]
-  const postalCodeObject = address.address_components.find(component => component.types.includes('postal_code'));
-  return legalPostalCodes.find((item) => item === postalCodeObject.short_name)
+  const legalPostalCodes = ["60601", "60202", "60203", "60204", "60208"];
+  const postalCodeObject = address.address_components.find((component) =>
+    component.types.includes("postal_code"),
+  );
+  return legalPostalCodes.find((item) => item === postalCodeObject.short_name);
 }
 
 orderRouter.post("/checkout", async (req, res) => {
@@ -225,7 +223,7 @@ orderRouter.post("/checkout", async (req, res) => {
       return;
     }
     if (!verifyAddress(address)) {
-      res.status(400).json({ message: "Address not within Evanston"})
+      res.status(400).json({ message: "Address not within Evanston" });
       return;
     }
     const subtotal = await getCartTotal(items);
@@ -375,11 +373,11 @@ async function refundOrder(paymentIntent) {
   }
 }
 
-async function handleOrderSuccess(orderId, paymentIntent){
+async function handleOrderSuccess(orderId, paymentIntent) {
   const order = await Order.findById(orderId);
   order.isPaid = true;
   order.paymentIntent = paymentIntent;
-  await order.save(); 
+  await order.save();
 }
 
 async function deleteOrder(orderId) {
@@ -413,7 +411,7 @@ orderRouter.delete("/id/:id", async (req, res) => {
   }
 });
 
-module.exports = {orderRouter, handleOrderSuccess};
+module.exports = { orderRouter, handleOrderSuccess };
 
 orderRouter.get("/events", (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
