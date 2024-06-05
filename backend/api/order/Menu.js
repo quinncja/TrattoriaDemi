@@ -34,13 +34,13 @@ const itemSchema = new mongoose.Schema({
   pastas: [pastaSchema],
   platters: [platterSchema],
   price: Number,
-  sectionId: { type: mongoose.Schema.Types.ObjectId, ref: "Section" }, 
+  sectionId: { type: mongoose.Schema.Types.ObjectId, ref: "Section" },
 });
 
 const sectionSchema = new mongoose.Schema({
   header: String,
   description: String,
-  menuId: { type: mongoose.Schema.Types.ObjectId, ref: "Menu" }, 
+  menuId: { type: mongoose.Schema.Types.ObjectId, ref: "Menu" },
 });
 
 const menuSchema = new mongoose.Schema({

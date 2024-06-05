@@ -74,7 +74,7 @@ function Email(props) {
             </Column>
           </Row>
           <Row style={row}>
-            <Column style={{display: "flex"}}>
+            <Column style={{ display: "flex" }}>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
                 Address
@@ -91,7 +91,7 @@ function Email(props) {
           <Row style={row}>
             <Column>
               {" "}
-              <Text style={{ ...text, fontWeight: "800", textAlign: "left"}}>
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
                 Purchase Date
               </Text>
             </Column>
@@ -104,9 +104,16 @@ function Email(props) {
             </Column>
           </Row>
           <Row style={row}>
-            <Column style={{display: "flex"}}>
+            <Column style={{ display: "flex" }}>
               {" "}
-              <Text style={{ ...text, fontWeight: "800", textAlign: "left", top: 0 }}>
+              <Text
+                style={{
+                  ...text,
+                  fontWeight: "800",
+                  textAlign: "left",
+                  top: 0,
+                }}
+              >
                 Message
               </Text>
             </Column>
@@ -145,7 +152,7 @@ export default Email;
 
 const container = {
   position: "relative",
-  margin: "30px auto",
+  margin: "20px auto",
   paddingLeft: "40px",
   paddingRight: "40px",
   paddingInline: "2%",
@@ -158,11 +165,11 @@ const container = {
 
 const innerContainer = {
   position: "relative",
-  width: "90%",
+  width: "98%",
 };
 const images = {
   marginTop: "55px",
-  width: "90%",
+  width: "100%",
 };
 
 const header = {

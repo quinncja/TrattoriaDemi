@@ -57,8 +57,6 @@ async function getGiftcard(id) {
   }
 }
 
-
-
 async function setEmail(email, giftcard) {
   giftcard.email = email;
   await giftcard.save();
@@ -72,7 +70,10 @@ async function markPaid(giftcard) {
 async function sendReciept(data) {
   try {
     const module = await import("../../dist/sendEmailReciept.js");
-    module.sendEmailReciept(data, DateTime.now().toLocaleString(DateTime.DATE_FULL));
+    module.sendEmailReciept(
+      data,
+      DateTime.now().toLocaleString(DateTime.DATE_FULL),
+    );
   } catch (error) {
     console.error("Error importing or executing sendEmailReciept:", error);
   }
@@ -102,4 +103,4 @@ async function deleteGiftcard(id) {
   }
 }
 
-module.exports = {giftcardRouter, handleGiftcardSuccess, deleteGiftcard};
+module.exports = { giftcardRouter, handleGiftcardSuccess, deleteGiftcard };

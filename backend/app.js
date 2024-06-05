@@ -8,7 +8,7 @@ const messageRouter = require("./api/message/messageRouter");
 const { giftcardRouter } = require("./api/giftcard/giftcardRouter");
 const { orderRouter } = require("./api/order/orderRouter");
 const payrollRouter = require("./api/payroll/payrollRouter");
-const stripeRouter = require("./api/stripe")
+const stripeRouter = require("./api/stripe");
 
 const app = express();
 app.use(
@@ -48,7 +48,7 @@ app.use("/api/messages", messageRouter);
 app.use("/api/giftcard", giftcardRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/payroll", payrollRouter);
-app.use("/api/stripe", stripeRouter)
+app.use("/api/stripe", stripeRouter);
 
 app.listen(port, () => {
   console.log(`Trattoria Demi listening on port ${port}`);
