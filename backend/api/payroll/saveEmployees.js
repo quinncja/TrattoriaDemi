@@ -112,6 +112,17 @@ const newEmployees = [
     },
 ]
 
+const newEmployee = [
+  {
+      name: "Joiner Jarith Garth",
+      fica: true,
+      state: 0,
+      federal: false,
+      ilChoice: false,
+      rates: [17.0],
+  },
+]
+
 const mongo_uri = process.env.MONGO_URI;
 
 async function main() {
@@ -135,7 +146,7 @@ async function main() {
 
 async function saveEmployees() {
   try {
-    for (const employeeData of newEmployees) {
+    for (const employeeData of newEmployee) {
       if (employeeData.loan) {
         let clonedEmployeeData = { ...employeeData };
         delete clonedEmployeeData.loan;
