@@ -368,21 +368,32 @@
   gap: 30px;
   width: 35%;
 }
+.old-payrolls-wrapper{
+  color: white;
+  height: 337px;
+  overflow-y: scroll;
+}
+.sticky-header{
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: black
+}
 
 .old-payrolls {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 3px;
   color: var(--paper-white);
-  overflow-y: scroll;
-  max-height: 400px;
   font-weight: 500;
+  box-sizing: border-box;
 }
 
 .old-payroll {
   background-color: var(--color-bg-light);
   color: white;
-  height: 50px;
+  height: 50px !important;
   outline: none;
   border: none;
   cursor: pointer;
@@ -390,6 +401,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .old-payroll:hover {
