@@ -2,8 +2,9 @@ import { calculateDates, formatDates } from "functions";
 
 function OldPayrolls({ data, clickHandler }) {
   return (
-    <div className="old-payrolls">
-      Old Entries
+    <div className="old-payrolls-wrapper">
+      <div className="sticky-header"> Old Entries </div>
+      <div className="old-payrolls">
       {data &&
         [...data].reverse().map((payroll, index) => {
           const originalIndex = data.length - 1 - index;
@@ -18,6 +19,7 @@ function OldPayrolls({ data, clickHandler }) {
             </button>
           );
         })}
+        </div> 
     </div>
   );
 }
