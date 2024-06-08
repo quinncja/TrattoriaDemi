@@ -99,6 +99,31 @@ payrollRouter.put("/employees/loan/:id", async (req, res) => {
   }
 });
 
+payrollRouter.put("/employees/active/:id", async (req, res) => {
+  const { id } = req.params;
+  const { active } = req.body;
+
+  if (typeof active !== "boolean") {
+    return res.status(400).json({ message: "Invalid active value. It must be a boolean." });
+  }
+
+  try {
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      id,
+      { $set: { active } },
+      { new: true }
+    );
+
+    if (!updatedEmployee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    res.status(200).json(updatedEmployee);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating employee active status" });
+  }
+});
 
 async function findPayrollByPeriod(period) {
   let payroll = await Payroll.findOne({period}).populate({
@@ -164,7 +189,7 @@ async function makeEmptyRow(employee, period) {
 }
 
 async function makeEmptyPayroll(period) {
-  const employees = await Employee.find({}).populate("loan");
+  const employees = await Employee.find({ active: true }).populate("loan");
   const paymentsData = [];
 
   for (const employee of employees) {
@@ -342,6 +367,19 @@ payrollRouter.get("/graph", async (req, res) => {
     res.json(graphData);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching payroll data', error: error.message });
+  }
+});
+
+module.exports = payrollRouter;
+
+
+payrollRouter.put("/employees/set-all-active", async (req, res) => {
+  try {
+    const result = await Employee.updateMany({}, { $set: { active: true } });
+    res.status(200).json({ message: "All employees set to active", result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error setting all employees to active" });
   }
 });
 

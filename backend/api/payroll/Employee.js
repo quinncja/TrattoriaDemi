@@ -10,6 +10,7 @@ const employeeSchema = new mongoose.Schema({
   rates: [Number],
   loan: { type: Schema.Types.ObjectId, ref: "Loan" },
   tips: Boolean,
+  active: Boolean,
 });
 
 const Employee = mongoose.model("Employee", employeeSchema);
