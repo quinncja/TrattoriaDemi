@@ -13,7 +13,7 @@ const reviews = [
   '"Weve been eating here since 1996, and it never disappoints"',
 ];
 
-function ReviewDisplayer({opacity}) {
+function ReviewDisplayer({ opacity }) {
   const [currentReview, setCurrentReview] = useState(0);
   const [direction, setDirection] = useState(0);
   const intervalRef = useRef(null);
@@ -68,18 +68,16 @@ function ReviewDisplayer({opacity}) {
   };
 
   useEffect(() => {
-    console.log("opacity")
+    console.log("opacity");
 
-    console.log(opacity)
-  }, [opacity])
+    console.log(opacity);
+  }, [opacity]);
 
   return (
     <>
       <LeftLeaf handleClick={() => paginate(-1)} />
       <div className="review-wrapper">
-      <h2> 
-          Hear it from the locals
-      </h2>
+        <h2>Hear it from the locals</h2>
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={currentReview}

@@ -1,18 +1,16 @@
-
 @font-face {
-  font-family: 'Caxton Book BT';
+  font-family: "Caxton Book BT";
   font-style: normal;
   font-weight: normal;
-  src: local('Caxton Book BT'), url('CAXTON3.woff') format('woff');
-  }
-  
-  @font-face {
-    font-family: 'Caxton LT Light';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Caxton LT Light'), url('CAXTO11.woff') format('woff');
-    }
-    
+  src: local("Caxton Book BT"), url("CAXTON3.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Caxton LT Light";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Caxton LT Light"), url("CAXTO11.woff") format("woff");
+}
 
 body {
   margin: 0;
