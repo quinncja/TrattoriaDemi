@@ -8,6 +8,7 @@ import ManyItems from "food_pictures/ManyItems.jpg";
 import Interior from "images/Interior.JPG";
 import EmblemBanner from "components/EmblemBanner";
 import ScrollDown from "components/ScrollDown/ScrollDown";
+import { welcomeSvg } from "svg";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -29,82 +30,84 @@ export default function Home() {
         <motion.div
           className="home-pic"
           style={{
-            backgroundImage: `url(${Patio})`,
-            backgroundSize: "cover",
             y: y2,
           }}
         >
+          <img src={Patio} alt="Patio"/>
           <div className="pic-overlay">
-            <motion.div style={{y: y1}} className="pic-content">
-              <ScrollDown/>
+            <div className="pic-content">{welcomeSvg()}</div>
+            <motion.div style={{ y: y1 }} className="scroll-down-wrapper">
+              <ScrollDown />
             </motion.div>
           </div>
         </motion.div>
-          <motion.div style={{ y: y3 }} className="home-block">
-          <motion.div style={{y: y4}}>
-          <div className="hero-text">
-            Old world Italian in the <motion.span style={{color: color}}> heart </motion.span> of Evanston
-          </div> 
-          <h2>
-            Since 1993 
-          </h2>
-          <br/>
-          <br/>
-          <motion.div style={{y: y5, opacity: opacity}}>
-            <div className="home-flex">
-              <div className="home-left">
-                <p>
-                  Welcome to our family-owned and operated Trattoria. We've been
-                  proudly serving the Northshore area for over 30 years.
-                  <br />
-                  <br />
-                  Our menu is a blend of traditional and innovative Italian
-                  dishes, all crafted from fresh, high-quality ingredients.
-                  Every dish is made to order, allowing us to cater to a variety
-                  of tastes and dietary needs, including vegan and gluten-free
-                  options. Here, everyone can find something to enjoy.
-                  <br />
-                  <br />
-                  Our welcoming atmosphere is perfect for any occasion, be it a
-                  casual lunch or a cozy dinner. Step into Trattoria Demi, and
-                  let our family serve yours.
-                </p>
-                <div className="button-row">
-                  <button
-                    className="subtle-button"
-                    type="button"
-                    onClick={() => navigate("/menu")}
-                  >
-                    View our menu
-                  </button>
-                  <button
-                    className="subtle-button"
-                    type="button"
-                    onClick={() => navigate("/gallery")}
-                  >
-                    View our gallery
-                  </button>
-                </div>
-              </div>
-              <div className="home-right">
-                <div className="image-wrapper">
-                  <ImageDisplayer pic={image.file} name={image.name} />
-                </div>
-              </div>
+        <motion.div style={{ y: y3 }} className="home-block">
+          <motion.div style={{ y: y4 }}>
+            <div className="hero-text">
+              Old world Italian in the{" "}
+              <motion.span style={{ color: color }}> heart </motion.span> of
+              Evanston
             </div>
+            <h2>Since 1993</h2>
+            <br />
+            <br />
+            <motion.div style={{ y: y5, opacity: opacity }}>
+              <div className="home-flex">
+                <div className="home-left">
+                  <p>
+                    Welcome to our family-owned and operated Trattoria. We're
+                    the little italian joint thats been serving the Northshore
+                    area for over 3 decades.
+                    <br />
+                    <br />
+                    Our menu is a blend of traditional and innovative Italian
+                    dishes, all crafted from fresh, high-quality ingredients.
+                    Every dish is made to order, allowing us to cater to a
+                    variety of tastes and dietary needs, including vegan and
+                    gluten-free options. Here, everyone can find something to
+                    enjoy.
+                    <br />
+                    <br />
+                    Our welcoming atmosphere is perfect for any occasion, be it
+                    a casual lunch or a cozy dinner. Step into Trattoria Demi,
+                    and let our family serve yours.
+                  </p>
+                  <div className="button-row">
+                    <button
+                      className="subtle-button"
+                      type="button"
+                      onClick={() => navigate("/menu")}
+                    >
+                      View our menu
+                    </button>
+                    <button
+                      className="subtle-button"
+                      type="button"
+                      onClick={() => navigate("/gallery")}
+                    >
+                      View our gallery
+                    </button>
+                  </div>
+                </div>
+                <div className="home-right">
+                  <div className="image-wrapper">
+                    <ImageDisplayer pic={image.file} name={image.name} />
+                  </div>
+                </div>
+              </div>
             </motion.div>
-            </motion.div>
+          </motion.div>
         </motion.div>
       </div>
 
       <div className="mid-pic-overlay">
         <img className="mid-pic" src={Interior} alt="Cozy-interior" />
       </div>
-        
-      <motion.div className="review-section" style={{opacity: opacity2}}>
-      <div className="review-container" >
-        <ReviewDisplayer />
-      </div>
+
+      <motion.div className="review-section" style={{ opacity: opacity2 }}>
+        <div className="review-container">
+          <ReviewDisplayer />
+        </div>
       </motion.div>
 
       <EmblemBanner />

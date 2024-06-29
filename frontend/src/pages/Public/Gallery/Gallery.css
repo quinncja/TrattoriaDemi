@@ -36,7 +36,7 @@
 }
 
 @media (width <= 450px) {
-  .gallery-container{
+  .gallery-container {
     width: 95vw;
   }
   .image-description {

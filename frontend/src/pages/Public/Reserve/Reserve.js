@@ -44,7 +44,7 @@ export default function Reserve() {
       <div className="reserve-container">
         <div className="reservation-overlay">
           <div className="reservation-overlay-text">
-            We will soon be introducing a custom reservation system. <br /> In
+            We will soon introduce a custom reservation system. <br /> In
             the meantime, you can call the restaturant at 847-332-2330, <br />{" "}
             or click below to reserve with OpenTable.
           </div>

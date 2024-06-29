@@ -38,6 +38,105 @@
   --highlight: #323335;
 }
 
+#path1,
+#path2 {
+  fill: #ffffff00;
+  stroke: white; 
+}
+
+
+#path2 {
+  stroke-dasharray: 1663;
+  stroke-dashoffset: 1663;
+  stroke-width: 1px;
+  animation: fillSvg 2s ease-in 1s forwards;
+}
+
+#w{
+  stroke-dasharray: 379;
+  stroke-dashoffset: 0;
+  animation: drawW 1.5s ease-in-out forwards;
+}
+@keyframes drawW {
+  to {
+    stroke-dashoffset: -379;
+  }
+}
+
+#e{
+  stroke-dasharray: 148;
+  stroke-dashoffset: 0;
+  animation: drawE .7s ease-in-out .4s forwards;
+}
+@keyframes drawE {
+  to {
+    stroke-dashoffset: -148;
+  }
+}
+
+#l{
+  stroke-dasharray: 106;
+  stroke-dashoffset: 0;
+  animation: drawL .7s ease-in-out .6s forwards;
+}
+@keyframes drawL {
+  to {
+    stroke-dashoffset: -106;
+  }
+}
+
+#c{
+  stroke-dasharray: 118;
+  stroke-dashoffset: 0;
+  animation: drawC .7s ease-in-out 1s forwards;
+}
+@keyframes drawC {
+  to {
+    stroke-dashoffset: -118;
+  }
+}
+
+#o{
+  stroke-dasharray: 126;
+  stroke-dashoffset: 0;
+  animation: drawO .7s ease-in-out 1.3s forwards;
+}
+@keyframes drawO {
+  to {
+    stroke-dashoffset: -126;
+  }
+}
+
+#m{
+  stroke-dasharray: 284;
+  stroke-dashoffset: 0;
+  animation: drawM 1s ease-in-out 1.6s forwards;
+}
+@keyframes drawM {
+  to {
+    stroke-dashoffset: -284;
+  }
+}
+
+#e2{
+  stroke-dasharray: 147;
+  stroke-dashoffset: 0;
+  animation: drawE2 .7s ease-in-out 2.1s forwards;
+}
+@keyframes drawE2 {
+  to {
+    stroke-dashoffset: -147;
+  }
+}
+
+
+
+@keyframes fillSvg {
+  to {
+    fill: white;
+  }
+}
+
 h2 {
   font-size: 1.5rem;
   color: white;
@@ -488,33 +587,51 @@ body {
 }
 
 .pic-content {
-  width: fit-content;
+  width: 523px;
+  height: 168px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: 85dvh;
   gap: 10px;
   filter: drop-shadow(0px 0px 32px #21212135) drop-shadow(0px 0px 16px #212121)
     drop-shadow(0px 0px 12px #000000);
 }
 
-@font-face {
-  font-family: 'Caxton Book BT';
-  font-style: normal;
-  font-weight: normal;
-  src: local('Caxton Book BT'), url('CAXTON2.woff') format('woff');
-  }
 
-@font-face {
-    font-family: 'Caxton Bold BT';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Caxton Bold BT'), url('caxton.woff') format('woff');
+@media (width <= 800px) {
+  .pic-content {
+    width: 423px;
+  }
 }
 
-.hero-text{
+@media (width <= 400px) {
+  .pic-content {
+    width: 300px;
+  }
+}
+
+.scroll-down-wrapper {
+  position: absolute;
+  bottom: 0;
+}
+
+@font-face {
+  font-family: "Caxton Book BT";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Caxton Book BT"), url("CAXTON2.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Caxton Bold BT";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Caxton Bold BT"), url("caxton.woff") format("woff");
+}
+
+.hero-text {
   font-size: 3.2rem;
-  font-family: 'Caxton Bold BT';
+  font-family: "Caxton Bold BT";
   color: var(--paper-white);
 }
 
@@ -918,40 +1035,39 @@ body {
   z-index: 1500;
 }
 
-
-.dashboard-wrapper{
+.dashboard-wrapper {
   font-family: "Arial";
 }
 
-button{
+button {
   font-family: "Caxton Book BT";
 }
 
-.dashboard-wrapper button{
+.dashboard-wrapper button {
   font-family: "Arial";
 }
 
-.review-section{
+.review-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding-top: 100px;
   padding-bottom: 40px;
 }
-.review-section h2{
+.review-section h2 {
   position: absolute;
   text-align: center;
   margin-top: -200px;
 }
 @media (max-width: 600px) {
-  .review-section{
+  .review-section {
     padding-block: 40px;
   }
-  .review-section h2{
+  .review-section h2 {
     margin-top: -170px;
   }
 }
 
-.more-padding{
+.more-padding {
   padding-block: 120px;
 }

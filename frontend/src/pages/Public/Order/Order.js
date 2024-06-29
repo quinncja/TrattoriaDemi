@@ -123,7 +123,7 @@ function Order() {
     <>
       <div className="reservation-overlay order-overlay">
         <div className="reservation-overlay-text">
-          We will soon be introducing a custom ordering system. <br /> In the
+          We will soon introduce a custom ordering system. <br /> In the
           meantime, you can call the restaturant at 847-332-2330, <br /> or
           click below to order with Grubhub.
         </div>

@@ -368,16 +368,16 @@
   gap: 30px;
   width: 35%;
 }
-.old-payrolls-wrapper{
+.old-payrolls-wrapper {
   color: white;
   height: 337px;
   overflow-y: scroll;
 }
-.sticky-header{
+.sticky-header {
   position: sticky;
   top: 0;
   z-index: 20;
-  background-color: black
+  background-color: black;
 }
 
 .old-payrolls {

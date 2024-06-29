@@ -10,6 +10,7 @@ function Map() {
   const mobile = useMobile();
   const Map = ReactMapboxGl({
     accessToken: MAPBOX_KEY,
+    scrollZoom: false,
   });
   mapboxgl.workerClass =
     // eslint-disable-next-line import/no-webpack-loader-syntax
