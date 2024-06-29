@@ -652,12 +652,14 @@ body {
 @media (width <= 800px) {
   .pic-content {
     width: 423px;
+    margin-top: -100px;
   }
 }
 
 @media (width <= 400px) {
   .pic-content {
     width: 300px;
+    margin-top: -100px;
   }
 }
 
@@ -885,12 +887,6 @@ body {
   }
   .pic-overlay {
     font-size: 1.5rem;
-  }
-  .mid-pic {
-    height: 70dvh;
-    object-fit: cover;
-    width: 1200px;
-    transform: translateX(-33%);
   }
   .review-display-container {
     height: 200px;
