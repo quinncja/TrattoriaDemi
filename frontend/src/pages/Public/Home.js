@@ -33,7 +33,12 @@ export default function Home() {
             y: y2,
           }}
         >
-          <img src={Patio} alt="Patio"/>
+          <img style={{
+          width: '100%',
+          height: '100%', 
+          objectFit: 'cover',
+          objectPosition: 'center'
+        }}  src={Patio} alt="Patio"/>
           <div className="pic-overlay">
             <div className="pic-content">{welcomeSvg()}</div>
             <motion.div style={{ y: y1 }} className="scroll-down-wrapper">
@@ -101,7 +106,15 @@ export default function Home() {
       </div>
 
       <div className="mid-pic-overlay">
-        <img className="mid-pic" src={Interior} alt="Cozy-interior" />
+        <img className="mid-pic" 
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+            filter: 'brightness(0.8) contrast(1.05)'
+          }}  
+          src={Interior} alt="Cozy-interior" />
       </div>
 
       <motion.div className="review-section" style={{ opacity: opacity2 }}>

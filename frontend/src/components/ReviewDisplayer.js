@@ -67,12 +67,6 @@ function ReviewDisplayer({ opacity }) {
     startInterval();
   };
 
-  useEffect(() => {
-    console.log("opacity");
-
-    console.log(opacity);
-  }, [opacity]);
-
   return (
     <>
       <LeftLeaf handleClick={() => paginate(-1)} />
