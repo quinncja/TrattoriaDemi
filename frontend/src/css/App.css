@@ -49,14 +49,14 @@
   stroke-dasharray: 1663;
   stroke-dashoffset: 1663;
   stroke-width: 1px;
-  animation: fillSvg 2s ease-in 2s forwards;
+  animation: fillSvg 2s ease-in 1.8s forwards;
 }
 
 #w{
   will-change: stroke-dashoffset;
   stroke-dasharray: 379;
   stroke-dashoffset: 0;
-  animation: drawW 1.5s ease-in-out 1s forwards;
+  animation: drawW 1.5s ease-in-out .5s forwards;
   -webkit-transform: translateZ(0);
 
 }
@@ -73,7 +73,7 @@
   will-change: stroke-dashoffset;
   stroke-dasharray: 148;
   stroke-dashoffset: 0;
-  animation: drawE .7s ease-in-out 1.4s forwards;
+  animation: drawE .8s ease-in-out 1.1s forwards;
   -webkit-transform: translateZ(0);
 
 }
@@ -90,7 +90,7 @@
   will-change: stroke-dashoffset;
   stroke-dasharray: 106;
   stroke-dashoffset: 0;
-  animation: drawL .7s ease-in-out 1.6s forwards;
+  animation: drawL .7s ease-in-out 1.4s forwards;
   -webkit-transform: translateZ(0);
 
 }
@@ -107,7 +107,7 @@
   will-change: stroke-dashoffset;
   stroke-dasharray: 118;
   stroke-dashoffset: 0;
-  animation: drawC .7s ease-in-out 2s forwards;
+  animation: drawC .7s ease-in-out 1.6s forwards;
   -webkit-transform: translateZ(0);
 
 }
@@ -123,7 +123,7 @@
   will-change: stroke-dashoffset;
   stroke-dasharray: 126;
   stroke-dashoffset: 0;
-  animation: drawO .7s ease-in-out 2.3s forwards;
+  animation: drawO .7s ease-in-out 1.8s forwards;
   -webkit-transform: translateZ(0);
 
 }
@@ -140,7 +140,7 @@
   will-change: stroke-dashoffset;
   stroke-dasharray: 284;
   stroke-dashoffset: 0;
-  animation: drawM 1s ease-in-out 2.6s forwards;
+  animation: drawM 1.2s ease-in-out 2s forwards;
   -webkit-transform: translateZ(0);
 
 }
@@ -157,7 +157,7 @@
   will-change: stroke-dashoffset;
   stroke-dasharray: 147;
   stroke-dashoffset: 0;
-  animation: drawE2 .7s ease-in-out 3.1s forwards;
+  animation: drawE2 1.4s ease-in-out 2.2s forwards;
   -webkit-transform: translateZ(0);
 
 }
@@ -636,7 +636,7 @@ body {
   justify-content: flex-end;
   gap: 10px;
   will-change: filter;
-  animation: shadow 1s ease-in-out 1.2s forwards;
+  animation: shadow 1.2s ease-in-out .5s forwards;
 }
 
 @keyframes shadow {
@@ -761,6 +761,12 @@ body {
 }
 
 @media (width <= 600px) {
+  .hero-text {
+    font-size: 2.6rem;
+    font-family: "Caxton Bold BT";
+    color: var(--paper-white);
+  }
+  
   .review-container {
     width: 120%;
     overflow: hidden;
