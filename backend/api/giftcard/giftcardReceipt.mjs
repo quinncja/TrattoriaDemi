@@ -8,7 +8,7 @@ import { Img } from "@react-email/img";
 import { Preview } from "@react-email/preview";
 import { Container } from "@react-email/container";
 
-function Email(props) {
+function giftCardReceipt(props) {
   const { amount, recipient, address, message, id, date } = props;
 
   return (
@@ -148,7 +148,7 @@ function Email(props) {
     </Html>
   );
 }
-export default Email;
+export default giftCardReceipt;
 
 const container = {
   position: "relative",

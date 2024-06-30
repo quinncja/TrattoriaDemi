@@ -1,4 +1,4 @@
-const stripe = require("stripe")(process.env.STRIPE_LIVE_KEY);
+const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 const express = require("express");
 const giftcardRouter = express.Router();
 const Giftcard = require("./Giftcard");
