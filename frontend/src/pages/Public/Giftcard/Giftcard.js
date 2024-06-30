@@ -91,7 +91,6 @@ function Giftcard() {
     { price: 50, id: "price_1NwtrKEFXALc8iLM1bq1F8B8" },
     { price: 75, id: "price_1NwtrUEFXALc8iLMfdwgyR89" },
     { price: 100, id: "price_1NwtreEFXALc8iLMGc0nAK57" },
-    { price: 100, id: "price_1OsdJAEFXALc8iLMY60zON8a" },
   ];
 
   const buttons = values.map((button) => (

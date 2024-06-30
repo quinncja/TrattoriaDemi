@@ -1,3 +1,5 @@
+import { sendMessageEmail } from "./sendMessageEmail.mjs";
+
 const express = require("express");
 const messageRouter = express.Router();
 const Message = require("./Message");
@@ -8,6 +10,7 @@ messageRouter.post("/", async (req, res) => {
     console.log("Received request body:", req.body);
     const { name, message, email } = req.body;
     const newMessage = new Message({ name, message, email });
+    await sendMessageEmail(newMessage);
     await newMessage.save();
     res.status(201).json(newMessage);
   } catch (error) {

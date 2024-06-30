@@ -2,18 +2,17 @@ import React from "react";
 import { Html } from "@react-email/html";
 import { Row } from "@react-email/row";
 import { Column } from "@react-email/column";
-import { Heading } from "@react-email/heading";
 import { Text } from "@react-email/text";
 import { Img } from "@react-email/img";
 import { Preview } from "@react-email/preview";
 import { Container } from "@react-email/container";
 
-function giftcardPurchased(props) {
-  const { amount, recipient, address, message, id, date, email } = props;
+function messageSent(props) {
+  const { name, message, email } = props;
 
   return (
     <Html lang="en">
-      <Preview>A giftcard was purchased</Preview>
+      <Preview>Contact Form Submission</Preview>
       <Container style={container}>
         <Container style={images}>
           <Img
@@ -32,14 +31,14 @@ function giftcardPurchased(props) {
             <Column>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-                Purchaser
+                From
               </Text>
             </Column>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
                 {" "}
-                {email || "amount"}
+                {name || "name"}
               </Text>
             </Column>
           </Row>
@@ -47,14 +46,14 @@ function giftcardPurchased(props) {
             <Column>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-                Amount
+                email
               </Text>
             </Column>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
                 {" "}
-                {amount || "amount"}
+                {email || "email"}
               </Text>
             </Column>
           </Row>
@@ -62,58 +61,6 @@ function giftcardPurchased(props) {
             <Column>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-                Recipient
-              </Text>
-            </Column>
-            <Column>
-              {" "}
-              <Text style={{ ...text, textAlign: "right" }}>
-                {" "}
-                {recipient || "recipient"}
-              </Text>
-            </Column>
-          </Row>
-          <Row style={row}>
-            <Column style={{ display: "flex" }}>
-              {" "}
-              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-                Address
-              </Text>
-            </Column>
-            <Column>
-              {" "}
-              <Text style={{ ...text, textAlign: "right" }}>
-                {" "}
-                {address || "address"}
-              </Text>
-            </Column>
-          </Row>
-          <Row style={row}>
-            <Column>
-              {" "}
-              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-                Purchase Date
-              </Text>
-            </Column>
-            <Column>
-              {" "}
-              <Text style={{ ...text, textAlign: "right" }}>
-                {" "}
-                {date || "date of purchase"}
-              </Text>
-            </Column>
-          </Row>
-          <Row style={row}>
-            <Column style={{ display: "flex" }}>
-              {" "}
-              <Text
-                style={{
-                  ...text,
-                  fontWeight: "800",
-                  textAlign: "left",
-                  top: 0,
-                }}
-              >
                 Message
               </Text>
             </Column>
@@ -126,21 +73,11 @@ function giftcardPurchased(props) {
             </Column>
           </Row>
         </Container>
-        <Text
-          style={{
-            ...smallerText,
-            textAlign: "center",
-            marginBottom: "35px",
-            marginTop: "30px",
-          }}
-        >
-          {id}
-        </Text>
       </Container>
     </Html>
   );
 }
-export default giftcardPurchased;
+export default messageSent;
 
 const container = {
   position: "relative",
