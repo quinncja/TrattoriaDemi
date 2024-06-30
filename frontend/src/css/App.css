@@ -355,6 +355,7 @@ body {
     brightness(88%) contrast(87%);
   transition: all 0.3s ease-in-out;
   cursor: pointer;
+
 }
 
 .navbar-logo:hover {
@@ -376,7 +377,6 @@ body {
   background-repeat: no-repeat;
   background-size: 0px 0px, calc(100% - 0px) 100%;
   background-position: center bottom;
-  transition: all 0.23s linear;
   padding-left: 0.5vw;
   padding-right: 0.5vw;
   margin-left: 0.75vw;
@@ -389,6 +389,7 @@ body {
   background-size: 90% 2px, calc(100% - 50px) 100%;
   cursor: pointer;
   color: white;
+  transition: all 0.23s linear;
 }
 
 .navbar-link-active {

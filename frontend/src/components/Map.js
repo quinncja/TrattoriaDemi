@@ -1,33 +1,31 @@
 import React from "react";
-import ReactMapboxGl, { Marker } from "react-mapbox-gl";
-import mapboxgl from "mapbox-gl";
+import Map, {Marker} from 'react-map-gl';
 import { useMobile } from "../context/MobileContext";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 const MAPBOX_KEY = process.env.REACT_APP_MAPBOX_KEY;
 
-function Map() {
+function MapBox() {
   const mobile = useMobile();
-  const Map = ReactMapboxGl({
-    accessToken: MAPBOX_KEY,
-    scrollZoom: false,
-  });
-  mapboxgl.workerClass =
-    // eslint-disable-next-line import/no-webpack-loader-syntax
-    require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
-
-  const center = [-87.681559, 42.04616];
   return (
     <Map
-      containerStyle={{
+      style={{
         height: mobile ? "350px" : "400px",
         width: mobile ? "95vw" : "35vw",
         borderRadius: "2px",
       }}
-      center={center}
+      reuseMaps
+      initialViewState={{
+        longitude: -87.681559,
+        latitude: 42.04616,
+        zoom: 16
+      }}
       zoom={[16]}
+      scrollZoom={false}
+      mapboxAccessToken={MAPBOX_KEY}
+      mapStyle="mapbox://styles/mapbox/streets-v9"
     >
-      <Marker coordinates={center} anchor="bottom">
+      <Marker longitude={-87.681559} latitude={42.04616} anchor="bottom">
         <svg
           width="50"
           height="50"
@@ -55,4 +53,4 @@ function Map() {
   );
 }
 
-export default Map;
+export default MapBox;
