@@ -7,7 +7,7 @@
     "babel-version": "babel --version",
     "test": "jest",
     "start": "node app.js",
-    "build": "yarn install && babel ./api/giftcard/giftcardReceipt.mjs -o ./dist/giftcardReceipt.js && babel ./api/giftcard/giftcardPurchased.mjs -o ./dist/giftcardPurchased.js && babel ./api/giftcard/sendEmailReciept.mjs -o ./dist/sendEmailReciept.js"
+    "build": "yarn install && babel ./api/giftcard/giftcardReceipt.mjs -o ./dist/giftcardReceipt.js && babel ./api/giftcard/giftcardPurchased.mjs -o ./dist/giftcardPurchased.js && babel ./api/giftcard/sendEmailReciept.mjs -o ./dist/sendEmailReciept.js && babel ./api/message/sendMessageEmail.mjs -o ./dist/sendMessageEmail.js && babel ./api/message/messageSent.mjs -o ./dist/messageSent.js"
   },
   "engines": {
     "node": ">=14.20.1"

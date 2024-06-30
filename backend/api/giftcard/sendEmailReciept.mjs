@@ -25,7 +25,7 @@ async function sendEmailReciept(giftCard, date) {
   try {
   await resend.emails.send({
     from: "Trattoria Demi <noreply@trattoriademi.site>",
-    to: "quinnwsieja@gmail.com",
+    to: "trattoriademi@gmail.com",
     subject: "Giftcard Purchased",
     react: giftcardPurchased({
       amount: `$${giftCard.amount}`,
