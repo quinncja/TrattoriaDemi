@@ -53,6 +53,14 @@ export default function Menu() {
     setCurrent(id);
   }
 
+  function formatPrice(price) {
+    return price.toFixed(2);
+  }
+  
+  function displayPrice(priceArray) {
+    return priceArray.map(formatPrice).join(' - ');
+  }  
+
   function displayMenu(list) {
     return (
       <ResponsiveMasonry columnsCountBreakPoints={{ 700: 1, 750: 2 }}>
@@ -77,6 +85,7 @@ export default function Menu() {
                     {item.description && (
                       <div className="menu-item-desc">{item.description}</div>
                     )}
+                    <div className="menu-item-price"> {displayPrice(item.price)} </div>
                   </div>
                 ))}
               </div>
