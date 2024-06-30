@@ -6,27 +6,12 @@ import { useMobile } from "../context/MobileContext";
 export function Navbar() {
   const mobile = useMobile();
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState("");
   const location = useLocation();
+  const [currentPage, setCurrentPage] = useState("");
   const [showNav, setShowNav] = useState(false);
 
-  const changeActive = useCallback(
-    (newLoc) => {
-      if (currentPage)
-        document.getElementById(currentPage).className = "navbar-link";
-
-      if (newLoc === "home") return;
-
-      document.getElementById(newLoc).className =
-        "navbar-link navbar-link-active";
-      setCurrentPage(newLoc);
-    },
-    [currentPage]
-  );
-
-  useEffect(() => {
-    let loc = location.pathname.substring(1);
-
+  const determineLocation = useCallback((path) => {
+    let loc = path.substring(1);
     if (loc === "checkout") loc = "order";
     if (loc === "") loc = "home";
     if (loc === "dashboard") loc = "home";
@@ -35,9 +20,13 @@ export function Navbar() {
     if (loc === "signout") loc = "home";
     if (loc.match(/^order-status\/.*/)) loc = "home";
     if (loc.match(/^cancel\/.*/)) loc = "home";
+    return loc;
+  }, []);
 
-    changeActive(loc);
-  }, [changeActive, location.pathname, mobile]);
+  useEffect(() => {
+    const loc = determineLocation(location.pathname);
+    setCurrentPage(loc);
+  }, [location.pathname, determineLocation]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -48,84 +37,64 @@ export function Navbar() {
   };
 
   const clickHandler = (event) => {
+    const newPage = event.currentTarget.id;
     if (mobile) setShowNav(false);
-    changeActive(event.currentTarget.id);
-    navigate("/" + event.currentTarget.id);
+    setCurrentPage(newPage);
+    navigate("/" + newPage);
   };
 
-  if (mobile) {
-    return (
-      <div className="navbar navbar-mobile">
+  const renderNavLinks = (links) => {
+    return links.map((link) => (
+      <div
+        key={link}
+        id={link}
+        className={`navbar-link ${currentPage === link ? "navbar-link-active" : ""}`}
+        onClick={clickHandler}
+      >
+        {link.charAt(0).toUpperCase() + link.slice(1)}
+      </div>
+    ));
+  };
+
+  const navLinks = ["menu", "reserve", "contact", "gallery", "giftcards", "order"];
+  const firstThreeLinks = navLinks.slice(0, 3);
+  const remainingLinks = navLinks.slice(3);
+  
+  return mobile ? (
+    <div className="navbar navbar-mobile">
+      <img
+        className="navbar-logo-mobile"
+        onClick={navHome}
+        src={Logo}
+        alt="Trattoria Demi"
+      />
+      <button
+        type="button"
+        className="hamburger-button"
+        onClick={() => setShowNav(!showNav)}
+      >
+        <div className={`hamburger-line ${showNav && "ham-line-1"}`} />
+        <div className={`hamburger-line ${showNav && "ham-line-2"}`} />
+        <div className={`hamburger-line ${showNav && "ham-line-3"}`} />
+      </button>
+      <div className={`mobile-nav ${showNav && "mobile-nav-active"}`}>
+        {renderNavLinks(navLinks)}
+      </div>
+    </div>
+  ) : (
+    <div className="navbar">
+      <div className="navbar-links">
+        {renderNavLinks(firstThreeLinks)}
         <img
-          className="navbar-logo-mobile"
+          className="navbar-logo"
           onClick={navHome}
           src={Logo}
           alt="Trattoria Demi"
         />
-        <button
-          type="button"
-          className="hamburger-button"
-          onClick={() => setShowNav(!showNav)}
-        >
-          <div className={`hamburger-line ${showNav && "ham-line-1"}`} />
-          <div className={`hamburger-line ${showNav && "ham-line-2"}`} />
-          <div className={`hamburger-line ${showNav && "ham-line-3"}`} />
-        </button>
-
-        <div className={`mobile-nav ${showNav && "mobile-nav-active"}`}>
-          <div id="menu" className="navbar-link" onClick={clickHandler}>
-            Menu
-          </div>
-          <div id="reserve" className="navbar-link" onClick={clickHandler}>
-            Reserve
-          </div>
-          <div id="contact" className="navbar-link" onClick={clickHandler}>
-            Contact
-          </div>
-          <div id="gallery" className="navbar-link" onClick={clickHandler}>
-            Gallery
-          </div>
-          <div id="giftcards" className="navbar-link" onClick={clickHandler}>
-            Gift Cards
-          </div>
-          <div id="order" className="navbar-link" onClick={clickHandler}>
-            Order
-          </div>
-        </div>
+        {renderNavLinks(remainingLinks)}
       </div>
-    );
-  } else {
-    return (
-      <div className="navbar">
-        <div className="navbar-links">
-          <div id="menu" className="navbar-link" onClick={clickHandler}>
-            Menu
-          </div>
-          <div id="reserve" className="navbar-link" onClick={clickHandler}>
-            Reserve
-          </div>
-          <div id="contact" className="navbar-link" onClick={clickHandler}>
-            Contact
-          </div>
-          <img
-            className="navbar-logo"
-            onClick={navHome}
-            src={Logo}
-            alt="Trattoria Demi"
-          />
-          <div id="gallery" className="navbar-link" onClick={clickHandler}>
-            Gallery
-          </div>
-          <div id="giftcards" className="navbar-link" onClick={clickHandler}>
-            Gift Cards
-          </div>
-          <div id="order" className="navbar-link" onClick={clickHandler}>
-            Order
-          </div>
-        </div>
-      </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Navbar;
