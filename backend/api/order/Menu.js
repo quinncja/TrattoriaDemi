@@ -33,7 +33,7 @@ const itemSchema = new mongoose.Schema({
   sauces: [sauceSchema],
   pastas: [pastaSchema],
   platters: [platterSchema],
-  price: Number,
+  price: [Number],
   sectionId: { type: mongoose.Schema.Types.ObjectId, ref: "Section" },
 });
 

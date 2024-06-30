@@ -11,17 +11,7 @@ export function Footer() {
         <div className="footer">
           <div className="footer-links">
             <div className="footer-link">
-              Made with{" "}
-              <div
-                style={{
-                  display: "inline",
-                  fontWeight: "800",
-                  fontSize: ".8rem",
-                }}
-              >
-                {" "}
-                ♡{" "}
-              </div>
+              <strong> Q </strong>
             </div>
           </div>
         </div>
