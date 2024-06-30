@@ -1,7 +1,6 @@
 import React from "react";
 import Map, {Marker} from 'react-map-gl';
 import { useMobile } from "../context/MobileContext";
-import "mapbox-gl/dist/mapbox-gl.css";
 
 const MAPBOX_KEY = process.env.REACT_APP_MAPBOX_KEY;
 

@@ -4,6 +4,7 @@
   margin-top: 2rem;
   margin-bottom: 4rem;
   position: relative;
+  min-height: 90vh;
 }
 
 .image-container {
