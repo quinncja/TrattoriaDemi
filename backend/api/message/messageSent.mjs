@@ -2,6 +2,7 @@ import React from "react";
 import { Html } from "@react-email/html";
 import { Row } from "@react-email/row";
 import { Column } from "@react-email/column";
+import { Heading } from "@react-email/heading";
 import { Text } from "@react-email/text";
 import { Img } from "@react-email/img";
 import { Preview } from "@react-email/preview";
@@ -26,7 +27,10 @@ function messageSent(props) {
             alt="-------"
           />
         </Container>
-        <Container style={innerContainer}>
+        <Heading style={header} as="h2" mt="0">
+          Someone has sent a message
+        </Heading>
+        <Container style={{...innerContainer, paddingBottom: "40px"}}>
         <Row style={row}>
             <Column>
               {" "}
@@ -46,7 +50,7 @@ function messageSent(props) {
             <Column>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-                email
+                Email
               </Text>
             </Column>
             <Column>

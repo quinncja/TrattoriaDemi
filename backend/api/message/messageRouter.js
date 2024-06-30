@@ -1,16 +1,23 @@
-import { sendMessageEmail } from "./sendMessageEmail.mjs";
-
 const express = require("express");
 const messageRouter = express.Router();
 const Message = require("./Message");
 
-// Create new Contact
+async function sendEmail(newMessage) {
+  try {
+    const module = await import("../../dist/sendMessageEmail.js");
+    module.sendMessageEmail(
+      newMessage
+    );
+  } catch (error) {
+    console.error("Error importing or executing sendEmailReciept:", error);
+  }
+}
+
 messageRouter.post("/", async (req, res) => {
   try {
-    console.log("Received request body:", req.body);
     const { name, message, email } = req.body;
     const newMessage = new Message({ name, message, email });
-    await sendMessageEmail(newMessage);
+    await sendEmail(newMessage);
     await newMessage.save();
     res.status(201).json(newMessage);
   } catch (error) {
@@ -18,6 +25,7 @@ messageRouter.post("/", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
 
 messageRouter.delete("/id/:id", async (req, res) => {
   try {

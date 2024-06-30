@@ -57,7 +57,7 @@ function Contact() {
       name: "email",
       id: "email",
       text: inputText.email,
-      error: errorStates.email,
+      error: errorStates.email || errorStates.emailFormat,
       handleChange,
     },
     message: {

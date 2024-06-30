@@ -27,6 +27,9 @@ function giftcardPurchased(props) {
             alt="-------"
           />
         </Container>
+        <Heading style={header} as="h2" mt="0">
+          A giftcard has been purchased!
+        </Heading>
         <Container style={innerContainer}>
         <Row style={row}>
             <Column>
