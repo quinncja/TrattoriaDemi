@@ -22,6 +22,8 @@ function MapBox() {
       zoom={[16]}
       scrollZoom={false}
       mapboxAccessToken={MAPBOX_KEY}
+      dragPan={mobile ? false : true}
+      dragRotate={mobile ? false : true}
       mapStyle="mapbox://styles/mapbox/streets-v9"
     >
       <Marker longitude={-87.681559} latitude={42.04616} anchor="bottom">

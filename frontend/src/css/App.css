@@ -1120,6 +1120,9 @@ button {
   .review-section h2 {
     margin-top: -170px;
   }
+  .home-block {
+    padding-inline: 5%;
+  }
 }
 
 .more-padding {
