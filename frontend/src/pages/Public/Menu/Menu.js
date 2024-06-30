@@ -85,7 +85,9 @@ export default function Menu() {
                     {item.description && (
                       <div className="menu-item-desc">{item.description}</div>
                     )}
-                    <div className="menu-item-price"> {displayPrice(item.price)} </div>
+                    {item.price && 
+                      <div className="menu-item-price"> {displayPrice(item.price)} </div>
+                    }   
                   </div>
                 ))}
               </div>

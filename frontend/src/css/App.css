@@ -657,16 +657,21 @@ body {
   }
 }
 
+.scroll-down-wrapper {
+  position: absolute;
+  bottom: 0;
+}
+
 @media (width <= 400px) {
   .pic-content {
     width: 300px;
     margin-top: -100px;
   }
-}
-
-.scroll-down-wrapper {
-  position: absolute;
-  bottom: 0;
+  .scroll-down-wrapper {
+    position: absolute;
+    bottom: 40px;
+  }
+  
 }
 
 @font-face {
