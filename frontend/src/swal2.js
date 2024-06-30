@@ -99,13 +99,11 @@ export function successfulGiftcardAlert() {
     title: `Thank you for your purchase`,
     icon: "success",
     iconColor: "#d3963a",
-    timer: 5500,
     text: "A reciept has been sent to your email",
     padding: "2rem",
     customClass: {
       title: "swal-header",
     },
-    timerProgressBar: true,
     showConfirmButton: false,
   });
 }
