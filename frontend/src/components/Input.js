@@ -9,6 +9,7 @@ function Input(obj) {
         apiKey={PLACES_KEY}
         type="text"
         id="address"
+        placeholder=""
         value={obj.value}
         className={`reserve-select ${obj.error ? "reserve-select-error" : ""}`}
         onChange={(event) => obj.handleChange(event)}
