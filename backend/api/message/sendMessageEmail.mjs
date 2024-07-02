@@ -7,7 +7,7 @@ async function sendMessageEmail(message) {
     try {
         await resend.emails.send({
           from: "Trattoria Demi <noreply@trattoriademi.site>",
-          to: "quinnwsieja@gmail.com",
+          to: "trattoriademi@gmail.com",
           subject: "Contact Form Submission",
           react: messageSent({
             name: message.name,
