@@ -104,6 +104,7 @@ export async function postContact(newContact) {
     });
     return response.status;
   } catch (error) {
+    console.log(error)
     throw error;
   }
 }
