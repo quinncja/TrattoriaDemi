@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_KEY);
 async function sendMessageEmail(message) {
     try {
         await resend.emails.send({
-          from: "Trattoria Demi <noreply@trattoriademi.site>",
+          from: "Trattoria Demi <noreply@trattoriademi.com>",
           to: "trattoriademi@gmail.com",
           subject: "Contact Form Submission",
           react: messageSent({
