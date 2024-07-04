@@ -3,11 +3,12 @@ import giftcardReceipt from "./giftcardReceipt.js";
 import giftcardPurchased from "./giftcardPurchased.js";
 
 const resend = new Resend(process.env.RESEND_KEY);
+const sender = process.env.SENDER_EMAIL
 
 async function sendEmailReciept(giftCard, date) {
   try {
     await resend.emails.send({
-      from: "Trattoria Demi <noreply@trattoriademi.site>",
+      from: sender,
       to: giftCard.email,
       subject: "Your giftcard reciept",
       react: giftcardReceipt({
@@ -24,7 +25,7 @@ async function sendEmailReciept(giftCard, date) {
   }
   try {
   await resend.emails.send({
-    from: "Trattoria Demi <noreply@trattoriademi.site>",
+    from: sender,
     to: "trattoriademi@gmail.com",
     subject: "Giftcard Purchased",
     react: giftcardPurchased({
