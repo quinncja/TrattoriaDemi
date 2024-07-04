@@ -16,7 +16,7 @@ async function sendMessageEmail(message) {
           }),
         });
       } catch (error) {
-        console.error(error);
+        console.log(error);
     }
 }
 
