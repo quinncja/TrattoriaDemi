@@ -1,11 +1,11 @@
 import React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Patio from "images/OutsidePatio.jpg";
+import Patio from "images/OutsidePatioCompressed.jpg";
 import ReviewDisplayer from "components/ReviewDisplayer";
 import { useNavigate } from "react-router-dom";
 import ImageDisplayer from "./Gallery/ImageDisplayer";
-import ManyItems from "food_pictures/ManyItems.jpg";
-import Interior from "images/Interior.JPG";
+import ManyItems from "food_pictures/ManyItemsCompressed.jpg";
+import Interior from "images/InteriorCompressed.JPG";
 import EmblemBanner from "components/EmblemBanner";
 import ScrollDown from "components/ScrollDown/ScrollDown";
 import { welcomeSvg } from "svg";
@@ -38,7 +38,7 @@ export default function Home() {
           height: '100%', 
           objectFit: 'cover',
           objectPosition: 'center'
-        }}  src={Patio} alt="Patio"/>
+        }}  src={Patio} alt="Patio" loading="lazy"/>
           <div className="pic-overlay">
             <div className="pic-content">{welcomeSvg()}</div>
             <motion.div style={{ y: y1 }} className="scroll-down-wrapper">
@@ -114,7 +114,7 @@ export default function Home() {
             objectPosition: 'center',
             filter: 'brightness(0.8) contrast(1.05)'
           }}  
-          src={Interior} alt="Cozy-interior" />
+          src={Interior} alt="Cozy-interior" loading="lazy"/>
       </div>
 
       <motion.div className="review-section" style={{ opacity: opacity2 }}>
