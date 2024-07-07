@@ -112,7 +112,7 @@ const newEmployees = [
     },
 ]
 
-const newEmployee = [
+const newEmployee2 = [
   {
       name: "Joiner Jarith Garth",
       fica: true,
@@ -120,6 +120,18 @@ const newEmployee = [
       federal: false,
       ilChoice: false,
       rates: [17.0],
+  },
+]
+
+const newEmployee = [
+  {
+      name: "Ryan Ohara",
+      fica: true,
+      state: 0.3,
+      federal: true,
+      ilChoice: false,
+      tips: true,
+      rates: [9.5],
   },
 ]
 

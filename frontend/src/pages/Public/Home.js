@@ -15,24 +15,12 @@ export default function Home() {
   const image = { file: ManyItems };
 
   const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [1, 80], [1, 80]);
-  const y2 = useTransform(scrollY, [1, 800], [1, 200]);
-  const y3 = useTransform(scrollY, [0, 200], [0, 40]);
-  const y4 = useTransform(scrollY, [0, 400], [80, 20]);
-  const y5 = useTransform(scrollY, [0, 700], [400, 20]);
-  const opacity = useTransform(scrollY, [300, 700], [0, 1]);
-  const opacity2 = useTransform(scrollY, [1200, 1600], [0, 1]);
   const color = useTransform(scrollY, [100, 500], ["#ffffff", "#d3963a"]);
 
   return (
     <div className="home">
       <div className="home-header">
-        <motion.div
-          className="home-pic"
-          style={{
-            y: y2,
-          }}
-        >
+        <div className="home-pic" >
           <img style={{
           width: '100%',
           height: '100%', 
@@ -41,13 +29,13 @@ export default function Home() {
         }}  src={Patio} alt="Patio" loading="lazy"/>
           <div className="pic-overlay">
             <div className="pic-content">{welcomeSvg()}</div>
-            <motion.div style={{ y: y1 }} className="scroll-down-wrapper">
+            <div className="scroll-down-wrapper">
               <ScrollDown />
-            </motion.div>
+            </div>
           </div>
-        </motion.div>
-        <motion.div style={{ y: y3 }} className="home-block">
-          <motion.div style={{ y: y4 }}>
+        </div>
+        <div className="home-block">
+          <div>
             <div className="hero-text">
               Old world Italian in the{" "}
               <motion.span style={{ color: color }}> heart </motion.span> of
@@ -56,7 +44,7 @@ export default function Home() {
             <h2>Since 1993</h2>
             <br />
             <br />
-            <motion.div style={{ y: y5, opacity: opacity }}>
+            <div>
               <div className="home-flex">
                 <div className="home-left">
                   <p>
@@ -100,9 +88,9 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
-        </motion.div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="mid-pic-overlay">
@@ -117,11 +105,11 @@ export default function Home() {
           src={Interior} alt="Cozy-interior" loading="lazy"/>
       </div>
 
-      <motion.div className="review-section" style={{ opacity: opacity2 }}>
+      <div className="review-section">
         <div className="review-container">
           <ReviewDisplayer />
         </div>
-      </motion.div>
+      </div>
 
       <EmblemBanner />
     </div>
