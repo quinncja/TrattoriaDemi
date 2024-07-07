@@ -80,7 +80,7 @@ export function successfulCancelAlert() {
 
 export function successfulContactAlert() {
   return Swal.fire({
-    title: `Thanks for reaching out`,
+    title: `Thanks you for contacting us`,
     icon: "success",
     iconColor: "#d3963a",
     timer: 5500,
