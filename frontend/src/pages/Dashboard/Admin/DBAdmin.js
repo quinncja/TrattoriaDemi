@@ -2,11 +2,11 @@ import React from "react";
 import { useSearchParams } from "react-router-dom";
 import AdminNav from "./AdminNav";
 import Menu from "./Menu";
-import PayrollDash from "./PayrollDash";
+import PayrollDash from "./Payroll/PayrollDash";
 import Home from "./Home";
 import "./Admin.css";
 import Employees from "./Employees";
-import Payroll from "./Payroll";
+import Payroll from "./Payroll/Payroll";
 
 function DBAdmin() {
   const [searchParams] = useSearchParams();
