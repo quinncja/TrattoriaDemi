@@ -62,7 +62,7 @@ function messageSent(props) {
             </Column>
           </Row>
           <Row style={row}>
-            <Column>
+            <Column style={column}>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
                 Message
@@ -70,7 +70,7 @@ function messageSent(props) {
             </Column>
             <Column>
               {" "}
-              <Text style={{ ...text, textAlign: "right" }}>
+              <Text style={{ ...text, textAlign: "left" }}>
                 {" "}
                 {message || "message"}
               </Text>
@@ -133,3 +133,9 @@ const smallerText = {
 const row = {
   marginBottom: "5px",
 };
+
+const column = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-start"
+}
