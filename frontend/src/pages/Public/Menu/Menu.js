@@ -9,7 +9,7 @@ import "./Menu.css";
 
 export default function Menu() {
   const { menu } = useMenu();
-  const [currentMenu, setCurrent] = useState("");
+  const [currentMenu, setCurrent] = useState("Full");
   const menuOptions = [
     { id: "Lunch", text: "Lunch Specials" },
     { id: "Full", text: "Full Menu" },
@@ -62,7 +62,7 @@ export default function Menu() {
       <ResponsiveMasonry columnsCountBreakPoints={{ 700: 1, 750: 2 }}>
         <Masonry gutter="45px">
           <div className="menu-text">
-            <div className="hero-text menu-hero-text"> {menuOptions.find((option) => option.id === currentMenu).text || ""} </div>
+            <div className="hero-text menu-hero-text"> {menuOptions ? menuOptions.find((option) => option.id === currentMenu).text : ""} </div>
             {currentMenu && currentMenu === "Lunch" && <p> Until 4pm daily</p>}
           </div>
           {list.sections.map((section, index) => (
