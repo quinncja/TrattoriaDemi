@@ -191,15 +191,24 @@ h3 {
   margin: 0px;
 }
 
-p {
+p,a {
   color: white;
   font-size: 1.1rem;
   margin: 0px;
   line-height: 1.7rem;
 }
 
+a{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+a:hover{
+  color: var(--gold);
+}
+
 @media (width <= 470px) {
-  p {
+  p,a {
     font-size: 1rem;
   }
   h2 {
