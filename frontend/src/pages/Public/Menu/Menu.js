@@ -61,8 +61,8 @@ export default function Menu() {
     return (
       <ResponsiveMasonry columnsCountBreakPoints={{ 700: 1, 750: 2 }}>
         <Masonry gutter="45px">
-          <div className="menu-text">
-            <div className="hero-text menu-hero-text"> {menuOptions ? menuOptions.find((option) => option.id === currentMenu).text : ""} </div>
+          <div className="menu-text menu-hero-text">
+            <div className="hero-text"> {menuOptions ? menuOptions.find((option) => option.id === currentMenu).text : ""} </div>
             {currentMenu && currentMenu === "Lunch" && <p> Until 4pm daily</p>}
           </div>
           {list.sections.map((section, index) => (
