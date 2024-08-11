@@ -985,7 +985,7 @@ body {
 
 .subtle-button {
   color: white;
-  background-color: var(--gold-2);
+  background: none;
   border: none;
   outline: none;
   font-size: 1rem;
@@ -997,7 +997,7 @@ body {
 }
 
 .subtle-button:hover {
-  background-color: var(--gold);
+  color: var(--gold);
 }
 
 .emblem-block {

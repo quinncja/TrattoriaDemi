@@ -273,4 +273,14 @@
   .menu-bottom-bar button {
     width: 50%;
   }
+  .menu-hero-text{
+    padding-left: 15px;
+  }
+}
+
+
+
+.menu-text{
+  margin-top: -5px;
+  margin-bottom: -15px;
 }

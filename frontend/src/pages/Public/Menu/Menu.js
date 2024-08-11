@@ -44,10 +44,6 @@ export default function Menu() {
     if (id !== "")
       document.getElementById(id).className =
         "menu-selector menu-selector-active";
-    if (id === "Lunch")
-      document.getElementById("lunch-group").className =
-        "lunch-group lunch-group-active";
-    else document.getElementById("lunch-group").className = "lunch-group";
 
     window.sessionStorage.setItem("currentMenu", id);
     setCurrent(id);
@@ -65,6 +61,10 @@ export default function Menu() {
     return (
       <ResponsiveMasonry columnsCountBreakPoints={{ 700: 1, 750: 2 }}>
         <Masonry gutter="45px">
+          <div className="menu-text">
+            <div className="hero-text menu-hero-text"> {menuOptions.find((option) => option.id === currentMenu).text || ""} </div>
+            {currentMenu && currentMenu === "Lunch" && <p> Until 4pm daily</p>}
+          </div>
           {list.sections.map((section, index) => (
             <motion.div
               initial="hidden"
@@ -140,11 +140,6 @@ export default function Menu() {
               {" "}
               Lunch Specials{" "}
             </div>
-            <div id="lunch-group" className="lunch-group">
-              <div className="menu-selector special-text">
-                (until 4pm daily)
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -159,7 +154,7 @@ export default function Menu() {
     return (
       <div className="menu-bottom-bar">
         <button className="subtle-button" onClick={() => scrollToTop()}>
-          To Top
+          Return to Top
         </button>
         <button
           className="subtle-button"
