@@ -53,5 +53,13 @@ app.use("/api/stripe", stripeRouter);
 app.listen(port, () => {
   console.log(`Trattoria Demi listening on port ${port}`);
 });
+app.get("/", async (req, res) => {
+  try {
+    res.status(200).json("Hello World");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error" });
+  }
+});
 
 main();
