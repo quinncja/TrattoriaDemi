@@ -5,9 +5,7 @@ const Message = require("./Message");
 async function sendEmail(newMessage) {
   try {
     const module = await import("../../dist/sendMessageEmail.js");
-    module.sendMessageEmail(
-      newMessage
-    );
+    module.sendMessageEmail(newMessage);
   } catch (error) {
     console.error("Error importing or executing sendEmailReciept:", error);
   }
@@ -25,7 +23,6 @@ messageRouter.post("/", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-
 
 messageRouter.delete("/id/:id", async (req, res) => {
   try {

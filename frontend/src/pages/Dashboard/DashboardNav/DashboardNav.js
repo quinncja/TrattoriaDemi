@@ -2,7 +2,7 @@ import React from "react";
 import "./DashboardNav.css";
 import Userfront from "@userfront/core";
 import { useSearchParams } from "react-router-dom";
-import BackButton from "components/BackButton";
+import BackButton from "pages/Dashboard/BackButton";
 
 function DashboardNav(props) {
   const [searchParams, setSearchParams] = useSearchParams();

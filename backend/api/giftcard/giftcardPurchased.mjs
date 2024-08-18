@@ -31,7 +31,7 @@ function giftcardPurchased(props) {
           A giftcard has been purchased!
         </Heading>
         <Container style={innerContainer}>
-        <Row style={row}>
+          <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>

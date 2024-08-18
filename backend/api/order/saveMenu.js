@@ -8,68 +8,67 @@ const lunchMenu = {
       header: "HOT SANDWICHES",
       description:
         "served on our fresh baked italian bread with demi's own sweet potato chips",
-        items: [
-          {
-            name: "MEATBALL SANDWICH",
-            description: "homemade meatballs, marinara and melted mozzarella",
-            price: [11.75],
-          },
-          {
-            name: "CHICKEN PESTO",
-            description:
-              "grilled chicken breast, pesto, onions, tomatoes and melted parmesan",
-            price: [11.75],
-          },
-          {
-            name: "CHICKEN PARMIGIANO",
-            description:
-              "grilled chicken breast, marinara and melted mozzarella",
-            price: [11.75],
-          },
-        ],
+      items: [
+        {
+          name: "MEATBALL SANDWICH",
+          description: "homemade meatballs, marinara and melted mozzarella",
+          price: [11.75],
+        },
+        {
+          name: "CHICKEN PESTO",
+          description:
+            "grilled chicken breast, pesto, onions, tomatoes and melted parmesan",
+          price: [11.75],
+        },
+        {
+          name: "CHICKEN PARMIGIANO",
+          description: "grilled chicken breast, marinara and melted mozzarella",
+          price: [11.75],
+        },
+      ],
     },
     {
       header: "SPECIALTY SANDWICHES",
       description:
         "served on our fresh baked italian bread, focaccia, or panini with sweet potato chips",
-        items: [
-          {
-            name: "BOCCOCINI",
-            description:
-              "fresh mozzarella, spinach, tomato and pesto with italian vinaigrette",
-            price: [11.5],
-          },
-          {
-            name: "GRILLED VEGETABLE",
-            description:
-              "zucchini, yellow squash, roasted red peppers, spinach and goat cheese",
-            price: [11.5],
-          },
-          {
-            name: "L'ITALIANO",
-            description:
-              "genoa salami, capicollo, prosciutto, fresh mozzarella, roasted red peppers, fresh spinach and italian vinaigrette",
-            price: [11.5],
-          },
-          {
-            name: "NAPOLEAN VEGETABLE",
-            description:
-              "marinated artichoke hearts, roasted red peppers, fontinella cheese, basil and balsamic vinaigrette",
-            price: [11.5],
-          },
-          {
-            name: "TURKEY SICILIANO",
-            description:
-              "smoked turkey breast with honey mustard, swiss cheese and pimento olives",
-            price: [10.5],
-          },
-          {
-            name: "TURKEY MONA LISA",
-            description:
-              "smoked turkey breast with smoked mozzarella, roasted red peppers, red onion and balsamic vinaigrette",
-            price: [10.5],
-          },
-        ],
+      items: [
+        {
+          name: "BOCCOCINI",
+          description:
+            "fresh mozzarella, spinach, tomato and pesto with italian vinaigrette",
+          price: [11.5],
+        },
+        {
+          name: "GRILLED VEGETABLE",
+          description:
+            "zucchini, yellow squash, roasted red peppers, spinach and goat cheese",
+          price: [11.5],
+        },
+        {
+          name: "L'ITALIANO",
+          description:
+            "genoa salami, capicollo, prosciutto, fresh mozzarella, roasted red peppers, fresh spinach and italian vinaigrette",
+          price: [11.5],
+        },
+        {
+          name: "NAPOLEAN VEGETABLE",
+          description:
+            "marinated artichoke hearts, roasted red peppers, fontinella cheese, basil and balsamic vinaigrette",
+          price: [11.5],
+        },
+        {
+          name: "TURKEY SICILIANO",
+          description:
+            "smoked turkey breast with honey mustard, swiss cheese and pimento olives",
+          price: [10.5],
+        },
+        {
+          name: "TURKEY MONA LISA",
+          description:
+            "smoked turkey breast with smoked mozzarella, roasted red peppers, red onion and balsamic vinaigrette",
+          price: [10.5],
+        },
+      ],
     },
     {
       header: "PASTA SPECIALS",
@@ -78,23 +77,23 @@ const lunchMenu = {
         {
           name: "CONCHIGLIETTI",
           description: "with fresh herbed tomato cream sauce",
-          price: [12.50],
+          price: [12.5],
         },
         {
           name: "LINGUINI MARINARA",
           description: "with a homemade meatball",
-          price: [12.50],
+          price: [12.5],
         },
         {
           name: "RIGATONI PRIMAVERA",
           description:
             "with broccoli, extra virgin olive oil, and parmesan cheese",
-          price: [12.50],
+          price: [12.5],
         },
         {
           name: "RIGATONI AND RICOTTA",
           description: "with mozzarella, pecorino, and marinara",
-          price: [12.50],
+          price: [12.5],
         },
       ],
     },
@@ -102,27 +101,27 @@ const lunchMenu = {
       header: "PETITE SANDWICHES",
       description:
         "served on our fresh baked italian bread with a small salad and sweet potato chips",
-        items: [
-          {
-            name: "TURKEY MONA LISA",
-            price: [9.75],
-          },
-          {
-            name: "BOCCOCINI",
-            price: [9.75],
-          },
-          {
-            name: "TURKEY SICILIANO",
-            price: [9.75],
-          },
-        ],
+      items: [
+        {
+          name: "TURKEY MONA LISA",
+          price: [9.75],
+        },
+        {
+          name: "BOCCOCINI",
+          price: [9.75],
+        },
+        {
+          name: "TURKEY SICILIANO",
+          price: [9.75],
+        },
+      ],
     },
     {
       header: "OTHER LUNCH SPECIALS",
       items: [
         { name: "Pasta of the Day and House Salad", price: [13] },
         { name: '9" Pizza: Cheese, Sausage or Pepperoni', price: [11.25] },
-        { name: "House Salad and Bowl of Soup", price: [9.50] },
+        { name: "House Salad and Bowl of Soup", price: [9.5] },
         {
           name: "Half Specialty Sandwich and House Salad or Cup of Soup",
           price: [10.25],
@@ -228,7 +227,7 @@ const dinnerMenu = {
         {
           name: "MEATBALLS",
           description: "our famous all-beef meatballs in marinara",
-          price: [8.50],
+          price: [8.5],
         },
         {
           name: "SOUP OF THE DAY",
@@ -345,7 +344,7 @@ const dinnerMenu = {
         {
           name: "ANGEL HAIR",
           description: "artichokes with pesto and marinara",
-          price: [16.50],
+          price: [16.5],
           options: [
             {
               item: "Add Chicken",
@@ -493,7 +492,7 @@ const dinnerMenu = {
         {
           name: "HOMEMADE SPINACH GNOCCHI",
           description: "light marinara, basil, parmesan, and tomatoes",
-          price: [16.50],
+          price: [16.5],
           options: [
             {
               item: "Add Chicken",
@@ -729,7 +728,7 @@ const dinnerMenu = {
           name: "FLORENTINE",
           description:
             "grilled squash, zucchini, eggplant, red pepper, spinach, goat cheese, mozzarella, marinara",
-            price: [14.75, 17.75, 20.75],
+          price: [14.75, 17.75, 20.75],
           sizes: [
             {
               name: '9"',
@@ -856,13 +855,13 @@ const dinnerMenu = {
           name: "CHICKEN PARMIGIANO",
           description:
             "lightly breaded chicken breasts on a bed of linguine marinara, topped with melted parmesan",
-          price: [20.00],
+          price: [20.0],
         },
         {
           name: "VEAL SCALOPPINE",
           description:
             "with sautéed spinach, gorgonzola, and creamy wild mushroom marsala",
-          price: [25.00],
+          price: [25.0],
         },
         {
           name: "LAMB SHANK",
@@ -874,7 +873,7 @@ const dinnerMenu = {
           name: "ORGANIC PETITE CHICKEN",
           description:
             "pan-roasted whole and semi-deboned on broccoli sautéed with garlic, pine nuts, oven-roasted tomato, and sage crema broth",
-          price: [23.00],
+          price: [23.0],
         },
       ],
     },
@@ -920,7 +919,7 @@ const dinnerMenu = {
         },
         {
           name: "GRILLED ASPARAGUS",
-          price: [4.50],
+          price: [4.5],
         },
         {
           name: "GRILLED CHICKEN",
@@ -928,7 +927,7 @@ const dinnerMenu = {
         },
         {
           name: "MEATBALL",
-          price: [4.50],
+          price: [4.5],
         },
         {
           name: "PASTA: PLAIN, BUTTERED, MARINARA, OR OLIVE OIL",
@@ -951,17 +950,17 @@ const dinnerMenu = {
         {
           name: "LIMÓNCELLO CRÉME BRULEE",
           description: "With fresh berries",
-          price: [9.50],
+          price: [9.5],
         },
         {
           name: "MOLTEN CHOCOLATE CAKE",
           description: "Served warm, with raspberry sauce and vanilla gelato",
-          price: [11.00],
+          price: [11.0],
         },
         {
           name: "TIRAMISU",
           description: "With fresh berries",
-          price: [10.50],
+          price: [10.5],
         },
       ],
     },
@@ -1075,19 +1074,19 @@ const wineList = {
           name: "Tera Alpina Chardonnay, Magre, Italy",
           description:
             "made with organic grapes the aroma is delicate with pronounced notes of subtropical fruit. quite intense in flavor and a lively acidity",
-            price: [12.35, 43.5],
+          price: [12.35, 43.5],
         },
         {
           name: "Bex Riesling, Germany",
           description:
             "notes of honeysuckle flowers, fresh pineapple, apricot tart, fresh peach and nectarine with a creamy, almost whipped cream finish",
-           price: [8.75, 29],
+          price: [8.75, 29],
         },
         {
           name: "Beyond Savignon Blanc, South Africa",
           description:
             "organically produced with guava and fresh herbal aromas. the full-bodied palate exudes fresh herbs, nettle and a long mineral finish",
-            price: [8.5, 29],
+          price: [8.5, 29],
         },
         {
           name: "Feudi Di San Gregorio Falanghina, Italy",
@@ -1120,7 +1119,8 @@ const wineList = {
         },
         {
           name: "Le Pianure Merlot, Venezia Giulia, Italy",
-          description: "dry, smooth and fruit with notes of blackberry, raspberry and plum",
+          description:
+            "dry, smooth and fruit with notes of blackberry, raspberry and plum",
           price: [8, 29],
         },
         {
@@ -1174,7 +1174,7 @@ const port = process.env.PORT || 4000;
 const mongo_uri = process.env.MONGO_URI;
 
 async function main() {
-  console.log("main")
+  console.log("main");
   try {
     await mongoose.connect(mongo_uri);
     console.log("Database connected Successfully");

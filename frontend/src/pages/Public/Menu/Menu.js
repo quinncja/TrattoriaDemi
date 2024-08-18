@@ -52,17 +52,22 @@ export default function Menu() {
   function formatPrice(price) {
     return price.toFixed(2);
   }
-  
+
   function displayPrice(priceArray) {
-    return priceArray.map(formatPrice).join(' - ');
-  }  
+    return priceArray.map(formatPrice).join(" - ");
+  }
 
   function displayMenu(list) {
     return (
       <ResponsiveMasonry columnsCountBreakPoints={{ 700: 1, 750: 2 }}>
         <Masonry gutter="45px">
           <div className="menu-text menu-hero-text">
-            <div className="hero-text"> {menuOptions ? menuOptions.find((option) => option.id === currentMenu).text : ""} </div>
+            <div className="hero-text">
+              {" "}
+              {menuOptions
+                ? menuOptions.find((option) => option.id === currentMenu).text
+                : ""}{" "}
+            </div>
             {currentMenu && currentMenu === "Lunch" && <p> Until 4pm daily</p>}
           </div>
           {list.sections.map((section, index) => (
@@ -85,9 +90,12 @@ export default function Menu() {
                     {item.description && (
                       <div className="menu-item-desc">{item.description}</div>
                     )}
-                    {item.price && 
-                      <div className="menu-item-price"> {displayPrice(item.price)} </div>
-                    }   
+                    {item.price && (
+                      <div className="menu-item-price">
+                        {" "}
+                        {displayPrice(item.price)}{" "}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

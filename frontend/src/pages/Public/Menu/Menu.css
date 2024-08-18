@@ -176,7 +176,7 @@
   padding-left: 5px;
   text-align: center;
   width: 80%;
-  font-size: .9rem;
+  font-size: 0.9rem;
   padding-top: 1px;
   padding-left: 10%;
   font-weight: 500;
@@ -273,14 +273,12 @@
   .menu-bottom-bar button {
     width: 50%;
   }
-  .menu-hero-text{
+  .menu-hero-text {
     padding-left: 15px;
   }
 }
 
-
-
-.menu-text{
+.menu-text {
   margin-top: -5px;
   margin-bottom: -15px;
 }

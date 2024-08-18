@@ -7,10 +7,50 @@ const Loan = require("./Loan");
 const LoanPayment = require("./LoanPayment");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
+module.exports = payrollRouter;
+
+payrollRouter.put("/employee", async (req, res) => {
+  try {
+    const { _id, loan, ...employeeData } = req.body;
+
+    let updatedEmployee = await Employee.findByIdAndUpdate(
+      _id,
+      employeeData,
+      { new: true },
+    );
+
+    if (loan) {
+      if (loan._id) {
+        await Loan.findByIdAndUpdate(loan._id, loan, { new: true });
+      } else if (loan.total > 0) {
+        const newLoan = new Loan({
+          total: loan.total,
+          remaining: loan.total,
+          paymentAmount: loan.paymentAmount,
+        });
+
+        const savedLoan = await newLoan.save();
+
+        updatedEmployee.loan = savedLoan._id;
+        await updatedEmployee.save();
+      }
+    }
+    updatedEmployee = await Employee.findById(updatedEmployee._id).populate(
+      "loan",
+    );
+
+    res.status(200).json(updatedEmployee);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Error updating employee and loan information" });
+  }
+});
 
 payrollRouter.get("/employees", async (req, res) => {
   try {
-    const employees = await Employee.find();
+    const employees = await Employee.find().populate("loan");
     res.status(200).json(employees);
   } catch (error) {
     console.error(error);
@@ -43,12 +83,10 @@ payrollRouter.put("/employees/rate/:id", async (req, res) => {
     !Array.isArray(rates) ||
     !rates.every((rate) => !isNaN(parseFloat(rate)) && isFinite(rate))
   ) {
-    return res
-      .status(400)
-      .json({
-        message:
-          "Invalid rates array. Every item must be a number or a string that can be cast to a number.",
-      });
+    return res.status(400).json({
+      message:
+        "Invalid rates array. Every item must be a number or a string that can be cast to a number.",
+    });
   }
 
   try {
@@ -77,15 +115,15 @@ payrollRouter.put("/employees/loan/:id", async (req, res) => {
     let newLoan = new Loan({
       total,
       remaining,
-      paymentAmount
+      paymentAmount,
     });
 
-    newLoan = await newLoan.save()
+    newLoan = await newLoan.save();
 
     const updatedEmployee = await Employee.findByIdAndUpdate(
       id,
       { $set: { loan: newLoan._id } },
-      { new: true }
+      { new: true },
     );
 
     if (!updatedEmployee) {
@@ -104,14 +142,16 @@ payrollRouter.put("/employees/active/:id", async (req, res) => {
   const { active } = req.body;
 
   if (typeof active !== "boolean") {
-    return res.status(400).json({ message: "Invalid active value. It must be a boolean." });
+    return res
+      .status(400)
+      .json({ message: "Invalid active value. It must be a boolean." });
   }
 
   try {
     const updatedEmployee = await Employee.findByIdAndUpdate(
       id,
       { $set: { active } },
-      { new: true }
+      { new: true },
     );
 
     if (!updatedEmployee) {
@@ -126,7 +166,7 @@ payrollRouter.put("/employees/active/:id", async (req, res) => {
 });
 
 async function findPayrollByPeriod(period) {
-  let payroll = await Payroll.findOne({period}).populate({
+  let payroll = await Payroll.findOne({ period }).populate({
     path: "payments",
     populate: [
       {
@@ -143,22 +183,21 @@ async function findPayrollByPeriod(period) {
   return payroll;
 }
 
-async function populatePayroll(payroll){
-  const populated = await Payroll.populate(payroll,
-    {
-      path: "payments",
-      populate: [
-        {
+async function populatePayroll(payroll) {
+  const populated = await Payroll.populate(payroll, {
+    path: "payments",
+    populate: [
+      {
+        path: "loan",
+      },
+      {
+        path: "employee",
+        populate: {
           path: "loan",
         },
-        {
-          path: "employee",
-          populate: {
-            path: "loan",
-          },
-        },
-      ],
-    });
+      },
+    ],
+  });
   return populated;
 }
 
@@ -321,7 +360,7 @@ async function handlePayroll(period, paymentIds, total) {
   payroll.total = total;
   payroll.payments = paymentIds;
   let newPayroll = await payroll.save();
-  return newPayroll
+  return newPayroll;
 }
 
 payrollRouter.post("/", async (req, res) => {
@@ -345,7 +384,7 @@ payrollRouter.post("/", async (req, res) => {
       paymentIds.push(paymentId);
     }
 
-    let returnPayroll = await handlePayroll(period, paymentIds, payrollTotal)
+    let returnPayroll = await handlePayroll(period, paymentIds, payrollTotal);
     returnPayroll = await populatePayroll(returnPayroll);
 
     res.status(201).json(returnPayroll);
@@ -357,21 +396,22 @@ payrollRouter.post("/", async (req, res) => {
 
 payrollRouter.get("/graph", async (req, res) => {
   try {
-    const payrolls = await Payroll.find({}, 'period total -_id');
+    const payrolls = await Payroll.find({}, "period total -_id");
 
-    const graphData = payrolls.map(payroll => ({
+    const graphData = payrolls.map((payroll) => ({
       x: payroll.period,
-      y: payroll.total
+      y: payroll.total,
     }));
 
     res.json(graphData);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching payroll data', error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching payroll data", error: error.message });
   }
 });
 
 module.exports = payrollRouter;
-
 
 payrollRouter.put("/employees/set-all-active", async (req, res) => {
   try {

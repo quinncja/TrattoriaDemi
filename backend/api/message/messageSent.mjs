@@ -30,8 +30,8 @@ function messageSent(props) {
         <Heading style={header} as="h2" mt="0">
           Someone has sent a message
         </Heading>
-        <Container style={{...innerContainer, paddingBottom: "40px"}}>
-        <Row style={row}>
+        <Container style={{ ...innerContainer, paddingBottom: "40px" }}>
+          <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
@@ -137,5 +137,5 @@ const row = {
 const column = {
   display: "flex",
   flexDirection: "column",
-  justifyContent: "flex-start"
-}
+  justifyContent: "flex-start",
+};

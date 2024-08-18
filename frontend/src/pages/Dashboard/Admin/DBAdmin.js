@@ -5,7 +5,7 @@ import Menu from "./Menu";
 import PayrollDash from "./Payroll/PayrollDash";
 import Home from "./Home";
 import "./Admin.css";
-import Employees from "./Employees";
+import Employees from "./Employee/Employees";
 import Payroll from "./Payroll/Payroll";
 
 function DBAdmin() {

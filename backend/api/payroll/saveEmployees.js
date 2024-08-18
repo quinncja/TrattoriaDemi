@@ -93,33 +93,33 @@ const employees = [
 ];
 
 const newEmployees = [
-    {
-        name: "Monica Zamora",
-        fica: true,
-        state: 0,
-        federal: false,
-        ilChoice: false,
-        rates: [15.0],
-    },
-    {
-        name: "Luis Moto",
-        fica: true,
-        state: 0,
-        federal: false,
-        ilChoice: false,
-        rates: [12.0, 16.0],
-        loan: { total: 200, paymentAmount: 0 },
-    },
-]
+  {
+    name: "Monica Zamora",
+    fica: true,
+    state: 0,
+    federal: false,
+    ilChoice: false,
+    rates: [15.0],
+  },
+  {
+    name: "Luis Moto",
+    fica: true,
+    state: 0,
+    federal: false,
+    ilChoice: false,
+    rates: [12.0, 16.0],
+    loan: { total: 200, paymentAmount: 0 },
+  },
+];
 
 const newEmployee2 = [
   {
-      name: "Joiner Jarith Garth",
-      fica: true,
-      state: 0,
-      federal: false,
-      ilChoice: false,
-      rates: [17.0],
+    name: "Joiner Jarith Garth",
+    fica: true,
+    state: 0,
+    federal: false,
+    ilChoice: false,
+    rates: [17.0],
   },
   {
     name: "Ryan Ohara",
@@ -129,20 +129,33 @@ const newEmployee2 = [
     ilChoice: false,
     tips: true,
     rates: [9.5],
-},
-]
+  },
+];
+
+const newEmployee3 = [
+  {
+    name: "Aldo Flores",
+    fica: true,
+    state: 0.3,
+    federal: true,
+    ilChoice: false,
+    tips: false,
+    rates: [10, 15],
+  },
+];
 
 const newEmployee = [
   {
-      name: "Aldo Flores",
-      fica: true,
-      state: 0.3,
-      federal: true,
-      ilChoice: false,
-      tips: false,
-      rates: [10, 15],
+    name: "Test Test",
+    fica: true,
+    state: 0.3,
+    federal: true,
+    ilChoice: false,
+    tips: false,
+    rates: [10, 15],
+    active: true,
   },
-]
+];
 
 const mongo_uri = process.env.MONGO_URI;
 
