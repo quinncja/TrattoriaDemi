@@ -62,6 +62,36 @@ export function orderSuccess() {
   });
 }
 
+export function employeeSaveSuccess(employeeName) {
+  return Swal.fire({
+    title: `Employee Updated`,
+    icon: "success",
+    iconColor: "#d3963a",
+    text: `${employeeName} was successfully updated`,
+    timer: 3500,
+    padding: "2rem",
+    background: "#151319",
+    color: "#f8f4f1",
+    timerProgressBar: true,
+    showConfirmButton: false,
+  });
+}
+
+export function employeeSaveFail(employeeName, error) {
+  return Swal.fire({
+    title: `Update Error`,
+    icon: "error",
+    iconColor: "#d3963a",
+    text: `Unable to update ${employeeName}, please check your input fields and try again. Error code: ${error}`,
+    timer: 3500,
+    padding: "2rem",
+    background: "#151319",
+    color: "#f8f4f1",
+    timerProgressBar: true,
+    showConfirmButton: false,
+  });
+}
+
 export function successfulCancelAlert() {
   return Swal.fire({
     title: `Reservation Canceled`,

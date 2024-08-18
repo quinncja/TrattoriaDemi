@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const helmet = require('helmet');
+const helmet = require("helmet");
 const reservationRouter = require("./api/reservation/reservationRouter");
 const messageRouter = require("./api/message/messageRouter");
 const { giftcardRouter } = require("./api/giftcard/giftcardRouter");
@@ -12,8 +12,8 @@ const stripeRouter = require("./api/stripe");
 
 const app = express();
 app.use(
-  helmet.crossOriginOpenerPolicy({ policy: 'same-origin' }),
-  helmet.crossOriginEmbedderPolicy({ policy: 'require-corp' })
+  helmet.crossOriginOpenerPolicy({ policy: "same-origin" }),
+  helmet.crossOriginEmbedderPolicy({ policy: "require-corp" }),
 );
 const port = process.env.PORT || 4000;
 const mongo_uri = process.env.MONGO_URI;

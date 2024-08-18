@@ -48,7 +48,9 @@ export function Navbar() {
       <div
         key={link}
         id={link}
-        className={`navbar-link ${currentPage === link ? "navbar-link-active" : ""}`}
+        className={`navbar-link ${
+          currentPage === link ? "navbar-link-active" : ""
+        }`}
         onClick={clickHandler}
       >
         {link.charAt(0).toUpperCase() + link.slice(1)}
@@ -56,10 +58,17 @@ export function Navbar() {
     ));
   };
 
-  const navLinks = ["menu", "reserve", "contact", "gallery", "giftcards", "order"];
+  const navLinks = [
+    "menu",
+    "reserve",
+    "contact",
+    "gallery",
+    "giftcards",
+    "order",
+  ];
   const firstThreeLinks = navLinks.slice(0, 3);
   const remainingLinks = navLinks.slice(3);
-  
+
   return mobile ? (
     <div className="navbar navbar-mobile">
       <img

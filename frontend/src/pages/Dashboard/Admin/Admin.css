@@ -182,7 +182,7 @@
   border-radius: 8px;
 }
 
-.saved-payroll > div{
+.saved-payroll > div {
   background-color: var(--highlight) !important;
 }
 .payroll-pdf {
@@ -215,53 +215,113 @@
   font-size: 1.3rem;
 }
 
-.employee-cards {
-  display: grid;
-  grid-template-columns: 200px 200px 200px 200px 200px;
-  gap: 25px;
-  align-content: center;
-  justify-content: center;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 50px);
-}
-
-.employee-card {
-  height: 100px;
-}
-
-.employee-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-}
-.open-card {
-  z-index: 11;
-  cursor: unset;
-  width: 500px;
-  min-height: 300px;
-  height: fit-content;
-  padding: 20px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.employee-body {
+.employees {
   display: flex;
   flex-direction: column;
+  gap: 30px;
+  color: white;
+  font-weight: 600;
+  padding-bottom: 30px;
+  box-sizing: border-box;
+  margin-left: calc(10% + 10px);
+}
+.employee-section-header {
+  position: sticky;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  top: 49px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 100;
+  padding-inline: 50px;
+  margin-left: -50px;
+  background-color: var(--nice-gray);
+}
+.employee-header-buttons {
+  display: flex;
   gap: 20px;
-  align-content: space-between;
-  width: 70%;
-  padding-bottom: 20px;
+}
+.employee-row-subheader {
+  font-weight: 800;
+  font-size: 14px;
+}
+.employee-header-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--paper-white);
+}
+.ehb-unactive h2 {
+  opacity: 0.5;
+}
+.employee-header-btn:hover {
+  color: var(--gold);
 }
 
+.employee-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.employee-row-subsection {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.subsection-inputs {
+  display: flex;
+  gap: 10px;
+}
+.employee-body {
+  display: flex;
+  gap: 50px;
+  z-index: 15;
+}
+.employee-input-checkbox {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: var(--color-bg-light);
+  border: 1px solid var(--border-color);
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 600;
+  padding: 8px;
+  padding-bottom: 8.5px;
+  color: var(--paper-white);
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+}
+
+.employee-input-checkbox:hover {
+  background-color: var(--gold);
+  border-color: var(--gold);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.employee-button-size {
+  padding: 9px;
+  padding-bottom: 9.5px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.inactive-submit {
+  cursor: unset;
+  filter: brightness(0.5);
+  background-color: var(--color-bg-light);
+  border-color: var(--color-bg-light);
+}
+.inactive-submit:hover {
+  cursor: unset;
+  filter: brightness(0.5);
+  background-color: var(--color-bg-light);
+  border-color: var(--color-bg-light);
+}
 .body-row {
   display: flex;
   justify-content: space-between;
@@ -327,6 +387,17 @@
   height: 120px;
   width: 82%;
   margin-left: -1%;
+  margin-top: -10px;
+}
+
+.row-background-employee {
+  position: absolute;
+  background-color: var(--highlight);
+  border-radius: 5px;
+  height: 140px;
+  width: 84.4%;
+  margin-left: -1%;
+  z-index: 10;
   margin-top: -10px;
 }
 

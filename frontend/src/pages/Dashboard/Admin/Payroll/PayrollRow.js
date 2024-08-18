@@ -366,7 +366,8 @@ const PayrollRow = forwardRef((props) => {
             />
           )}
 
-          {((isNew && employee.loan) || inputVals.loan) && (
+          {((isNew && employee.loan && employee.loan.total > 0) ||
+            inputVals.loan) && (
             <PayrollInput
               obj={{
                 text: "Loan Payment",

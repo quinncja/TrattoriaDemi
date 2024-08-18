@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
 
 const BackContext = createContext();
 export default BackContext;
@@ -11,6 +11,9 @@ export function BackProvider(props) {
     },
   ]);
 
+  useEffect(() => {
+    console.log(backObj);
+  }, [backObj]);
   return (
     <BackContext.Provider
       value={{

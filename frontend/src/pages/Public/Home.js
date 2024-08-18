@@ -20,13 +20,18 @@ export default function Home() {
   return (
     <div className="home">
       <div className="home-header">
-        <div className="home-pic" >
-          <img style={{
-          width: '100%',
-          height: '100%', 
-          objectFit: 'cover',
-          objectPosition: 'center'
-        }}  src={Patio} alt="Patio" loading="lazy"/>
+        <div className="home-pic">
+          <img
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+            src={Patio}
+            alt="Patio"
+            loading="lazy"
+          />
           <div className="pic-overlay">
             <div className="pic-content">{welcomeSvg()}</div>
             <div className="scroll-down-wrapper">
@@ -49,8 +54,8 @@ export default function Home() {
                 <div className="home-left">
                   <p>
                     Welcome to our family-owned and operated Trattoria. We're
-                    the little italian joint thats been serving the Northshore
-                    area for over 3 decades.
+                    that little italian joint in the neighborhood thats been
+                    serving the Northshore area for over 3 decades.
                     <br />
                     <br />
                     Our menu is a blend of traditional and innovative Italian
@@ -94,15 +99,19 @@ export default function Home() {
       </div>
 
       <div className="mid-pic-overlay">
-        <img className="mid-pic" 
+        <img
+          className="mid-pic"
           style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center',
-            filter: 'brightness(0.8) contrast(1.05)'
-          }}  
-          src={Interior} alt="Cozy-interior" loading="lazy"/>
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+            filter: "brightness(0.8) contrast(1.05)",
+          }}
+          src={Interior}
+          alt="Cozy-interior"
+          loading="lazy"
+        />
       </div>
 
       <div className="review-section">

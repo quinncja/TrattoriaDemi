@@ -41,7 +41,7 @@
 #path1,
 #path2 {
   fill: #ffffff00;
-  stroke: white; 
+  stroke: white;
 }
 
 #path2 {
@@ -52,13 +52,12 @@
   animation: fillSvg 2s ease-in 1.8s forwards;
 }
 
-#w{
+#w {
   will-change: stroke-dashoffset;
   stroke-dasharray: 379;
   stroke-dashoffset: 0;
-  animation: drawW 1.5s ease-in-out .5s forwards;
+  animation: drawW 1.5s ease-in-out 0.5s forwards;
   -webkit-transform: translateZ(0);
-
 }
 @keyframes drawW {
   from {
@@ -69,30 +68,28 @@
   }
 }
 
-#e{
+#e {
   will-change: stroke-dashoffset;
   stroke-dasharray: 148;
   stroke-dashoffset: 0;
-  animation: drawE .8s ease-in-out 1.1s forwards;
+  animation: drawE 0.8s ease-in-out 1.1s forwards;
   -webkit-transform: translateZ(0);
-
 }
 @keyframes drawE {
   from {
     stroke-dashoffset: 296;
   }
   to {
-    stroke-dashoffset: 148; 
+    stroke-dashoffset: 148;
   }
 }
 
-#l{
+#l {
   will-change: stroke-dashoffset;
   stroke-dasharray: 106;
   stroke-dashoffset: 0;
-  animation: drawL .7s ease-in-out 1.4s forwards;
+  animation: drawL 0.7s ease-in-out 1.4s forwards;
   -webkit-transform: translateZ(0);
-
 }
 @keyframes drawL {
   from {
@@ -103,29 +100,28 @@
   }
 }
 
-#c{
+#c {
   will-change: stroke-dashoffset;
   stroke-dasharray: 118;
   stroke-dashoffset: 0;
-  animation: drawC .7s ease-in-out 1.6s forwards;
+  animation: drawC 0.7s ease-in-out 1.6s forwards;
   -webkit-transform: translateZ(0);
-
 }
-@keyframes drawC {  from {
-  stroke-dashoffset: 236;
-}
+@keyframes drawC {
+  from {
+    stroke-dashoffset: 236;
+  }
   to {
     stroke-dashoffset: 118;
   }
 }
 
-#o{
+#o {
   will-change: stroke-dashoffset;
   stroke-dasharray: 126;
   stroke-dashoffset: 0;
-  animation: drawO .7s ease-in-out 1.8s forwards;
+  animation: drawO 0.7s ease-in-out 1.8s forwards;
   -webkit-transform: translateZ(0);
-
 }
 @keyframes drawO {
   from {
@@ -136,13 +132,12 @@
   }
 }
 
-#m{
+#m {
   will-change: stroke-dashoffset;
   stroke-dasharray: 284;
   stroke-dashoffset: 0;
   animation: drawM 1.2s ease-in-out 2s forwards;
   -webkit-transform: translateZ(0);
-
 }
 @keyframes drawM {
   from {
@@ -153,13 +148,12 @@
   }
 }
 
-#e2{
+#e2 {
   will-change: stroke-dashoffset;
   stroke-dasharray: 147;
   stroke-dashoffset: 0;
   animation: drawE2 1.4s ease-in-out 2.2s forwards;
   -webkit-transform: translateZ(0);
-
 }
 @keyframes drawE2 {
   from {
@@ -169,8 +163,6 @@
     stroke-dashoffset: 147;
   }
 }
-
-
 
 @keyframes fillSvg {
   to {
@@ -191,24 +183,26 @@ h3 {
   margin: 0px;
 }
 
-p,a {
+p,
+a {
   color: white;
   font-size: 1.1rem;
   margin: 0px;
   line-height: 1.7rem;
 }
 
-a{
+a {
   text-decoration: underline;
   cursor: pointer;
 }
 
-a:hover{
+a:hover {
   color: var(--gold);
 }
 
 @media (width <= 470px) {
-  p,a {
+  p,
+  a {
     font-size: 1rem;
   }
   h2 {
@@ -364,7 +358,6 @@ body {
     brightness(88%) contrast(87%);
   transition: all 0.3s ease-in-out;
   cursor: pointer;
-
 }
 
 .navbar-logo:hover {
@@ -646,19 +639,18 @@ body {
   justify-content: flex-end;
   gap: 10px;
   will-change: filter;
-  animation: shadow 1.2s ease-in-out .5s forwards;
+  animation: shadow 1.2s ease-in-out 0.5s forwards;
 }
 
 @keyframes shadow {
   from {
     filter: drop-shadow();
-  } 
+  }
   to {
-    filter: drop-shadow(0px 0px 32px #21212135) drop-shadow(0px 0px 16px #212121)
-    drop-shadow(0px 0px 12px #000000);
+    filter: drop-shadow(0px 0px 32px #21212135)
+      drop-shadow(0px 0px 16px #212121) drop-shadow(0px 0px 12px #000000);
   }
 }
-
 
 @media (width <= 800px) {
   .pic-content {
@@ -681,7 +673,6 @@ body {
     position: absolute;
     bottom: 50px;
   }
-  
 }
 
 @font-face {
@@ -781,7 +772,7 @@ body {
     font-family: "Caxton Bold BT";
     color: var(--paper-white);
   }
-  
+
   .review-container {
     width: 120%;
     overflow: hidden;

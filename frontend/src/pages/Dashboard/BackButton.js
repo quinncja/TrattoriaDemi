@@ -12,10 +12,12 @@ function BackButton() {
         searchParams.set(item.body, item.tag);
       } else if (searchParams.has(item.body)) {
         searchParams.delete(item.body);
+      } else {
+        setSearchParams({ view: "admin" });
+        return;
       }
+      setSearchParams(searchParams);
     });
-
-    setSearchParams(searchParams);
   };
   return (
     <button

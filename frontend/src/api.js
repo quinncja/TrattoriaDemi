@@ -321,6 +321,20 @@ export async function getEmployees() {
   }
 }
 
+export async function updateEmployee(employee) {
+  try {
+    const response = await axios({
+      method: "put",
+      url: `${API_URL}api/payroll/employee`,
+      data: employee,
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getPayrollByPeriod(period) {
   try {
     const response = await axios({
