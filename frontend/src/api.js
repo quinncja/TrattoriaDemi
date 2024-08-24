@@ -314,7 +314,6 @@ export async function getEmployees() {
       method: "get",
       url: `${API_URL}api/payroll/employees`,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw error;
@@ -328,7 +327,6 @@ export async function updateEmployee(employee) {
       url: `${API_URL}api/payroll/employee`,
       data: employee,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw error;
@@ -342,7 +340,6 @@ export async function getPayrollByPeriod(period) {
       url: `${API_URL}api/payroll/`,
       params: { period },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw error;
@@ -356,7 +353,6 @@ export async function savePayroll(payrollData) {
       url: `${API_URL}api/payroll/`,
       data: payrollData,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw error;
