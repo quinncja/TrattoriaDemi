@@ -62,12 +62,12 @@ export function orderSuccess() {
   });
 }
 
-export function employeeSaveSuccess(employeeName) {
+export function employeeSaveSuccess(employeeName, type) {
   return Swal.fire({
-    title: `Employee Updated`,
+    title: `Employee ${type}`,
     icon: "success",
     iconColor: "#d3963a",
-    text: `${employeeName} was successfully updated`,
+    text: `${employeeName} was successfully ${type}`,
     timer: 3500,
     padding: "2rem",
     background: "#151319",

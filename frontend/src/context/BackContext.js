@@ -11,9 +11,6 @@ export function BackProvider(props) {
     },
   ]);
 
-  useEffect(() => {
-    console.log(backObj);
-  }, [backObj]);
   return (
     <BackContext.Provider
       value={{

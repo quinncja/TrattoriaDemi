@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { employeeSaveFail, employeeSaveSuccess } from "swal2";
 
-function EmployeeRow({ employee, isFocused, setFocused, updateEmployeeList }) {
+function EmployeeRow({ employee, isFocused, setFocused, isNew, updateEmployeeList }) {
   const [employeeData, setEmployeeData] = useState({ ...employee });
   const [hasChanged, setHasChanged] = useState(false);
   const initialEmployeeDataRef = useRef(JSON.stringify(employee));
@@ -38,6 +38,7 @@ function EmployeeRow({ employee, isFocused, setFocused, updateEmployeeList }) {
     return employeeCopy;
   }
 
+
   const handleSave = async () => {
     if (!hasChanged) return;
     const preparedData = prepareEmployeeData(employeeData);
@@ -46,7 +47,8 @@ function EmployeeRow({ employee, isFocused, setFocused, updateEmployeeList }) {
       updateEmployeeList(newEmployee);
       initialEmployeeDataRef.current = JSON.stringify(newEmployee);
       setHasChanged(false);
-      employeeSaveSuccess(employeeData.name);
+      const type = isNew ? "created" : "updated";
+      employeeSaveSuccess(employeeData.name, type);
     } catch (error) {
       employeeSaveFail(employeeData.name, error);
     }
@@ -56,8 +58,6 @@ function EmployeeRow({ employee, isFocused, setFocused, updateEmployeeList }) {
     const currentEmployeeDataJson = JSON.stringify(
       prepareEmployeeData(employeeData)
     );
-    console.log("current", currentEmployeeDataJson)
-    console.log("past", initialEmployeeDataRef.current)
     if (currentEmployeeDataJson !== initialEmployeeDataRef.current) {
       setHasChanged(true);
     } else {
@@ -65,10 +65,10 @@ function EmployeeRow({ employee, isFocused, setFocused, updateEmployeeList }) {
     }
   }, [employeeData]);
 
-  function employeeInput(obj) {
+  function employeeInput(obj, wide) {
     return (
       <div
-        className={`payroll-input-group input-group`}
+        className={`payroll-input-group input-group ${wide && "payroll-input-group-wide"}`}
         key={`${employee.name}-${obj.text}`}
       >
         <label
@@ -193,7 +193,7 @@ function EmployeeRow({ employee, isFocused, setFocused, updateEmployeeList }) {
           },
           {
             text: "Loan Rate",
-            value: employeeData?.loan?.paymentAmount,
+            value: employeeData?.loan?.paymentAmount || "",
             type: "money",
             path: ["loan", "paymentAmount"],
           },
@@ -226,7 +226,7 @@ function EmployeeRow({ employee, isFocused, setFocused, updateEmployeeList }) {
             >
               <div className="employee-row-subheader">{obj.text}</div>
               <div className="subsection-inputs">
-                {obj.objects.map((object) => employeeInput(object))}
+              {obj.objects.map((object) => employeeInput(object))}
               </div>
             </div>
           );
@@ -235,15 +235,29 @@ function EmployeeRow({ employee, isFocused, setFocused, updateEmployeeList }) {
     );
   }
 
+  const nameObj = {
+    text: "Name",
+    value: employeeData.name || "",
+    type: "text",
+    path: ["name"],
+  }
+
   return (
-    <div className="employee-row" onClick={() => setFocused(employee.name)}>
+    <motion.div layoutId={`${employeeData.name}`} className={`employee-row ${isNew && "employee-row-bigger"}`} onClick={() => setFocused(employee.name)}>
       {isFocused ? (
-        <motion.div layoutId="background" className="row-background-employee" />
+        <motion.div layoutId="background" transition={{ width: { duration: 0 }, x: { duration: 0.3 } }} className={`row-background-employee`} style={{width: "1445px", height: isNew ? "190px" : "140px"}} />
       ) : null}
-      <div className="row-employee">{employee.name}</div>
+        <div className="row-employee">
+      {isNew ?
+      <> 
+        {employeeInput(nameObj, true)}
+     </>
+        :
+    employee.name
+      }</div> 
 
       {employeeBody()}
-    </div>
+    </motion.div>
   );
 }
 
