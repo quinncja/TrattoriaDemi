@@ -23,7 +23,7 @@ function giftcardReceipt(props) {
           />
           <Img
             style={{ width: "60%", marginLeft: "20%" }}
-            src="https://i.ibb.co/DfQSPr7/Fancy-Line.png"
+            src="https://i.ibb.co/W5PjXhL/IMG-7864.png"
             alt="-------"
           />
         </Container>
