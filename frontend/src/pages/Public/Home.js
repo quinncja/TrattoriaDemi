@@ -54,7 +54,7 @@ export default function Home() {
                 <div className="home-left">
                   <p>
                     Welcome to our family-owned and operated Trattoria. We're
-                    that little italian joint in the neighborhood thats been
+                    that little italian joint in the neighborhood that's been
                     serving the Northshore area for over 3 decades.
                     <br />
                     <br />
