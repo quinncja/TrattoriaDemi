@@ -252,7 +252,7 @@ const PayrollRow = forwardRef((props) => {
         <div className="input-row">
           <PayrollInput
             obj={{
-              text: `Hours @ $${row.rates[0]}/hr`,
+              text: `${employee.overtime ? "Regular " : "Hours "} <br/> @ $${row.rates[0]}/hr`,
               id: "1",
               type: "hours",
               step: "0.01",
@@ -268,7 +268,7 @@ const PayrollRow = forwardRef((props) => {
           {employee.rates.length > 1 && (
             <PayrollInput
               obj={{
-                text: `Hours @ $${row.rates[1]}/hr`,
+                text: `${employee.overtime ? "Overtime " : "Hours "} <br/> @ $${row.rates[1]}/hr`,
                 id: "2",
                 type: "hours",
                 step: "0.01",
@@ -286,6 +286,7 @@ const PayrollRow = forwardRef((props) => {
               obj={{
                 text: `Tips`,
                 id: "tips",
+                type: "tips",
                 step: "0.01",
                 active: true,
                 placeholder: "0",

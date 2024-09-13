@@ -68,7 +68,7 @@ function EmployeeRow({ employee, isFocused, setFocused, isNew, updateEmployeeLis
   function employeeInput(obj, wide) {
     return (
       <div
-        className={`payroll-input-group input-group ${wide && "payroll-input-group-wide"}`}
+        className={`payroll-input-group input-group ${wide && "payroll-input-group-wide"} ${obj.type === "checkbox" && "payroll-input-group-short"} ` }
         key={`${employee.name}-${obj.text}`}
       >
         <label
@@ -207,6 +207,18 @@ function EmployeeRow({ employee, isFocused, setFocused, isNew, updateEmployeeLis
             value: employeeData?.active,
             type: "checkbox",
             path: ["active"],
+          },
+          {
+            text: "Tips",
+            value: employeeData?.tips || false,
+            type: "checkbox",
+            path: ["tips"],
+          },
+          {
+            text: "Overtime",
+            value: employeeData?.overtime || false,
+            type: "checkbox",
+            path: ["overtime"],
           },
           {
             text: "Save",
