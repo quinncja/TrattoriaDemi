@@ -1259,6 +1259,11 @@ button {
   height: 65px;
   stroke: #2d2d34;
 }
+
+.cal-svg{
+  margin-left: 5px;
+}
+
 .deal-texts{
   display: flex;
   flex-direction: column;
