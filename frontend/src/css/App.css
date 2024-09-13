@@ -1009,6 +1009,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 20px;
+  padding-left: 20px;
 }
 
 .emblem-block div {
@@ -1310,5 +1311,38 @@ button {
   .excluding-text{
     color: var(--light-black);
     margin-bottom: -20px;
+  }
+}
+
+
+.award-wrapper #circle-r-ribbon{
+  min-width: none;
+  max-width: none;
+  width: 200px !important;
+  height: 200px !important;
+  margin-left: -30px;
+}
+
+.award-wrapper #circle-r-ribbon a.r-ribbon_title{
+  top: 84px;
+  left: 28px;
+}
+
+.award-wrapper #circle-r-ribbon .r-ribbon_year{
+  top: 49px !important;
+  left: 22px !important;
+}
+
+
+.award-wrapper #circle-r-ribbon .r-ribbon_ahead-bottom svg{
+  height: 140px !important;
+}
+
+@media (width <= 500px) {
+  .emblem-block{
+    padding-left: 5px;
+  }
+  .award-wrapper{
+    margin-left: 15px;
   }
 }
