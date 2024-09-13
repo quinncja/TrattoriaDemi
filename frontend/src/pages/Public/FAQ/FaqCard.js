@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { fadeIn, fadeInDown } from "animations";
-import { plusSvg } from "svg";
 
 export default function FaqCard({faq}){
     const [open, setOpen] = useState(false)

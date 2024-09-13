@@ -14,23 +14,25 @@ const PayrollPdf = forwardRef((props, ref) => {
   }
 
   function employeeCard({ employee, ...values }) {
+    let overtime = employee.overtime || false;
+
     return (
       <div key={employee.employee} className="employee-box">
         <div className="bold">{employee.name}</div>
         <div>
           Pay period: {dates[0]} - {dates[1]}
         </div>
-        <div>Total hours: {values.hours[0]}</div>
+        <div> {overtime ? "Regular" : "Total"} hours: {values.hours[0]}</div>
         <div>
-          Hourly rate: ${safeToFixed(values?.rates[0])}{" "}
+        {overtime ? "Regular" : "Hourly"} rate: ${safeToFixed(values?.rates[0])}{" "}
           {values?.rates[1] &&
             `($${safeToFixed(values.hours[0] * values?.rates[0])})`}
         </div>
         {employee?.rates[1] && (
           <>
-            <div>Total hours: {values.hours[1]}</div>
+            <div> {overtime ? "Overtime" : "Total"} hours: {values.hours[1]}</div>
             <div>
-              Hourly rate: ${safeToFixed(values?.rates[1])} ($
+            {overtime ? "Overtime" : "Hourly"} rate: ${safeToFixed(values?.rates[1])} ($
               {safeToFixed(values.hours[1] * values?.rates[1]) || "0.00"})
             </div>
           </>

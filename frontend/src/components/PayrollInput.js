@@ -2,16 +2,17 @@ import React from "react";
 
 const PayrollInput = React.forwardRef((props, ref) => {
   const obj = props.obj;
+  const short = obj.type === "hours" || obj.type === "tips"
 
   return (
-    <div className={`payroll-input-group input-group`}>
+    <div className={`payroll-input-group input-group ${short && "payroll-input-group-shorter"}`}>
       <label
         className={`input-text input-text-payroll ${
           obj.error && `input-text-error`
         }`}
       >
         {" "}
-        {obj.text}{" "}
+        <div dangerouslySetInnerHTML={{ __html: obj.text }} />{" "}
       </label>
       <div className={obj.active === true ? "payroll-input-wrapper" : ""}>
         <input
