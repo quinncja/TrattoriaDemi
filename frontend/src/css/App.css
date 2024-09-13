@@ -708,24 +708,52 @@ body {
 
 .review-wrapper {
   position: relative;
-  width: 300px;
+  width: 500px;
   height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
-.review-container {
+.review-container{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  padding-top: 100px;  
   justify-content: center;
   align-items: center;
-  height: 300px;
-  width: 600px;
   margin-inline: auto;
+  width: 100%;
+  margin-left: 10px;
+}
+
+
+.review-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 240px;
   overflow: hidden;
-  padding-bottom: 80px;
+  width: 750px;
+}
+
+.review-arrow{
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: all .3s ease-in-out;
+}
+
+.review-section:hover .review-arrow{
+  opacity: .3;
+}
+
+.review-arrow:hover{
+  transform: scale(1.1);
+  opacity: .8;
 }
 
 .home {
@@ -760,7 +788,7 @@ body {
 
 .review {
   position: absolute;
-  width: 300px;
+  width: 500px;
   text-align: center;
   color: var(--nice-white);
   font-size: 1rem;
@@ -1108,13 +1136,6 @@ button {
   font-family: "Arial";
 }
 
-.review-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-top: 100px;
-  padding-bottom: 40px;
-}
 .review-section h2 {
   position: absolute;
   text-align: center;
@@ -1338,11 +1359,42 @@ button {
   height: 140px !important;
 }
 
+.super-line{
+  width: 450px;
+  filter: invert(.9);
+  padding-bottom: 140px;
+  margin-top: -40px;
+}
+
 @media (width <= 500px) {
   .emblem-block{
     padding-left: 5px;
   }
   .award-wrapper{
     margin-left: 15px;
+  }
+  .review-container{
+    width: 98%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-inline: auto;
+  }
+  .review-section{
+    width: 100%;
+    padding-top: 0;
+    text-align: center;
+  }
+  .review-container .hero-text{
+    font-size: 2.4rem;
+  }
+  .review-wrapper{
+    width: 85%;
+  }
+  .review{
+    width: 85% !important;
+  }
+  .super-line{
+    padding-bottom: 40px;
+    margin-top: -80px;
   }
 }

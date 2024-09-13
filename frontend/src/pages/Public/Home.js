@@ -9,6 +9,7 @@ import Interior from "images/InteriorCompressed.JPG";
 import EmblemBanner from "components/EmblemBanner";
 import ScrollDown from "components/ScrollDown/ScrollDown";
 import { welcomeSvg } from "svg";
+import SuperLine from "images/B&W.png"
 
 export default function Home() {
   const navigate = useNavigate();
@@ -114,10 +115,14 @@ export default function Home() {
         />
       </div>
 
-      <div className="review-section">
-        <div className="review-container">
+      <div className="review-container">
+      <div className="hero-text" >Hear it from the locals</div>
           <ReviewDisplayer />
-        </div>
+          <img
+          className="super-line"
+            src={SuperLine}
+            alt="Fancy under line"
+          />
       </div>
 
       <EmblemBanner />
