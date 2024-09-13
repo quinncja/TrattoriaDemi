@@ -1386,9 +1386,11 @@ button {
   }
   .review-container .hero-text{
     font-size: 2.4rem;
+    text-align: center;
   }
   .review-wrapper{
     width: 85%;
+    margin-inline: auto;
   }
   .review{
     width: 85% !important;
@@ -1397,4 +1399,7 @@ button {
     padding-bottom: 40px;
     margin-top: -80px;
   }
+ .review-arrow{
+  display: none;
+ }
 }
