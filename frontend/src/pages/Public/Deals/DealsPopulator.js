@@ -25,7 +25,10 @@ export function DealsPopulator(){
                     </div>
                 </div>
                 <div className="deal-container">
-                    <div className="deal-text">
+                <div className="deal-svg">
+                        {persondeals[1].svg()}
+                    </div>
+                    <div className="deal-text">  
                         <div className="deal-title">
                             {persondeals[1].title}
                         </div>
@@ -33,13 +36,10 @@ export function DealsPopulator(){
                             {persondeals[1].text}
                         </p>
                     </div>
-                    <div className="deal-svg">
-                        {persondeals[1].svg()}
-                    </div>
                 </div>
 
                 <div className="deal-container">
-                    <div className="deal-svg">
+                    <div className="deal-svg cal-svg">
                         {calendarDeals.svg()}
                     </div>
                     <div className="deal-texts">
