@@ -14,6 +14,8 @@ import Cancel from "pages/Public/Cancel";
 import OrderStatus from "pages/Public/Order/OrderStatus";
 import CheckoutPage from "pages/Public/Order/Checkout/CheckoutPage";
 import Signout from "pages/Dashboard/Signout";
+import FaqPopulator from "pages/Public/FAQ/FaqPopulator";
+import { DealsPopulator } from "pages/Public/Deals/DealsPopulator";
 
 export function Router() {
   return (
@@ -35,6 +37,8 @@ export function Router() {
           <Route path="/cancel/*" element={<Cancel />} />
           <Route path="/order-status/*" element={<OrderStatus />} />
           <Route path="/signout" element={<Signout />} />
+          <Route path="/FAQ" element={<FaqPopulator/>} />
+          <Route path="/deals" element={<DealsPopulator/>} />
         </Route>
       </Routes>
     </BrowserRouter>

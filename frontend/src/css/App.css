@@ -20,7 +20,7 @@
   --black: #151319;
   --dark-black: #1d1b28;
   --light-black: #444444;
-  --border-color: #5b5b5b;
+  --border-color: #5b5b5b57;
   --subtle-border-color: #b6b6b6;
   --transparent-border-color: #b6b6b62c;
   --disabled: #808080;
@@ -1133,4 +1133,159 @@ button {
 
 .more-padding {
   padding-block: 120px;
+}
+
+.faq--container{
+  min-height: calc(110vh) !important;
+}
+.faq-section{
+  padding-bottom: 150px !important;
+}
+.faqs{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-inline: auto;
+  width: 76%;
+  padding-top: 20px;
+}
+.faq-topper{
+  display: flex;
+  justify-content: space-between;
+  padding-right: 20px;
+}
+.faq-container::after{
+  content: "";
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  background-color: var(--border-color);
+  height: 1px;
+}
+
+.faq-container{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  cursor: pointer;
+  padding-block: 40px;
+}
+
+.faq-container * {
+  color: var(--light-black) !important;
+  text-align: left;
+  user-select: none;
+  position: relative;
+}
+
+.line{
+  width: 2px;
+  height: 20px;
+  position: absolute;
+  border-radius: 2px;
+  background-color: var(--highlight);
+  transition: all .4s ease-in-out;
+}
+
+.lhl{
+  transform: rotate(90deg);
+}
+
+.faq-plus{
+  opacity: 0;
+  transition: all .2s ease-in-out;
+}
+
+.faq-container:hover  .faq-a {
+  color: var(--gold) !important;
+  transition: color .2s ease-in-out;
+}
+
+.faq-container:hover .faq-plus{
+  opacity: .5;
+  transition: all .2s ease-in-out;
+}
+.faq-plus-open{
+  opacity: .5;
+}
+
+.faq-plus-open .vl {
+  transform: rotate(135deg);
+}
+.faq-plus-open .lhl {
+  transform: rotate(225deg);
+
+}
+
+.faq-a{
+  font-size: 1.5rem;
+  font-weight: 800;
+  user-select: none;
+}
+
+@media (width <= 500px) {
+  .faqs{
+    width: 90%;
+  }
+  
+  .faq-a{
+    font-size: 1.2rem;
+    font-weight: 800;
+    user-select: none;
+  }
+  .faq--container{
+    min-height: calc(105vh) !important;
+  }
+}
+.deals{
+  gap: 20px
+}
+
+.deal-container{
+  border: 1px solid #5b5b5b57;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  padding: 45px;
+  gap: 45px
+}
+.deal-svg > svg{
+  width: 65px;
+  height: 65px;
+  stroke: #2d2d34;
+}
+.deal-texts{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90%;
+  position: relative;
+}
+.deal-text{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 80%;
+}
+.deal-texts > .deal-text {
+  width: 100% !important;
+}
+
+.deal-title{
+  font-weight: 900;
+}
+.deal-text * {
+  color: var(--light-black) !important;
+}
+
+.excluding-text{
+  color: var(--light-black);
+  margin-bottom: -30px;
+  text-align: right;
+  font-size: 14px;
 }
