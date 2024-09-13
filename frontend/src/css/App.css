@@ -1226,20 +1226,6 @@ button {
   user-select: none;
 }
 
-@media (width <= 500px) {
-  .faqs{
-    width: 90%;
-  }
-  
-  .faq-a{
-    font-size: 1.2rem;
-    font-weight: 800;
-    user-select: none;
-  }
-  .faq--container{
-    min-height: calc(105vh) !important;
-  }
-}
 .deals{
   gap: 20px
 }
@@ -1293,4 +1279,36 @@ button {
   margin-bottom: -30px;
   text-align: right;
   font-size: 14px;
+}
+
+@media (width <= 500px) {
+  .faqs{
+    width: 90%;
+  }
+  
+  .faq-a{
+    font-size: 1.2rem;
+    font-weight: 800;
+    user-select: none;
+  }
+  .faq--container{
+    min-height: calc(105vh) !important;
+  }
+  .deal-container{
+    padding: 25px;
+    gap: 25px;
+    width: 95%;
+  }
+  .deal-svg > svg{
+    width: 50px;
+    height: 50px;
+    stroke: #2d2d34;
+  }
+  .cal-svg{
+    margin-left: 0px;
+  }
+  .excluding-text{
+    color: var(--light-black);
+    margin-bottom: -20px;
+  }
 }
