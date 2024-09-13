@@ -62,12 +62,14 @@ export function Navbar() {
     "menu",
     "reserve",
     "contact",
+    "order",
+    "deals",
     "gallery",
     "giftcards",
-    "order",
+    "FAQ",
   ];
-  const firstThreeLinks = navLinks.slice(0, 3);
-  const remainingLinks = navLinks.slice(3);
+  const firstThreeLinks = navLinks.slice(0, 4);
+  const remainingLinks = navLinks.slice(4);
 
   return mobile ? (
     <div className="navbar navbar-mobile">
