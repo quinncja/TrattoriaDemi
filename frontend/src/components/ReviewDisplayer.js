@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import LeftLeaf from "images/LeftLeaf.js";
-import RightLeaf from "images/RightLeaf";
+import { leftArrow, rightArrow } from "svg";
 
 const reviews = [
   '"A wonderful small authentic Italian restaurant that reminded me of my travels in Italy. The angel hair was delicate and sauce heavenly. The gnocchi with chicken was exquisite. Wonderful and attentive service."',
@@ -13,7 +12,7 @@ const reviews = [
   '"Weve been eating here since 1996, and it never disappoints"',
 ];
 
-function ReviewDisplayer({ opacity }) {
+function ReviewDisplayer() {
   const [currentReview, setCurrentReview] = useState(0);
   const [direction, setDirection] = useState(0);
   const intervalRef = useRef(null);
@@ -68,10 +67,9 @@ function ReviewDisplayer({ opacity }) {
   };
 
   return (
-    <>
-      <LeftLeaf handleClick={() => paginate(-1)} />
+    <div className="review-section">
+      <button className="review-arrow" onClick={() => paginate(-1)}> {leftArrow()} </button>
       <div className="review-wrapper">
-        <h2>Hear it from the locals</h2>
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={currentReview}
@@ -87,8 +85,8 @@ function ReviewDisplayer({ opacity }) {
           </motion.div>
         </AnimatePresence>
       </div>
-      <RightLeaf handleClick={() => paginate(+1)} />
-    </>
+      <button className="review-arrow" onClick={() => paginate(+1)}> {rightArrow()} </button>
+    </div>
   );
 }
 
