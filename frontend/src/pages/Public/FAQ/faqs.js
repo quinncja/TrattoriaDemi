@@ -1,7 +1,7 @@
 export const faqs = [
     {
         q: "Do you have gluten free options?",
-        a: "Yes, we offer several gluten free entrees on our menu. Gluten free pasta is also available as a subsitute for any unstuffed pasta.",
+        a: "Yes, we offer several gluten free entrees on our menu. Gluten free pasta is also available as a subsitute for any unstuffed pasta, and is always prepared separately.",
     },
     {
         q: "Do you have parking?",
