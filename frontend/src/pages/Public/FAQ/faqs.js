@@ -8,7 +8,7 @@ export const faqs = [
         a: "There is metered street parking in the area, as well as several paid lots nearby, the closest being on the corner of Davis St and Benson Ave. Parking is free on sundays.",
     },
     {
-        q: "Do you accomate private parties?",
+        q: "Do you accomodate private parties?",
         a: "We do not offer a private space for parties. We can accomodate groups up to 35 in our public dining room.",
     },
     {
