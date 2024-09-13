@@ -729,7 +729,7 @@ body {
 }
 
 .home {
-  overflow-x: hidden;
+  overflow: hidden
 }
 
 .left-branch,
