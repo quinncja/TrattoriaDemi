@@ -101,10 +101,7 @@ const PayrollRow = forwardRef((props) => {
   };
 
   function calcLoan(values) {
-    const loanAmnt =
-      employee.loan.total < employee.loan.paymentAmount
-        ? employee.loan.total
-        : employee.loan.paymentAmount;
+    const loanAmnt = employee.loan.paymentAmount;
     return {
       ...values,
       loan: {
@@ -154,80 +151,39 @@ const PayrollRow = forwardRef((props) => {
     };
   }
 
-  function calcTipGross(e) {
+  function calcGrossGeneral(e) {
     const input = e.target.id;
     const value = e.target.value;
-    let gross;
-
-    if (input === "tips") {
-      gross = [rounder(inputVals.hours[0] * employee.rates[0]), Number(value)];
-      return {
-        ...inputVals,
-        gross: gross,
-        grossDisplay: calcGrossArray(gross),
-        tips: value,
-      };
-    }
-    if (input === "1") {
-      const updatedHours = [...inputVals.hours];
-      updatedHours[0] = value;
-
-      gross = [
-        rounder(Number(value) * employee.rates[0]),
-        Number(inputVals.tips),
-      ];
-      return {
-        ...inputVals,
-        gross: gross,
-        grossDisplay: calcGrossArray(gross),
-        hours: updatedHours,
-      };
-    }
-  }
-
-  function calcTwoGross(e) {
-    const newHours = e.target.value;
-    const inputNum = e.target.id;
-
+  
     const updatedHours = [...inputVals.hours];
-    updatedHours[inputNum - 1] = newHours;
-
-    const gross = [
-      rounder(
-        Number(updatedHours[0]) * employee.rates[0] +
-          Number(updatedHours[1]) * employee.rates[1]
-      ),
-      0,
-    ];
-
+    let tips = inputVals.tips || 0;
+  
+    if (input === "tips") {
+      tips = value;
+    } else {
+      const inputNum = Number(input) - 1; 
+      updatedHours[inputNum] = value;
+    }
+  
+    let grossWage = 0;
+    for (let i = 0; i < employee.rates.length; i++) {
+      grossWage += Number(updatedHours[i] || 0) * employee.rates[i];
+    }
+  
+    const gross = [rounder(grossWage), Number(tips)];
+  
     return {
       ...inputVals,
       gross: gross,
       grossDisplay: calcGrossArray(gross),
       hours: updatedHours,
-    };
-  }
-
-  function calcGross(hours) {
-    const gross = [rounder(employee.rates[0] * hours), 0];
-    const updatedHours = [...values.hours];
-    updatedHours[0] = hours;
-
-    return {
-      ...values,
-      hours: updatedHours,
-      gross: gross,
-      grossDisplay: gross[0],
+      tips: tips,
     };
   }
 
   function calculator(e) {
-    let value = e.target.value;
     let newValues = { ...inputVals };
-
-    if (employee.tips) newValues = calcTipGross(e);
-    else if (employee.rates.length === 2) newValues = calcTwoGross(e);
-    else newValues = calcGross(value);
+    newValues = calcGrossGeneral(e);
 
     if (newValues.gross[0] === 0 && newValues.gross[1] === 0) {
       setNewValues({ ...newValues, ...blankCalculations });
