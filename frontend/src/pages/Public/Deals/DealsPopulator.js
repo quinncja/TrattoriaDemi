@@ -59,7 +59,7 @@ export function DealsPopulator(){
                             {calendarDeals.text2}
                         </p>
                     </div>
-                    <p className="excluding-text"> Excluding Holidays </p>
+                    <p className="excluding-text"> * Excluding Holidays </p>
                 </div>
                 </div>
             </div>

@@ -15,8 +15,8 @@ export const persondeals = [
 
 export const calendarDeals =  {
         title: "Monday's",
-        text: "Join us after 5pm for 50% any bottle of wine with purchase of a meal.",
+        text: "Join us after 5pm for 50% off any bottle of wine with purchase of a meal.",
         title2: "Tuesday's",
-        text2: "Enjoy any of our delicious Build-your-own-pizzas 50% when you dine in after 5pm.",
+        text2: "Enjoy any of our delicious Build-Your-Own-Pizzas at 50% off when you dine in after 5pm.",
         svg: calendarSvg,
 }

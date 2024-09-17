@@ -5,7 +5,7 @@ export const faqs = [
     },
     {
         q: "Do you have parking?",
-        a: "There is metered street parking in the area, as well as several paid lots nearby, the closest being on the corner of Davis St and Benson Ave. Parking is free on sundays.",
+        a: "There is metered street parking in the area, as well as several paid lots nearby, the closest being on the corner of Davis St and Benson Ave. Parking is free on Sundays.",
     },
     {
         q: "Do you accomodate private parties?",
