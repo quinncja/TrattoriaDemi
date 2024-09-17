@@ -1130,16 +1130,10 @@ const wineList = {
           price: [29],
         },
         {
-          name: "House Red - Fluer De Lyeth Red Blend, California",
+          name: `House Red - Substance "RB" Red Blend, Washington State`,
           description:
-            "a blend of Cabernet Sauvignon, Merlot and Malbec. luscious flavors of Bing cherry, plum and a touch of berry. very smooth and easy drinking.",
-          price: [8.75, 28],
-        },
-        {
-          name: "Le Bocce Chianti Classico, Italy",
-          description:
-            "rich and resonant flavors of plum, cocoa and blackberry fruits. old vines and ancient soils can only produce a wine so balanced and deeply satisfying",
-          price: [44],
+            "expressive, bright and juicy with black plum, black currant and dried blueberry intertwined and layered with dark chocolate, black tea, and marzipan",
+          price: [10.75, 40],
         },
         {
           name: "Le Pianure Cabernet, Venezia Giulia, Italy",
