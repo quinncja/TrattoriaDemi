@@ -38,25 +38,19 @@ function giftcardPurchased(props) {
                 Purchased by
               </Text>
             </Column>
-            </Row>
-            <Row style={row}>
             <Column>
               {" "}
-              <Text style={{ ...text, textAlign: "left" }}>
+              <Text style={{ ...text, textAlign: "right" }}>
                 {" "}
                 {sender || "Name"}
               </Text>
             </Column>
-            </Row>
-            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
                 Email
               </Text>
             </Column>
-            </Row>
-            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -72,8 +66,6 @@ function giftcardPurchased(props) {
                 Amount
               </Text>
             </Column>
-            </Row>
-            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -89,8 +81,6 @@ function giftcardPurchased(props) {
                 Recipient
               </Text>
             </Column>
-            </Row>
-            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -106,8 +96,6 @@ function giftcardPurchased(props) {
                 Address
               </Text>
             </Column>
-            </Row>
-            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -123,8 +111,6 @@ function giftcardPurchased(props) {
                 Purchase Date
               </Text>
             </Column>
-            </Row>
-            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -151,7 +137,7 @@ function giftcardPurchased(props) {
             <Row style={row}>
             <Column>
               {" "}
-              <Text style={{ ...text, textAlign: "right" }}>
+              <Text style={{ ...text, textAlign: "left" }}>
                 {" "}
                 {message || "message"}
               </Text>
