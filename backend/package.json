@@ -45,6 +45,7 @@
     "typescript": "^5.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "jest": "^29.7.0"
   }
 }
