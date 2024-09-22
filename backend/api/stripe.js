@@ -1,5 +1,5 @@
 const express = require("express");
-const stripe = require("stripe")(process.env.STRIPE_LIVE_KEY);
+const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 const stripeRouter = express.Router();
 const {
   handleGiftcardSuccess,
@@ -20,8 +20,10 @@ stripeRouter.post("/payment-webhook", async (request, response) => {
   }
   const session = event.data.object;
   if (session.metadata.type === "giftcard") {
-    if (event.type === "checkout.session.completed")
+    if (event.type === "checkout.session.completed"){
+      console.log(session)
       handleGiftcardSuccess(session.metadata, session.customer_details.email);
+    }
     else deleteGiftcard(session.metadata.id);
   }
   if (session.metadata.type === "order") {
