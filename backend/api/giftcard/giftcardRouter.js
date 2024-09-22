@@ -1,4 +1,4 @@
-const stripe = require("stripe")(process.env.STRIPE_LIVE_KEY);
+const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 const express = require("express");
 const giftcardRouter = express.Router();
 const Giftcard = require("./Giftcard");
@@ -57,8 +57,9 @@ async function getGiftcard(id) {
   }
 }
 
-async function setEmail(email, giftcard) {
-  giftcard.email = email;
+async function setDetails(details, giftcard) {
+  giftcard.email = details.email;
+  giftcard.senderName = details.name;
   await giftcard.save();
 }
 
@@ -79,12 +80,12 @@ async function sendReciept(data) {
   }
 }
 
-async function handleGiftcardSuccess(metadata, email) {
+async function handleGiftcardSuccess(metadata, details) {
   try {
     const giftcard = await getGiftcard(metadata.id);
     if (giftcard) {
       await markPaid(giftcard);
-      await setEmail(email, giftcard);
+      await setDetails(details, giftcard);
       await sendReciept(giftcard);
     } else {
       console.error("No giftcard found with ID:", metadata.id);

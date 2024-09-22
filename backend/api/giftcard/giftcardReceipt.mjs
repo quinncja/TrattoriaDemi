@@ -50,6 +50,8 @@ function giftcardReceipt(props) {
                 Amount
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -65,6 +67,8 @@ function giftcardReceipt(props) {
                 Recipient
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -80,6 +84,8 @@ function giftcardReceipt(props) {
                 Address
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -95,6 +101,8 @@ function giftcardReceipt(props) {
                 Purchase Date
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -117,6 +125,8 @@ function giftcardReceipt(props) {
                 Message
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>

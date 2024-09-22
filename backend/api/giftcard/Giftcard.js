@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 const values = [15, 25, 50, 75, 100];
 const giftcardSchema = new mongoose.Schema({
+  senderName: {
+    type: String,
+    required: true,
+  },
   recipientName: {
     type: String,
     required: true,
