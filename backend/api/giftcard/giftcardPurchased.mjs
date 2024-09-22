@@ -9,7 +9,7 @@ import { Preview } from "@react-email/preview";
 import { Container } from "@react-email/container";
 
 function giftcardPurchased(props) {
-  const { amount, recipient, address, message, id, date, email } = props;
+  const { amount, recipient, sender, address, message, id, date, email } = props;
 
   return (
     <Html lang="en">
@@ -32,12 +32,31 @@ function giftcardPurchased(props) {
         </Heading>
         <Container style={innerContainer}>
           <Row style={row}>
+          <Column>
+              {" "}
+              <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
+                Purchased by
+              </Text>
+            </Column>
+            </Row>
+            <Row style={row}>
+            <Column>
+              {" "}
+              <Text style={{ ...text, textAlign: "left" }}>
+                {" "}
+                {sender || "Name"}
+              </Text>
+            </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
-                Purchaser
+                Email
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -53,6 +72,8 @@ function giftcardPurchased(props) {
                 Amount
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -68,6 +89,8 @@ function giftcardPurchased(props) {
                 Recipient
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -83,6 +106,8 @@ function giftcardPurchased(props) {
                 Address
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -98,6 +123,8 @@ function giftcardPurchased(props) {
                 Purchase Date
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>
@@ -120,6 +147,8 @@ function giftcardPurchased(props) {
                 Message
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "right" }}>

@@ -30,6 +30,7 @@ async function sendEmailReciept(giftCard, date) {
       subject: "Giftcard Purchased",
       react: giftcardPurchased({
         amount: `$${giftCard.amount}`,
+        sender: giftCard.senderName,
         recipient: giftCard.recipientName,
         address: giftCard.shippingAddress,
         message: giftCard.message,
