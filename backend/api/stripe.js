@@ -1,5 +1,5 @@
 const express = require("express");
-const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
+const stripe = require("stripe")(process.env.STRIPE_LIVE_KEY);
 const stripeRouter = express.Router();
 const {
   handleGiftcardSuccess,

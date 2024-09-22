@@ -45,6 +45,8 @@ function giftcardPurchased(props) {
                 {sender || "Name"}
               </Text>
             </Column>
+            </Row>
+            <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
