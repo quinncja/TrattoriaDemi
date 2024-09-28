@@ -1,3 +1,9 @@
+@media print {
+  body {
+    background-color: white;
+  }
+}
+
 .dbadmin {
   width: 100%;
   position: relative;
