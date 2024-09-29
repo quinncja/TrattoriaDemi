@@ -748,8 +748,8 @@ body {
   flex-direction: column;
   align-items: center;
   box-shadow: 
-  0 0 0 2px var(--gold),
-  0 0 0 20px #000000;
+  0 0 0 3px var(--gold),
+  0 0 0 20px var(--nice-white);
   background-color: var(--nice-white);
   border-radius: 0px;
   padding-block: 50px;
