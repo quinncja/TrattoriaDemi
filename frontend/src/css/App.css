@@ -183,12 +183,15 @@ h3 {
   margin: 0px;
 }
 
-p,
-a {
+
+.a-tag {
   color: white;
   font-size: 1.1rem;
   margin: 0px;
   line-height: 1.7rem;
+}
+.a-tag:hover{
+  color: var(--gold);
 }
 
 a {
@@ -196,8 +199,11 @@ a {
   cursor: pointer;
 }
 
-a:hover {
-  color: var(--gold);
+p{
+  color: white;
+  font-size: 1.1rem;
+  margin: 0px;
+  line-height: 1.7rem;
 }
 
 @media (width <= 470px) {
@@ -610,6 +616,13 @@ body {
   background-color: rgba(0, 0, 0, 0.9);
 }
 
+.after-mid-pic{
+  background-color: #000000;
+  width: 100%;
+  height: 30px;
+  border-bottom: 2px solid var(--border-color);
+}
+
 .pic-overlay {
   top: 0;
   width: 100%;
@@ -720,21 +733,35 @@ body {
 .review-container{
   display: flex;
   flex-direction: column;
-  padding-top: 100px;  
+  padding-block: 150px;  
   justify-content: center;
   align-items: center;
   margin-inline: auto;
   width: 100%;
   margin-left: 10px;
+  background-color: var(--black) !important;
+  box-sizing: border-box; 
 }
 
+.review-box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 
+  0 0 0 1px #f0ede976,
+  0 0 0 20px #0e0a0a;
+  background-color: #000000;
+  border-radius: 0px;
+  padding-block: 50px;
+  padding-inline: 20px;
+}
 
 .review-section {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 240px;
+  height: 280px;
   overflow: hidden;
   width: 750px;
 }
@@ -747,7 +774,7 @@ body {
   transition: all .3s ease-in-out;
 }
 
-.review-section:hover .review-arrow{
+.review-box:hover .review-arrow{
   opacity: .3;
 }
 
@@ -1017,7 +1044,8 @@ body {
   border: none;
   outline: none;
   font-size: 1rem;
-  padding: 10px 20px;
+  padding: 0px 0px;
+  padding-right: 20px;
   border-radius: 2px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -1040,6 +1068,41 @@ body {
   padding-left: 20px;
 }
 
+.featured-block{
+  border-top: 2px solid var(--border-color);
+  background-color: black;
+  padding-block: 32px;
+}
+.featured-top{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+}
+.featured-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.eater-img{
+  aspect-ratio: 50 / 21;
+  width: clamp(160px, 15%, 250px);
+  height: auto;
+  cursor: pointer;
+}
+.article-text a{
+  cursor: pointer;
+  text-decoration: inherit;
+  color: inherit; 
+  font-size: inherit !important;
+  font-style: italic
+}
+.article-text:hover{
+  text-decoration: underline;
+  text-decoration-color: #e90600;
+  text-decoration-thickness: 2px;  
+}
 .emblem-block div {
   width: 150px;
   height: 150px;
@@ -1354,16 +1417,16 @@ button {
   left: 22px !important;
 }
 
-
 .award-wrapper #circle-r-ribbon .r-ribbon_ahead-bottom svg{
   height: 140px !important;
 }
 
+.review-line{
+  width: 250px !important;
+}
 .super-line{
   width: 450px;
-  filter: invert(.9);
-  padding-bottom: 140px;
-  margin-top: -40px;
+  margin-top: -80px;
 }
 
 @media (width <= 500px) {
