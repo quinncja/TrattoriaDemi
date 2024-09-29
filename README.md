@@ -11,6 +11,7 @@ Client facing dashboard:
     - Recieves incoming reservations and orders
   - Admin console
     - Calculates and tracks employee payroll
+    - Create and update employees
    
 
 Integrated with Stripe, Userfront, Mapbox, Twillio, & Resend.
