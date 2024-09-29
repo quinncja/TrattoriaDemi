@@ -1084,12 +1084,18 @@ body {
   justify-content: center;
   padding-bottom: 5px;
 }
-.eater-img{
+.eater-wrapper{
+  width: clamp(130px, 20%, 250px);
   aspect-ratio: 50 / 21;
-  width: clamp(130px, 15%, 250px);
+  position: relative;
+  height: auto;
+}
+.eater-img{
+  width: 100%;
   height: auto;
   cursor: pointer;
 }
+
 .article-text a{
   cursor: pointer;
   text-decoration: inherit;
@@ -1456,14 +1462,17 @@ button {
   display: none;
  }
  .hero-text{
-  font-size: 2.4rem;
+  font-size: 2.2rem;
  }
  .article-text{
-  font-size: 1.1rem;
+  font-size: 1rem;
  }
 }
 
 @media (width <= 400px) {
+  .article-text{
+    font-size: 1rem;
+   }
   .review-wrapper{
     width: 100%;
   }
