@@ -112,7 +112,9 @@ export default function Home() {
           The Best Pasta in Chicago
         </a> </h2>
         </div>
-        <img src={Eater} alt="Eater" className="eater-img" />
+        <a href="https://chicago.eater.com/maps/the-best-pasta-in-chicago" target="_blank" rel="noopener noreferrer" className="eater-img">
+          <img src={Eater} alt="Eater" className="eater-img" />
+        </a>
         </div>
 
       </div>  
