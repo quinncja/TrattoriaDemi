@@ -135,7 +135,7 @@ export default function Home() {
 
       <div className="review-container">
       <div className="review-box"> 
-      <div className="hero-text elegant-hero" >Hear it from the locals</div>
+      <div className="hero-text elegant-hero" >Hear it from the locals </div>
       <img className="fancy-line review-line" src={FancyLine} alt="" />
           <ReviewDisplayer />
           <img
