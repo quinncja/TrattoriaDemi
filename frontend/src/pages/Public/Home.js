@@ -5,7 +5,7 @@ import ReviewDisplayer from "components/ReviewDisplayer";
 import { useNavigate } from "react-router-dom";
 import ImageDisplayer from "./Gallery/ImageDisplayer";
 import ManyItems from "food_pictures/ManyItemsCompressed.jpg";
-import Interior from "images/InteriorCompressed.JPG";
+import Interior from "images/FullSizeRender.webp";
 import EmblemBanner from "components/EmblemBanner";
 import ScrollDown from "components/ScrollDown/ScrollDown";
 import { welcomeSvg } from "svg";
@@ -126,7 +126,7 @@ export default function Home() {
             height: "100%",
             objectFit: "cover",
             objectPosition: "center",
-            filter: "brightness(0.8) contrast(1.05)",
+            filter: "brightness(0.95) contrast(1.05)",
           }}
           src={Interior}
           alt="Cozy-interior"
