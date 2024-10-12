@@ -153,7 +153,7 @@ export function Reservation(props) {
       <div className={`bottom-wrapper bottom-wrapper-${isOpen}`}>
         <div className="res-bottom">
           <div className="res-open-notes">
-            <div> {res.phone && formatPhoneNumber(res.phone)} </div>
+            <strong> {res.phone && formatPhoneNumber(res.phone)} </strong>
             <div> {res.notes || "No notes"} </div>
           </div>
           {res.state !== "upcoming" && undoButton()}

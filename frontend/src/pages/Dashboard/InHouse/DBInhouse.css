@@ -21,7 +21,9 @@
 
 .res-container-inner {
   position: relative;
-  width: 90%;
+  width: fit-content;
+  min-width: 850px;
+  max-width: 95vw;
   margin-inline: auto;
 }
 .orders-hide-overflow {
@@ -287,6 +289,8 @@
   flex-direction: column;
   font-size: 1rem;
   padding-bottom: 5px;
+  max-width: 90%;
+  gap: 10px
 }
 .order-notes-left {
   min-width: 60px;
@@ -461,6 +465,7 @@
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   min-width: 40px !important;
+  width: 40px !important;
   height: 40px;
   margin-left: auto;
   z-index: 600 !important;
