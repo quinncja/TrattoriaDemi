@@ -22,7 +22,7 @@
 .res-container-inner {
   position: relative;
   width: fit-content;
-  min-width: 850px;
+  min-width: 95vw;
   max-width: 95vw;
   margin-inline: auto;
 }
