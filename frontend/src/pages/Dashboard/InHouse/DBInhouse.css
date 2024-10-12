@@ -1,7 +1,7 @@
 .inhouse-container {
   display: flex;
   flex-direction: row;
-  min-height: calc(100vh - 81px);
+  min-height: 100vh;
   width: 100%;
   background-color: black;
 }
