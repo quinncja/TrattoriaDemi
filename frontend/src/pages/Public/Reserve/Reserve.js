@@ -42,6 +42,22 @@ export default function Reserve() {
         Reserve a table below or by phone at 847-332-2330
       </div>
       <div className="reserve-container">
+      <div className="reservation-overlay">
+          <div className="reservation-overlay-text">
+            We will soon introduce a custom reservation system. <br /> In the
+            meantime, you can call the restaturant at 847-332-2330, <br /> or
+            click below to reserve with OpenTable.
+          </div>
+          <a
+            href="http://www.opentable.com/restaurant/profile/252628/reserve?rid=252628&restref=252628"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <button className="open-table-button" type="button">
+              Reserve with OpenTable
+            </button>
+          </a>
+        </div>
         <div className="reserve-section">
           <div className="menu-section-header">For a Reservation</div>
           <img className="fancy-line" src={FancyLine} alt="" />
