@@ -16,7 +16,10 @@
   position: relative;
   color: white;
   padding-bottom: 100px;
-  flex-grow: 2;
+  width: 93vw;
+  max-width: 1200px;
+  margin-inline: auto;
+  box-sizing: border-box;
 }
 
 .res-container-inner {
@@ -69,7 +72,6 @@
   top: 0;
   background-color: black;
   padding-top: 25px;
-  padding-left: 15px;
   padding-bottom: 25px;
   font-weight: 800;
   display: flex;
@@ -150,9 +152,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding-left: 15px;
-  padding-bottom: 5rem;
-  padding-top: 2px;
+  margin-inline: auto;
 }
 .res {
   outline: none;
@@ -167,12 +167,12 @@
   background-color: var(--dark-container-color);
   border: 1px solid var(--border-color);
   transition: background-color 0.3s ease-in-out, filter 0.3s ease-in-out;
-  min-width: 421px;
-  max-width: 800px;
+  width: 100%;
   cursor: pointer;
   z-index: 2;
   font-size: 1.125rem;
   text-align: left;
+  box-sizing: border-box;
 }
 .res-order {
   min-width: 300px;
@@ -185,6 +185,21 @@
 }
 .res-true:hover {
   filter: brightness(160%);
+}
+
+.res-bottom {
+  position: relative;
+  width: 100%;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  background-color: var(--dark-container-color);
+  z-index: 1;
+  border: 1px solid var(--border-color);
 }
 
 .new-order {
@@ -240,22 +255,6 @@
   flex-direction: column;
 }
 
-.res-bottom {
-  position: relative;
-  min-width: 421px;
-  max-width: 797px;
-  padding-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 10px;
-  margin-left: 2px;
-  box-sizing: border-box;
-  background-color: var(--dark-container-color);
-  z-index: 1;
-  border: 1px solid var(--border-color);
-}
 .order-bottom {
   flex-direction: column;
 }
@@ -405,11 +404,7 @@
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.1),
-    /* 2. shadow ring 👇 */ 0 0 0 1px hsla(230, 13%, 9%, 0.075),
-    /* 3. multiple soft shadows 👇 */ 0 0.3px 0.4px hsla(230, 13%, 9%, 0.02),
-    0 0.9px 1.5px hsla(230, 13%, 9%, 0.045),
-    0 3.5px 6px hsla(230, 13%, 9%, 0.09);
+  border: 1px solid var(--border-color);
   width: 3rem;
   height: 3rem;
   transition: all 0.3s ease-in-out;
@@ -428,20 +423,11 @@
   transform: rotate(45deg);
   position: relative;
 }
-
-@media (width <= 1000px) {
-  .inhouse-container {
-    flex-direction: column;
-  }
-  .reservations-container {
-    width: 100%;
-  }
-}
 .cancelled-res {
+  padding-top: 250px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding-left: 15px;
 }
 .hl-db {
   width: 80%;
