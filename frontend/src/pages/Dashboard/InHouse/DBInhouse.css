@@ -501,6 +501,7 @@
   align-self: center;
   font-weight: 700;
   padding-bottom: 20px;
+  border: none !important
 }
 
 .new-res-input {
