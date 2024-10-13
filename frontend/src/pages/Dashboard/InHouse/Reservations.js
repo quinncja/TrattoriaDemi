@@ -168,7 +168,6 @@ function Reversations() {
           submitRes={submitRes}
         />
       )}
-      <div className="res-container-inner">
         <div className="reservations-header">
           <div className="res-header">
             <ReservationHeader
@@ -187,7 +186,6 @@ function Reversations() {
           setReservations={setReservations}
           patchRes={patchRes}
         />
-      </div>
     </div>
   );
 }
