@@ -8,6 +8,7 @@ function AdminDashboard(){
         <div className="admin-dashboard">
             <PayrollDash/>
             <GiftcardDash/>
+            <br/>
         </div>
     )
 }
