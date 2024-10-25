@@ -1,12 +1,12 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
-import AdminNav from "./AdminNav";
 import Menu from "./Menu";
 import PayrollDash from "./Payroll/PayrollDash";
 import Home from "./Home";
 import "./Admin.css";
 import Employees from "./Employee/Employees";
 import Payroll from "./Payroll/Payroll";
+import AdminDashboard from "./AdminDashboard";
 
 function DBAdmin() {
   const [searchParams] = useSearchParams();
@@ -31,7 +31,7 @@ function DBAdmin() {
 
   return (
     <>
-      <div className="dbadmin">{body ? renderBody() : <AdminNav />}</div>
+      <div className="dbadmin">{body ? renderBody() : <AdminDashboard />}</div>
     </>
   );
 }

@@ -370,3 +370,15 @@ export async function getPayrollGraph() {
     throw error;
   }
 }
+
+export async function getGiftcardData() {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/giftcard/stats`,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

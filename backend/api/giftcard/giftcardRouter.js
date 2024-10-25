@@ -6,8 +6,18 @@ const domain = process.env.DEPLOYED_DOMAIN;
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const { DateTime } = require("luxon");
+const { getGiftcardDataForBarChart } = require("./giftcardDataService");
 
-// Create new Giftcard
+giftcardRouter.get('/all', async (req, res) => {
+  try {
+    const giftcards = await Giftcard.find({}, 'recipientName _id amount isPaid datePurchased');
+    res.status(200).json(giftcards);
+  } catch (error) {
+    console.error('Error fetching giftcards:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 giftcardRouter.post("/", async (req, res) => {
   try {
     const { recipientName, amount, itemId, shippingAddress, message } =
@@ -103,5 +113,15 @@ async function deleteGiftcard(id) {
     console.error(id, error);
   }
 }
+
+giftcardRouter.get("/stats", async (req, res) => {
+  try {
+    const { data, totalAmount } = await getGiftcardDataForBarChart();
+    res.status(200).json({ data, totalAmount });
+  } catch (error) {
+    console.error("Error fetching gift card stats:", error);
+    res.status(500).json({ error: "An error occurred while fetching data." });
+  }
+});
 
 module.exports = { giftcardRouter, handleGiftcardSuccess, deleteGiftcard };
