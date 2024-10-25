@@ -36,6 +36,8 @@
   --box-shadow: 0 0 5px rgba(228, 228, 228, 0.1),
     0 0 10px rgba(210, 210, 210, 0.2) inset;
   --highlight: #323335;
+
+  --admin-black: #161b22;
 }
 
 #path1,

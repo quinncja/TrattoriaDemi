@@ -10,8 +10,6 @@ function BackButton() {
     obj.forEach((item) => {
       if (item.tag) {
         searchParams.set(item.body, item.tag);
-      } else if (searchParams.has(item.body)) {
-        searchParams.delete(item.body);
       } else {
         setSearchParams({ view: "admin" });
         return;
