@@ -143,6 +143,7 @@
 .row-employee {
   z-index: 10;
   position: relative;
+  font-size: 25px;
 }
 
 .payroll-input-group:focus-within input {
@@ -252,13 +253,17 @@
   font-weight: 600;
   padding-bottom: 30px;
   box-sizing: border-box;
-  width: 1400px;
+  width: 100vw;
   margin-inline: auto;
 }
 .employee-layout{
   display: flex;
   flex-direction: column;
   gap: 30px;
+  width: 80%;
+  margin-inline: auto;
+  padding-inline: 50px;
+  box-sizing: border-box;
 }
 .employee-section-header {
   position: sticky;
@@ -269,10 +274,11 @@
   justify-content: space-between;
   z-index: 100;
   padding-inline: 50px;
-  margin-left: -50px;
   margin-bottom: -15px;
-  width: 1425px;
+  width: 80%;
+  margin-inline: auto;
   background-color: #000000;
+  box-sizing: border-box;
 }
 .employee-header-buttons {
   display: flex;
@@ -298,8 +304,13 @@
 .employee-row {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-
+  background-color: var(--color-bg-light);
+  padding: 30px 50px;
+  border-radius: 5px;
+  overflow-y: hidden;
+}
+.employee-row-focused{
+  background-color: var(--highlight);
 }
 .employee-row-bigger {
   padding-bottom: 50px;
@@ -315,10 +326,11 @@
   gap: 10px;
 }
 .employee-body {
-  display: flex;
-  gap: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+  grid-template-rows: 110px 110px;
   z-index: 15;
-  padding-top: 5px;
 }
 .employee-input-checkbox {
   width: 100%;
@@ -452,6 +464,8 @@
   margin-left: -15px;
   z-index: 10;
   margin-top: -10px;
+  width: 100vw;
+  box-sizing: border-box;
 }
 
 .payroll-input-inactive {
