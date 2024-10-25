@@ -1,5 +1,5 @@
 import { updateEmployee } from "api";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { employeeSaveFail, employeeSaveSuccess } from "swal2";
 
@@ -227,23 +227,32 @@ function EmployeeRow({ employee, isFocused, setFocused, isNew, updateEmployeeLis
         ],
       },
     ];
-
+    
     return (
-      <div className="employee-body" key={`${employee.name}-body`}>
-        {bodyObjs.map((obj) => {
-          return (
+      <motion.div
+        layout
+        key={`${employee.name}-body`}
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: 220}}
+        exit={{ opacity: 0, height: 0 }}
+        transition={{ duration: 0.3}}
+      >
+        <br/>
+        <div className="employee-body">
+        {bodyObjs.map((obj) => (
+          <div
+            className="employee-row-subsection"
+            key={`${employee.name}-${obj.text}`}
+          >
+            <div className="employee-row-subheader">{obj.text}</div>
             <div
-              className="employee-row-subsection"
-              key={`${employee.name}-${obj.text}`}
-            >
-              <div className="employee-row-subheader">{obj.text}</div>
-              <div className="subsection-inputs">
+             className="subsection-inputs">
               {obj.objects.map((object) => employeeInput(object))}
-              </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        ))}
+        </div>
+      </motion.div>
     );
   }
 
@@ -252,23 +261,30 @@ function EmployeeRow({ employee, isFocused, setFocused, isNew, updateEmployeeLis
     value: employeeData.name || "",
     type: "text",
     path: ["name"],
-  }
+  };
 
   return (
-    <motion.div layoutId={`${employeeData.name}`} className={`employee-row ${isNew && "employee-row-bigger"}`} onClick={() => setFocused(employee.name)}>
-      {isFocused ? (
-        <motion.div layoutId="background" transition={{ width: { duration: 0 }, x: { duration: 0.3 } }} className={`row-background-employee`} style={{width: "1445px", height: isNew ? "190px" : "140px"}} />
-      ) : null}
-        <div className="row-employee">
-      {isNew ?
-      <> 
-        {employeeInput(nameObj, true)}
-     </>
-        :
-    employee.name
-      }</div> 
+    <motion.div
+      layout="position"
+      layoutId={`${employeeData.name}`}
+      className={`employee-row ${isNew && "employee-row-bigger"} ${
+        isFocused && "employee-row-focused"
+      }`}
+      onClick={() => setFocused(employee.name)}
+    >
+      <div className="row-employee">
+        {isNew ? (
+          <> 
+            {employeeInput(nameObj, true)}
+          </>
+        ) : (
+          employee.name
+        )}
+      </div> 
 
-      {employeeBody()}
+      <AnimatePresence mode="wait">
+        {isFocused && employeeBody()}
+      </AnimatePresence>
     </motion.div>
   );
 }

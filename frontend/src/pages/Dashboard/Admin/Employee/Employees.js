@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getEmployees } from "api";
 import { AnimatePresence, motion } from "framer-motion";
-import { fadeIn, fadeInMany } from "animations";
+import { fadeInMany } from "animations";
 import EmployeeRow from "./EmployeeRow";
 import { plusSvg } from "svg";
 import { isObject } from "lodash";
@@ -33,6 +33,7 @@ function Employees() {
     if(newEmpl && focused !== ""){
       setNewEmpl(false)
     }
+    //eslint-disable-next-line
   }, [focused])
 
   const updateListWithNew = (newEmployee) => {
