@@ -116,7 +116,7 @@ function Payroll() {
             <motion.div {...fadeIn} className="saved-payroll">
               <PayrollPdf
                 payrollData={sortPayroll(payrollData)}
-                currentPeriod={currentPeriod}
+                currentPeriod={period}
                 ref={componentRef}
               />
             </motion.div>
