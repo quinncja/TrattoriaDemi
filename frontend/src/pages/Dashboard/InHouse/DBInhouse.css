@@ -217,7 +217,7 @@
 
 .new-order:hover {
   background-color: #1a1a1a;
-  filter: none; /* Change to a brighter color or adjust the brightness as needed */
+  filter: none; 
 }
 
 .waiting-symbol {

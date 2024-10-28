@@ -6,6 +6,7 @@ function ReserveForm(props) {
   const [name, setName] = useState(null);
   const [notes, setNotes] = useState(null);
   const [phone, setPhone] = useState(null);
+  const [checkbox, setCheckbox] = useState(false)
   const [errorStates, setError] = useState({
     name: false,
     phone: false,
@@ -33,7 +34,7 @@ function ReserveForm(props) {
   };
 
   const onSubmit = () => {
-    if (!reserveValidator()) createRes({ name, phone, notes });
+    if (!reserveValidator()) createRes({ name, phone, notes, sendText: checkbox });
   };
 
   const inputObjs = {
@@ -84,9 +85,23 @@ function ReserveForm(props) {
       <div className="reserve-small-text">
         {" "}
         • Outdoor seating is first come first serve.
-        <div className="br" />• You will receive a confirmation text upon
-        reservation. <div className="br" />• Please call us if you are running
+       <div className="br" />• Please call us if you are running
         later than 10 minutes after your reservation time.
+        <div className="br" />   
+        <div className="br" /> 
+        <div className="br" /> 
+
+        <div className="phone-checkbox">
+          <button
+            className={` checkbox ${checkbox && "checkbox-active"}`}
+            type="button"
+            onClick={() => setCheckbox(!checkbox)}
+          />
+          <div className={`reserve-small-text`}>
+            {" "}
+            I would like to recieve texts relating to my reservation. Message and data rates may apply. {" "}
+          </div>
+        </div> 
       </div>
       <button className="submit-button" type="button" onClick={onSubmit}>
         Reserve

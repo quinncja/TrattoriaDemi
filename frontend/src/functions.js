@@ -24,6 +24,10 @@ export function convertTo24Hour(time) {
 }
 
 export function convertTo12Hour(time) {
+  if (typeof time !== 'string' || !/^\d{1,2}:\d{2}$/.test(time)) {
+   return ""
+  }
+
   let [hours, minutes] = time.split(":");
   hours = parseInt(hours, 10);
   minutes = parseInt(minutes, 10);

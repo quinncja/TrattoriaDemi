@@ -79,7 +79,7 @@ function sendResText(reservation) {
       reservation.numGuests,
     )} on ${dateToString(reservation.date)} at ${convertTo12Hour(
       reservation.time,
-    )}. \n\nShould you need to cancel, click the link below: \n www.trattoriademi.site/cancel/${
+    )}. \n\nShould you need to cancel, click the link below: \n www.trattoriademi.com/cancel/${
       reservation._id
     } \n\nWe look forward to serving you. \n- Trattoria Demi`,
     from: "+18447275525",
