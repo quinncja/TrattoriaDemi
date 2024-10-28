@@ -311,6 +311,8 @@
   background: none;
   outline: none;
   position: relative;
+  flex-grow: 1;
+  flex-shrink: 0;
 }
 
 .checkbox-active {

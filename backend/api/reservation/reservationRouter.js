@@ -165,17 +165,30 @@ reservationRouter.get("/date/:date", async (req, res) => {
   }
 });
 
-// Patch reservation state by id
+function getCurrentTime() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+
+
 reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
   try {
     const [reservationId, newState] = [req.params.id, req.params.state];
 
     const lowercaseState = newState.toLowerCase();
+    let arrivedTime = "";
+    if(lowercaseState === "arrived"){
+      arrivedTime = getCurrentTime();
+    }
 
     const updatedReservation = await Reservation.findByIdAndUpdate(
       reservationId,
-      { state: lowercaseState },
-      { new: true },
+      { state: lowercaseState,
+        arrivedTime: arrivedTime  },
+      { new: true,
+      },
     );
 
     if (!updatedReservation) {
