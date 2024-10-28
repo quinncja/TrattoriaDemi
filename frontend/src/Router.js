@@ -10,12 +10,12 @@ import Giftcard from "pages/Public/Giftcard/Giftcard";
 import GalleryPopulator from "pages/Public/Gallery/GalleryPopulator";
 import Dashboard from "pages/Dashboard/Dashboard";
 import Email from "components/Email";
-import Cancel from "pages/Public/Cancel";
 import OrderStatus from "pages/Public/Order/OrderStatus";
 import CheckoutPage from "pages/Public/Order/Checkout/CheckoutPage";
 import Signout from "pages/Dashboard/Signout";
 import FaqPopulator from "pages/Public/FAQ/FaqPopulator";
 import { DealsPopulator } from "pages/Public/Deals/DealsPopulator";
+import Reservation from "pages/Public/Reserve/Reservation";
 
 export function Router() {
   return (
@@ -34,11 +34,11 @@ export function Router() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/email" element={<Email />} />
-          <Route path="/cancel/*" element={<Cancel />} />
+          <Route path="/res/:id" element={<Reservation />} />
           <Route path="/order-status/*" element={<OrderStatus />} />
           <Route path="/signout" element={<Signout />} />
-          <Route path="/FAQ" element={<FaqPopulator/>} />
-          <Route path="/deals" element={<DealsPopulator/>} />
+          <Route path="/FAQ" element={<FaqPopulator />} />
+          <Route path="/deals" element={<DealsPopulator />} />
         </Route>
       </Routes>
     </BrowserRouter>

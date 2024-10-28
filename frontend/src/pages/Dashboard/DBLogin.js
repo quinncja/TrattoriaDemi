@@ -16,7 +16,7 @@ function DBLogin(props) {
   }, [incorrect]);
 
   const handleChange = (event) => {
-    setIncorrect(false)
+    setIncorrect(false);
     if (event.target.id === "username") {
       setUsername(event.target.value);
     }
@@ -26,7 +26,7 @@ function DBLogin(props) {
   };
 
   async function onSubmit() {
-    setIncorrect(false)
+    setIncorrect(false);
     try {
       const response = await Userfront.login({
         method: "password",
@@ -43,9 +43,11 @@ function DBLogin(props) {
   return (
     <div className="login-input-wrapper">
       <div className="login-input">
-        <div className={`new-res-header ${
+        <div
+          className={`new-res-header ${
             incorrect ? "reserve-select-error" : ""
-          }`}>
+          }`}
+        >
           {" "}
           {incorrect ? "Incorrect Login" : "Dashboard Login"}{" "}
         </div>

@@ -11,7 +11,9 @@ export function PayrollDash() {
   const [graphData, setGraphData] = useState([]);
 
   function cleanData(data) {
-    return data.filter(item => item.hasOwnProperty('y') && typeof item.y === 'number');
+    return data.filter(
+      (item) => item.hasOwnProperty("y") && typeof item.y === "number"
+    );
   }
   const clickHandler = (period) => {
     searchParams.set("body", "payroll-editor");
@@ -23,7 +25,6 @@ export function PayrollDash() {
     searchParams.set("body", "employees");
     setSearchParams(searchParams);
   };
-
 
   useEffect(() => {
     setter([
@@ -37,7 +38,7 @@ export function PayrollDash() {
   useEffect(() => {
     const loadGraph = async () => {
       let data = await getPayrollGraph();
-      data = cleanData(data)
+      data = cleanData(data);
       setGraphData(data);
     };
 
@@ -45,9 +46,9 @@ export function PayrollDash() {
   }, []);
 
   return (
-      <div className="dash-item dash-item-full">
-        <h2> Payroll </h2>
-        <div className="payroll-dash">
+    <div className="dash-item dash-item-full">
+      <h2> Payroll </h2>
+      <div className="payroll-dash">
         <div className="graph-wrapper">
           <LineChart data={graphData} clickHandler={clickHandler} />
         </div>
@@ -67,8 +68,8 @@ export function PayrollDash() {
             Edit Employees
           </button>
         </div>
-        </div>
       </div>
+    </div>
   );
 }
 

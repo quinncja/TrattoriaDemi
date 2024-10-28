@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import FancyLine from "images/FancyLine.png";
 import "./Reserve.css";
 import { postReservation } from "api";
-import { successfulReserveAlert } from "swal2";
 import TableFinder from "./TableFinder";
 import ReserveForm from "./ReserveForm";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeInDown } from "animations";
 import FoundTable from "./FoundTable";
 import { convertDateToIso } from "functions";
+import { useNavigate } from "react-router-dom";
 
 export default function Reserve() {
   const [editing, setEditing] = useState(false);
   const [table, setTable] = useState(null);
+  const navigate = useNavigate();
 
   async function createRes(formData) {
     const newRes = {
@@ -21,12 +22,11 @@ export default function Reserve() {
       ...formData,
     };
 
-    console.log(newRes)
-    const status = await postReservation(newRes);
-    if (status === 201) {
-      successfulReserveAlert();
-      setTable(null);
-    } else console.log(status);
+    const response = await postReservation(newRes);
+    if (response.status === 201) {
+      const id = response.data._id;
+      navigate(`/res/${id}/?success`);
+    } else console.log(response.status);
   }
 
   const returnToEdit = () => {
@@ -43,7 +43,6 @@ export default function Reserve() {
         Reserve a table below or by phone at 847-332-2330
       </div>
       <div className="reserve-container">
-
         <div className="reserve-section">
           <div className="menu-section-header">For a Reservation</div>
           <img className="fancy-line" src={FancyLine} alt="" />

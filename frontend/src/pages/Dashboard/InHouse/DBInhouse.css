@@ -217,7 +217,7 @@
 
 .new-order:hover {
   background-color: #1a1a1a;
-  filter: none; 
+  filter: none;
 }
 
 .waiting-symbol {
@@ -283,7 +283,7 @@
   font-size: 1rem;
   padding-bottom: 5px;
   max-width: 90%;
-  gap: 10px
+  gap: 10px;
 }
 .order-notes-left {
   min-width: 60px;
@@ -501,7 +501,7 @@
   align-self: center;
   font-weight: 700;
   padding-bottom: 20px;
-  border: none !important
+  border: none !important;
 }
 
 .new-res-input {

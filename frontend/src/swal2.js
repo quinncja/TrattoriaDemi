@@ -30,6 +30,39 @@ export function discardResAlert() {
     showCancelButton: true,
   });
 }
+export function cancelReservationAlert() {
+  return Swal.fire({
+    title: `Cancel your reservation?`,
+    text: "You cannot undo this action",
+    icon: "warning",
+    iconColor: "#d3963a",
+    customClass: {
+      title: "swal-header",
+      confirmButton: "submit-button",
+    },
+    confirmButtonText: "Confirm",
+    showConfirmButton: true,
+    showCancelButton: false,
+    buttonsStyling: false,
+  });
+}
+
+
+export function successfulCancelAlert() {
+  return Swal.fire({
+    title: `Reservation Canceled`,
+    icon: "success",
+    iconColor: "#d3963a",
+    timer: 5500,
+    text: "Until next time",
+    padding: "2rem",
+    customClass: {
+      title: "swal-header",
+    },
+    timerProgressBar: true,
+    showConfirmButton: false,
+  });
+}
 
 export function successfulAdminResAlert() {
   return Swal.fire({
@@ -87,22 +120,6 @@ export function employeeSaveFail(employeeName, error) {
     padding: "2rem",
     background: "#151319",
     color: "#f8f4f1",
-    timerProgressBar: true,
-    showConfirmButton: false,
-  });
-}
-
-export function successfulCancelAlert() {
-  return Swal.fire({
-    title: `Reservation Canceled`,
-    icon: "success",
-    iconColor: "#d3963a",
-    timer: 5500,
-    text: "We hope to see you soon",
-    padding: "2rem",
-    customClass: {
-      title: "swal-header",
-    },
     timerProgressBar: true,
     showConfirmButton: false,
   });
