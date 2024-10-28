@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 
 const TableFinder = forwardRef((props, ref) => {
   const { table, setTable, editing, setEditing } = props;
+  console.log(table)
   const [numGuests, setGuests] = useState(table?.numGuests || null);
   const [date, setDate] = useState(table?.date || null);
   const [time, setTime] = useState(table?.time || "");
@@ -217,6 +218,7 @@ const TableFinder = forwardRef((props, ref) => {
   };
 
   const handleDateChange = (value) => {
+    console.log(value)
     setTime("");
     setAvailableTimes(null);
     setDate(value);
@@ -311,13 +313,13 @@ const TableFinder = forwardRef((props, ref) => {
     name: "Party Size",
     options: [
       { value: 1, label: "1 guest" },
-      ...[...Array(9)].map((_, index) => ({
+      ...[...Array(5)].map((_, index) => ({
         value: index + 2,
         label: `${index + 2} guests`,
       })),
       {
         value: "",
-        label: "For parties exceeding 10 guests please call the restaurant",
+        label: "For parties exceeding 6 guests please call the restaurant",
         disabled: true,
       },
     ],

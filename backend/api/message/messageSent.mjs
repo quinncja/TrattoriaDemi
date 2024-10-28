@@ -68,8 +68,8 @@ function messageSent(props) {
                 Message
               </Text>
             </Column>
-            </Row>
-            <Row style={row}>
+          </Row>
+          <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "left" }}>

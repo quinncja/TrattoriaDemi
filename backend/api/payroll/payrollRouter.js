@@ -14,10 +14,11 @@ payrollRouter.put("/employee", async (req, res) => {
     const { _id, loan, ...employeeData } = req.body;
     let updatedEmployee;
 
-    if(_id){
-      updatedEmployee = await Employee.findByIdAndUpdate(_id, employeeData, { new: true });
-    }
-    else {
+    if (_id) {
+      updatedEmployee = await Employee.findByIdAndUpdate(_id, employeeData, {
+        new: true,
+      });
+    } else {
       const newEmployee = new Employee(employeeData);
       updatedEmployee = await newEmployee.save();
     }
@@ -39,15 +40,18 @@ payrollRouter.put("/employee", async (req, res) => {
       }
     }
 
-    updatedEmployee = await Employee.findById(updatedEmployee._id).populate("loan");
+    updatedEmployee = await Employee.findById(updatedEmployee._id).populate(
+      "loan",
+    );
 
     res.status(200).json(updatedEmployee);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error updating employee and loan information" });
+    res
+      .status(500)
+      .json({ message: "Error updating employee and loan information" });
   }
 });
-
 
 payrollRouter.get("/employees", async (req, res) => {
   try {

@@ -22,17 +22,25 @@ const PayrollPdf = forwardRef((props, ref) => {
         <div>
           Pay period: {dates[0]} - {dates[1]}
         </div>
-        <div> {overtime ? "Regular" : "Total"} hours: {values.hours[0]}</div>
         <div>
-        {overtime ? "Regular" : "Hourly"} rate: ${safeToFixed(values?.rates[0])}{" "}
+          {" "}
+          {overtime ? "Regular" : "Total"} hours: {values.hours[0]}
+        </div>
+        <div>
+          {overtime ? "Regular" : "Hourly"} rate: $
+          {safeToFixed(values?.rates[0])}{" "}
           {values?.rates[1] &&
             `($${safeToFixed(values.hours[0] * values?.rates[0])})`}
         </div>
         {employee?.rates[1] && (
           <>
-            <div> {overtime ? "Overtime" : "Total"} hours: {values.hours[1]}</div>
             <div>
-            {overtime ? "Overtime" : "Hourly"} rate: ${safeToFixed(values?.rates[1])} ($
+              {" "}
+              {overtime ? "Overtime" : "Total"} hours: {values.hours[1]}
+            </div>
+            <div>
+              {overtime ? "Overtime" : "Hourly"} rate: $
+              {safeToFixed(values?.rates[1])} ($
               {safeToFixed(values.hours[1] * values?.rates[1]) || "0.00"})
             </div>
           </>

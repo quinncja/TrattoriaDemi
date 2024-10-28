@@ -18,42 +18,41 @@ function Employees() {
     const newEmpl = {
       name: "",
       rates: [0, 0],
-      federal: true, 
-      fica: true, 
-      ilChoice: false, 
-      state: .3,
+      federal: true,
+      fica: true,
+      ilChoice: false,
+      state: 0.3,
       active: true,
-    }
+    };
 
-    setNewEmpl(newEmpl)
-    setFocused("")
-  }
+    setNewEmpl(newEmpl);
+    setFocused("");
+  };
 
   useEffect(() => {
-    if(newEmpl && focused !== ""){
-      setNewEmpl(false)
+    if (newEmpl && focused !== "") {
+      setNewEmpl(false);
     }
     //eslint-disable-next-line
-  }, [focused])
+  }, [focused]);
 
   const updateListWithNew = (newEmployee) => {
     setEmployees((prev) => {
       const updatedEmployees = [...prev, newEmployee];
-  
+
       const sortedEmployees = updatedEmployees.sort((a, b) => {
-        const lastNameA = a.name.split(" ").slice(-1).join(" "); 
-        const lastNameB = b.name.split(" ").slice(-1).join(" "); 
-        
+        const lastNameA = a.name.split(" ").slice(-1).join(" ");
+        const lastNameB = b.name.split(" ").slice(-1).join(" ");
+
         return lastNameA.localeCompare(lastNameB);
       });
-  
+
       return sortedEmployees;
     });
 
     setNewEmpl();
     setFocused(newEmployee.name);
   };
-  
 
   const updateEmployeeList = (newEmployee) => {
     setEmployees((prevEmployees) => {
@@ -103,20 +102,19 @@ function Employees() {
   useEffect(() => {
     const loadEmployees = async () => {
       const employees = await getEmployees();
-      
+
       const sortedEmployees = employees.sort((a, b) => {
-        const lastNameA = a.name.split(" ").slice(-1).join(" "); 
-        const lastNameB = b.name.split(" ").slice(-1).join(" "); 
-        
-        return lastNameA.localeCompare(lastNameB); 
+        const lastNameA = a.name.split(" ").slice(-1).join(" ");
+        const lastNameB = b.name.split(" ").slice(-1).join(" ");
+
+        return lastNameA.localeCompare(lastNameB);
       });
-  
+
       setEmployees(sortedEmployees);
     };
-  
+
     loadEmployees();
   }, []);
-  
 
   const filterByActive = (employees) => {
     return employees.filter((employee) => employee.active === true);
@@ -152,31 +150,46 @@ function Employees() {
               <h2> Inactive Employees </h2>
             </button>
           </div>
-          <button className="new-employee-btn" onClick={() => beginCreateEmpl()}>
+          <button
+            className="new-employee-btn"
+            onClick={() => beginCreateEmpl()}
+          >
             {plusSvg()}
           </button>
         </div>
-        <AnimatePresence> 
-        <motion.div layout className="employee-layout" initial="hidden" animate="visible" variants={fadeInMany}>
-        {newEmpl && isObject(newEmpl) && 
-          <>
-            <h2> New Employee </h2>
-            <EmployeeRow isNew={true} employee={newEmpl} isFocused={focused === ""} setFocused={setFocused} updateEmployeeList={updateListWithNew}  />
-            </>
-        }
-        {shownEmployees &&
-          shownEmployees.map((employee, index) => {
-            return (
-              <EmployeeRow
-                key={employee.name}
-                employee={employee}
-                isFocused={focused === employee.name}
-                updateEmployeeList={updateEmployeeList}
-                setFocused={setFocused}
-              />
-            );
-          })}
-        </motion.div>
+        <AnimatePresence>
+          <motion.div
+            layout
+            className="employee-layout"
+            initial="hidden"
+            animate="visible"
+            variants={fadeInMany}
+          >
+            {newEmpl && isObject(newEmpl) && (
+              <>
+                <h2> New Employee </h2>
+                <EmployeeRow
+                  isNew={true}
+                  employee={newEmpl}
+                  isFocused={focused === ""}
+                  setFocused={setFocused}
+                  updateEmployeeList={updateListWithNew}
+                />
+              </>
+            )}
+            {shownEmployees &&
+              shownEmployees.map((employee, index) => {
+                return (
+                  <EmployeeRow
+                    key={employee.name}
+                    employee={employee}
+                    isFocused={focused === employee.name}
+                    updateEmployeeList={updateEmployeeList}
+                    setFocused={setFocused}
+                  />
+                );
+              })}
+          </motion.div>
         </AnimatePresence>
       </div>
     </div>

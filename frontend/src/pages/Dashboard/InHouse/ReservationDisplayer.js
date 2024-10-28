@@ -10,14 +10,16 @@ function ReservationDisplayer(props) {
 
   function getCurrentTime() {
     const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
     return `${hours}:${minutes}`;
   }
 
   function handleBtnClick(res, state) {
     const updatedReservations = reservations.map((r) =>
-      r._id === res._id ? { ...r, state: state, arrivedTime: getCurrentTime() } : r
+      r._id === res._id
+        ? { ...r, state: state, arrivedTime: getCurrentTime() }
+        : r
     );
     setReservations(updatedReservations);
     patchRes(res._id, state);

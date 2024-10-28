@@ -14,7 +14,7 @@ const PayrollRow = forwardRef((props) => {
     handleItemChange,
     handleRowChange,
   } = props;
-  const { employee, ...values } = row;
+  const { employee } = row;
   const blankValues = {
     hours: [0, 0],
     tips: 0,
@@ -154,24 +154,24 @@ const PayrollRow = forwardRef((props) => {
   function calcGrossGeneral(e) {
     const input = e.target.id;
     const value = e.target.value;
-  
+
     const updatedHours = [...inputVals.hours];
     let tips = inputVals.tips || 0;
-  
+
     if (input === "tips") {
       tips = value;
     } else {
-      const inputNum = Number(input) - 1; 
+      const inputNum = Number(input) - 1;
       updatedHours[inputNum] = value;
     }
-  
+
     let grossWage = 0;
     for (let i = 0; i < employee.rates.length; i++) {
       grossWage += Number(updatedHours[i] || 0) * employee.rates[i];
     }
-  
+
     const gross = [rounder(grossWage), Number(tips)];
-  
+
     return {
       ...inputVals,
       gross: gross,
@@ -208,7 +208,9 @@ const PayrollRow = forwardRef((props) => {
         <div className="input-row">
           <PayrollInput
             obj={{
-              text: `${employee.overtime ? "Regular " : "Hours "} <br/> @ $${row.rates[0]}/hr`,
+              text: `${employee.overtime ? "Regular " : "Hours "} <br/> @ $${
+                row.rates[0]
+              }/hr`,
               id: "1",
               type: "hours",
               step: "0.01",
@@ -224,7 +226,9 @@ const PayrollRow = forwardRef((props) => {
           {employee.rates.length > 1 && (
             <PayrollInput
               obj={{
-                text: `${employee.overtime ? "Overtime " : "Hours "} <br/> @ $${row.rates[1]}/hr`,
+                text: `${employee.overtime ? "Overtime " : "Hours "} <br/> @ $${
+                  row.rates[1]
+                }/hr`,
                 id: "2",
                 type: "hours",
                 step: "0.01",

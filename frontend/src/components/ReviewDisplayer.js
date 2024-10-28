@@ -68,7 +68,10 @@ function ReviewDisplayer() {
 
   return (
     <div className="review-section">
-      <button className="review-arrow" onClick={() => paginate(-1)}> {leftArrow()} </button>
+      <button className="review-arrow" onClick={() => paginate(-1)}>
+        {" "}
+        {leftArrow()}{" "}
+      </button>
       <div className="review-wrapper">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
@@ -85,7 +88,10 @@ function ReviewDisplayer() {
           </motion.div>
         </AnimatePresence>
       </div>
-      <button className="review-arrow" onClick={() => paginate(+1)}> {rightArrow()} </button>
+      <button className="review-arrow" onClick={() => paginate(+1)}>
+        {" "}
+        {rightArrow()}{" "}
+      </button>
     </div>
   );
 }

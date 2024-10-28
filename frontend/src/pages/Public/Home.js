@@ -9,10 +9,9 @@ import Interior from "images/FullSizeRender.webp";
 import EmblemBanner from "components/EmblemBanner";
 import ScrollDown from "components/ScrollDown/ScrollDown";
 import { welcomeSvg } from "svg";
-import SuperLine from "images/Gold under.webp"
-import Eater from "images/eater.jpg"
+import SuperLine from "images/Gold under.webp";
+import Eater from "images/eater.jpg";
 import FancyLine from "images/FancyLine.png";
-
 
 export default function Home() {
   const navigate = useNavigate();
@@ -91,7 +90,7 @@ export default function Home() {
                     </button>
                   </div>
                 </div>
-                
+
                 <div className="home-right">
                   <div className="image-wrapper">
                     <ImageDisplayer pic={image.file} name={image.name} />
@@ -99,25 +98,33 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
       <div className="featured-block">
-        <div className="featured-top"> 
-        <div className="featured-text"> 
-          <div className="hero-text"> Featured in </div>
-          <h2 className="article-text"> 
-          <a href="https://chicago.eater.com/maps/the-best-pasta-in-chicago" target="_blank" rel="noopener noreferrer">
-          The Best Pasta in Chicago
-        </a> </h2>
+        <div className="featured-top">
+          <div className="featured-text">
+            <div className="hero-text"> Featured in </div>
+            <h2 className="article-text">
+              <a
+                href="https://chicago.eater.com/maps/the-best-pasta-in-chicago"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                The Best Pasta in Chicago
+              </a>{" "}
+            </h2>
+          </div>
+          <a
+            href="https://chicago.eater.com/maps/the-best-pasta-in-chicago"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="eater-wrapper"
+          >
+            <img src={Eater} alt="Eater" className="eater-img" />
+          </a>
         </div>
-        <a href="https://chicago.eater.com/maps/the-best-pasta-in-chicago" target="_blank" rel="noopener noreferrer" className="eater-wrapper">
-          <img src={Eater} alt="Eater" className="eater-img" />
-        </a>
-        </div>
-
-      </div>  
+      </div>
       <div className="mid-pic-overlay">
         <img
           className="mid-pic"
@@ -133,19 +140,15 @@ export default function Home() {
           loading="lazy"
         />
       </div>
-      <div className="after-mid-pic"/>
+      <div className="after-mid-pic" />
 
       <div className="review-container">
-      <div className="review-box"> 
-      <div className="hero-text elegant-hero" >Hear it from the locals </div>
-      <img className="fancy-line review-line" src={FancyLine} alt="" />
+        <div className="review-box">
+          <div className="hero-text elegant-hero">Hear it from the locals </div>
+          <img className="fancy-line review-line" src={FancyLine} alt="" />
           <ReviewDisplayer />
-          <img
-          className="super-line"
-            src={SuperLine}
-            alt="Fancy under line"
-          />
-      </div>
+          <img className="super-line" src={SuperLine} alt="Fancy under line" />
+        </div>
       </div>
 
       <EmblemBanner />

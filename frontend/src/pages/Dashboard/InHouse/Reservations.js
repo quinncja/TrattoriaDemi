@@ -168,24 +168,24 @@ function Reversations() {
           submitRes={submitRes}
         />
       )}
-        <div className="reservations-header">
-          <div className="res-header">
-            <ReservationHeader
-              date={date}
-              setDate={setDate}
-              numGuests={sumGuests(liveRes)}
-              numRes={liveRes.length}
-            />
-          </div>
-          {newResButton()}
+      <div className="reservations-header">
+        <div className="res-header">
+          <ReservationHeader
+            date={date}
+            setDate={setDate}
+            numGuests={sumGuests(liveRes)}
+            numRes={liveRes.length}
+          />
         </div>
-        <ReservationDisplayer
-          reservations={reservations}
-          liveRes={liveRes}
-          cancelledRes={cancelledRes}
-          setReservations={setReservations}
-          patchRes={patchRes}
-        />
+        {newResButton()}
+      </div>
+      <ReservationDisplayer
+        reservations={reservations}
+        liveRes={liveRes}
+        cancelledRes={cancelledRes}
+        setReservations={setReservations}
+        patchRes={patchRes}
+      />
     </div>
   );
 }

@@ -76,7 +76,7 @@ export async function postReservation(newRes) {
       url: `${API_URL}api/reservations/`,
       data: newRes,
     });
-    return response.status;
+    return response;
   } catch (error) {
     throw error;
   }

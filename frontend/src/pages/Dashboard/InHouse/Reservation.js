@@ -7,14 +7,19 @@ export function Reservation(props) {
   const res = props.res;
   const handleBtnClick = props.handleBtnClick;
 
-  function arrivedTime(){
-    return(
-      <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+  function arrivedTime() {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <strong> Arrived </strong>
-          {convertTo12Hour(res.arrivedTime)}
+        {convertTo12Hour(res.arrivedTime)}
       </div>
-    )
-
+    );
   }
 
   function completeButton() {
