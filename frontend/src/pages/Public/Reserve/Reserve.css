@@ -254,6 +254,7 @@
 
 .input-group {
   width: 100%;
+  position: relative;
   text-align: left;
 }
 .input-text {
@@ -934,4 +935,26 @@
   .reservation-overlay div {
     margin-inline: 20px;
   }
+}
+
+.calendar-wrapper{
+  position: absolute;
+  width: 140%;
+  margin-top: 0px;
+  padding: 10px 15px;
+  margin-left: -20%;
+  background-color: var(--paper-white);
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  color: var(--color-bg-light);
+  box-shadow: 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.p-calendar{
+  width: 100%;
+  z-index: 20;
+}
+.p-datapicker{
+  z-index: 45;
 }

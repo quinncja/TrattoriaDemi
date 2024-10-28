@@ -3,19 +3,16 @@ import React, {
   useEffect,
   forwardRef,
   useImperativeHandle,
+  useRef
 } from "react";
 import { convertTo24Hour, convertTo12Hour, dateToString } from "functions";
 import { checkReservation } from "api";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, fadeInDown } from "animations";
 import Dropdown from "components/Dropdown";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Calendar } from 'primereact/calendar';
 import { calendarSvg, peopleSvg, clockSvg } from "svg";
 import { convertDateToIso } from "functions";
-import dayjs from "dayjs";
 
 const TableFinder = forwardRef((props, ref) => {
   const { table, setTable, editing, setEditing } = props;
@@ -26,6 +23,7 @@ const TableFinder = forwardRef((props, ref) => {
   const [timeList, setTimeList] = useState(null);
   const [availableTimes, setAvailableTimes] = useState(null);
   const [calOpen, setCalOpen] = useState(false);
+  const calendarRef = useRef(null);
 
   const reset = () => {
     setGuests(null);
@@ -325,115 +323,34 @@ const TableFinder = forwardRef((props, ref) => {
     ],
   };
 
-  const newTheme = (theme) =>
-    createTheme({
-      ...theme,
-      components: {
-        MuiTextField: {
-          styleOverrides: {
-            root: {
-              boxShadow: "none",
-              "& .Mui-selected": {
-                backgroundColor: "#d3963a !important",
-              },
-              "& .MuiPickersDay-today": {
-                backgroundColor: "#yd3963a !important",
-                color: "#yd3963a !important",
-              },
-              "&.MuiPickersDay-today:hover": {
-                backgroundColor: "#yd3963a",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  border: "1px solid #b6b6b6",
-                },
-                "&:hover fieldset": {
-                  border: "1px solid #b6b6b6",
-                },
-                "&.Mui-focused fieldset": {
-                  border: "1px solid #b6b6b6",
-                },
-              },
-            },
-          },
-        },
-        MuiDateCalendar: {
-          styleOverrides: {
-            root: {
-              color: "#121212",
-              borderRadius: "0px 5px 5px 5px",
-              borderWidth: 1,
-              borderColor: "#b6b6b6",
-              border: "1px solid #b6b6b6",
-              backgroundColor: "#f8f4f1",
-              minWidth: "100%",
-              "& .Mui-selected": {
-                backgroundColor: "#d3963a !important",
-              },
-              "& .MuiPickersDay-today:hover": {
-                backgroundColor: "#yourDesiredHoverColor !important",
-              },
-            },
-          },
-        },
-        MuiPaper: {
-          styleOverrides: {
-            root: {
-              boxShadow: "6px 8px rgba(0, 0, 0, 0.1) !important",
-            },
-          },
-        },
-      },
-    });
-
-  function ButtonField(props) {
-    const {
-      InputProps: { ref } = {},
-      inputProps: { "aria-label": ariaLabel } = {},
-    } = props;
-
+  const ButtonField = () => {
     return (
       <button
         type="button"
-        ref={ref}
         className={`date-picker ${calOpen ? "date-picker-open" : ""}`}
-        aria-label={ariaLabel}
-        onClick={() => setCalOpen?.((prev) => !prev)}
+        onClick={() => setCalOpen((prev) => !prev)}
       >
         {calendarSvg()}
         {date ? `${dateToString(date)}` : "Select"}
       </button>
     );
-  }
-  function ButtonDatePicker(props) {
-    return (
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <ThemeProvider theme={newTheme}>
-          <DatePicker
-            slots={{ field: ButtonField, ...props.slots }}
-            slotProps={{ field: { setCalOpen } }}
-            {...props}
-            onChange={(newValue) => handleDateChange(newValue)}
-            type="date"
-            id="date"
-            value={date}
-            closeOnSelect={true}
-            minDate={dayjs().startOf("day")}
-            open={calOpen}
-            onClose={() => setCalOpen(false)}
-            onOpen={() => setCalOpen(true)}
-            renderInput={({ inputRef, inputProps, InputProps }) => (
-              <div style={{ display: "none" }}>
-                <input ref={inputRef} {...inputProps} />
-                {InputProps?.endAdornment}
-              </div>
-            )}
-          />
-        </ThemeProvider>
-      </LocalizationProvider>
-    );
-  }
+  };
 
+  const datePicker = () => {
+    return(
+      <div className="calendar-wrapper"> 
+      <Calendar
+        value={date}
+        onChange={(e) => handleDateChange(e.value)}
+        visible={calOpen}
+        onVisibleChange={(e) => setCalOpen(e.visible)}
+        closeOnSelect={true}
+        minDate={new Date()}
+        inline="true"
+      />
+    </div>
+    )
+  }
   return (
     <div className="table-finder-container">
       <AnimatePresence>
@@ -454,11 +371,8 @@ const TableFinder = forwardRef((props, ref) => {
               {" "}
               {inputText.dateTxt}{" "}
             </span>
-            <ButtonDatePicker
-              label={date == null ? null : date}
-              value={date}
-              onChange={(newValue) => handleDateChange(newValue)}
-            />
+            <ButtonField />
+            {calOpen && datePicker()}
           </div>
           <div className="input-group">
             <div className="input-text"> {inputText.timeTxt} </div>
