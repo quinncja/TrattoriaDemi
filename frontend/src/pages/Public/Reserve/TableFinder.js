@@ -5,25 +5,41 @@ import React, {
   useImperativeHandle,
   useRef
 } from "react";
-import { convertTo24Hour, convertTo12Hour, dateToString } from "functions";
+import { convertTo24Hour, convertTo12Hour, dateToString, convertDateToIso } from "functions";
 import { checkReservation } from "api";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, fadeInDown } from "animations";
 import Dropdown from "components/Dropdown";
 import { Calendar } from 'primereact/calendar';
 import { calendarSvg, peopleSvg, clockSvg } from "svg";
-import { convertDateToIso } from "functions";
 
 const TableFinder = forwardRef((props, ref) => {
   const { table, setTable, editing, setEditing } = props;
-  console.log(table)
   const [numGuests, setGuests] = useState(table?.numGuests || null);
   const [date, setDate] = useState(table?.date || null);
   const [time, setTime] = useState(table?.time || "");
   const [timeList, setTimeList] = useState(null);
   const [availableTimes, setAvailableTimes] = useState(null);
   const [calOpen, setCalOpen] = useState(false);
-  const calendarRef = useRef(null);
+  const calRef = useRef();
+  const [isMobile, setMobile] = useState(false);
+  const [errorChecking, setErrorChecking] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 675) {
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    };
+  
+    handleResize();
+  
+    window.addEventListener('resize', handleResize);
+  
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const reset = () => {
     setGuests(null);
@@ -177,16 +193,57 @@ const TableFinder = forwardRef((props, ref) => {
   };
 
   const getTimeList = (date) => {
-    const newDate = new Date(date);
+    const [year, month, day] = date.substring(0, 10).split('-').map(Number)
+    const newDate = new Date(year, month - 1, day);
     const dayOfWeek = newDate.getDay();
     const timeKey = days[dayOfWeek];
     const tL = times[timeKey];
-    const convertedTimeList = tL.map((time) => ({
+  
+    const now = new Date();
+    const isToday = newDate.toDateString() === now.toDateString();
+  
+    let filteredTL = tL;
+  
+    if (isToday) {
+      const nowPlus30 = new Date(now.getTime() + 30 * 60000);
+  
+      filteredTL = tL.filter((time) => {
+        const { hours, minutes } = parseTimeString(time);
+        const timeDate = new Date(newDate);
+        timeDate.setHours(hours);
+        timeDate.setMinutes(minutes);
+        timeDate.setSeconds(0);
+        timeDate.setMilliseconds(0);
+        return timeDate >= nowPlus30;
+      });
+    }
+  
+    const convertedTimeList = filteredTL.map((time) => ({
       label: time,
       value: convertTo24Hour(time),
     }));
     setTimeList(convertedTimeList);
   };
+  
+  const parseTimeString = (timeString) => {
+    const regex = /^(\d{1,2}):(\d{2})(am|pm)$/;
+    const match = timeString.match(regex);
+  
+    if (!match) return null; 
+  
+    let hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+    const modifier = match[3];
+  
+    if (modifier === 'pm' && hours !== 12) {
+      hours += 12;
+    } else if (modifier === 'am' && hours === 12) {
+      hours = 0;
+    }
+  
+    return { hours, minutes };
+  };
+  
 
   const handleTimeClick = (buttonId) => {
     const [btnTime, btnTable] = buttonId.split("-");
@@ -216,12 +273,16 @@ const TableFinder = forwardRef((props, ref) => {
   };
 
   const handleDateChange = (value) => {
-    console.log(value)
     setTime("");
     setAvailableTimes(null);
-    setDate(value);
-    getTimeList(value);
+    setDate(convertDateToIso(value));
+    getTimeList(convertDateToIso(value));
+    setCalOpen(false)
   };
+
+  const handleOverlayClick = () => {
+    if(isMobile) setCalOpen(false)
+  }
 
   const handleChange = (event) => {
     if (event.target.id === "guests") {
@@ -259,8 +320,8 @@ const TableFinder = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
-    if (editing && date?.$d) {
-      getTimeList(date.$d);
+    if (editing && date) {
+      getTimeList(date);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -291,13 +352,13 @@ const TableFinder = forwardRef((props, ref) => {
       try {
         const response = await checkReservation(
           numGuests,
-          convertDateToIso(date.$d),
+          date,
           time,
           signal
         );
         handleResponse(response);
       } catch (error) {
-        console.error("Error checking reservation", error);
+        setErrorChecking(true)
       }
     };
     if (numGuests && date && time) fetchChecker();
@@ -323,8 +384,24 @@ const TableFinder = forwardRef((props, ref) => {
     ],
   };
 
+
+  const handleClickOutside = (event) => {
+    if (calRef.current && !calRef.current.contains(event.target)) {
+      setCalOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const ButtonField = () => {
     return (
+      <> 
       <button
         type="button"
         className={`date-picker ${calOpen ? "date-picker-open" : ""}`}
@@ -332,22 +409,31 @@ const TableFinder = forwardRef((props, ref) => {
       >
         {calendarSvg()}
         {date ? `${dateToString(date)}` : "Select"}
-      </button>
+      </button>      
+      {calOpen && !isMobile &&
+      <div className="extended-button"/> 
+      }
+      </>
     );
   };
 
-  const datePicker = () => {
+  function DatePicker(){
     return(
-      <div className="calendar-wrapper"> 
+      <div       
+      ref={calRef}
+      className={`calendar-wrapper-${isMobile ? "disabled" : "enabled"}`} 
+      onClick={() => handleOverlayClick()}> 
+      <div onClick={(e) => e.stopPropagation()}> 
       <Calendar
         value={date}
         onChange={(e) => handleDateChange(e.value)}
         visible={calOpen}
         onVisibleChange={(e) => setCalOpen(e.visible)}
-        closeOnSelect={true}
         minDate={new Date()}
         inline="true"
+        touchUI={isMobile}
       />
+      </div>
     </div>
     )
   }
@@ -355,7 +441,7 @@ const TableFinder = forwardRef((props, ref) => {
     <div className="table-finder-container">
       <AnimatePresence>
         <motion.div {...fadeIn} className={`table-finder`}>
-          <div className="input-group" layoutId="guest-outline">
+          <div className="input-group">
             <div className={`input-text`}> {inputText.guestNum} </div>
             <Dropdown
               object={guestOptions}
@@ -364,6 +450,7 @@ const TableFinder = forwardRef((props, ref) => {
               id={"guests"}
               svg={peopleSvg}
               layoutId={"guest-outline"}
+              isMobile={isMobile}
             />
           </div>
           <div className="input-group">
@@ -372,7 +459,7 @@ const TableFinder = forwardRef((props, ref) => {
               {inputText.dateTxt}{" "}
             </span>
             <ButtonField />
-            {calOpen && datePicker()}
+            {calOpen && <DatePicker />}
           </div>
           <div className="input-group">
             <div className="input-text"> {inputText.timeTxt} </div>
@@ -383,9 +470,20 @@ const TableFinder = forwardRef((props, ref) => {
               id={"time"}
               svg={clockSvg}
               layoutId={"time-outline"}
+              isMobile={isMobile}
             />
           </div>
         </motion.div>
+        {errorChecking && (
+          <AnimatePresence>
+            <motion.div {...fadeInDown}>
+              <label className="input-text"> {inputText.button} </label>
+              <div className="reserve-fail">
+                There was an error fetching available tables, please refresh and try again. <br/> 
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        )}
         {availableTimes && (
           <AnimatePresence>
             <motion.div {...fadeInDown}>

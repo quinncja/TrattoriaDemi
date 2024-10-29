@@ -121,9 +121,9 @@ export const convertDateToIso = (date) => {
       date.getFullYear(),
       date.getMonth(),
       date.getDate(),
-      date.getHours(),
-      date.getMinutes(),
-      date.getSeconds()
+      0, 
+      0, 
+      0  
     )
   );
   const formattedDate = dateAsUTC.toISOString();
