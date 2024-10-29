@@ -1,7 +1,9 @@
+
 const express = require("express");
 const reservationRouter = express.Router();
 const Reservation = require("./Reservation");
 const { sendResText } = require("./sendResText");
+const { sendUpdatedResText } = require("./sendUpdatedResText");
 const { reservationChecker } = require("./reservationChecker");
 let clients = [];
 
@@ -18,6 +20,7 @@ reservationRouter.post("/", async (req, res) => {
       notes,
       phone,
       tableSize,
+      sendText,
     });
     const response = await reservationChecker(numGuests, date, time);
     if (response.available) {
@@ -210,3 +213,38 @@ reservationRouter.get("/check", async (req, res) => {
 });
 
 module.exports = reservationRouter;
+
+
+// Update reservation by id
+reservationRouter.put("/id/:id", async (req, res) => {
+  try {
+    const reservationId = req.params.id;
+    const updatedData = req.body;
+
+    const existingReservation = await Reservation.findById(reservationId);
+
+    if (!existingReservation) {
+      return res.status(404).json({ error: "Reservation not found" });
+    }
+
+
+    const updatedReservation = await Reservation.findByIdAndUpdate(
+      reservationId,
+      updatedData,
+      { new: true }
+    );
+
+    if (existingReservation.sendText) {
+        await sendUpdatedResText(updatedReservation);
+    }
+
+    clients.forEach((client) =>
+      client.write(`data: ${JSON.stringify(updatedReservation)}\n\n`)
+    );
+
+    res.status(200).json(updatedReservation);
+  } catch (error) {
+    console.error("Error updating reservation:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});

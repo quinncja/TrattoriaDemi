@@ -47,6 +47,19 @@ export async function patchReservation(id, state) {
   }
 }
 
+export async function updateReservation(id, updatedRes) {
+  try {
+    const response = await axios({
+      method: "put",
+      url: `${API_URL}api/reservations/id/${id}/`,
+      data: updatedRes
+    })
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function checkReservation(numGuests, date, time, signal) {
   try {
     const response = await axios({

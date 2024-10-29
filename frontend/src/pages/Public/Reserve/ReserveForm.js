@@ -99,7 +99,7 @@ function ReserveForm(props) {
           />
           <div className={`reserve-small-text`}>
             {" "}
-            I would like to recieve texts relating to my reservation. Message
+            Please send me a text confirming my reservation. Message
             and data rates may apply.{" "}
           </div>
         </div>

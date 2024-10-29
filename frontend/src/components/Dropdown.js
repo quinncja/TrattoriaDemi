@@ -1,15 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { convertTo12Hour } from "../functions";
-import { useMobile } from "../context/MobileContext";
 import { motion } from "framer-motion";
 function Dropdown(props) {
-  const { object, selected, onSelect, id, svg } = props;
-  const mobile = useMobile();
+  const { object, selected, onSelect, id, svg, isMobile } = props;
   const [isOpen, setIsOpenState] = useState(false);
   const dropdownRef = useRef(null);
 
   const setIsOpen = (open) => {
-    document.body.classList.toggle("no-scroll", open);
+    if(isMobile) document.body.classList.toggle("no-scroll", open);
     setIsOpenState(open);
   };
 
@@ -36,7 +34,7 @@ function Dropdown(props) {
   };
 
   return (
-    <div className={`dropdown ${isOpen && `dropdown-open`}`} ref={dropdownRef}>
+    <div className={`dropdown ${isOpen && !isMobile && `dropdown-open`}`} ref={dropdownRef}>
       <motion.button
         type="button"
         className="dropdown-button"
@@ -51,6 +49,8 @@ function Dropdown(props) {
       </motion.button>
       {isOpen ? (
         !object.options ? (
+          <> 
+          <div className={`faux-overlay ${isMobile && "faux-overlay-mobile"}`}/>
           <motion.div className="dropdown-menu">
             <button
               id={id}
@@ -60,11 +60,13 @@ function Dropdown(props) {
               Select a date first
             </button>
           </motion.div>
+          </>
         ) : (
           <>
+          {!isMobile && <div className="faux-overlay"/>}
             <div className="overlay" onClick={() => setIsOpen(false)}>
-              <motion.div className={!mobile ? "dropdown-menu" : "mobile-menu"}>
-                {mobile && (
+              <motion.div className={!isMobile ? "dropdown-menu" : "mobile-menu"}>
+                {isMobile && (
                   <div className="dropdown-header">
                     {svg()} {object.name}
                   </div>
@@ -77,11 +79,11 @@ function Dropdown(props) {
                       id={id}
                       value={option.value}
                       type="button"
-                      className={`dropdown-item ${
-                        option.disabled ? "item-disabled disabled" : ""
+                      className={`dropdown-item ${isMobile && "dropdown-item-mobile"} ${
+                        option.disabled ? `item-disabled disabled ${isMobile && "item-disabled-mobile"}` : ""
                       }`}
                       onClick={
-                        option.disabled ? "" : (option) => handleSelect(option)
+                        option.disabled ? () => {} : (option) => handleSelect(option)
                       }
                     >
                       {option.label}

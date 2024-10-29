@@ -51,7 +51,9 @@
     -16px 16px var(--paper-white), -16px -16px var(--paper-white),
     16px -16px var(--paper-white);
 }
-
+.inResTable{
+  width: 80%;
+}
 .giftcard-inputs {
   flex-direction: column;
   position: relative;
@@ -368,6 +370,10 @@
   padding-top: 20px;
 }
 
+.res-header-text{
+  color: var(--gold) !important;
+}
+
 .res-top-line {
   display: flex;
   align-items: baseline;
@@ -407,14 +413,19 @@
 }
 
 .modify-btn {
-  color: var(--gold);
+  color: var(--gold) !important;
   background: none;
   font-size: 24px;
-  padding-block: 0px;
+  padding-block: 5px;
+}
+.save-modify-btn {
+  color: var(--white) !important;
+  font-size: 24px;
+  padding-block: 5px;
 }
 .res-cancel-btn {
   background: none;
-  color: var(--gold);
+  color: var(--gold) !important;
   font-size: 16px;
   padding-block: 0px;
 }
@@ -605,6 +616,21 @@
   gap: 2rem;
 }
 
+.res-container{
+  padding-top: 100px;
+  min-height: 100vh;
+}
+
+.res-box{
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.res-box * {
+  color: unset;
+}
 .table-finder {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -656,6 +682,8 @@
   position: relative;
   border: 1px solid var(--border-color);
   border-radius: 5px;
+  height: 65px;
+  box-sizing: border-box;
 }
 
 .dropdown-open {
@@ -680,6 +708,7 @@
   border-radius: 5px;
   cursor: pointer;
   position: relative;
+  box-sizing: border-box;
 }
 
 .date-picker {
@@ -696,13 +725,44 @@
   background: none;
   cursor: pointer;
   font-size: 1rem;
+  height: 65px;
   transition: all 1s ease-in-out;
+  box-sizing: border-box;
 }
 
 .date-picker-open {
   border-radius: 5px 5px 0px 0px;
   transition: all 1s ease-in-out;
+  border-bottom: 1px solid var(--paper-white);
   box-shadow: 4px 8px rgba(0, 0, 0, 0.1);
+  height: 65px;
+}
+.extended-button{
+  position: absolute;
+  height: 9.5px;
+  margin-top: -1px;
+  width: 100%;
+  z-index: 150;
+  background-color: var(--paper-white);
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  box-sizing: border-box;
+}
+.faux-overlay{
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  z-index: 50;
+  margin-top: -1px;
+  margin-left: -1px;
+  background-color: var(--paper-white);
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+}
+
+.faux-overlay-mobile{
+  margin-top: -5px;
+  height: 10px;
 }
 
 .dropdown-open .dropdown-button {
@@ -713,7 +773,6 @@
   scrollbar-color: var(--gold) var(--nice-white);
   background-color: var(--nice-white);
   position: absolute;
-  top: 100%;
   left: -1px;
   width: 100%;
   max-height: 300px;
@@ -723,8 +782,8 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: -1px;
   padding-bottom: 20px;
+  z-index: 30;
 }
 
 .dropdown-menu::-webkit-scrollbar-track {
@@ -756,9 +815,10 @@
   width: 100%;
   margin-inline: auto;
   padding-top: 16px;
-  padding-left: 25px;
+  padding-left: 10px;
   color: var(--black);
   position: relative;
+  margin: auto;
 }
 
 .dropdown-item::before {
@@ -769,9 +829,13 @@
   width: 50%;
   margin: auto;
   top: 0;
-  left: 50%;
+  left: calc(45% + 5px);
   transform: translateX(calc(-50% + 10px));
   opacity: 0.6;
+}
+
+.dropdown-item-mobile::before {
+  left: calc(50%);
 }
 
 .dropdown-item:hover {
@@ -795,6 +859,45 @@
   gap: 16px;
   overflow-y: auto;
   scrollbar-color: var(--gold) var(--nice-white);
+}
+
+@media (width <= 675px){
+  .mobile-menu {
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid var(--border-color) !important;
+    max-height: unset;
+    height: 60vh;
+    margin-top: 10vh;
+    width: 65%;
+    background-color: rgb(255, 255, 255);
+    z-index: 1002;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .overlay {
+    overscroll-behavior: contain;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: scroll;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .dropdown-item {
+    padding-left: 10px;
+    padding-top: 24px;
+    padding-bottom: 12px;
+  }
 }
 
 @media (width <= 470px) {
@@ -861,7 +964,10 @@
 .item-disabled {
   cursor: unset;
   text-align: center;
-  padding-left: 15px;
+  padding-left: 5px;
+}
+.item-disabled-mobile{
+  padding-bottom: 40px;
 }
 .edit-btn:hover {
   color: var(--gold);
@@ -937,24 +1043,165 @@
   }
 }
 
-.calendar-wrapper{
+.calendar-wrapper-enabled{
   position: absolute;
-  width: 140%;
+  width: 180%;
+  height: fit-content;
+  top: 94px;
   margin-top: 0px;
-  padding: 10px 15px;
-  margin-left: -20%;
+  padding: 10px 25px;
+  padding-bottom: 20px;
+  margin-left: -39.5%;
   background-color: var(--paper-white);
   box-sizing: border-box;
   border: 1px solid var(--border-color);
   color: var(--color-bg-light);
   box-shadow: 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  z-index: 100;
+}
+.calendar-wrapper-disabled{
+  overscroll-behavior: contain;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: scroll;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.p-datepicker-touch-ui{
+  background-color: white;
+  border: 1px solid var(--border-color);
+  padding: 10px 25px;
+  border-radius: 5px;}
+
+.p-component *{
+ text-align: center;
+ line-height: 1;
+}
 .p-calendar{
   width: 100%;
   z-index: 20;
+  height: 100%;
+  box-sizing: border-box;
+  position: relative;
 }
-.p-datapicker{
-  z-index: 45;
+.p-disabled{
+  color: var(--more-disabled);
+  pointer-events: none;
+}
+.p-datepicker-today span{ 
+  border: 1.5px solid var(--gold);
+  border-radius: 150px !important;
+}
+
+.p-datepicker-calendar tbody tr td span{
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+}
+.p-datepicker-calendar tbody tr td span:hover{
+  background-color: var(--gold);
+  opacity: 80%;
+  color: white;
+}
+.p-disabled td:hover{
+  color: var(--disabled);
+  filter: brightness(1.5);
+  background: none;
+}
+.p-highlight{
+  background-color: var(--gold);
+  color: white;
+}
+
+.p-datepicker-other-month{
+  opacity: 0;
+}
+.p-datepicker{
+  overflow-x: hidden;
+}
+
+.p-datepicker table td{
+  padding: .1rem;
+}
+.p-datapicker-header{
+  position: fixed;
+  top: 0;
+}
+.p-datepicker-group{
+  height: max-content;
+  box-sizing: border-box;
+}
+.p-datepicker-group-container{
+  height: 100%;
+  box-sizing: border-box;
+}
+.p-datepicker-calendar-container{
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding-top: 15px;
+}
+.p-datepicker-calendar{
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+.p-datepicker-calendar * {
+  font-size: 1rem !important;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.p-datepicker-calendar thead * {
+  font-size: 1rem !important;
+  font-weight: 800;
+}
+.p-datepicker-header{
+  padding-top: 5px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+.p-datepicker-title{
+  display: flex;
+  gap: 10px;
+  pointer-events: none;
+}
+.p-datepicker-title button{
+  font-size: 1rem !important;
+  font-weight: 800;
+}
+
+.p-datepicker-next, .p-datepicker-prev{
+  background: none;
+  border: none;
+  padding: 8px 10px;
+}
+
+.p-datepicker-next:hover, .p-datepicker-prev:hover{
+  color: var(--gold);
+}
+
+.hidden-button{
+  opacity: 0 !important;
+  pointer-events: hidden !important;
+}
+.reserve-fail{
+  text-align: center;
+  font-size: 1rem;
+  color: var(--red)
+}
+
+.calendar-wrapper-disabled .p-datepicker-calendar tbody tr td span{
+  height: 2.5rem;
+  width: 2.5rem;
 }

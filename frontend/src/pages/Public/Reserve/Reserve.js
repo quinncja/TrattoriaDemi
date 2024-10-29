@@ -7,7 +7,6 @@ import ReserveForm from "./ReserveForm";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeInDown } from "animations";
 import FoundTable from "./FoundTable";
-import { convertDateToIso } from "functions";
 import { useNavigate } from "react-router-dom";
 
 export default function Reserve() {
@@ -18,7 +17,6 @@ export default function Reserve() {
   async function createRes(formData) {
     const newRes = {
       ...table,
-      date: convertDateToIso(table.date.$d),
       ...formData,
     };
 

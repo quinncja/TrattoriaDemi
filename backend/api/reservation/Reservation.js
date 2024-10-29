@@ -45,5 +45,9 @@ const reservationSchema = new mongoose.Schema({
   arrivedTime: {
     type: String, // hh:mm 24h
   },
+  sendText: {
+    type: Boolean,
+    default: false,
+  }
 });
 module.exports = mongoose.model("Reservation", reservationSchema);

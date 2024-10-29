@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import { getReservationById, patchReservation } from "api";
-import { cancelReservationAlert, successfulCancelAlert, successfulReserveAlert } from "swal2";
+import { getReservationById, patchReservation, updateReservation } from "api";
+import { cancelReservationAlert, successfulCancelAlert, successfulReserveAlert, successfulUpdatedAlert } from "swal2";
 import FancyLine from "images/FancyLine.png";
 import { convertTo12Hour, dateToString, getFirstWord } from "functions";
-import TableFinder from "./TableFinder";
 import { resBookSvg } from "svg";
+import ModifyRes from "./ModifyRes";
+import { fadeIn } from "animations";
+import { motion } from "framer-motion";
+
 
 function Reservation() {
   const { id } = useParams();
@@ -14,6 +17,7 @@ function Reservation() {
   const navigate = useNavigate();
   const [reservation, setReservation] = useState(null);
   const [isModify, setModify] = useState(false);
+  const resText = isModify ? "Subject to table availability" : "We look forward to serving you"
 
   useEffect(() => {
     if (isSuccess) {
@@ -25,6 +29,7 @@ function Reservation() {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
+
     const loadReservation = async () => {
       try {
         const responseData = await getReservationById(id, signal);
@@ -34,12 +39,30 @@ function Reservation() {
       }
     };
 
-    loadReservation();
+    if(!reservation) loadReservation();
 
     return () => {
       abortController.abort();
     };
-  }, [id]);
+  }, [id, reservation]);
+
+  const updateRes = async (newTable) => {
+    const updatedRes = {
+      ...reservation,
+      ...newTable
+    }
+
+    try{
+      const response = await updateReservation(id, updatedRes)
+      if (response.status === 200) {
+        successfulUpdatedAlert();
+        setReservation(null)
+        setModify(false)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   async function cancelRes() {
     try {
@@ -75,6 +98,7 @@ function Reservation() {
             )}`}
           </div>
         </div>
+
         <div className="res-buttons">
           <button
             className="submit-button modify-btn"
@@ -134,13 +158,18 @@ function Reservation() {
       </div>
     );
   return (
-    <div className="review-container res-container">
-      <div className="review-box">
-        <div className="menu-section-header">Your Reservation</div>
-        <img className="fancy-line review-line" src={FancyLine} alt="" />
-        {isModify ? <TableFinder table={reservation}/> : resBody()}
+    <motion.div {...fadeIn} className="review-container res-container">
+      <div className="review-box res-box">
+        <div> 
+          <div className="menu-section-header res-header-text"> {isModify && "Modify"} Your Reservation</div>
+          <img className="fancy-line review-line" src={FancyLine} alt="" />
+          <div style={{marginTop: "-10px", paddingBottom: "10px", color: "#444444", textAlign: "center", fontWeight: 600}}>
+            {resText}
+          </div>
+        </div>
+        {isModify ? <ModifyRes reservation={reservation} setModify={setModify} updateRes={updateRes}/> : resBody()}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
