@@ -48,6 +48,10 @@ const reservationSchema = new mongoose.Schema({
   sendText: {
     type: Boolean,
     default: false,
-  }
+  },
+  dateMade: {
+    type: Date,
+    default: Date.now,
+  },
 });
 module.exports = mongoose.model("Reservation", reservationSchema);

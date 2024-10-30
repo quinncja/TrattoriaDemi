@@ -2,23 +2,53 @@ import React, { useEffect, useState } from "react";
 import ReservationHeader from "./ReservationHeader";
 import ReservationDisplayer from "./ReservationDisplayer";
 import NewRes from "./NewRes";
-import { successfulAdminResAlert } from "../../../swal2";
+import { successfulAdminResAlert } from "../../../../swal2";
 import ReservationSSE from "./ReservationSSE";
 import moment from "moment-timezone";
 import {
   getReservationsByDate,
   patchReservation,
   postAdminReservation,
-} from "../../../api";
+} from "../../../../api";
 
 function Reversations() {
   const [reservations, setReservations] = useState([]);
   const [newResOpen, setNewRes] = useState(false);
 
-  const liveRes = reservations.filter(
+  function getCurrentShift() {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+
+    if (hours < 16 || (hours === 16 && minutes === 0)) {
+      return "Lunch";
+    } else {
+      return "Dinner";
+    }
+  }
+
+  const [shift, setShift] = useState(getCurrentShift());
+
+  const toggleShift = () => {
+    setShift((prevShift) => (prevShift === "Lunch" ? "Dinner" : "Lunch"));
+  };
+
+  const shiftReservations = reservations.filter((reservation) => {
+    const [hoursStr, minutesStr] = reservation.time.split(":");
+    const hours = parseInt(hoursStr, 10);
+    const minutes = parseInt(minutesStr, 10);
+
+    if (shift === "Lunch") {
+      return hours < 16 || (hours === 16 && minutes === 0);
+    } else {
+      return hours > 16 || (hours === 16 && minutes > 0);
+    }
+  });
+
+  const liveRes = shiftReservations.filter(
     (reservation) => reservation.state !== "cancel"
   );
-  const cancelledRes = reservations.filter(
+  const cancelledRes = shiftReservations.filter(
     (reservation) => reservation.state === "cancel"
   );
 
@@ -175,9 +205,11 @@ function Reversations() {
             setDate={setDate}
             numGuests={sumGuests(liveRes)}
             numRes={liveRes.length}
+            shift={shift}
+            toggleShift={toggleShift}
+            newResButton={newResButton}
           />
         </div>
-        {newResButton()}
       </div>
       <ReservationDisplayer
         reservations={reservations}

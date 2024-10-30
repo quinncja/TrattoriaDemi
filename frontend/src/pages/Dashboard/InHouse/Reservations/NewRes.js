@@ -1,10 +1,8 @@
 import { useState } from "react";
-import useOutsideClick from "../../../components/useOutsideClick";
 import PhoneInput from "react-phone-number-input/input";
 
 function NewRes(props) {
   const close = props.close;
-  const selfClose = props.selfClose;
   const submitRes = props.submitRes;
 
   const [name, setName] = useState(null);
@@ -29,12 +27,47 @@ function NewRes(props) {
     submitRes(newRes);
   };
 
-  const closeOnOutsideClick = () => {
-    selfClose();
-    // Ask to confirm close if form has input
-  };
-
-  const ref = useOutsideClick(closeOnOutsideClick);
+  const hourOptions = [
+    "11:30am",
+    "11:45am",
+    "12:00pm",
+    "12:15pm",
+    "12:30pm",
+    "12:45pm",
+    "1:00pm",
+    "1:15pm",
+    "1:30pm",
+    "1:45pm",
+    "2:00pm",
+    "2:15pm",
+    "2:30pm",
+    "2:45pm",
+    "3:00pm",
+    "3:15pm",
+    "3:30pm",
+    "3:45pm",
+    "4:00pm",
+    "4:15pm",
+    "4:30pm",
+    "4:45pm",
+    "5:00pm",
+    "5:15pm",
+    "5:30pm",
+    "5:45pm",
+    "6:00pm",
+    "6:15pm",
+    "6:30pm",
+    "6:45pm",
+    "7:00pm",
+    "7:15pm",
+    "7:30pm",
+    "7:45pm",
+    "8:00pm",
+    "8:15pm",
+    "8:30PM",
+    "8:45PM",
+    "9:00PM",
+  ];
 
   const handleChange = (event) => {
     if (event.target.id === "name") {
@@ -58,22 +91,24 @@ function NewRes(props) {
   };
 
   return (
-    <div className="opaque-background">
-      <div className="reservations-header-mock">{close()}</div>
-      <form className="new-res-form" id="new-res" ref={ref}>
-        <div className="new-res-header"> New Reservation </div>
+    <div className="background">
+      <form className="new-res-form" id="new-res">
+        <div className="new-res-header"> New Reservation {close()} </div>
+        <input
+          className={`new-res-input  ${!name && "new-res-unselect"}`}
+          id="name"
+          value={name}
+          placeholder="Name"
+          autocomplete="off"
+          onChange={(event) => handleChange(event)}
+        />
         <div className="new-res-top">
-          <input
-            className="new-res-input"
-            id="name"
-            placeholder="Name"
-            onChange={(event) => handleChange(event)}
-          ></input>
           <PhoneInput
             country="US"
             withCountryCallingCode={true}
-            className="new-res-input"
+            className={`new-res-input  ${!phone && "new-res-unselect"}`}
             value={phone}
+            autocomplete="off"
             onChange={(event) => {
               setPhone(event);
             }}
@@ -81,7 +116,7 @@ function NewRes(props) {
           />
         </div>
         <select
-          className="new-res-input"
+          className={`new-res-input  ${!numGuests && "new-res-unselect"}`}
           id="guests"
           onChange={(event) => handleChange(event)}
         >
@@ -90,32 +125,42 @@ function NewRes(props) {
             Party Size{" "}
           </option>
           <option>1 guest</option>
-          {[...Array(14)].map((_, index) => (
+          {[...Array(29)].map((_, index) => (
             <option data={index + 2} key={index + 2}>
               {index + 2} guests
             </option>
           ))}
         </select>
         <input
-          className="new-res-input"
+          className={`new-res-input  ${!date && "new-res-unselect"}`}
           id="date"
           placeholder="Date"
           type="date"
           onChange={(event) => handleChange(event)}
-        ></input>
-        <input
-          className="new-res-input"
+        />
+
+        <select
+          className={`new-res-input  ${!time && "new-res-unselect"}`}
           id="time"
-          placeholder="Time"
-          type="time"
           onChange={(event) => handleChange(event)}
-        ></input>
-        <input
-          className="new-res-input"
+        >
+          <option default hidden value="">
+            {" "}
+            Time{" "}
+          </option>
+          <option>1 guest</option>
+          {hourOptions.map((hour, index) => (
+            <option data={hour} key={hour}>
+              {hour}
+            </option>
+          ))}
+        </select>
+        <textarea
+          className="new-res-input text-area-res"
           id="notes"
           placeholder="Notes"
           onChange={(event) => handleChange(event)}
-        ></input>
+        />
         <button
           className="submit-button submit-new-res"
           type="button"
