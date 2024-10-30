@@ -876,7 +876,23 @@
   overflow-y: auto;
   scrollbar-color: var(--gold) var(--nice-white);
 }
-
+.calendar-wrapper-enabled{
+  position: absolute;
+  width: 180%;
+  height: fit-content;
+  top: 94px;
+  margin-top: 0px;
+  padding: 10px 25px;
+  padding-bottom: 20px;
+  margin-left: -39.5%;
+  background-color: var(--paper-white);
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  color: var(--color-bg-light);
+  box-shadow: 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 100;
+}
 .calendar-wrapper-disabled {
   overscroll-behavior: contain;
   position: fixed;
