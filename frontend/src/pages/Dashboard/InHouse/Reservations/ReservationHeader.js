@@ -1,9 +1,36 @@
 import React from "react";
-import { dateToString } from "../../../functions";
+import { dateToString } from "../../../../functions";
 import { leftArrow, rightArrow } from "svg";
+import { motion } from "framer-motion";
 
 function ReservationHeader(props) {
-  const { date, setDate, numGuests, numRes } = props;
+  const { date, setDate, shift, toggleShift, numGuests, numRes, newResButton } =
+    props;
+
+  function shiftChanger() {
+    return (
+      <div className="shift-wrapper">
+        <div onClick={toggleShift} className="toggle-container">
+          <motion.div
+            className="toggle"
+            animate={{
+              x: shift === "Lunch" ? 0 : 80,
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 800,
+              damping: 50,
+            }}
+          />
+
+          <div className="toggle-labels-container">
+            <span className="toggle-label">Lunch</span>
+            <span className="toggle-label">Dinner</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   function dateChanger() {
     const buttonClick = (id) => {
@@ -18,6 +45,10 @@ function ReservationHeader(props) {
 
       setDate(dateAsObj.toISOString());
     };
+    const dateClick = () => {
+      const today = new Date();
+      setDate(today.toISOString());
+    };
     return (
       <div className="date-changer-container">
         <button
@@ -27,7 +58,10 @@ function ReservationHeader(props) {
         >
           {leftArrow()}
         </button>
-        <div className="date-changer-text"> {dateToString(date)} </div>
+        <div className="date-changer-text" onClick={() => dateClick()}>
+          {" "}
+          {dateToString(date)}{" "}
+        </div>
         <button
           className="date-changer-btn dcbf"
           id="forward"
@@ -110,13 +144,18 @@ function ReservationHeader(props) {
       </div>
     );
   }
+
   return (
     <>
       <div className="res-amounts">
         {numResDisplay()}
         {numGuestDisplay()}
       </div>
-      {dateChanger()}
+      <>
+        {dateChanger()}
+        {shiftChanger()}
+      </>
+      <div style={{ marginLeft: "auto" }}>{newResButton()}</div>
     </>
   );
 }

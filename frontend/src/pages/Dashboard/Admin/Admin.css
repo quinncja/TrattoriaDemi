@@ -647,3 +647,41 @@
   z-index: -100;
   cursor: unset;
 }
+
+.filter-button {
+  background-color: var(--nice-black);
+  color: var(--paper-white);
+  padding: 2px 12px;
+  border: 1px solid #f8f4f146;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  background-color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.active-filter-button {
+  background-color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.number-boxes {
+  border: 1px solid #f8f4f146;
+  border-radius: 2px;
+}
+.number-boxes .res-amount-header {
+  height: 30px;
+}
+.number-boxes div {
+  border: none !important;
+}
+.admin-res-amount {
+  padding: 2px 0px !important;
+  box-shadow: none !important;
+  background: none !important;
+  color: var(--paper-white);
+  width: min-content !important;
+  gap: 5px !important;
+}

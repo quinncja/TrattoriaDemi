@@ -45,3 +45,9 @@
 .dbn-button-active {
   color: var(--gold);
 }
+
+@media (width <= 800px) {
+  .dashboard-navbar-wrapper {
+    display: none;
+  }
+}

@@ -395,3 +395,15 @@ export async function getGiftcardData() {
     throw error;
   }
 }
+
+export async function getReservationsData() {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/reservations/stats`,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

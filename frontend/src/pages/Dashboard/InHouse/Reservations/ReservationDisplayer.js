@@ -31,6 +31,21 @@ function ReservationDisplayer(props) {
     ));
   }
 
+  if (liveRes.length === 0) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          height: "50vh",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h1>No Reservations</h1>
+      </div>
+    );
+  }
   return (
     <>
       {liveRes && liveRes.length > 0 && (

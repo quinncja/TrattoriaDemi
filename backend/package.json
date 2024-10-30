@@ -36,6 +36,7 @@
     "luxon": "^3.4.4",
     "moment-timezone": "^0.5.43",
     "mongoose": "^7.6.3",
+    "primevue": "^4.1.1",
     "react-email": "^1.9.4",
     "resend": "^1.0.0",
     "stripe": "^13.6.0",

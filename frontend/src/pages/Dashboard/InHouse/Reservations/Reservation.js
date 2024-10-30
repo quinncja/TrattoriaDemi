@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { formatPhoneNumber, convertTo12Hour } from "../../../functions";
+import { formatPhoneNumber, convertTo12Hour } from "../../../../functions";
 
 export function Reservation(props) {
   const [isOpen, setOpen] = useState(false);
@@ -16,8 +16,11 @@ export function Reservation(props) {
           alignItems: "center",
         }}
       >
-        <strong> Arrived </strong>
-        {convertTo12Hour(res.arrivedTime)}
+        <strong className="gold-time"> Arrived </strong>
+        <span className="arrived-time">
+          {" "}
+          {convertTo12Hour(res.arrivedTime)}{" "}
+        </span>
       </div>
     );
   }

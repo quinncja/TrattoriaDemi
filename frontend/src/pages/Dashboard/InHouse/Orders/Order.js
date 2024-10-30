@@ -5,7 +5,7 @@ import {
   convertTo12Hour,
   formatPhoneNumber,
   getTimeFromDate,
-} from "../../../functions";
+} from "../../../../functions";
 
 function Order(props) {
   const order = props.order;

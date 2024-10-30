@@ -95,8 +95,6 @@ const TableFinder = forwardRef((props, ref) => {
       "7:30pm",
       "7:45pm",
       "8:00pm",
-      "8:15pm",
-      "8:30pm",
     ],
     fri_sat: [
       "11:30am",
@@ -135,8 +133,9 @@ const TableFinder = forwardRef((props, ref) => {
       "7:45pm",
       "8:00pm",
       "8:15pm",
-      "9:15pm",
-      "9:30pm",
+      "8:30PM",
+      "8:45PM",
+      "9:00PM",
     ],
     sun: [
       "12:00pm",
@@ -172,8 +171,6 @@ const TableFinder = forwardRef((props, ref) => {
       "7:30pm",
       "7:45pm",
       "8:00pm",
-      "8:15pm",
-      "8:30pm",
     ],
   };
 
@@ -417,7 +414,6 @@ const TableFinder = forwardRef((props, ref) => {
     if (isMobile) document.body.classList.toggle("no-scroll", true);
     setCalOpen(true);
   };
-
 
   function DatePicker() {
     return (

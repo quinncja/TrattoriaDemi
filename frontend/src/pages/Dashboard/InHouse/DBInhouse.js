@@ -1,4 +1,4 @@
-import Reservations from "./Reservations";
+import Reservations from "./Reservations/Reservations";
 import "./DBInhouse.css";
 
 function DBInhouse() {
