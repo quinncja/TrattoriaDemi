@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { calendarSvg, peopleSvg, clockSvg } from "svg";
 
 function FoundTable(props) {
-  const { table, setEditing, inRes} = props;
+  const { table, setEditing, inRes } = props;
   const { numGuests, date, time } = table;
 
   return (

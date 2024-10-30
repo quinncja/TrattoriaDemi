@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { getReservationById, patchReservation, updateReservation } from "api";
-import { cancelReservationAlert, successfulCancelAlert, successfulReserveAlert, successfulUpdatedAlert } from "swal2";
+import {
+  cancelReservationAlert,
+  successfulCancelAlert,
+  successfulReserveAlert,
+  successfulUpdatedAlert,
+} from "swal2";
 import FancyLine from "images/FancyLine.png";
 import { convertTo12Hour, dateToString, getFirstWord } from "functions";
 import { resBookSvg } from "svg";
 import ModifyRes from "./ModifyRes";
 import { fadeIn } from "animations";
 import { motion } from "framer-motion";
-
 
 function Reservation() {
   const { id } = useParams();
@@ -17,7 +21,9 @@ function Reservation() {
   const navigate = useNavigate();
   const [reservation, setReservation] = useState(null);
   const [isModify, setModify] = useState(false);
-  const resText = isModify ? "Subject to table availability" : "We look forward to serving you"
+  const resText = isModify
+    ? "Subject to table availability"
+    : "We look forward to serving you";
 
   useEffect(() => {
     if (isSuccess) {
@@ -29,7 +35,6 @@ function Reservation() {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-
     const loadReservation = async () => {
       try {
         const responseData = await getReservationById(id, signal);
@@ -39,7 +44,7 @@ function Reservation() {
       }
     };
 
-    if(!reservation) loadReservation();
+    if (!reservation) loadReservation();
 
     return () => {
       abortController.abort();
@@ -49,25 +54,25 @@ function Reservation() {
   const updateRes = async (newTable) => {
     const updatedRes = {
       ...reservation,
-      ...newTable
-    }
+      ...newTable,
+    };
 
-    try{
-      const response = await updateReservation(id, updatedRes)
+    try {
+      const response = await updateReservation(id, updatedRes);
       if (response.status === 200) {
         successfulUpdatedAlert();
-        setReservation(null)
-        setModify(false)
+        setReservation(null);
+        setModify(false);
       }
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   async function cancelRes() {
     try {
       const obj = await cancelReservationAlert();
-      if(obj.isConfirmed){
+      if (obj.isConfirmed) {
         const response = await patchReservation(id, "cancel");
         if (response.status === 200) {
           const promise = await successfulCancelAlert();
@@ -121,53 +126,91 @@ function Reservation() {
   if (reservation.state === "cancel")
     return (
       <div className="review-container res-container">
-      <div className="review-box"> 
-      <div className="menu-section-header">
-        This reservation has been cancelled
-      </div>
-      <img className="fancy-line review-line" src={FancyLine} alt="" />
-      <div style={{paddingTop: "20px", paddingBottom: "20px", color: "#444444"}}>
-        To make a new reservation, please click below
-      </div>
+        <div className="review-box">
+          <div className="menu-section-header">
+            This reservation has been cancelled
+          </div>
+          <img className="fancy-line review-line" src={FancyLine} alt="" />
+          <div
+            style={{
+              paddingTop: "20px",
+              paddingBottom: "20px",
+              color: "#444444",
+            }}
+          >
+            To make a new reservation, please click below
+          </div>
 
-      <button className="clean-button" onClick={() => navigate("/reserve")}>
-          {resBookSvg()} Reserve
-      </button>
-      </div>
+          <button className="clean-button" onClick={() => navigate("/reserve")}>
+            {resBookSvg()} Reserve
+          </button>
+        </div>
       </div>
     );
-    if (reservation.state === "arrived")
+  if (reservation.state === "arrived")
     return (
       <div className="review-container res-container">
-      <div className="review-box"> 
-      <div className="menu-section-header">
-      We hope to see you again soon
-      </div>
-      <img className="fancy-line review-line" src={FancyLine} alt="" />
-      <div style={{paddingTop: "0px", paddingBottom: "40px", color: "#444444", textAlign: "left"}}>
-      It was a pleasure to serve you, {getFirstWord(reservation.name)}
-      </div>
+        <div className="review-box">
+          <div className="menu-section-header">
+            We hope to see you again soon
+          </div>
+          <img className="fancy-line review-line" src={FancyLine} alt="" />
+          <div
+            style={{
+              paddingTop: "0px",
+              paddingBottom: "40px",
+              color: "#444444",
+              textAlign: "left",
+            }}
+          >
+            It was a pleasure to serve you, {getFirstWord(reservation.name)}
+          </div>
 
-      <div style={{paddingTop: "20px", paddingBottom: "20px", color: "#444444"}}>
-        To make a new reservation, please click below
-      </div>
-      <button className="clean-button" onClick={() => navigate("/reserve")}>
-          {resBookSvg()} Reserve
-      </button>
-      </div>
+          <div
+            style={{
+              paddingTop: "20px",
+              paddingBottom: "20px",
+              color: "#444444",
+            }}
+          >
+            To make a new reservation, please click below
+          </div>
+          <button className="clean-button" onClick={() => navigate("/reserve")}>
+            {resBookSvg()} Reserve
+          </button>
+        </div>
       </div>
     );
   return (
     <motion.div {...fadeIn} className="review-container res-container">
       <div className="review-box res-box">
-        <div> 
-          <div className="menu-section-header res-header-text"> {isModify && "Modify"} Your Reservation</div>
+        <div>
+          <div className="menu-section-header res-header-text">
+            {" "}
+            {isModify && "Modify"} Your Reservation
+          </div>
           <img className="fancy-line review-line" src={FancyLine} alt="" />
-          <div style={{marginTop: "-10px", paddingBottom: "10px", color: "#444444", textAlign: "center", fontWeight: 600}}>
+          <div
+            style={{
+              marginTop: "-10px",
+              paddingBottom: "10px",
+              color: "#444444",
+              textAlign: "center",
+              fontWeight: 600,
+            }}
+          >
             {resText}
           </div>
         </div>
-        {isModify ? <ModifyRes reservation={reservation} setModify={setModify} updateRes={updateRes}/> : resBody()}
+        {isModify ? (
+          <ModifyRes
+            reservation={reservation}
+            setModify={setModify}
+            updateRes={updateRes}
+          />
+        ) : (
+          resBody()
+        )}
       </div>
     </motion.div>
   );
