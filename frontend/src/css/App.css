@@ -41,7 +41,7 @@
   --admin-black: #161b22;
 }
 
-.clean-button{
+.clean-button {
   border: 1px solid var(--border-color);
   background: var(--paper-white);
   display: flex;
@@ -53,7 +53,7 @@
   color: var(--color-bg-light) !important;
   border-radius: 5px;
 }
-.clean-button:hover{
+.clean-button:hover {
   filter: brightness(95%);
 }
 

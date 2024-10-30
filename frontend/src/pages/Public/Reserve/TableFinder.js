@@ -3,15 +3,20 @@ import React, {
   useEffect,
   forwardRef,
   useImperativeHandle,
-  useRef
+  useRef,
 } from "react";
-import { convertTo24Hour, convertTo12Hour, dateToString, convertDateToIso } from "functions";
+import {
+  convertTo24Hour,
+  convertTo12Hour,
+  dateToString,
+  convertDateToIso,
+} from "functions";
 import { checkReservation } from "api";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, fadeInDown } from "animations";
 import Dropdown from "components/Dropdown";
-import { Calendar } from 'primereact/calendar';
-import { calendarSvg, peopleSvg, clockSvg } from "svg";
+import { Calendar } from "primereact/calendar";
+import { calendarSvg, peopleSvg, clockSvg, cancelSvg } from "svg";
 
 const TableFinder = forwardRef((props, ref) => {
   const { table, setTable, editing, setEditing } = props;
@@ -33,12 +38,12 @@ const TableFinder = forwardRef((props, ref) => {
         setMobile(false);
       }
     };
-  
+
     handleResize();
-  
-    window.addEventListener('resize', handleResize);
-  
-    return () => window.removeEventListener('resize', handleResize);
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const reset = () => {
@@ -193,20 +198,20 @@ const TableFinder = forwardRef((props, ref) => {
   };
 
   const getTimeList = (date) => {
-    const [year, month, day] = date.substring(0, 10).split('-').map(Number)
+    const [year, month, day] = date.substring(0, 10).split("-").map(Number);
     const newDate = new Date(year, month - 1, day);
     const dayOfWeek = newDate.getDay();
     const timeKey = days[dayOfWeek];
     const tL = times[timeKey];
-  
+
     const now = new Date();
     const isToday = newDate.toDateString() === now.toDateString();
-  
+
     let filteredTL = tL;
-  
+
     if (isToday) {
       const nowPlus30 = new Date(now.getTime() + 30 * 60000);
-  
+
       filteredTL = tL.filter((time) => {
         const { hours, minutes } = parseTimeString(time);
         const timeDate = new Date(newDate);
@@ -217,33 +222,32 @@ const TableFinder = forwardRef((props, ref) => {
         return timeDate >= nowPlus30;
       });
     }
-  
+
     const convertedTimeList = filteredTL.map((time) => ({
       label: time,
       value: convertTo24Hour(time),
     }));
     setTimeList(convertedTimeList);
   };
-  
+
   const parseTimeString = (timeString) => {
     const regex = /^(\d{1,2}):(\d{2})(am|pm)$/;
     const match = timeString.match(regex);
-  
-    if (!match) return null; 
-  
+
+    if (!match) return null;
+
     let hours = parseInt(match[1], 10);
     const minutes = parseInt(match[2], 10);
     const modifier = match[3];
-  
-    if (modifier === 'pm' && hours !== 12) {
+
+    if (modifier === "pm" && hours !== 12) {
       hours += 12;
-    } else if (modifier === 'am' && hours === 12) {
+    } else if (modifier === "am" && hours === 12) {
       hours = 0;
     }
-  
+
     return { hours, minutes };
   };
-  
 
   const handleTimeClick = (buttonId) => {
     const [btnTime, btnTable] = buttonId.split("-");
@@ -277,12 +281,12 @@ const TableFinder = forwardRef((props, ref) => {
     setAvailableTimes(null);
     setDate(convertDateToIso(value));
     getTimeList(convertDateToIso(value));
-    setCalOpen(false)
+    setCalOpen(false);
   };
 
   const handleOverlayClick = () => {
-    if(isMobile) setCalOpen(false)
-  }
+    if (isMobile) setCalOpen(false);
+  };
 
   const handleChange = (event) => {
     if (event.target.id === "guests") {
@@ -350,15 +354,10 @@ const TableFinder = forwardRef((props, ref) => {
 
     const fetchChecker = async () => {
       try {
-        const response = await checkReservation(
-          numGuests,
-          date,
-          time,
-          signal
-        );
+        const response = await checkReservation(numGuests, date, time, signal);
         handleResponse(response);
       } catch (error) {
-        setErrorChecking(true)
+        setErrorChecking(true);
       }
     };
     if (numGuests && date && time) fetchChecker();
@@ -384,7 +383,6 @@ const TableFinder = forwardRef((props, ref) => {
     ],
   };
 
-
   const handleClickOutside = (event) => {
     if (calRef.current && !calRef.current.contains(event.target)) {
       setCalOpen(false);
@@ -401,41 +399,60 @@ const TableFinder = forwardRef((props, ref) => {
 
   const ButtonField = () => {
     return (
-      <> 
-      <button
-        type="button"
-        className={`date-picker ${calOpen ? "date-picker-open" : ""}`}
-        onClick={() => setCalOpen((prev) => !prev)}
-      >
-        {calendarSvg()}
-        {date ? `${dateToString(date)}` : "Select"}
-      </button>      
-      {calOpen && !isMobile &&
-      <div className="extended-button"/> 
-      }
+      <>
+        <button
+          type="button"
+          className={`date-picker ${calOpen ? "date-picker-open" : ""}`}
+          onClick={() => openCal((prev) => !prev)}
+        >
+          {calendarSvg()}
+          {date ? `${dateToString(date)}` : "Select"}
+        </button>
+        {calOpen && !isMobile && <div className="extended-button" />}
       </>
     );
   };
 
-  function DatePicker(){
-    return(
-      <div       
-      ref={calRef}
-      className={`calendar-wrapper-${isMobile ? "disabled" : "enabled"}`} 
-      onClick={() => handleOverlayClick()}> 
-      <div onClick={(e) => e.stopPropagation()}> 
-      <Calendar
-        value={date}
-        onChange={(e) => handleDateChange(e.value)}
-        visible={calOpen}
-        onVisibleChange={(e) => setCalOpen(e.visible)}
-        minDate={new Date()}
-        inline="true"
-        touchUI={isMobile}
-      />
+  const openCal = () => {
+    if (isMobile) document.body.classList.toggle("no-scroll", true);
+    setCalOpen(true);
+  };
+
+
+  function DatePicker() {
+    return (
+      <div
+        ref={calRef}
+        className={`calendar-wrapper-${isMobile ? "disabled" : "enabled"}`}
+        onClick={isMobile ? () => {} : () => handleOverlayClick()}
+      >
+        {isMobile && (
+          <div className="dropdown-header cal-header">
+            <div style={{ width: "30px" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              {calendarSvg()} Select a Date
+            </div>
+            <button
+              className="dropdown-header-button"
+              onClick={() => setCalOpen(false)}
+            >
+              {cancelSvg()}
+            </button>
+          </div>
+        )}
+        <div onClick={(e) => e.stopPropagation()}>
+          <Calendar
+            value={date}
+            onChange={(e) => handleDateChange(e.value)}
+            visible={calOpen}
+            onVisibleChange={(e) => setCalOpen(e.visible)}
+            minDate={new Date()}
+            inline="true"
+            touchUI={isMobile}
+          />
+        </div>
       </div>
-    </div>
-    )
+    );
   }
   return (
     <div className="table-finder-container">
@@ -479,7 +496,8 @@ const TableFinder = forwardRef((props, ref) => {
             <motion.div {...fadeInDown}>
               <label className="input-text"> {inputText.button} </label>
               <div className="reserve-fail">
-                There was an error fetching available tables, please refresh and try again. <br/> 
+                There was an error fetching available tables, please refresh and
+                try again. <br />
               </div>
             </motion.div>
           </AnimatePresence>

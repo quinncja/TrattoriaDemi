@@ -117,14 +117,7 @@ export function getTimeFromDate(dateStr) {
 
 export const convertDateToIso = (date) => {
   const dateAsUTC = new Date(
-    Date.UTC(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      0, 
-      0, 
-      0  
-    )
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
   );
   const formattedDate = dateAsUTC.toISOString();
   return formattedDate;
@@ -180,14 +173,14 @@ export function getCurrentPeriod() {
 }
 
 export function getFirstWord(inputStr) {
-  if (typeof inputStr !== 'string') {
-    throw new TypeError('Input must be a string');
+  if (typeof inputStr !== "string") {
+    throw new TypeError("Input must be a string");
   }
 
   const trimmedStr = inputStr.trim();
 
-  if (trimmedStr === '') {
-    return '';
+  if (trimmedStr === "") {
+    return "";
   }
 
   const words = trimmedStr.split(/\s+/);

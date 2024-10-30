@@ -52,8 +52,8 @@ export async function updateReservation(id, updatedRes) {
     const response = await axios({
       method: "put",
       url: `${API_URL}api/reservations/id/${id}/`,
-      data: updatedRes
-    })
+      data: updatedRes,
+    });
     return response;
   } catch (error) {
     throw error;
