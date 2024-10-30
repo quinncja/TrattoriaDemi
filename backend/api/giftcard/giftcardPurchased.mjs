@@ -9,7 +9,8 @@ import { Preview } from "@react-email/preview";
 import { Container } from "@react-email/container";
 
 function giftcardPurchased(props) {
-  const { amount, recipient, sender, address, message, id, date, email } = props;
+  const { amount, recipient, sender, address, message, id, date, email } =
+    props;
 
   return (
     <Html lang="en">
@@ -32,7 +33,7 @@ function giftcardPurchased(props) {
         </Heading>
         <Container style={innerContainer}>
           <Row style={row}>
-          <Column>
+            <Column>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
                 Purchased by
@@ -45,8 +46,8 @@ function giftcardPurchased(props) {
                 {sender || "Name"}
               </Text>
             </Column>
-            </Row>
-            <Row style={row}>
+          </Row>
+          <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, fontWeight: "800", textAlign: "left" }}>
@@ -135,8 +136,8 @@ function giftcardPurchased(props) {
                 Message
               </Text>
             </Column>
-            </Row>
-            <Row style={row}>
+          </Row>
+          <Row style={row}>
             <Column>
               {" "}
               <Text style={{ ...text, textAlign: "left" }}>

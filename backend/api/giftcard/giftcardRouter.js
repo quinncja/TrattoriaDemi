@@ -8,12 +8,15 @@ const ObjectId = mongoose.Types.ObjectId;
 const { DateTime } = require("luxon");
 const { getGiftcardDataForBarChart } = require("./giftcardDataService");
 
-giftcardRouter.get('/all', async (req, res) => {
+giftcardRouter.get("/all", async (req, res) => {
   try {
-    const giftcards = await Giftcard.find({}, 'recipientName _id amount isPaid datePurchased');
+    const giftcards = await Giftcard.find(
+      {},
+      "recipientName _id amount isPaid datePurchased",
+    );
     res.status(200).json(giftcards);
   } catch (error) {
-    console.error('Error fetching giftcards:', error);
+    console.error("Error fetching giftcards:", error);
     res.status(500).json({ error: error.message });
   }
 });

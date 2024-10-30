@@ -47,6 +47,19 @@ export async function patchReservation(id, state) {
   }
 }
 
+export async function updateReservation(id, updatedRes) {
+  try {
+    const response = await axios({
+      method: "put",
+      url: `${API_URL}api/reservations/id/${id}/`,
+      data: updatedRes,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function checkReservation(numGuests, date, time, signal) {
   try {
     const response = await axios({
@@ -76,7 +89,7 @@ export async function postReservation(newRes) {
       url: `${API_URL}api/reservations/`,
       data: newRes,
     });
-    return response.status;
+    return response;
   } catch (error) {
     throw error;
   }
@@ -376,6 +389,18 @@ export async function getGiftcardData() {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/giftcard/stats`,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getReservationsData() {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/reservations/stats`,
     });
     return response.data;
   } catch (error) {

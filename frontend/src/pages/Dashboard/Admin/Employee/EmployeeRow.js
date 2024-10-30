@@ -3,7 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { employeeSaveFail, employeeSaveSuccess } from "swal2";
 
-function EmployeeRow({ employee, isFocused, setFocused, isNew, updateEmployeeList }) {
+function EmployeeRow({
+  employee,
+  isFocused,
+  setFocused,
+  isNew,
+  updateEmployeeList,
+}) {
   const [employeeData, setEmployeeData] = useState({ ...employee });
   const [hasChanged, setHasChanged] = useState(false);
   const initialEmployeeDataRef = useRef(JSON.stringify(employee));
@@ -38,7 +44,6 @@ function EmployeeRow({ employee, isFocused, setFocused, isNew, updateEmployeeLis
     return employeeCopy;
   }
 
-
   const handleSave = async () => {
     if (!hasChanged) return;
     const preparedData = prepareEmployeeData(employeeData);
@@ -68,7 +73,9 @@ function EmployeeRow({ employee, isFocused, setFocused, isNew, updateEmployeeLis
   function employeeInput(obj, wide) {
     return (
       <div
-        className={`payroll-input-group input-group ${wide && "payroll-input-group-wide"} ${obj.type === "checkbox" && "payroll-input-group-short"} ` }
+        className={`payroll-input-group input-group ${
+          wide && "payroll-input-group-wide"
+        } ${obj.type === "checkbox" && "payroll-input-group-short"} `}
         key={`${employee.name}-${obj.text}`}
       >
         <label
@@ -79,7 +86,11 @@ function EmployeeRow({ employee, isFocused, setFocused, isNew, updateEmployeeLis
           {" "}
           {obj.text}{" "}
         </label>
-        <div className={obj.type === "money" && obj.value ? "payroll-input-wrapper" : ""}>
+        <div
+          className={
+            obj.type === "money" && obj.value ? "payroll-input-wrapper" : ""
+          }
+        >
           {obj.type === "checkbox" ? (
             <button
               className="employee-input-checkbox"
@@ -227,30 +238,29 @@ function EmployeeRow({ employee, isFocused, setFocused, isNew, updateEmployeeLis
         ],
       },
     ];
-    
+
     return (
       <motion.div
         layout
         key={`${employee.name}-body`}
         initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: 1, height: 220}}
+        animate={{ opacity: 1, height: 220 }}
         exit={{ opacity: 0, height: 0 }}
-        transition={{ duration: 0.3}}
+        transition={{ duration: 0.3 }}
       >
-        <br/>
+        <br />
         <div className="employee-body">
-        {bodyObjs.map((obj) => (
-          <div
-            className="employee-row-subsection"
-            key={`${employee.name}-${obj.text}`}
-          >
-            <div className="employee-row-subheader">{obj.text}</div>
+          {bodyObjs.map((obj) => (
             <div
-             className="subsection-inputs">
-              {obj.objects.map((object) => employeeInput(object))}
+              className="employee-row-subsection"
+              key={`${employee.name}-${obj.text}`}
+            >
+              <div className="employee-row-subheader">{obj.text}</div>
+              <div className="subsection-inputs">
+                {obj.objects.map((object) => employeeInput(object))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
         </div>
       </motion.div>
     );
@@ -273,14 +283,8 @@ function EmployeeRow({ employee, isFocused, setFocused, isNew, updateEmployeeLis
       onClick={() => setFocused(employee.name)}
     >
       <div className="row-employee">
-        {isNew ? (
-          <> 
-            {employeeInput(nameObj, true)}
-          </>
-        ) : (
-          employee.name
-        )}
-      </div> 
+        {isNew ? <>{employeeInput(nameObj, true)}</> : employee.name}
+      </div>
 
       <AnimatePresence mode="wait">
         {isFocused && employeeBody()}

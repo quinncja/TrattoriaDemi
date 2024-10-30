@@ -11,7 +11,7 @@ const employeeSchema = new mongoose.Schema({
   loan: { type: Schema.Types.ObjectId, ref: "Loan" },
   tips: Boolean,
   active: Boolean,
-  overtime: { type: Boolean, default: false }
+  overtime: { type: Boolean, default: false },
 });
 
 const Employee = mongoose.model("Employee", employeeSchema);

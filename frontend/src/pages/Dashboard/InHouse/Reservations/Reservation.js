@@ -1,11 +1,29 @@
 import { useState } from "react";
-import { formatPhoneNumber, convertTo12Hour } from "../../../functions";
+import { formatPhoneNumber, convertTo12Hour } from "../../../../functions";
 
 export function Reservation(props) {
   const [isOpen, setOpen] = useState(false);
 
   const res = props.res;
   const handleBtnClick = props.handleBtnClick;
+
+  function arrivedTime() {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <strong className="gold-time"> Arrived </strong>
+        <span className="arrived-time">
+          {" "}
+          {convertTo12Hour(res.arrivedTime)}{" "}
+        </span>
+      </div>
+    );
+  }
 
   function completeButton() {
     return (
@@ -146,6 +164,7 @@ export function Reservation(props) {
             <div className="res-btns">
               {res.notes && noteSymbol()}
               {res.state === "upcoming" && completeButton()}
+              {res.state === "arrived" && arrivedTime()}
             </div>
           </div>
         </div>

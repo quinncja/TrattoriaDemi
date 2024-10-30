@@ -51,7 +51,9 @@
     -16px 16px var(--paper-white), -16px -16px var(--paper-white),
     16px -16px var(--paper-white);
 }
-
+.inResTable {
+  width: 80%;
+}
 .giftcard-inputs {
   flex-direction: column;
   position: relative;
@@ -101,7 +103,7 @@
   padding-top: 22px;
   padding-bottom: 20px;
   transition: all 1s ease-in-out;
-  width: 50%;
+  width: 65%;
   margin-inline: auto;
 }
 
@@ -223,15 +225,14 @@
     margin-left: -0.1rem;
   }
   60% {
-    margin-left: .05rem;
+    margin-left: 0.05rem;
   }
   80% {
-    margin-left: -.05rem;
+    margin-left: -0.05rem;
   }
   100% {
     margin-left: 0rem;
   }
-
 }
 
 .reserve-select-error {
@@ -255,6 +256,7 @@
 
 .input-group {
   width: 100%;
+  position: relative;
   text-align: left;
 }
 .input-text {
@@ -311,6 +313,8 @@
   background: none;
   outline: none;
   position: relative;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .checkbox-active {
@@ -356,18 +360,74 @@
   width: 70%;
   margin-inline: auto;
 }
-.res-to-cancel-section {
+
+.res-card {
   display: flex;
-  gap: 30px;
+  flex-direction: column;
+  justify-items: center;
+  width: fit-content;
+  gap: 15px;
+  padding-top: 20px;
 }
 
-.res-to-cancel-info {
-  font-size: 1.2rem;
-  font-weight: 700;
+.res-header-text {
+  color: var(--gold) !important;
 }
 
+.res-top-line {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.res-info {
+  color: var(--light-black) !important;
+  font-weight: 600;
+}
+
+.res-info-name {
+  font-size: 2.5rem;
+  font-weight: 800 !important;
+}
+
+.res-info-guests {
+  font-size: 1.5rem;
+  font-weight: 800 !important;
+}
+
+.res-info-time {
+  font-size: 1.5rem;
+  align-self: center;
+}
+
+.res-buttons {
+  padding-top: 70px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: baseline;
+}
+.res-buttons button {
+  width: fit-content;
+}
+
+.modify-btn {
+  color: var(--gold) !important;
+  background: none;
+  font-size: 24px;
+  padding-block: 5px;
+}
+.save-modify-btn {
+  color: var(--white) !important;
+  font-size: 24px;
+  padding-block: 5px;
+}
 .res-cancel-btn {
-  justify-self: flex-end;
+  background: none;
+  color: var(--gold) !important;
+  font-size: 16px;
+  padding-block: 0px;
 }
 
 @media (width <= 1000px) {
@@ -556,6 +616,21 @@
   gap: 2rem;
 }
 
+.res-container {
+  padding-top: 100px;
+  min-height: 100vh;
+}
+
+.res-box {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.res-box * {
+  color: unset;
+}
 .table-finder {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -607,6 +682,8 @@
   position: relative;
   border: 1px solid var(--border-color);
   border-radius: 5px;
+  height: 65px;
+  box-sizing: border-box;
 }
 
 .dropdown-open {
@@ -631,6 +708,7 @@
   border-radius: 5px;
   cursor: pointer;
   position: relative;
+  box-sizing: border-box;
 }
 
 .date-picker {
@@ -647,13 +725,44 @@
   background: none;
   cursor: pointer;
   font-size: 1rem;
+  height: 65px;
   transition: all 1s ease-in-out;
+  box-sizing: border-box;
 }
 
 .date-picker-open {
   border-radius: 5px 5px 0px 0px;
   transition: all 1s ease-in-out;
+  border-bottom: 1px solid var(--paper-white);
   box-shadow: 4px 8px rgba(0, 0, 0, 0.1);
+  height: 65px;
+}
+.extended-button {
+  position: absolute;
+  height: 9.5px;
+  margin-top: -1px;
+  width: 100%;
+  z-index: 150;
+  background-color: var(--paper-white);
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  box-sizing: border-box;
+}
+.faux-overlay {
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  z-index: 50;
+  margin-top: -1px;
+  margin-left: -1px;
+  background-color: var(--paper-white);
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+}
+
+.faux-overlay-mobile {
+  margin-top: -5px;
+  height: 10px;
 }
 
 .dropdown-open .dropdown-button {
@@ -664,7 +773,6 @@
   scrollbar-color: var(--gold) var(--nice-white);
   background-color: var(--nice-white);
   position: absolute;
-  top: 100%;
   left: -1px;
   width: 100%;
   max-height: 300px;
@@ -674,8 +782,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: -1px;
-  padding-bottom: 20px;
+  z-index: 30;
 }
 
 .dropdown-menu::-webkit-scrollbar-track {
@@ -704,12 +811,15 @@
   border: none;
   font-weight: 500;
   text-align: center;
-  width: 100%;
   margin-inline: auto;
-  padding-top: 16px;
-  padding-left: 25px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 26px;
   color: var(--black);
   position: relative;
+  margin: auto;
+  font-size: 1rem;
+  width: 100%;
 }
 
 .dropdown-item::before {
@@ -719,10 +829,18 @@
   background-color: var(--border-color);
   width: 50%;
   margin: auto;
-  top: 0;
-  left: 50%;
+  bottom: 0;
+  left: calc(45% + 5px);
   transform: translateX(calc(-50% + 10px));
   opacity: 0.6;
+}
+
+.dropdown-item:last-child::before {
+  content: none;
+}
+
+.dropdown-item-mobile::before {
+  left: calc(50%);
 }
 
 .dropdown-item:hover {
@@ -730,16 +848,26 @@
 }
 
 .dropdown-header {
-  font-size: 1rem;
+  font-size: 1.2rem;
   position: sticky;
-  padding: 20px;
+  padding-inline: 20px;
+  padding-block: 40px;
+  padding-bottom: 20px;
   text-align: center;
   display: flex;
   align-items: center;
   gap: 10px;
-  justify-content: center;
+  justify-content: space-between;
 }
-
+.dropdown-header-button {
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.dropdown-header-button:hover svg path {
+  stroke: var(--gold);
+}
 .items-container {
   display: flex;
   flex-direction: column;
@@ -747,21 +875,65 @@
   overflow-y: auto;
   scrollbar-color: var(--gold) var(--nice-white);
 }
+.calendar-wrapper-enabled {
+  position: absolute;
+  width: 180%;
+  height: fit-content;
+  top: 94px;
+  margin-top: 0px;
+  padding: 10px 25px;
+  padding-bottom: 20px;
+  margin-left: -39.5%;
+  background-color: var(--paper-white);
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  color: var(--color-bg-light);
+  box-shadow: 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 100;
+}
+.calendar-wrapper-disabled {
+  overscroll-behavior: contain;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--paper-white);
+  border: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: scroll;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-@media (width <= 470px) {
+@media (width <= 675px) {
+  .dropdown-header {
+    font-weight: 600;
+  }
+  .dropdown-header svg path {
+    stroke-width: 2.5;
+  }
   .mobile-menu {
+    overscroll-behavior: contain;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     box-sizing: border-box;
     border-radius: 5px;
     border: 1px solid var(--border-color) !important;
     max-height: unset;
-    height: 60vh;
-    margin-top: 10vh;
-    width: 85%;
-    background-color: rgb(255, 255, 255);
+    width: 100%;
+    background-color: var(--paper-white);
     z-index: 1002;
-    position: relative;
     display: flex;
     flex-direction: column;
+    padding-bottom: 20px;
   }
   .overlay {
     overscroll-behavior: contain;
@@ -780,19 +952,26 @@
     justify-content: center;
     align-items: center;
   }
-  .mobile {
-    flex-direction: column;
-  }
   .dropdown-item {
     padding-left: 10px;
-    padding-top: 24px;
-    padding-bottom: 12px;
+    padding-top: 18px;
+    padding-bottom: 30px;
+    font-size: 1.1rem;
+    width: 80%;
   }
   .dropdown-item::before {
     transform: translateX(-50%);
+    width: 50%;
+    bottom: 0;
+  }
+}
+
+@media (width <= 470px) {
+  .mobile {
+    flex-direction: column;
   }
   .items-container {
-    background-color: white;
+    background-color: var(--paper-white);
     width: 100%;
   }
 }
@@ -812,7 +991,9 @@
 .item-disabled {
   cursor: unset;
   text-align: center;
-  padding-left: 15px;
+}
+.item-disabled-mobile {
+  padding-bottom: 40px;
 }
 .edit-btn:hover {
   color: var(--gold);
@@ -886,4 +1067,171 @@
   .reservation-overlay div {
     margin-inline: 20px;
   }
+}
+.cal-header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  font-size: 1.2rem;
+  padding-inline: 20px;
+  padding-block: 40px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.calendar-wrapper-disabled {
+  overscroll-behavior: contain;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid var(--border-color) !important;
+  max-height: unset;
+  width: 100%;
+  background-color: var(--paper-white);
+  z-index: 1002;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+}
+.p-datepicker-touch-ui {
+  background-color: var(--paper-white);
+  border: none;
+  padding: 10px 25px;
+  border-radius: 5px;
+}
+
+.p-component * {
+  text-align: center;
+  line-height: 1;
+}
+.p-calendar {
+  width: 100%;
+  z-index: 20;
+  height: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+.p-disabled {
+  color: var(--more-disabled);
+  pointer-events: none;
+}
+.p-datepicker-today span {
+  border: 1.5px solid var(--gold);
+  border-radius: 150px !important;
+}
+
+.p-datepicker-calendar tbody tr td span {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+}
+.p-datepicker-calendar tbody tr td span:hover {
+  background-color: var(--gold);
+  opacity: 80%;
+  color: white;
+}
+.p-disabled td:hover {
+  color: var(--disabled);
+  filter: brightness(1.5);
+  background: none;
+}
+.p-highlight {
+  background-color: var(--gold);
+  color: white;
+}
+
+.p-datepicker-other-month {
+  opacity: 0;
+}
+.p-datepicker {
+  overflow-x: hidden;
+}
+
+.p-datepicker table td {
+  padding: 0.1rem;
+}
+.p-datapicker-header {
+  position: fixed;
+  top: 0;
+}
+.p-datepicker-group {
+  height: max-content;
+  box-sizing: border-box;
+}
+.p-datepicker-group-container {
+  height: 100%;
+  box-sizing: border-box;
+}
+.p-datepicker-calendar-container {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding-top: 15px;
+}
+.p-datepicker-calendar {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+.p-datepicker-calendar * {
+  font-size: 1rem !important;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.p-datepicker-calendar thead * {
+  font-size: 1rem !important;
+  font-weight: 800;
+}
+.p-datepicker-header {
+  padding-top: 5px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--light-black) !important;
+}
+.p-datepicker-title {
+  display: flex;
+  gap: 10px;
+  pointer-events: none;
+  color: var(--light-black) !important;
+}
+.p-datepicker-title button {
+  font-size: 1rem !important;
+  font-weight: 800;
+  color: var(--light-black) !important;
+}
+
+.p-datepicker-next,
+.p-datepicker-prev {
+  background: none;
+  border: none;
+  padding: 8px 10px;
+  color: var(--light-black) !important;
+}
+
+.p-datepicker-next:hover,
+.p-datepicker-prev:hover {
+  color: var(--gold);
+}
+
+.hidden-button {
+  opacity: 0 !important;
+  pointer-events: hidden !important;
+}
+.reserve-fail {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--red);
+}
+
+.calendar-wrapper-disabled .p-datepicker-calendar tbody tr td span {
+  height: 2.5rem;
+  width: 2.5rem;
 }

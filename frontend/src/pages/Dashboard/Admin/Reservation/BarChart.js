@@ -1,11 +1,13 @@
 import { ResponsiveBar } from "@nivo/bar";
 
 function BarChart({ data }) {
+  console.log(data);
+
   return (
     <ResponsiveBar
       data={data}
       keys={["count"]}
-      indexBy="amount"
+      indexBy="numGuests"
       margin={{ top: 30, right: 50, bottom: 50, left: 60 }}
       padding={0.3}
       colors={["#d3963add"]}
@@ -13,18 +15,18 @@ function BarChart({ data }) {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "Amount",
+        legend: "Party Size",
         legendPosition: "middle",
         legendOffset: 42,
         format: (item) => {
-          return `$${item}`;
+          return `${item}`;
         },
       }}
       axisLeft={{
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "Number Sold",
+        legend: "Number of Parties",
         legendPosition: "middle",
         legendOffset: -40,
       }}

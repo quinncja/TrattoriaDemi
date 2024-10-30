@@ -87,23 +87,56 @@ function getPrevSlot(time, i) {
   return `${hour}:${minute < 10 ? "0" : ""}${minute}`;
 }
 
+function isTimeValid(dateStr, timeStr) {
+  const localDateStr = dateStr.replace('Z', '');
+  const desiredDate = new Date(localDateStr);
+
+  const [hours, minutes] = timeStr.split(":").map(Number);
+
+  desiredDate.setHours(hours, minutes, 0, 0);
+  const desiredDateTime = desiredDate;
+
+  const now = new Date();
+
+  const isToday = desiredDateTime.toDateString() === now.toDateString();
+  
+  if (isToday) {
+    const timeDifference = desiredDateTime - now;
+    const minutesDifference = timeDifference / (1000 * 60);
+
+    if (minutesDifference < 30) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+
 async function reservationChecker(numGuests, desiredDate, desiredTime) {
   let suggestedTimes = [];
   const reservations = await Reservation.find({ date: desiredDate });
   const tableOptions = tableSizes[numGuests];
   for (let i = 0; i < tableOptions.length; i++) {
-    foundTable = checkAvailability(reservations, tableOptions, desiredTime);
+    const foundTable = checkAvailability(reservations, tableOptions, desiredTime);
     if (foundTable) return { available: foundTable, suggestions: [] };
   }
   let i = 0;
   while (suggestedTimes.length < 5) {
     const prev = getPrevSlot(desiredTime, i);
     const next = getNextSlot(desiredTime, i);
-    const nextSuggestion = checkAvailability(reservations, tableOptions, next);
-    if (nextSuggestion) suggestedTimes.push(nextSuggestion);
-    const prevSuggestion = checkAvailability(reservations, tableOptions, prev);
-    if (prevSuggestion) suggestedTimes.push(prevSuggestion);
+    if (isTimeValid(desiredDate, next)) {
+      const nextSuggestion = checkAvailability(reservations, tableOptions, next);
+      if (nextSuggestion) suggestedTimes.push(nextSuggestion);
+    }
+    if (isTimeValid(desiredDate, prev)) {
+      const prevSuggestion = checkAvailability(reservations, tableOptions, prev);
+      if (prevSuggestion) suggestedTimes.push(prevSuggestion);
+    }
     i += 1;
+
+    if (parseInt(next.split(":")[0]) >= 23 && parseInt(next.split(":")[1]) >= 45) break;
+    if (parseInt(prev.split(":")[0]) <= 0 && parseInt(prev.split(":")[1]) <= 0) break;
   }
   return { available: false, suggestions: suggestedTimes };
 }

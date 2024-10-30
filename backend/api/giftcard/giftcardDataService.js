@@ -1,4 +1,4 @@
-const Giftcard = require("./Giftcard"); 
+const Giftcard = require("./Giftcard");
 
 async function getGiftcardDataForBarChart() {
   try {
@@ -27,7 +27,7 @@ async function getGiftcardDataForBarChart() {
       totalAmountResult.length > 0 ? totalAmountResult[0].totalAmount : 0;
 
     const data = countsPerAmount.map((item) => ({
-      amount: item._id.toString(), 
+      amount: item._id.toString(),
       count: item.count,
     }));
 

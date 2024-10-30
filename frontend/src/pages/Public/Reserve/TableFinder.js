@@ -3,19 +3,20 @@ import React, {
   useEffect,
   forwardRef,
   useImperativeHandle,
+  useRef,
 } from "react";
-import { convertTo24Hour, convertTo12Hour, dateToString } from "functions";
+import {
+  convertTo24Hour,
+  convertTo12Hour,
+  dateToString,
+  convertDateToIso,
+} from "functions";
 import { checkReservation } from "api";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, fadeInDown } from "animations";
 import Dropdown from "components/Dropdown";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { calendarSvg, peopleSvg, clockSvg } from "svg";
-import { convertDateToIso } from "functions";
-import dayjs from "dayjs";
+import { Calendar } from "primereact/calendar";
+import { calendarSvg, peopleSvg, clockSvg, cancelSvg } from "svg";
 
 const TableFinder = forwardRef((props, ref) => {
   const { table, setTable, editing, setEditing } = props;
@@ -25,6 +26,25 @@ const TableFinder = forwardRef((props, ref) => {
   const [timeList, setTimeList] = useState(null);
   const [availableTimes, setAvailableTimes] = useState(null);
   const [calOpen, setCalOpen] = useState(false);
+  const calRef = useRef();
+  const [isMobile, setMobile] = useState(false);
+  const [errorChecking, setErrorChecking] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 675) {
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const reset = () => {
     setGuests(null);
@@ -75,8 +95,6 @@ const TableFinder = forwardRef((props, ref) => {
       "7:30pm",
       "7:45pm",
       "8:00pm",
-      "8:15pm",
-      "8:30pm",
     ],
     fri_sat: [
       "11:30am",
@@ -115,8 +133,9 @@ const TableFinder = forwardRef((props, ref) => {
       "7:45pm",
       "8:00pm",
       "8:15pm",
-      "9:15pm",
-      "9:30pm",
+      "8:30PM",
+      "8:45PM",
+      "9:00PM",
     ],
     sun: [
       "12:00pm",
@@ -152,8 +171,6 @@ const TableFinder = forwardRef((props, ref) => {
       "7:30pm",
       "7:45pm",
       "8:00pm",
-      "8:15pm",
-      "8:30pm",
     ],
   };
 
@@ -178,15 +195,55 @@ const TableFinder = forwardRef((props, ref) => {
   };
 
   const getTimeList = (date) => {
-    const newDate = new Date(date);
+    const [year, month, day] = date.substring(0, 10).split("-").map(Number);
+    const newDate = new Date(year, month - 1, day);
     const dayOfWeek = newDate.getDay();
     const timeKey = days[dayOfWeek];
     const tL = times[timeKey];
-    const convertedTimeList = tL.map((time) => ({
+
+    const now = new Date();
+    const isToday = newDate.toDateString() === now.toDateString();
+
+    let filteredTL = tL;
+
+    if (isToday) {
+      const nowPlus30 = new Date(now.getTime() + 30 * 60000);
+
+      filteredTL = tL.filter((time) => {
+        const { hours, minutes } = parseTimeString(time);
+        const timeDate = new Date(newDate);
+        timeDate.setHours(hours);
+        timeDate.setMinutes(minutes);
+        timeDate.setSeconds(0);
+        timeDate.setMilliseconds(0);
+        return timeDate >= nowPlus30;
+      });
+    }
+
+    const convertedTimeList = filteredTL.map((time) => ({
       label: time,
       value: convertTo24Hour(time),
     }));
     setTimeList(convertedTimeList);
+  };
+
+  const parseTimeString = (timeString) => {
+    const regex = /^(\d{1,2}):(\d{2})(am|pm)$/;
+    const match = timeString.match(regex);
+
+    if (!match) return null;
+
+    let hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+    const modifier = match[3];
+
+    if (modifier === "pm" && hours !== 12) {
+      hours += 12;
+    } else if (modifier === "am" && hours === 12) {
+      hours = 0;
+    }
+
+    return { hours, minutes };
   };
 
   const handleTimeClick = (buttonId) => {
@@ -219,8 +276,13 @@ const TableFinder = forwardRef((props, ref) => {
   const handleDateChange = (value) => {
     setTime("");
     setAvailableTimes(null);
-    setDate(value);
-    getTimeList(value);
+    setDate(convertDateToIso(value));
+    getTimeList(convertDateToIso(value));
+    setCalOpen(false);
+  };
+
+  const handleOverlayClick = () => {
+    if (isMobile) setCalOpen(false);
   };
 
   const handleChange = (event) => {
@@ -259,8 +321,8 @@ const TableFinder = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
-    if (editing && date?.$d) {
-      getTimeList(date.$d);
+    if (editing && date) {
+      getTimeList(date);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -289,15 +351,10 @@ const TableFinder = forwardRef((props, ref) => {
 
     const fetchChecker = async () => {
       try {
-        const response = await checkReservation(
-          numGuests,
-          convertDateToIso(date.$d),
-          time,
-          signal
-        );
+        const response = await checkReservation(numGuests, date, time, signal);
         handleResponse(response);
       } catch (error) {
-        console.error("Error checking reservation", error);
+        setErrorChecking(true);
       }
     };
     if (numGuests && date && time) fetchChecker();
@@ -311,132 +368,93 @@ const TableFinder = forwardRef((props, ref) => {
     name: "Party Size",
     options: [
       { value: 1, label: "1 guest" },
-      ...[...Array(9)].map((_, index) => ({
+      ...[...Array(5)].map((_, index) => ({
         value: index + 2,
         label: `${index + 2} guests`,
       })),
       {
         value: "",
-        label: "For parties exceeding 10 guests please call the restaurant",
+        label: "For parties exceeding 6 guests please call the restaurant",
         disabled: true,
       },
     ],
   };
 
-  const newTheme = (theme) =>
-    createTheme({
-      ...theme,
-      components: {
-        MuiTextField: {
-          styleOverrides: {
-            root: {
-              boxShadow: "none",
-              "& .Mui-selected": {
-                backgroundColor: "#d3963a !important",
-              },
-              "& .MuiPickersDay-today": {
-                backgroundColor: "#yd3963a !important",
-                color: "#yd3963a !important",
-              },
-              "&.MuiPickersDay-today:hover": {
-                backgroundColor: "#yd3963a",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  border: "1px solid #b6b6b6",
-                },
-                "&:hover fieldset": {
-                  border: "1px solid #b6b6b6",
-                },
-                "&.Mui-focused fieldset": {
-                  border: "1px solid #b6b6b6",
-                },
-              },
-            },
-          },
-        },
-        MuiDateCalendar: {
-          styleOverrides: {
-            root: {
-              color: "#121212",
-              borderRadius: "0px 5px 5px 5px",
-              borderWidth: 1,
-              borderColor: "#b6b6b6",
-              border: "1px solid #b6b6b6",
-              backgroundColor: "#f8f4f1",
-              minWidth: "100%",
-              "& .Mui-selected": {
-                backgroundColor: "#d3963a !important",
-              },
-              "& .MuiPickersDay-today:hover": {
-                backgroundColor: "#yourDesiredHoverColor !important",
-              },
-            },
-          },
-        },
-        MuiPaper: {
-          styleOverrides: {
-            root: {
-              boxShadow: "6px 8px rgba(0, 0, 0, 0.1) !important",
-            },
-          },
-        },
-      },
-    });
+  const handleClickOutside = (event) => {
+    if (calRef.current && !calRef.current.contains(event.target)) {
+      setCalOpen(false);
+    }
+  };
 
-  function ButtonField(props) {
-    const {
-      InputProps: { ref } = {},
-      inputProps: { "aria-label": ariaLabel } = {},
-    } = props;
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  const ButtonField = () => {
     return (
-      <button
-        type="button"
-        ref={ref}
-        className={`date-picker ${calOpen ? "date-picker-open" : ""}`}
-        aria-label={ariaLabel}
-        onClick={() => setCalOpen?.((prev) => !prev)}
+      <>
+        <button
+          type="button"
+          className={`date-picker ${calOpen ? "date-picker-open" : ""}`}
+          onClick={() => openCal((prev) => !prev)}
+        >
+          {calendarSvg()}
+          {date ? `${dateToString(date)}` : "Select"}
+        </button>
+        {calOpen && !isMobile && <div className="extended-button" />}
+      </>
+    );
+  };
+
+  const openCal = () => {
+    if (isMobile) document.body.classList.toggle("no-scroll", true);
+    setCalOpen(true);
+  };
+
+  function DatePicker() {
+    return (
+      <div
+        ref={calRef}
+        className={`calendar-wrapper-${isMobile ? "disabled" : "enabled"}`}
+        onClick={isMobile ? () => {} : () => handleOverlayClick()}
       >
-        {calendarSvg()}
-        {date ? `${dateToString(date)}` : "Select"}
-      </button>
-    );
-  }
-  function ButtonDatePicker(props) {
-    return (
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <ThemeProvider theme={newTheme}>
-          <DatePicker
-            slots={{ field: ButtonField, ...props.slots }}
-            slotProps={{ field: { setCalOpen } }}
-            {...props}
-            onChange={(newValue) => handleDateChange(newValue)}
-            type="date"
-            id="date"
+        {isMobile && (
+          <div className="dropdown-header cal-header">
+            <div style={{ width: "30px" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              {calendarSvg()} Select a Date
+            </div>
+            <button
+              className="dropdown-header-button"
+              onClick={() => setCalOpen(false)}
+            >
+              {cancelSvg()}
+            </button>
+          </div>
+        )}
+        <div onClick={(e) => e.stopPropagation()}>
+          <Calendar
             value={date}
-            closeOnSelect={true}
-            minDate={dayjs().startOf("day")}
-            open={calOpen}
-            onClose={() => setCalOpen(false)}
-            onOpen={() => setCalOpen(true)}
-            renderInput={({ inputRef, inputProps, InputProps }) => (
-              <div style={{ display: "none" }}>
-                <input ref={inputRef} {...inputProps} />
-                {InputProps?.endAdornment}
-              </div>
-            )}
+            onChange={(e) => handleDateChange(e.value)}
+            visible={calOpen}
+            onVisibleChange={(e) => setCalOpen(e.visible)}
+            minDate={new Date()}
+            inline="true"
+            touchUI={isMobile}
           />
-        </ThemeProvider>
-      </LocalizationProvider>
+        </div>
+      </div>
     );
   }
-
   return (
     <div className="table-finder-container">
       <AnimatePresence>
         <motion.div {...fadeIn} className={`table-finder`}>
-          <div className="input-group" layoutId="guest-outline">
+          <div className="input-group">
             <div className={`input-text`}> {inputText.guestNum} </div>
             <Dropdown
               object={guestOptions}
@@ -445,6 +463,7 @@ const TableFinder = forwardRef((props, ref) => {
               id={"guests"}
               svg={peopleSvg}
               layoutId={"guest-outline"}
+              isMobile={isMobile}
             />
           </div>
           <div className="input-group">
@@ -452,11 +471,8 @@ const TableFinder = forwardRef((props, ref) => {
               {" "}
               {inputText.dateTxt}{" "}
             </span>
-            <ButtonDatePicker
-              label={date == null ? null : date}
-              value={date}
-              onChange={(newValue) => handleDateChange(newValue)}
-            />
+            <ButtonField />
+            {calOpen && <DatePicker />}
           </div>
           <div className="input-group">
             <div className="input-text"> {inputText.timeTxt} </div>
@@ -467,9 +483,21 @@ const TableFinder = forwardRef((props, ref) => {
               id={"time"}
               svg={clockSvg}
               layoutId={"time-outline"}
+              isMobile={isMobile}
             />
           </div>
         </motion.div>
+        {errorChecking && (
+          <AnimatePresence>
+            <motion.div {...fadeInDown}>
+              <label className="input-text"> {inputText.button} </label>
+              <div className="reserve-fail">
+                There was an error fetching available tables, please refresh and
+                try again. <br />
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        )}
         {availableTimes && (
           <AnimatePresence>
             <motion.div {...fadeInDown}>

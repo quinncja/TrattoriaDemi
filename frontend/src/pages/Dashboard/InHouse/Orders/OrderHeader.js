@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getSystemStatus, patchSystemStatus } from "../../../api";
-import { deliverySvg, pickupSvg } from "../../../svg";
+import { getSystemStatus, patchSystemStatus } from "../../../../api";
+import { deliverySvg, pickupSvg } from "../../../../svg";
 
 function OrderHeader(props) {
   const { state, setState } = props;

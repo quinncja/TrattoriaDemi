@@ -1,7 +1,9 @@
+
 const express = require("express");
 const reservationRouter = express.Router();
 const Reservation = require("./Reservation");
 const { sendResText } = require("./sendResText");
+const { sendUpdatedResText } = require("./sendUpdatedResText");
 const { reservationChecker } = require("./reservationChecker");
 let clients = [];
 
@@ -18,6 +20,7 @@ reservationRouter.post("/", async (req, res) => {
       notes,
       phone,
       tableSize,
+      sendText,
     });
     const response = await reservationChecker(numGuests, date, time);
     if (response.available) {
@@ -165,16 +168,26 @@ reservationRouter.get("/date/:date", async (req, res) => {
   }
 });
 
-// Patch reservation state by id
+function getCurrentTime() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  return `${hours}:${minutes}`;
+}
+
 reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
   try {
     const [reservationId, newState] = [req.params.id, req.params.state];
 
     const lowercaseState = newState.toLowerCase();
+    let arrivedTime = "";
+    if (lowercaseState === "arrived") {
+      arrivedTime = getCurrentTime();
+    }
 
     const updatedReservation = await Reservation.findByIdAndUpdate(
       reservationId,
-      { state: lowercaseState },
+      { state: lowercaseState, arrivedTime: arrivedTime },
       { new: true },
     );
 
@@ -197,6 +210,178 @@ reservationRouter.get("/check", async (req, res) => {
   const response = await reservationChecker(numGuests, date, time);
 
   res.status(200).json(response);
+});
+
+module.exports = reservationRouter;
+
+
+// Update reservation by id
+reservationRouter.put("/id/:id", async (req, res) => {
+  try {
+    const reservationId = req.params.id;
+    const updatedData = req.body;
+
+    const existingReservation = await Reservation.findById(reservationId);
+
+    if (!existingReservation) {
+      return res.status(404).json({ error: "Reservation not found" });
+    }
+
+
+    const updatedReservation = await Reservation.findByIdAndUpdate(
+      reservationId,
+      updatedData,
+      { new: true }
+    );
+
+    if (existingReservation.sendText) {
+        await sendUpdatedResText(updatedReservation);
+    }
+
+    clients.forEach((client) =>
+      client.write(`data: ${JSON.stringify(updatedReservation)}\n\n`)
+    );
+
+    res.status(200).json(updatedReservation);
+  } catch (error) {
+    console.error("Error updating reservation:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
+
+reservationRouter.get("/stats", async (req, res) => {
+  try {
+    const startOfUTCDay = (date) => {
+      return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0));
+    };
+
+    const endOfUTCDay = (date) => {
+      return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 23, 59, 59, 999));
+    };
+
+    const startOfUTCMonth = (date) => {
+      return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1, 0, 0, 0, 0));
+    };
+
+    const endOfUTCMonth = (date) => {
+      return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 1, 0, 0, 0, 0) - 1);
+    };
+
+    const startOfUTCYear = (date) => {
+      return new Date(Date.UTC(date.getUTCFullYear(), 0, 1, 0, 0, 0, 0));
+    };
+
+    const endOfUTCYear = (date) => {
+      return new Date(Date.UTC(date.getUTCFullYear() + 1, 0, 1, 0, 0, 0, 0) - 1);
+    };
+
+    const now = new Date();
+
+    const todayStart = startOfUTCDay(now);
+    const todayEnd = endOfUTCDay(now);
+
+    const monthStart = startOfUTCMonth(now);
+    const monthEnd = endOfUTCMonth(now);
+
+    const yearStart = startOfUTCYear(now);
+    const yearEnd = endOfUTCYear(now);
+
+    const getStats = async (startDate, endDate) => {
+      const stats = await Reservation.aggregate([
+        {
+          $match: {
+            date: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+            state: { $ne: "cancel" }
+          },
+        },
+        {
+          $group: {
+            _id: "$numGuests",
+            count: { $sum: 1 },
+            totalGuests: { $sum: "$numGuests" },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            reservationCount: { $sum: "$count" },
+            totalGuests: { $sum: "$totalGuests" },
+            guestCounts: {
+              $push: {
+                k: { $toString: "$_id" },
+                v: "$count",
+              },
+            },
+          },
+        },
+        {
+          $addFields: {
+            guestCounts: { $arrayToObject: "$guestCounts" },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            reservationCount: 1,
+            totalGuests: 1,
+            guestCounts: 1,
+          },
+        },
+      ]);
+
+      const initializedGuestCounts = {};
+      for (let i = 1; i <= 25; i++) {
+        initializedGuestCounts[i.toString()] = 0;
+      }
+
+      if (stats.length > 0) {
+        Object.assign(initializedGuestCounts, stats[0].guestCounts);
+
+        const guestCountsArray = Object.entries(initializedGuestCounts)
+        .map(([numGuests, count]) => ({
+          numGuests,
+          count,
+        }))
+        .filter(entry => entry.count > 0);
+
+        return {
+          reservationCount: stats[0].reservationCount,
+          totalGuests: stats[0].totalGuests,
+          guestCounts: guestCountsArray,
+        };
+      } else {
+        const guestCountsArray = Object.entries(initializedGuestCounts).map(([numGuests, count]) => ({
+          numGuests,
+          count,
+        }));
+        return {
+          reservationCount: 0,
+          totalGuests: 0,
+          guestCounts: guestCountsArray,
+        };
+      }
+    };
+
+    const [todayStats, monthStats, yearStats] = await Promise.all([
+      getStats(todayStart, todayEnd),
+      getStats(monthStart, monthEnd),
+      getStats(yearStart, yearEnd),
+    ]);
+
+    res.json({
+      today: todayStats,
+      month: monthStats,
+      year: yearStats,
+    });
+  } catch (error) {
+    console.error("Error fetching stats:", error);
+    res.status(500).send("Server Error");
+  }
 });
 
 module.exports = reservationRouter;

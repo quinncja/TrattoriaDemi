@@ -8,9 +8,18 @@ function ReservationDisplayer(props) {
   const setReservations = props.setReservations;
   const patchRes = props.patchRes;
 
+  function getCurrentTime() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`;
+  }
+
   function handleBtnClick(res, state) {
     const updatedReservations = reservations.map((r) =>
-      r._id === res._id ? { ...r, state: state } : r
+      r._id === res._id
+        ? { ...r, state: state, arrivedTime: getCurrentTime() }
+        : r
     );
     setReservations(updatedReservations);
     patchRes(res._id, state);
@@ -22,6 +31,21 @@ function ReservationDisplayer(props) {
     ));
   }
 
+  if (liveRes.length === 0) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          height: "50vh",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h1>No Reservations</h1>
+      </div>
+    );
+  }
   return (
     <>
       {liveRes && liveRes.length > 0 && (

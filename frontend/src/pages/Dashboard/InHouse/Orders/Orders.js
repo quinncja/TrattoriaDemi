@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import OrderHeader from "./OrderHeader";
 import OrderDisplayer from "./OrderDisplayer";
-import { getOrders, markComplete, patchOrderConfirm } from "../../../api";
+import { getOrders, markComplete, patchOrderConfirm } from "../../../../api";
 import OrderSSE from "./OrderSSE";
-import { deleteOrder } from "../../../api";
+import { deleteOrder } from "../../../../api";
 
 function Orders() {
   const [state, setState] = useState(true);

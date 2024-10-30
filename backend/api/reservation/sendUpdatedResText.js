@@ -71,11 +71,11 @@ function dateToString(date) {
   return `${dayName}, ${monthName} ${day}`;
 }
 
-function sendResText(reservation) {
+function sendUpdatedResText(reservation) {
   client.messages.create({
     body: `${
       reservation.name
-    }, \n \nWe are happy to confirm your reservation for ${numberToWord(
+    }, \n \nYour reservation has been updated! \n\nWe look forward to serving your party of ${numberToWord(
       reservation.numGuests,
     )} on ${dateToString(reservation.date)} at ${convertTo12Hour(
       reservation.time,
@@ -88,5 +88,5 @@ function sendResText(reservation) {
 }
 
 module.exports = {
-  sendResText,
+  sendUpdatedResText,
 };

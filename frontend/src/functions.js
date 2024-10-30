@@ -24,6 +24,10 @@ export function convertTo24Hour(time) {
 }
 
 export function convertTo12Hour(time) {
+  if (typeof time !== "string" || !/^\d{1,2}:\d{2}$/.test(time)) {
+    return "";
+  }
+
   let [hours, minutes] = time.split(":");
   hours = parseInt(hours, 10);
   minutes = parseInt(minutes, 10);
@@ -113,14 +117,7 @@ export function getTimeFromDate(dateStr) {
 
 export const convertDateToIso = (date) => {
   const dateAsUTC = new Date(
-    Date.UTC(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      date.getHours(),
-      date.getMinutes(),
-      date.getSeconds()
-    )
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
   );
   const formattedDate = dateAsUTC.toISOString();
   return formattedDate;
@@ -173,4 +170,20 @@ export function getCurrentPeriod() {
 
   const currentPeriod = Math.ceil(diffDays / 14);
   return currentPeriod - 1;
+}
+
+export function getFirstWord(inputStr) {
+  if (typeof inputStr !== "string") {
+    throw new TypeError("Input must be a string");
+  }
+
+  const trimmedStr = inputStr.trim();
+
+  if (trimmedStr === "") {
+    return "";
+  }
+
+  const words = trimmedStr.split(/\s+/);
+
+  return words[0];
 }

@@ -1,15 +1,15 @@
 import { convertTo12Hour, dateToString } from "functions";
-import { fadeInDown } from "animations";
+import { fadeIn } from "animations";
 import { motion, AnimatePresence } from "framer-motion";
 import { calendarSvg, peopleSvg, clockSvg } from "svg";
 
 function FoundTable(props) {
-  const { table, setEditing } = props;
+  const { table, setEditing, inRes } = props;
   const { numGuests, date, time } = table;
 
   return (
     <AnimatePresence>
-      <motion.div {...fadeInDown}>
+      <motion.div {...fadeIn} className={`${inRes && "inResTable"}`}>
         <div className="input-text"> Your table </div>
         <div className="found-table">
           <div className="table-info">

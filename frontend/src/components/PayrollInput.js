@@ -2,10 +2,14 @@ import React from "react";
 
 const PayrollInput = React.forwardRef((props, ref) => {
   const obj = props.obj;
-  const short = obj.type === "hours" || obj.type === "tips"
+  const short = obj.type === "hours" || obj.type === "tips";
 
   return (
-    <div className={`payroll-input-group input-group ${short && "payroll-input-group-shorter"}`}>
+    <div
+      className={`payroll-input-group input-group ${
+        short && "payroll-input-group-shorter"
+      }`}
+    >
       <label
         className={`input-text input-text-payroll ${
           obj.error && `input-text-error`
