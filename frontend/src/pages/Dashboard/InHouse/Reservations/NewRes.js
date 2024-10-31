@@ -1,10 +1,9 @@
+import { convertDateStringToIso, convertTo12Hour, convertTo24Hour, dateToString } from "functions";
 import { useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
 
 function NewRes(props) {
-  const close = props.close;
-  const submitRes = props.submitRes;
-
+  const { submitRes, setNewRes } = props;
   const [name, setName] = useState(null);
   const [phone, setPhone] = useState(null);
   const [numGuests, setGuests] = useState(null);
@@ -19,7 +18,7 @@ function NewRes(props) {
       numGuests,
       tableSize: "NA",
       date,
-      time,
+      time: convertTo24Hour(time),
       notes,
       sendText: phone ? true : false,
       selfMade: true,
@@ -80,7 +79,7 @@ function NewRes(props) {
       setGuests(event.target.selectedIndex);
     }
     if (event.target.id === "date") {
-      setDate(event.target.value);
+      setDate(convertDateStringToIso(event.target.value));
     }
     if (event.target.id === "time") {
       setTime(event.target.value);
@@ -90,16 +89,49 @@ function NewRes(props) {
     }
   };
 
+  const closeResButton = () => {
+    return (
+      <button
+        onClick={() => setNewRes(!true)}
+        type="button"
+        className="new-res-btn2">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 -2 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6L6 18"
+              stroke="#ffffff"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M6 6L18 18"
+              stroke="#ffffff"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+      </button>
+    );
+  }
+
   return (
     <div className="background">
       <form className="new-res-form" id="new-res">
-        <div className="new-res-header"> New Reservation {close()} </div>
+        <div className="new-res-header"> New Reservation {closeResButton()} </div>
+        <div className="new-res-inputs">
         <input
           className={`new-res-input  ${!name && "new-res-unselect"}`}
           id="name"
           value={name}
           placeholder="Name"
-          autocomplete="off"
+          autoComplete="off"
           onChange={(event) => handleChange(event)}
         />
         <div className="new-res-top">
@@ -109,6 +141,7 @@ function NewRes(props) {
             className={`new-res-input  ${!phone && "new-res-unselect"}`}
             value={phone}
             autocomplete="off"
+            pattern="\d*"
             onChange={(event) => {
               setPhone(event);
             }}
@@ -131,10 +164,11 @@ function NewRes(props) {
             </option>
           ))}
         </select>
+
+        <label className="date-label" htmlFor="date"> { date ? dateToString(date) : "Date"} </label>
         <input
           className={`new-res-input  ${!date && "new-res-unselect"}`}
           id="date"
-          placeholder="Date"
           type="date"
           onChange={(event) => handleChange(event)}
         />
@@ -161,6 +195,7 @@ function NewRes(props) {
           placeholder="Notes"
           onChange={(event) => handleChange(event)}
         />
+        </div>
         <button
           className="submit-button submit-new-res"
           type="button"
