@@ -20,7 +20,7 @@ function Reversations() {
     const hours = now.getHours();
     const minutes = now.getMinutes();
 
-    if (hours < 16 || (hours === 16 && minutes === 0)) {
+    if (hours < 17 || (hours === 17 && minutes === 0)) {
       return "Lunch";
     } else {
       return "Dinner";
@@ -39,9 +39,9 @@ function Reversations() {
     const minutes = parseInt(minutesStr, 10);
 
     if (shift === "Lunch") {
-      return hours < 16 || (hours === 16 && minutes === 0);
+      return hours < 17 || (hours === 17 && minutes === 0);
     } else {
-      return hours > 16 || (hours === 16 && minutes > 0);
+      return hours > 17 || (hours === 17 && minutes > 0);
     }
   });
 
@@ -52,13 +52,30 @@ function Reversations() {
     (reservation) => reservation.state === "cancel"
   );
 
-  function getChicagoDateISO() {
-    const chicagoTime = moment().tz("America/Chicago").toISOString();
-    return chicagoTime;
+  const today = () => {
+    const today = new Date();
+    
+    const options = {
+      timeZone: 'America/Chicago',
+      hour12: false,
+    };
+    const chicagoDateTime = today.toLocaleString('sv-SE', options);
+  
+    const chicagoISO = chicagoDateTime.replace(' ', 'T');
+    console.log(chicagoISO)
+
+    return chicagoISO;
   }
 
-  const [date, setDate] = useState(getChicagoDateISO());
+  const handleDateClick = () => {
+    setDate(today())
+  }
 
+  const [date, setDate] = useState(today());
+
+  useEffect(() => {
+    console.log(date)
+  }, [date])
   const { data: reservation } = ReservationSSE();
 
   useEffect(() => {
@@ -120,64 +137,6 @@ function Reversations() {
     }
   }
 
-  function newResButton() {
-    return (
-      <button
-        onClick={() => setNewRes(!newResOpen)}
-        type="button"
-        className="res-amount-header new-res-btn"
-      >
-        {newResOpen ? (
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M18 6L6 18"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M6 6L18 18"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        ) : (
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12 5V19"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M5 12H19"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        )}
-      </button>
-    );
-  }
-
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -194,7 +153,7 @@ function Reversations() {
       {newResOpen && (
         <NewRes
           selfClose={() => setNewRes(false)}
-          close={newResButton}
+          setNewRes={setNewRes}
           submitRes={submitRes}
         />
       )}
@@ -203,11 +162,12 @@ function Reversations() {
           <ReservationHeader
             date={date}
             setDate={setDate}
+            handleDateClick={handleDateClick}
             numGuests={sumGuests(liveRes)}
             numRes={liveRes.length}
             shift={shift}
             toggleShift={toggleShift}
-            newResButton={newResButton}
+            setNewRes={setNewRes}
           />
         </div>
       </div>

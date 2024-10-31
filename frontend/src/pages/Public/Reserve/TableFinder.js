@@ -94,7 +94,6 @@ const TableFinder = forwardRef((props, ref) => {
       "7:15pm",
       "7:30pm",
       "7:45pm",
-      "8:00pm",
     ],
     fri_sat: [
       "11:30am",
@@ -135,7 +134,6 @@ const TableFinder = forwardRef((props, ref) => {
       "8:15pm",
       "8:30PM",
       "8:45PM",
-      "9:00PM",
     ],
     sun: [
       "12:00pm",
@@ -170,7 +168,6 @@ const TableFinder = forwardRef((props, ref) => {
       "7:15pm",
       "7:30pm",
       "7:45pm",
-      "8:00pm",
     ],
   };
 
@@ -276,6 +273,7 @@ const TableFinder = forwardRef((props, ref) => {
   const handleDateChange = (value) => {
     setTime("");
     setAvailableTimes(null);
+    console.log("selected", value)
     setDate(convertDateToIso(value));
     getTimeList(convertDateToIso(value));
     setCalOpen(false);

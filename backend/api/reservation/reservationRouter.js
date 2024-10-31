@@ -145,7 +145,6 @@ function sortReservationsByTime(reservations) {
 reservationRouter.get("/date/:date", async (req, res) => {
   try {
     const targetDate = new Date(req.params.date);
-    // Construct the start and end of the day for the target date
     const startOfDay = new Date(
       Date.UTC(
         targetDate.getUTCFullYear(),
@@ -158,7 +157,7 @@ reservationRouter.get("/date/:date", async (req, res) => {
       ),
     );
 
-    // Query for reservations within the day range
+
     let reservations = await Reservation.find({ date: startOfDay });
     reservations = sortReservationsByTime(reservations);
     res.json(reservations);

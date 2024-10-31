@@ -27,7 +27,7 @@
     "@userfront/core": "^0.6.7",
     "@userfront/react": "^0.3.4",
     "axios": "^1.5.0",
-    "date-fns": "^2.30.0",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.10",
     "embla-carousel-auto-height": "^8.0.0-rc12",
     "embla-carousel-autoplay": "^8.0.0-rc12",
