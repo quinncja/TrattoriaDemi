@@ -4,7 +4,7 @@ import { leftArrow, rightArrow } from "svg";
 import { motion } from "framer-motion";
 
 function ReservationHeader(props) {
-  const { date, setDate, shift, toggleShift, numGuests, numRes, newResButton } =
+  const { date, setDate, shift, toggleShift, numGuests, numRes, setNewRes, handleDateClick } =
     props;
 
   function shiftChanger() {
@@ -45,10 +45,7 @@ function ReservationHeader(props) {
 
       setDate(dateAsObj.toISOString());
     };
-    const dateClick = () => {
-      const today = new Date();
-      setDate(today.toISOString());
-    };
+
     return (
       <div className="date-changer-container">
         <button
@@ -58,7 +55,7 @@ function ReservationHeader(props) {
         >
           {leftArrow()}
         </button>
-        <div className="date-changer-text" onClick={() => dateClick()}>
+        <div className="date-changer-text" onClick={() => handleDateClick()}>
           {" "}
           {dateToString(date)}{" "}
         </div>
@@ -101,6 +98,7 @@ function ReservationHeader(props) {
       </div>
     );
   }
+
   function numGuestDisplay() {
     return (
       <div className="res-amount res-amount-header">
@@ -144,6 +142,39 @@ function ReservationHeader(props) {
       </div>
     );
   }
+
+  const newResButton = () => {
+    return (
+      <button
+        onClick={() => setNewRes(true)}
+        type="button"
+        className="new-res-btn2"
+      >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 -1 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="meet"
+          >
+            <path
+              d="M12 5V19"
+              stroke="#ffffff"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M5 12H19"
+              stroke="#ffffff"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+      </button>
+    )}
 
   return (
     <>
