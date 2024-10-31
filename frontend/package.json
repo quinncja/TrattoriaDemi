@@ -54,6 +54,7 @@
     "react-to-print": "^2.14.15",
     "recharts": "^2.12.6",
     "resend": "^1.0.0",
+    "sonner": "^1.5.0",
     "sweetalert2": "^11.7.27",
     "web-vitals": "^2.1.4",
     "worker-loader": "^3.0.8"

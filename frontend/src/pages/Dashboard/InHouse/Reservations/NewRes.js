@@ -1,4 +1,4 @@
-import { convertDateStringToIso, convertTo12Hour, convertTo24Hour, dateToString } from "functions";
+import { convertDateStringToIso, convertTo24Hour, dateToString } from "functions";
 import { useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
 

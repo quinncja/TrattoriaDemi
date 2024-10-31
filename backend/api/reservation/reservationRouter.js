@@ -1,8 +1,8 @@
-
 const express = require("express");
 const reservationRouter = express.Router();
 const Reservation = require("./Reservation");
 const { sendResText } = require("./sendResText");
+const { sendCancelText } = require("./sendCancelText");
 const { sendUpdatedResText } = require("./sendUpdatedResText");
 const { reservationChecker } = require("./reservationChecker");
 let clients = [];
@@ -192,6 +192,10 @@ reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
 
     if (!updatedReservation) {
       return res.status(404).json({ error: "Reservation not found" });
+    }
+
+    if(newState === "cancel"){
+      sendCancelText(updatedReservation.phone)
     }
 
     res.json(updatedReservation);
