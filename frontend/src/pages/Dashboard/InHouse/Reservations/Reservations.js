@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import ReservationHeader from "./ReservationHeader";
 import ReservationDisplayer from "./ReservationDisplayer";
 import NewRes from "./NewRes";
-import { successfulAdminResAlert } from "../../../../swal2";
 import ReservationSSE from "./ReservationSSE";
-import moment from "moment-timezone";
 import {
   getReservationsByDate,
   patchReservation,
   postAdminReservation,
 } from "../../../../api";
+import { Toaster, toast } from 'sonner'
 
 function Reversations() {
   const [reservations, setReservations] = useState([]);
@@ -72,10 +71,6 @@ function Reversations() {
   }
 
   const [date, setDate] = useState(today());
-
-  useEffect(() => {
-    console.log(date)
-  }, [date])
   const { data: reservation } = ReservationSSE();
 
   useEffect(() => {
@@ -108,9 +103,9 @@ function Reversations() {
     try {
       const response = await postAdminReservation(res);
       if (response.status === 201) {
+        toast.success('Reservation successfully created')
         addResLocal(response.data);
-        const promise = await successfulAdminResAlert();
-        if (promise) setNewRes(false);
+        setNewRes(false);
       }
     } catch (error) {
       console.error(error);
@@ -157,6 +152,7 @@ function Reversations() {
           submitRes={submitRes}
         />
       )}
+      <Toaster richColors position="bottom-center"/>
       <div className="reservations-header">
         <div className="res-header">
           <ReservationHeader

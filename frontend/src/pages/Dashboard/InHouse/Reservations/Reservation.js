@@ -16,7 +16,7 @@ export function Reservation(props) {
           alignItems: "center",
         }}
       >
-        <strong className="gold-time"> Arrived </strong>
+        <strong> Arrived </strong>
         <span className="arrived-time">
           {" "}
           {convertTo12Hour(res.arrivedTime)}{" "}
@@ -144,15 +144,16 @@ export function Reservation(props) {
   return (
     <>
       <button
-        className={`res ${
-          res.state === "arrived" && "res-arrived"
+        className={`res 
+        ${res.selfMade && "res-selfmade"}
+        ${res.state === "arrived" && "res-arrived"
         } res-${isOpen}`}
         key={res._id}
         onClick={() => setOpen(!isOpen)}
       >
         <div className="res-row">
           <div className="res-left">
-            <div className={`res-amount ${res.selfMade && "gold-outline"} `}>
+            <div className={`res-amount`}>
               {res.numGuests}
             </div>
             <div>
@@ -169,7 +170,7 @@ export function Reservation(props) {
           </div>
         </div>
       </button>
-      <div className={`bottom-wrapper bottom-wrapper-${isOpen}`}>
+      <div className={`bottom-wrapper bottom-wrapper-${isOpen} ${res.selfMade && "res-selfmade"}`}>
         <div className="res-bottom">
           <div className="res-open-notes">
             <strong> {res.phone && formatPhoneNumber(res.phone)} </strong>
