@@ -1,6 +1,7 @@
 import { convertDateStringToIso, convertTo24Hour, dateToString } from "functions";
 import { useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
+import { openBook, openBookSvg, peopleSvg } from "svg";
 
 function NewRes(props) {
   const { submitRes, setNewRes } = props;
@@ -126,75 +127,83 @@ function NewRes(props) {
       <form className="new-res-form" id="new-res">
         <div className="new-res-header"> New Reservation {closeResButton()} </div>
         <div className="new-res-inputs">
-        <input
-          className={`new-res-input  ${!name && "new-res-unselect"}`}
-          id="name"
-          value={name}
-          placeholder="Name"
-          autoComplete="off"
-          onChange={(event) => handleChange(event)}
-        />
-        <div className="new-res-top">
-          <PhoneInput
-            country="US"
-            withCountryCallingCode={true}
-            className={`new-res-input  ${!phone && "new-res-unselect"}`}
-            value={phone}
-            autocomplete="off"
-            pattern="\d*"
-            onChange={(event) => {
-              setPhone(event);
-            }}
-            placeholder="Phone #"
+        <div className="new-res-input-group"> 
+        <label className="new-res-label"> {openBookSvg()} Table Info</label>
+          <select
+            className={`new-res-input  ${!numGuests && "new-res-unselect"}`}
+            id="guests"
+            onChange={(event) => handleChange(event)}
+          >
+            <option default hidden value="">
+              {" "}
+              Party Size{" "}
+            </option>
+            <option>1 guest</option>
+            {[...Array(29)].map((_, index) => (
+              <option data={index + 2} key={index + 2}>
+                {index + 2} guests
+              </option>
+            ))}
+          </select>
+
+          <label className="date-label" htmlFor="date"> { date ? dateToString(date) : "Date"} </label>
+          <input
+            className={`new-res-input  ${!date && "new-res-unselect"}`}
+            id="date"
+            type="date"
+            onChange={(event) => handleChange(event)}
           />
+
+          <select
+            className={`new-res-input  ${!time && "new-res-unselect"}`}
+            id="time"
+            onChange={(event) => handleChange(event)}
+          >
+            <option default hidden value="">
+              {" "}
+              Time{" "}
+            </option>
+            <option>1 guest</option>
+            {hourOptions.map((hour, index) => (
+              <option data={hour} key={hour}>
+                {hour}
+              </option>
+            ))}
+          </select> 
         </div>
-        <select
-          className={`new-res-input  ${!numGuests && "new-res-unselect"}`}
-          id="guests"
-          onChange={(event) => handleChange(event)}
-        >
-          <option default hidden value="">
-            {" "}
-            Party Size{" "}
-          </option>
-          <option>1 guest</option>
-          {[...Array(29)].map((_, index) => (
-            <option data={index + 2} key={index + 2}>
-              {index + 2} guests
-            </option>
-          ))}
-        </select>
 
-        <label className="date-label" htmlFor="date"> { date ? dateToString(date) : "Date"} </label>
-        <input
-          className={`new-res-input  ${!date && "new-res-unselect"}`}
-          id="date"
-          type="date"
-          onChange={(event) => handleChange(event)}
-        />
-
-        <select
-          className={`new-res-input  ${!time && "new-res-unselect"}`}
-          id="time"
-          onChange={(event) => handleChange(event)}
-        >
-          <option default hidden value="">
-            {" "}
-            Time{" "}
-          </option>
-          <option>1 guest</option>
-          {hourOptions.map((hour, index) => (
-            <option data={hour} key={hour}>
-              {hour}
-            </option>
-          ))}
-        </select>
-        <textarea
-          className="new-res-input text-area-res"
-          id="notes"
-          placeholder="Notes"
-          onChange={(event) => handleChange(event)}
-        />
+        <div className="new-res-input-group"> 
+        <label className="new-res-label"> {peopleSvg()} Guest Info</label>
+          <input
+            className={`new-res-input  ${!name && "new-res-unselect"}`}
+            id="name"
+            value={name}
+            placeholder="Name"
+            autoComplete="off"
+            onChange={(event) => handleChange(event)}
+          />
+          <div className="new-res-top">
+            <PhoneInput
+              country="US"
+              withCountryCallingCode={true}
+              className={`new-res-input  ${!phone && "new-res-unselect"}`}
+              value={phone}
+              autocomplete="off"
+              pattern="\d*"
+              onChange={(event) => {
+                setPhone(event);
+              }}
+              placeholder="Phone #"
+            />
+          </div>
+          
+          <textarea
+            className="new-res-input text-area-res"
+            id="notes"
+            placeholder="Notes"
+            onChange={(event) => handleChange(event)}
+          />
+        </div>  
         </div>
         <button
           className="submit-button submit-new-res"

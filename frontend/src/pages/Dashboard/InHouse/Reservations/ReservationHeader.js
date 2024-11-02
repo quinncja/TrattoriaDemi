@@ -1,11 +1,15 @@
-import React from "react";
-import { dateToString } from "../../../../functions";
+import { useState, useRef, useEffect } from 'react';
+import { convertDateStringToIso, dateToString } from "../../../../functions";
 import { leftArrow, rightArrow } from "svg";
 import { motion } from "framer-motion";
 
 function ReservationHeader(props) {
   const { date, setDate, shift, toggleShift, numGuests, numRes, setNewRes, handleDateClick } =
     props;
+  const timerRef = useRef();
+  const isLongPress = useRef();
+  const [calOpen, setCalOpen] = useState(false);
+  const calInputRef = useRef(null);
 
   function shiftChanger() {
     return (
@@ -32,6 +36,46 @@ function ReservationHeader(props) {
     );
   }
 
+  function startPressTimer() {
+    isLongPress.current = false;
+    timerRef.current = setTimeout(() => {
+      isLongPress.current = true;
+      setCalOpen(true)
+    }, 300)
+  }
+
+  function handleOnMouseDown() {
+    startPressTimer();
+  }
+  
+  function handleOnTouchStart() {
+    startPressTimer();
+  }
+
+  function handleOnMouseUp() {
+    clearTimeout(timerRef.current);
+  }
+  
+  function handleOnTouchEnd() {
+    clearTimeout(timerRef.current);
+  }
+
+  function differentiateClick(){
+    if ( isLongPress.current ) {
+      return;
+    }
+    console.log("click")
+    handleDateClick()
+  }
+  
+
+  useEffect(() => {
+    if (calOpen && calInputRef.current) {
+      // const input = document.getElementById("date-p")
+      // input.showPicker();
+    }
+  }, [calOpen]);
+
   function dateChanger() {
     const buttonClick = (id) => {
       const dateAsObj = new Date(date);
@@ -42,7 +86,7 @@ function ReservationHeader(props) {
       if (id === "forward") {
         dateAsObj.setDate(dateAsObj.getDate() + 1);
       }
-
+      
       setDate(dateAsObj.toISOString());
     };
 
@@ -55,7 +99,12 @@ function ReservationHeader(props) {
         >
           {leftArrow()}
         </button>
-        <div className="date-changer-text" onClick={() => handleDateClick()}>
+        <div id="date-changer-text" className="date-changer-text"
+          onMouseDown={handleOnMouseDown}
+          onMouseUp={handleOnMouseUp}
+          onTouchStart={handleOnTouchStart}
+          onTouchEnd={handleOnTouchEnd}
+          onClick={differentiateClick}>
           {" "}
           {dateToString(date)}{" "}
         </div>
@@ -66,9 +115,27 @@ function ReservationHeader(props) {
         >
           {rightArrow()}
         </button>
+        {calOpen && (
+          <div className='date-hider'>
+            <button id="fake-button" htmlFor="date-p"/>
+            <input
+              id="date-p"
+              type="date"
+              ref={calInputRef}
+              defaultValue={date}
+              onChange={(e) => {
+                const iso = convertDateStringToIso(e.target.value)
+                setDate(iso);
+                setCalOpen(false);
+              }}
+              onBlur={() => setCalOpen(false)}
+            />
+          </div>
+        )}
       </div>
     );
   }
+
   function numResDisplay() {
     return (
       <div className="res-amount res-amount-header">
