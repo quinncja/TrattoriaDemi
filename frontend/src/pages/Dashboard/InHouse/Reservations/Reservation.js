@@ -156,8 +156,8 @@ export function Reservation(props) {
               {res.numGuests}
             </div>
             <div>
+            <div className="res-time">{convertTo12Hour(res.time)}</div>
               <div className="res-name">{res.name}</div>
-              <div className="res-time">{convertTo12Hour(res.time)}</div>
             </div>
           </div>
           <div className="res-right-side">

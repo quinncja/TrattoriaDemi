@@ -1,5 +1,5 @@
 import { convertDateStringToIso, convertTo24Hour, dateToString } from "functions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
 import { openBookSvg, peopleSvg } from "svg";
 
@@ -11,7 +11,7 @@ function NewRes(props) {
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
   const [notes, setNotes] = useState(null);
-
+useEffect(() => console.log(time), [time])
   const onSubmit = async () => {
     const newRes = {
       name,
@@ -138,6 +138,7 @@ function NewRes(props) {
               {" "}
               Party Size{" "}
             </option>
+            <option> 1 guest </option>
             {[...Array(29)].map((_, index) => (
               <option data={index + 2} key={index + 2}>
                 {index + 2} guests
@@ -162,7 +163,6 @@ function NewRes(props) {
               {" "}
               Time{" "}
             </option>
-            <option>1 guest</option>
             {hourOptions.map((hour, index) => (
               <option data={hour} key={hour}>
                 {hour}
