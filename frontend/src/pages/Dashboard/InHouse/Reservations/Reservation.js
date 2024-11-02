@@ -15,9 +15,10 @@ export function Reservation(props) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          height: "3.5rem"
         }}
       >
-        <strong> Arrived </strong>
+        <div className="res-name"> Arrived </div>
         <span className="arrived-time">
           {" "}
           {convertTo12Hour(res.arrivedTime)}{" "}
