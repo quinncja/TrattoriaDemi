@@ -25,13 +25,28 @@ function ReservationDisplayer(props) {
     patchRes(res._id, state);
   }
 
+  function compareTime(aTime, bTime) {
+    const [aHours, aMinutes] = aTime.split(":").map(Number);
+    const [bHours, bMinutes] = bTime.split(":").map(Number);
+
+    if (aHours !== bHours) {
+      return aHours - bHours;
+    } else {
+      return aMinutes - bMinutes;
+    }
+  }
+
+  const sortedLiveRes = [...liveRes].sort((a, b) => compareTime(a.time, b.time));
+  const sortedCancelledRes = [...cancelledRes].sort((a, b) => compareTime(a.time, b.time));
+
+
   function mapReservations(resToMap) {
     return resToMap.map((res) => (
       <Reservation key={res._id} res={res} handleBtnClick={handleBtnClick} />
     ));
   }
 
-  if (liveRes.length === 0) {
+  if (sortedLiveRes.length === 0 && sortedCancelledRes.length === 0) {
     return (
       <div
         style={{
@@ -47,17 +62,17 @@ function ReservationDisplayer(props) {
     );
   }
   return (
-    <>
-      {liveRes && liveRes.length > 0 && (
-        <div className="reservations-displayer">{mapReservations(liveRes)}</div>
+    <div style={{display: "flex", flexDirection: "column", gap: "20px", width: "100%"}}>
+      {sortedLiveRes && sortedLiveRes.length > 0 && (
+        <div className="reservations-displayer">{mapReservations(sortedLiveRes)}</div>
       )}
-      {cancelledRes && cancelledRes.length > 0 && (
+      {sortedCancelledRes && sortedCancelledRes.length > 0 && (
         <div className="cancelled-res">
           <div className="cancelled-text"> Cancelled </div>
-          {mapReservations(cancelledRes)}
+          {mapReservations(sortedCancelledRes)}
         </div>
       )}
-    </>
+    </div>
   );
 }
 
