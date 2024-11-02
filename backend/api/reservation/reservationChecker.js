@@ -11,9 +11,19 @@ const tableSizes = {
   8: ["6top"],
   9: ["xl"],
   10: ["xl"],
+  11: ["xl"],
+  12: ["xl"],
+  13: ["xl"],
+  14: ["xl"],
+  15: ["xl"],
+  16: ["xl"],
+  17: ["xl"],
+  18: ["xl"],
+  19: ["xl"],
+  20: ["xl"],
 };
 
-const maxTables = { "2top": 5, "3top": 2, "4top": 3, "6top": 2, xl: 1 };
+const maxTables = { "2top": 4, "3top": 2, "4top": 4, "6top": 2, xl: 1 };
 const secondaryMaxTables = {
   "2top": 4,
   "3top": 2,
