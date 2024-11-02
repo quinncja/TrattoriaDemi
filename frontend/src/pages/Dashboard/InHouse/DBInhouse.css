@@ -539,7 +539,7 @@
   font-weight: 700;
   border: none !important;
   padding-block: 20px;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 }
 
 .new-res-input::placeholder {
@@ -584,7 +584,7 @@
 }
 
 .submit-new-res {
-  margin-top: 40px;
+  margin-top: 10px;
   margin-bottom: 20px;
   padding-block: 20px;
   font-size: 1.3rem;
@@ -846,7 +846,7 @@
 .new-res-inputs{
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 3rem;
   justify-self: flex-start;
   background-color: black;
 }
