@@ -22,6 +22,9 @@ const TableFinder = forwardRef((props, ref) => {
   const { table, setTable, editing, setEditing } = props;
   const [numGuests, setGuests] = useState(table?.numGuests || null);
   const [date, setDate] = useState(table?.date || null);
+  const dateObj = new Date(table?.date)|| null;
+  const calDateObj = new Date (dateObj.getTime() + 86400000);
+  const [calDate, setCalDate] = useState(calDateObj || null)
   const [time, setTime] = useState(table?.time || "");
   const [timeList, setTimeList] = useState(null);
   const [availableTimes, setAvailableTimes] = useState(null);
@@ -132,8 +135,8 @@ const TableFinder = forwardRef((props, ref) => {
       "7:45pm",
       "8:00pm",
       "8:15pm",
-      "8:30PM",
-      "8:45PM",
+      "8:30pm",
+      "8:45pm",
     ],
     sun: [
       "12:00pm",
@@ -225,10 +228,13 @@ const TableFinder = forwardRef((props, ref) => {
   };
 
   const parseTimeString = (timeString) => {
+    if(!timeString) return {hours: 0, minutes: 0}
     const regex = /^(\d{1,2}):(\d{2})(am|pm)$/;
     const match = timeString.match(regex);
 
-    if (!match) return null;
+    if (!match) {
+      return {hours: 0, minutes: 0}
+    }
 
     let hours = parseInt(match[1], 10);
     const minutes = parseInt(match[2], 10);
@@ -273,7 +279,9 @@ const TableFinder = forwardRef((props, ref) => {
   const handleDateChange = (value) => {
     setTime("");
     setAvailableTimes(null);
+    setCalDate(value)
     console.log("selected", value)
+    console.log("converted", convertDateToIso(value))
     setDate(convertDateToIso(value));
     getTimeList(convertDateToIso(value));
     setCalOpen(false);
@@ -436,7 +444,7 @@ const TableFinder = forwardRef((props, ref) => {
         )}
         <div onClick={(e) => e.stopPropagation()}>
           <Calendar
-            value={date}
+            value={calDate}
             onChange={(e) => handleDateChange(e.value)}
             visible={calOpen}
             onVisibleChange={(e) => setCalOpen(e.visible)}

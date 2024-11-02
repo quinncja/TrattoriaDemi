@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { formatPhoneNumber, convertTo12Hour } from "../../../../functions";
+import { cancelBtnSvg, ghostSvg } from "svg";
 
 export function Reservation(props) {
   const [isOpen, setOpen] = useState(false);
@@ -87,6 +88,19 @@ export function Reservation(props) {
       </button>
     );
   }
+  function noShowButton() {
+    return (
+      <button
+        className="res-btn res-noshow"
+        onClick={() => {
+          setOpen(false);
+          handleBtnClick(res, "noshow");
+        }}
+      >
+        {ghostSvg()}
+      </button>
+    );
+  }
   function cancelButton() {
     return (
       <button
@@ -96,28 +110,7 @@ export function Reservation(props) {
           handleBtnClick(res, "cancel");
         }}
       >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 -3 24 26"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-            stroke="#ffffff"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M4.93018 4.93L19.0702 19.07"
-            stroke="#ffffff"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        {cancelBtnSvg()}
       </button>
     );
   }
@@ -139,6 +132,11 @@ export function Reservation(props) {
         />
       </svg>
     );
+  }
+
+  const stateMap = {
+    noshow: ghostSvg(),
+    cancel: cancelBtnSvg()
   }
 
   return (
@@ -163,9 +161,10 @@ export function Reservation(props) {
           </div>
           <div className="res-right-side">
             <div className="res-btns">
-              {res.notes && noteSymbol()}
+              {(res.state !== "cancel" && res.state !== "noshow") && res.notes && noteSymbol()}
               {res.state === "upcoming" && completeButton()}
               {res.state === "arrived" && arrivedTime()}
+              {(res.state === "cancel" || res.state === "noshow") && <button className="res-btn res-btn-mock"> {stateMap[res.state]} </button> }
             </div>
           </div>
         </div>
@@ -176,8 +175,11 @@ export function Reservation(props) {
             <strong> {res.phone && formatPhoneNumber(res.phone)} </strong>
             <div> {res.notes || "No notes"} </div>
           </div>
-          {res.state !== "upcoming" && undoButton()}
-          {res.state === "upcoming" && cancelButton()}
+          <div style={{display: 'flex', flexDirection: "row", gap: "20px", alignItems: "center"}}> 
+            {res.state !== "upcoming" && undoButton()}
+            {res.state === "upcoming" && cancelButton()}
+            {res.state === "upcoming" && noShowButton()}
+          </div>
         </div>
       </div>
     </>
