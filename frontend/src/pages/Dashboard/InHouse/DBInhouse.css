@@ -846,7 +846,7 @@
 .new-res-inputs{
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 1rem;
   justify-self: flex-start;
   background-color: black;
 }
