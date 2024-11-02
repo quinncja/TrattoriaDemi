@@ -45,10 +45,10 @@ function Reversations() {
   });
 
   const liveRes = shiftReservations.filter(
-    (reservation) => reservation.state !== "cancel"
+    (reservation) => reservation.state !== "cancel" && reservation.state !== "noshow"
   );
   const cancelledRes = shiftReservations.filter(
-    (reservation) => reservation.state === "cancel"
+    (reservation) => reservation.state === "cancel" || reservation.state === "noshow"
   );
 
   const today = () => {
@@ -71,6 +71,11 @@ function Reversations() {
   }
 
   const [date, setDate] = useState(today());
+
+  useEffect(() => {
+    console.log("RESERVATIONS DATE", date)
+  }, [date])
+
   const { data: reservation } = ReservationSSE();
 
   useEffect(() => {
@@ -126,7 +131,8 @@ function Reversations() {
       const sortedReservations = response.sort(
         (a, b) => new Date(a.date) - new Date(b.date)
       );
-      setReservations(sortedReservations);
+      //setReservations(sortedReservations);
+      setReservations(sortedReservations)
     } catch (error) {
       console.log(error);
     }
