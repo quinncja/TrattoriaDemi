@@ -280,8 +280,6 @@ const TableFinder = forwardRef((props, ref) => {
     setTime("");
     setAvailableTimes(null);
     setCalDate(value)
-    console.log("selected", value)
-    console.log("converted", convertDateToIso(value))
     setDate(convertDateToIso(value));
     getTimeList(convertDateToIso(value));
     setCalOpen(false);

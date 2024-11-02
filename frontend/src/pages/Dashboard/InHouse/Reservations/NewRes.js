@@ -1,7 +1,7 @@
 import { convertDateStringToIso, convertTo24Hour, dateToString } from "functions";
 import { useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
-import { openBook, openBookSvg, peopleSvg } from "svg";
+import { openBookSvg, peopleSvg } from "svg";
 
 function NewRes(props) {
   const { submitRes, setNewRes } = props;
@@ -138,7 +138,6 @@ function NewRes(props) {
               {" "}
               Party Size{" "}
             </option>
-            <option>1 guest</option>
             {[...Array(29)].map((_, index) => (
               <option data={index + 2} key={index + 2}>
                 {index + 2} guests

@@ -198,6 +198,10 @@ reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
       sendCancelText(updatedReservation.phone)
     }
 
+    clients.forEach((client) =>
+      client.write(`data: ${JSON.stringify(updatedReservation)}\n\n`)
+    );
+
     res.json(updatedReservation);
   } catch (error) {
     console.error("Error updating reservation state:", error);

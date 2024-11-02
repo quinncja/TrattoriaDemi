@@ -72,24 +72,31 @@ function Reversations() {
 
   const [date, setDate] = useState(today());
 
-  useEffect(() => {
-    console.log("RESERVATIONS DATE", date)
-  }, [date])
-
   const { data: reservation } = ReservationSSE();
 
   useEffect(() => {
     if (reservation) {
       const areDatesEqual =
         reservation.date.split("T")[0] === date.split("T")[0];
+  
       if (areDatesEqual) {
-        setReservations((prevReservations) => [
-          ...prevReservations,
-          reservation,
-        ]);
+        setReservations((prevReservations) => {
+          const reservationIndex = prevReservations.findIndex(
+            (res) => res._id === reservation._id
+          );
+  
+          if (reservationIndex > -1) {
+            const updatedReservations = [...prevReservations];
+            updatedReservations[reservationIndex] = reservation;
+            return updatedReservations;
+          } else {
+            return [...prevReservations, reservation];
+          }
+        });
       }
     }
   }, [reservation, date]);
+  
 
   function sumGuests(reservations) {
     return reservations.reduce(
