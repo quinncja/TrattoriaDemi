@@ -26,7 +26,6 @@ reservationRouter.post("/", async (req, res) => {
     if (response.available) {
       await newReservation.save();
       if (sendText) await sendResText(newReservation);
-      // Notify all connected clients
       clients.forEach((client) =>
         client.write(`data: ${JSON.stringify(newReservation)}\n\n`),
       );

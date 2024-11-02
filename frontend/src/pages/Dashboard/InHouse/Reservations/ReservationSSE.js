@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-const API_URL = process.env.REACT_APP_LOCAL_BACKEND;
+const API_URL = process.env.REACT_APP_URL;
 
 function ReservationSSE() {
   const [data, setData] = useState(null);

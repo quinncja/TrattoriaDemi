@@ -35,12 +35,11 @@ function Reversations() {
   const shiftReservations = reservations.filter((reservation) => {
     const [hoursStr, minutesStr] = reservation.time.split(":");
     const hours = parseInt(hoursStr, 10);
-    const minutes = parseInt(minutesStr, 10);
-
+  
     if (shift === "Lunch") {
-      return hours < 17 || (hours === 17 && minutes === 0);
+      return hours < 17;
     } else {
-      return hours > 17 || (hours === 17 && minutes > 0);
+      return hours > 16;
     }
   });
 
@@ -61,7 +60,6 @@ function Reversations() {
     const chicagoDateTime = today.toLocaleString('sv-SE', options);
   
     const chicagoISO = chicagoDateTime.replace(' ', 'T');
-    console.log(chicagoISO)
 
     return chicagoISO;
   }
@@ -76,6 +74,7 @@ function Reversations() {
 
   useEffect(() => {
     if (reservation) {
+      console.log(reservation)
       const areDatesEqual =
         reservation.date.split("T")[0] === date.split("T")[0];
   

@@ -82,7 +82,6 @@ export function dateToString(date) {
   };
 
   const formattedDate = dateAsObj.toLocaleDateString('en-US', options);
-  console.log(formattedDate)
   return formattedDate;
 }
 
