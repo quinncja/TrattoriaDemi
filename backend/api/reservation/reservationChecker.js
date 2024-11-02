@@ -109,7 +109,7 @@ function isTimeValid(dateStr, timeStr) {
   const now = new Date();
 
   const isToday = desiredDateTime.toDateString() === now.toDateString();
-  
+
   if (isToday) {
     const timeDifference = desiredDateTime - now;
     const minutesDifference = timeDifference / (1000 * 60);
@@ -119,8 +119,24 @@ function isTimeValid(dateStr, timeStr) {
     }
   }
 
+  const dayOfWeek = desiredDate.getDay();
+  let latestTimeInMinutes;
+
+  if (dayOfWeek === 5 || dayOfWeek === 6) {
+    latestTimeInMinutes = 20 * 60 + 45; 
+  } else {
+    latestTimeInMinutes = 19 * 60 + 45;
+  }
+
+  const desiredTimeInMinutes = hours * 60 + minutes;
+
+  if (desiredTimeInMinutes > latestTimeInMinutes) {
+    return false;
+  }
+
   return true;
 }
+
 
 
 async function reservationChecker(numGuests, desiredDate, desiredTime) {
