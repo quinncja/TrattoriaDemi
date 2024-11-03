@@ -63,7 +63,9 @@ function ResModal(props) {
 
   const handleChange = (event) => {
     if (event.target.id === "date") {
-      setDate(event.target.valueAsDate);
+      const dateArr = event.target.value.split('-')
+      const newDate = new Date( Number(dateArr[0]), Number(dateArr[1]) - 1, Number(dateArr[2]) )
+      setDate(newDate);
     }
     if (event.target.id === "guests") {
       setGuests(event.target.selectedIndex);
