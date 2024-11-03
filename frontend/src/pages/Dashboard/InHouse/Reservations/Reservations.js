@@ -42,7 +42,7 @@ function Reversations() {
     if (shift === "Lunch") {
       return hours < 17;
     } else {
-      return hours > 16;
+      return hours >= 16;
     }
   });
 
