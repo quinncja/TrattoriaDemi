@@ -1,7 +1,8 @@
-import { convertTo12Hour, dateToString } from "functions";
+import { convertTo12Hour } from "functions";
 import { fadeIn } from "animations";
 import { motion, AnimatePresence } from "framer-motion";
 import { calendarSvg, peopleSvg, clockSvg } from "svg";
+import { dateToString } from "dateUtils";
 
 function FoundTable(props) {
   const { table, setEditing, inRes } = props;

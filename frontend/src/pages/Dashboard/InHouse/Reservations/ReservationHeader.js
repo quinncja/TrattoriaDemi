@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { convertDateStringToIso, dateToString } from "../../../../functions";
 import { leftArrow, rightArrow } from "svg";
 import { motion } from "framer-motion";
+import { dateToString } from 'dateUtils';
 
 function ReservationHeader(props) {
   const { date, setDate, shift, toggleShift, numGuests, numRes, setNewRes, handleDateClick } =
@@ -87,7 +87,7 @@ function ReservationHeader(props) {
         dateAsObj.setDate(dateAsObj.getDate() + 1);
       }
       
-      setDate(dateAsObj.toISOString());
+      setDate(dateAsObj);
     };
 
     return (
@@ -124,8 +124,7 @@ function ReservationHeader(props) {
               ref={calInputRef}
               defaultValue={date}
               onChange={(e) => {
-                const iso = convertDateStringToIso(e.target.value)
-                setDate(iso);
+                setDate(e.target.value);
                 setCalOpen(false);
               }}
               onBlur={() => setCalOpen(false)}

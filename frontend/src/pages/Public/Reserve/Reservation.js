@@ -8,11 +8,12 @@ import {
   successfulUpdatedAlert,
 } from "swal2";
 import FancyLine from "images/FancyLine.png";
-import { convertTo12Hour, dateToString, getFirstWord } from "functions";
+import { convertTo12Hour, getFirstWord } from "functions";
 import { resBookSvg } from "svg";
 import ModifyRes from "./ModifyRes";
 import { fadeIn } from "animations";
 import { motion } from "framer-motion";
+import { dateToString } from "dateUtils";
 
 function Reservation() {
   const { id } = useParams();
@@ -98,7 +99,7 @@ function Reservation() {
           </div>
 
           <div className="res-info res-info-time">
-            {`${dateToString(reservation.date)} at ${convertTo12Hour(
+            {`${dateToString(new Date(reservation.date))} at ${convertTo12Hour(
               reservation.time
             )}`}
           </div>

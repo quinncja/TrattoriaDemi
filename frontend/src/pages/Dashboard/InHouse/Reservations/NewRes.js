@@ -1,7 +1,8 @@
-import { convertDateStringToIso, convertTo24Hour, dateToString } from "functions";
+import { convertTo24Hour } from "functions";
 import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
 import { openBookSvg, peopleSvg } from "svg";
+import { dateToString } from "dateUtils";
 
 function NewRes(props) {
   const { submitRes, setNewRes } = props;
@@ -11,7 +12,7 @@ function NewRes(props) {
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
   const [notes, setNotes] = useState(null);
-useEffect(() => console.log(time), [time])
+
   const onSubmit = async () => {
     const newRes = {
       name,
@@ -76,11 +77,11 @@ useEffect(() => console.log(time), [time])
     if (event.target.id === "phone") {
       setPhone(event.target.value);
     }
+    if (event.target.id === "date") {
+      setDate(event.target.valueAsDate);
+    }
     if (event.target.id === "guests") {
       setGuests(event.target.selectedIndex);
-    }
-    if (event.target.id === "date") {
-      setDate(convertDateStringToIso(event.target.value));
     }
     if (event.target.id === "time") {
       setTime(event.target.value);

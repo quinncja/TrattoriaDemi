@@ -33,7 +33,7 @@ function Reversations() {
   };
 
   const shiftReservations = reservations.filter((reservation) => {
-    const [hoursStr, minutesStr] = reservation.time.split(":");
+    const [hoursStr] = reservation.time.split(":");
     const hours = parseInt(hoursStr, 10);
   
     if (shift === "Lunch") {
@@ -57,11 +57,10 @@ function Reversations() {
       timeZone: 'America/Chicago',
       hour12: false,
     };
-    const chicagoDateTime = today.toLocaleString('sv-SE', options);
-  
-    const chicagoISO = chicagoDateTime.replace(' ', 'T');
+    const chicagoDateTime = today.toLocaleString('en-US', options);
+    const todayDateObj = new Date(chicagoDateTime)
 
-    return chicagoISO;
+    return todayDateObj;
   }
 
   const handleDateClick = () => {
@@ -74,9 +73,9 @@ function Reversations() {
 
   useEffect(() => {
     if (reservation) {
-      console.log(reservation)
+      const reservationDate = new Date(reservation.date)
       const areDatesEqual =
-        reservation.date.split("T")[0] === date.split("T")[0];
+        reservationDate.toDateString() === date.toDateString()
   
       if (areDatesEqual) {
         setReservations((prevReservations) => {

@@ -8,8 +8,6 @@ import React, {
 import {
   convertTo24Hour,
   convertTo12Hour,
-  dateToString,
-  convertDateToIso,
 } from "functions";
 import { checkReservation } from "api";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,14 +15,12 @@ import { fadeIn, fadeInDown } from "animations";
 import Dropdown from "components/Dropdown";
 import { Calendar } from "primereact/calendar";
 import { calendarSvg, peopleSvg, clockSvg, cancelSvg } from "svg";
+import { dateToString } from "dateUtils";
 
 const TableFinder = forwardRef((props, ref) => {
   const { table, setTable, editing, setEditing } = props;
   const [numGuests, setGuests] = useState(table?.numGuests || null);
-  const [date, setDate] = useState(table?.date || null);
-  const dateObj = new Date(table?.date)|| null;
-  const calDateObj = new Date (dateObj.getTime() + 86400000);
-  const [calDate, setCalDate] = useState(calDateObj || null)
+  const [date, setDate] = useState(table?.date ? new Date(table?.date) : null);
   const [time, setTime] = useState(table?.time || "");
   const [timeList, setTimeList] = useState(null);
   const [availableTimes, setAvailableTimes] = useState(null);
@@ -195,14 +191,12 @@ const TableFinder = forwardRef((props, ref) => {
   };
 
   const getTimeList = (date) => {
-    const [year, month, day] = date.substring(0, 10).split("-").map(Number);
-    const newDate = new Date(year, month - 1, day);
-    const dayOfWeek = newDate.getDay();
+    const dayOfWeek = date.getDay();
     const timeKey = days[dayOfWeek];
     const tL = times[timeKey];
 
     const now = new Date();
-    const isToday = newDate.toDateString() === now.toDateString();
+    const isToday = date.toDateString() === now.toDateString();
 
     let filteredTL = tL;
 
@@ -211,7 +205,7 @@ const TableFinder = forwardRef((props, ref) => {
 
       filteredTL = tL.filter((time) => {
         const { hours, minutes } = parseTimeString(time);
-        const timeDate = new Date(newDate);
+        const timeDate = new Date(date);
         timeDate.setHours(hours);
         timeDate.setMinutes(minutes);
         timeDate.setSeconds(0);
@@ -279,9 +273,8 @@ const TableFinder = forwardRef((props, ref) => {
   const handleDateChange = (value) => {
     setTime("");
     setAvailableTimes(null);
-    setCalDate(value)
-    setDate(convertDateToIso(value));
-    getTimeList(convertDateToIso(value));
+    setDate(value);
+    getTimeList(value);
     setCalOpen(false);
   };
 
@@ -442,7 +435,7 @@ const TableFinder = forwardRef((props, ref) => {
         )}
         <div onClick={(e) => e.stopPropagation()}>
           <Calendar
-            value={calDate}
+            value={date}
             onChange={(e) => handleDateChange(e.value)}
             visible={calOpen}
             onVisibleChange={(e) => setCalOpen(e.visible)}

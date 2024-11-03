@@ -144,6 +144,7 @@ function sortReservationsByTime(reservations) {
 reservationRouter.get("/date/:date", async (req, res) => {
   try {
     const targetDate = new Date(req.params.date);
+    
     const startOfDay = new Date(
       Date.UTC(
         targetDate.getUTCFullYear(),
@@ -156,8 +157,19 @@ reservationRouter.get("/date/:date", async (req, res) => {
       ),
     );
 
+    const endOfDay = new Date(
+      Date.UTC(
+        targetDate.getUTCFullYear(),
+        targetDate.getUTCMonth(),
+        targetDate.getUTCDate(),
+        23,
+        59,
+        59,
+        999,
+      ),
+    );
 
-    let reservations = await Reservation.find({ date: startOfDay });
+    let reservations = await Reservation.find({date:{$gte: startOfDay, $lt:endOfDay}});
     reservations = sortReservationsByTime(reservations);
     res.json(reservations);
   } catch (error) {
@@ -168,8 +180,13 @@ reservationRouter.get("/date/:date", async (req, res) => {
 
 function getCurrentTime() {
   const now = new Date();
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
+  const options = {
+    timeZone: 'America/Chicago',
+    hour12: false,
+  };
+  const chicagoDateTime = new Date(`${now.toLocaleString('en-US', { timeZone: 'America/Chicago'})} GMT`)
+  const hours = String(chicagoDateTime.getUTCHours()).padStart(2, "0");
+  const minutes = String(chicagoDateTime.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 }
 

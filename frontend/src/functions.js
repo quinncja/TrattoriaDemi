@@ -46,45 +46,6 @@ export function convertTo12Hour(time) {
   return `${hours}:${minutes.toString().padStart(2, "0")}${period}`;
 }
 
-export function convertDateStringToIso(dateString) {
-  const [year, month, day] = dateString.split('-').map(Number);
-
-  const dateInChicago = new Date(year, month - 1, day);
-
-  const options = {
-    timeZone: 'America/Chicago',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  };
-
-  const chicagoDateString = dateInChicago.toLocaleDateString('en-CA', options); // Format: 'YYYY-MM-DD'
-
-  const [adjustedYear, adjustedMonth, adjustedDay] = chicagoDateString.split('-').map(Number);
-
-  const dateAtMidnightUTC = new Date(Date.UTC(adjustedYear, adjustedMonth - 1, adjustedDay));
-
-  const formattedDate = dateAtMidnightUTC.toISOString();
-
-  return formattedDate;
-}
-
-
-export function dateToString(date) {
-  const dateString = date.replace('Z', '');
-  const dateAsObj = new Date(dateString);
-
-  const options = {
-    timeZone: 'America/Chicago',
-    weekday: 'long',
-    month: 'short',
-    day: 'numeric',
-  };
-
-  const formattedDate = dateAsObj.toLocaleDateString('en-US', options);
-  return formattedDate;
-}
-
 export function capitalizeFirstLetter(string) {
   if (string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -120,31 +81,6 @@ export function getTimeFromDate(dateStr) {
 
   return `${hours}:${minutes}`;
 }
-
-export const convertDateToIso = (date) => {
-  // Adjust the date to Chicago time and extract date components
-  const options = {
-    timeZone: 'America/Chicago',
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-  };
-
-  // Get the date components in Chicago time
-  const [month, day, year] = date
-    .toLocaleDateString('en-US', options)
-    .split('/')
-    .map(Number);
-
-  // Create a Date object at midnight UTC with the Chicago date components
-  const dateAtMidnightUTC = new Date(Date.UTC(year, month - 1, day));
-
-  // Convert to ISO string
-  const formattedDate = dateAtMidnightUTC.toISOString();
-
-  return formattedDate; // Will be in format 'YYYY-MM-DDT00:00:00.000Z'
-};
-
 
 export function replaceSpaceW_(str) {
   return str.replace(/ /g, "_");

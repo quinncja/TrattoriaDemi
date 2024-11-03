@@ -1,6 +1,9 @@
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require("twilio")(accountSid, authToken);
+const {
+  dateToString
+} = require("../../dateUtils"); 
 
 function numberToWord(numString) {
   const numberWords = {
@@ -38,38 +41,6 @@ function convertTo12Hour(time) {
   return `${hours}:${minutes.toString().padStart(2, "0")}${period}`;
 }
 
-function dateToString(date) {
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  const dateAsObj = new Date(date);
-  const dayName = days[dateAsObj.getUTCDay()];
-  const monthName = months[dateAsObj.getUTCMonth()];
-  const day = dateAsObj.getUTCDate();
-
-  return `${dayName}, ${monthName} ${day}`;
-}
 
 function sendResText(reservation) {
   client.messages.create({
