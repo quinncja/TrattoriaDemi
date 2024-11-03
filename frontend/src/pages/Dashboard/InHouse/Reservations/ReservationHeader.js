@@ -44,6 +44,10 @@ function ReservationHeader(props) {
     );
   }
 
+  function openNewRes(){
+    setNewRes(true)
+  }
+
   function startPressTimer() {
     isLongPress.current = false;
     timerRef.current = setTimeout(() => {
@@ -72,7 +76,6 @@ function ReservationHeader(props) {
     if (isLongPress.current) {
       return;
     }
-    console.log("click");
     handleDateClick();
   }
 
@@ -222,7 +225,7 @@ function ReservationHeader(props) {
   const newResButton = () => {
     return (
       <button
-        onClick={() => setNewRes(true)}
+        onClick={() => openNewRes(true)}
         type="button"
         className="new-res-btn2"
       >

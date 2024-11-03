@@ -174,11 +174,18 @@ function Reversations() {
     };
   }, [date]);
 
+  document.body.classList.toggle("no-scroll", newResOpen);
+
+  function closeNewRes(){
+    setNewRes(false)
+  }
+
+
   return (
     <div className="reservations-container">
       {newResOpen && (
         <NewRes
-          selfClose={() => setNewRes(false)}
+          selfClose={closeNewRes}
           setNewRes={setNewRes}
           submitRes={submitRes}
         />
@@ -190,7 +197,7 @@ function Reversations() {
           res={resModalOpen}
         />
       )}
-      <Toaster richColors position="top-center" />
+      <Toaster richColors position="bottom-center" />
       <div className="reservations-header">
         <div className="res-header">
           <ReservationHeader

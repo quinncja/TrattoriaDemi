@@ -13,7 +13,6 @@ function NewRes(props) {
   const [time, setTime] = useState(null);
   const [notes, setNotes] = useState(null);
 
-  document.body.classList.toggle("no-scroll", true);
 
   const onSubmit = async () => {
     const newRes = {
