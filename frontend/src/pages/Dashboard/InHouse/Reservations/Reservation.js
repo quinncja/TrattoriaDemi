@@ -9,11 +9,11 @@ export function Reservation(props) {
   function arrivedTime() {
     return (
       <div
+      className="res-arrived-time"
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          height: "3.5rem",
         }}
       >
         <div className="res-name"> Arrived </div>
@@ -158,10 +158,10 @@ export function Reservation(props) {
             >
               {res.numGuests}
             </div>
-            <div>
+            <di className="res-left-text">
               <div className="res-time">{convertTo12Hour(res.time)}</div>
               <div className="res-name">{res.name}</div>
-            </div>
+            </di>
           </div>
           <div className="res-right-side">
             <div className="res-btns">

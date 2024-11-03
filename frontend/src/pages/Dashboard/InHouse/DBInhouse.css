@@ -377,6 +377,8 @@
   padding-top: 5px;
   font-weight: 600;
   font-size: 1.2rem;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .feint-line {
@@ -801,44 +803,18 @@
   resize: none;
 }
 
-@media (width <= 500px) {
-  .reservations-container {
-    padding-inline: 3%;
-  }
-
-  .date-changer-container {
-    order: 0;
-  }
-  .res-amounts {
-    order: 5;
-    gap: 5px;
-  }
-  .shift-wrapper {
-    order: 3;
-  }
-  .res-header {
-    gap: 5px;
-  }
-  .res-amount-header {
-    padding: 5px 5px;
-  }
-  .new-res-header {
-    padding-bottom: 10px;
-    padding-left: 5px;
-    padding-top: 15px;
-  }
-  .new-res-form {
-    padding-inline: 3%;
-    border: none;
-    width: 100%;
-    border-radius: 0;
-    padding-top: 0;
-  }
-
-  .reservations-header {
-    padding-bottom: 40px;
-  }
+.res-arrived-time{
+  height: 3.5rem
 }
+
+.res-modal-header{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 
 .shift-wrapper {
   display: flex;
@@ -933,4 +909,100 @@ input[type="date"] {
 
 .new-res-label svg path {
   stroke: var(--paper-white);
+}
+
+@media (width <= 500px) {
+  .res-btn{
+    height: 3rem;
+    width: 3rem;
+  }
+  .reservations-container {
+    padding-inline: 3%;
+  }
+
+  .date-changer-container {
+    order: 0;
+  }
+  .res-amounts {
+    order: 5;
+    gap: 5px;
+  }
+  .shift-wrapper {
+    order: 3;
+  }
+  .res-header {
+    gap: 5px;
+  }
+  .res-amount-header {
+    padding: 5px 5px;
+  }
+  .new-res-header {
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-top: 15px;
+  }
+  .new-res-form {
+    padding-inline: 3%;
+    border: none;
+    width: 100%;
+    border-radius: 0;
+    padding-top: 0;
+  }
+
+  .reservations-header {
+    padding-bottom: 40px;
+  }
+  .res-left{
+    width: 70% !important;
+    overflow: hidden;
+    gap: .5rem;
+    flex-grow: 0;
+  }
+  .res{
+    padding: 10px 10px;
+    padding-left: 5px;
+    height: fit-content;
+  }
+  .res-bottom{
+    padding: 10px 10px;
+    padding-top: 20px;
+    padding-left: 15px;
+  }
+  .res-amount{
+    padding: 10px 5px;
+  }
+  .res-left-text{
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  .res-time{
+    font-size: 1rem;
+  }
+  .arrived-time{
+    font-size: 1rem;
+  }
+  .res-name{
+    font-size: 1rem;
+  }
+  .res-arrived-time{
+    height: 3rem
+  }
+  .res-open-notes{
+    font-size: 1rem;
+  }
+  .res-modal-container {
+    top: 0;
+    left: 0;
+    transform: none;
+    border-left: none;
+    border-right: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 0px;
+    padding-top: 20px;
+    padding-inline: 3%;
+    box-sizing: border-box;
+  }
 }

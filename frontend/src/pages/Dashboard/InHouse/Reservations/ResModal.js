@@ -79,6 +79,40 @@ function ResModal(props) {
     if (num === 1) return "1 guest"
     else return `${num} guests`
   }
+
+  const closeModalButton = () => {
+    return (
+      <button
+        onClick={() => selfClose()}
+        type="button"
+        className="new-res-btn2"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 -2 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 6L6 18"
+            stroke="#ffffff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M6 6L18 18"
+            stroke="#ffffff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+    );
+  };
+
   return (
     <>
       <div
@@ -89,8 +123,10 @@ function ResModal(props) {
         }}
       />
       <div className="res-modal-container">
-        <h2> Edit Reservation </h2>
-
+        <div className="res-modal-header"> 
+        <div style={{fontSize: "1.8rem", fontWeight: "600"}}> Edit Reservation </div>
+        {closeModalButton()}
+        </div>
         <div className="new-res-input-group">
           <label className="new-res-label"> {openBookSvg()} Table Info</label>
 
