@@ -5,10 +5,7 @@ import React, {
   useImperativeHandle,
   useRef,
 } from "react";
-import {
-  convertTo24Hour,
-  convertTo12Hour,
-} from "functions";
+import { convertTo24Hour, convertTo12Hour } from "functions";
 import { checkReservation } from "api";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, fadeInDown } from "animations";
@@ -222,12 +219,12 @@ const TableFinder = forwardRef((props, ref) => {
   };
 
   const parseTimeString = (timeString) => {
-    if(!timeString) return {hours: 0, minutes: 0}
+    if (!timeString) return { hours: 0, minutes: 0 };
     const regex = /^(\d{1,2}):(\d{2})(am|pm)$/;
     const match = timeString.match(regex);
 
     if (!match) {
-      return {hours: 0, minutes: 0}
+      return { hours: 0, minutes: 0 };
     }
 
     let hours = parseInt(match[1], 10);

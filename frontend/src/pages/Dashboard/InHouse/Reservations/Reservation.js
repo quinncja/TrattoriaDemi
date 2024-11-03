@@ -4,9 +4,7 @@ import { cancelBtnSvg, ghostSvg } from "svg";
 
 export function Reservation(props) {
   const [isOpen, setOpen] = useState(false);
-
-  const res = props.res;
-  const handleBtnClick = props.handleBtnClick;
+  const { res, setResModal, handleBtnClick } = props;
 
   function arrivedTime() {
     return (
@@ -15,7 +13,7 @@ export function Reservation(props) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          height: "3.5rem"
+          height: "3.5rem",
         }}
       >
         <div className="res-name"> Arrived </div>
@@ -137,46 +135,70 @@ export function Reservation(props) {
 
   const stateMap = {
     noshow: ghostSvg(),
-    cancel: cancelBtnSvg()
-  }
+    cancel: cancelBtnSvg(),
+  };
 
   return (
     <>
       <button
         className={`res 
         ${res.selfMade && "res-selfmade"}
-        ${res.state === "arrived" && "res-arrived"
-        } res-${isOpen}`}
+        ${res.state === "arrived" && "res-arrived"} res-${isOpen}`}
         key={res._id}
         onClick={() => setOpen(!isOpen)}
       >
         <div className="res-row">
           <div className="res-left">
-            <div className={`res-amount`}>
+            <div
+              className={`res-amount`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setResModal(res);
+              }}
+            >
               {res.numGuests}
             </div>
             <div>
-            <div className="res-time">{convertTo12Hour(res.time)}</div>
+              <div className="res-time">{convertTo12Hour(res.time)}</div>
               <div className="res-name">{res.name}</div>
             </div>
           </div>
           <div className="res-right-side">
             <div className="res-btns">
-              {(res.state !== "cancel" && res.state !== "noshow") && res.notes && noteSymbol()}
+              {res.state !== "cancel" &&
+                res.state !== "noshow" &&
+                res.notes &&
+                noteSymbol()}
               {res.state === "upcoming" && completeButton()}
               {res.state === "arrived" && arrivedTime()}
-              {(res.state === "cancel" || res.state === "noshow") && <button className="res-btn res-btn-mock"> {stateMap[res.state]} </button> }
+              {(res.state === "cancel" || res.state === "noshow") && (
+                <button className="res-btn res-btn-mock">
+                  {" "}
+                  {stateMap[res.state]}{" "}
+                </button>
+              )}
             </div>
           </div>
         </div>
       </button>
-      <div className={`bottom-wrapper bottom-wrapper-${isOpen} ${res.selfMade && "res-selfmade"}`}>
+      <div
+        className={`bottom-wrapper bottom-wrapper-${isOpen} ${
+          res.selfMade && "res-selfmade"
+        }`}
+      >
         <div className="res-bottom">
           <div className="res-open-notes">
             <strong> {res.phone && formatPhoneNumber(res.phone)} </strong>
             <div> {res.notes || "No notes"} </div>
           </div>
-          <div style={{display: 'flex', flexDirection: "row", gap: "20px", alignItems: "center"}}> 
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "20px",
+              alignItems: "center",
+            }}
+          >
             {res.state !== "upcoming" && undoButton()}
             {res.state === "upcoming" && cancelButton()}
             {res.state === "upcoming" && noShowButton()}

@@ -67,24 +67,22 @@ function Dropdown(props) {
               </button>
             </motion.div>
           </>
-        ) : 
-        object.options.length === 0 ? (
+        ) : object.options.length === 0 ? (
           <>
-          <div
-            className={`faux-overlay ${isMobile && "faux-overlay-mobile"}`}
-          />
-          <motion.div className="dropdown-menu">
-            <button
-              id={id}
-              className="dropdown-item item-disabled disabled"
-              type="button"
-            >
-              No available time slots
-            </button>
-          </motion.div>
-        </>
-        ) :
-        (
+            <div
+              className={`faux-overlay ${isMobile && "faux-overlay-mobile"}`}
+            />
+            <motion.div className="dropdown-menu">
+              <button
+                id={id}
+                className="dropdown-item item-disabled disabled"
+                type="button"
+              >
+                No available time slots
+              </button>
+            </motion.div>
+          </>
+        ) : (
           <>
             {!isMobile && <div className="faux-overlay" />}
             <motion.div className={!isMobile ? "dropdown-menu" : "mobile-menu"}>

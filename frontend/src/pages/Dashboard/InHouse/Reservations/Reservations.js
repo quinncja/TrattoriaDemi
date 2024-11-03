@@ -7,12 +7,15 @@ import {
   getReservationsByDate,
   patchReservation,
   postAdminReservation,
+  updateReservation,
 } from "../../../../api";
-import { Toaster, toast } from 'sonner'
+import { Toaster, toast } from "sonner";
+import ResModal from "./ResModal";
 
 function Reversations() {
   const [reservations, setReservations] = useState([]);
   const [newResOpen, setNewRes] = useState(false);
+  const [resModalOpen, setResModal] = useState(false);
 
   function getCurrentShift() {
     const now = new Date();
@@ -35,7 +38,7 @@ function Reversations() {
   const shiftReservations = reservations.filter((reservation) => {
     const [hoursStr] = reservation.time.split(":");
     const hours = parseInt(hoursStr, 10);
-  
+
     if (shift === "Lunch") {
       return hours < 17;
     } else {
@@ -44,28 +47,30 @@ function Reversations() {
   });
 
   const liveRes = shiftReservations.filter(
-    (reservation) => reservation.state !== "cancel" && reservation.state !== "noshow"
+    (reservation) =>
+      reservation.state !== "cancel" && reservation.state !== "noshow"
   );
   const cancelledRes = shiftReservations.filter(
-    (reservation) => reservation.state === "cancel" || reservation.state === "noshow"
+    (reservation) =>
+      reservation.state === "cancel" || reservation.state === "noshow"
   );
 
   const today = () => {
     const today = new Date();
-    
+
     const options = {
-      timeZone: 'America/Chicago',
+      timeZone: "America/Chicago",
       hour12: false,
     };
-    const chicagoDateTime = today.toLocaleString('en-US', options);
-    const todayDateObj = new Date(chicagoDateTime)
+    const chicagoDateTime = today.toLocaleString("en-US", options);
+    const todayDateObj = new Date(chicagoDateTime);
 
     return todayDateObj;
-  }
+  };
 
   const handleDateClick = () => {
-    setDate(today())
-  }
+    setDate(today());
+  };
 
   const [date, setDate] = useState(today());
 
@@ -73,16 +78,16 @@ function Reversations() {
 
   useEffect(() => {
     if (reservation) {
-      const reservationDate = new Date(reservation.date)
+      const reservationDate = new Date(reservation.date);
       const areDatesEqual =
-        reservationDate.toDateString() === date.toDateString()
-  
+        reservationDate.toDateString() === date.toDateString();
+
       if (areDatesEqual) {
         setReservations((prevReservations) => {
           const reservationIndex = prevReservations.findIndex(
             (res) => res._id === reservation._id
           );
-  
+
           if (reservationIndex > -1) {
             const updatedReservations = [...prevReservations];
             updatedReservations[reservationIndex] = reservation;
@@ -94,7 +99,6 @@ function Reversations() {
       }
     }
   }, [reservation, date]);
-  
 
   function sumGuests(reservations) {
     return reservations.reduce(
@@ -113,7 +117,7 @@ function Reversations() {
     try {
       const response = await postAdminReservation(res);
       if (response.status === 201) {
-        toast.success('Reservation successfully created')
+        toast.success("Reservation created");
         addResLocal(response.data);
         setNewRes(false);
       }
@@ -137,8 +141,24 @@ function Reversations() {
         (a, b) => new Date(a.date) - new Date(b.date)
       );
       //setReservations(sortedReservations);
-      setReservations(sortedReservations)
+      setReservations(sortedReservations);
     } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateRes(updatedRes) {
+    try{
+      const response = await updateReservation(updatedRes._id, updatedRes);
+      if(response.status === 200){
+        toast.success("Reservation updated");
+        setResModal(false)
+        setReservations((prev) => 
+        prev.map((res) => (res._id === updatedRes._id ? updatedRes : res))
+      );
+      }
+
+    } catch (error){
       console.log(error);
     }
   }
@@ -163,7 +183,14 @@ function Reversations() {
           submitRes={submitRes}
         />
       )}
-      <Toaster richColors position="bottom-center"/>
+      {resModalOpen && (
+        <ResModal
+          selfClose={() => setResModal(false)}
+          updateRes={updateRes}
+          res={resModalOpen}
+        />
+      )}
+      <Toaster richColors position="top-center" />
       <div className="reservations-header">
         <div className="res-header">
           <ReservationHeader
@@ -184,6 +211,7 @@ function Reversations() {
         cancelledRes={cancelledRes}
         setReservations={setReservations}
         patchRes={patchRes}
+        setResModal={setResModal}
       />
     </div>
   );

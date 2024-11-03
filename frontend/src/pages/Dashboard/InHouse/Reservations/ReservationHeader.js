@@ -1,11 +1,19 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from "react";
 import { leftArrow, rightArrow } from "svg";
 import { motion } from "framer-motion";
-import { dateToString } from 'dateUtils';
+import { dateToString } from "dateUtils";
 
 function ReservationHeader(props) {
-  const { date, setDate, shift, toggleShift, numGuests, numRes, setNewRes, handleDateClick } =
-    props;
+  const {
+    date,
+    setDate,
+    shift,
+    toggleShift,
+    numGuests,
+    numRes,
+    setNewRes,
+    handleDateClick,
+  } = props;
   const timerRef = useRef();
   const isLongPress = useRef();
   const [calOpen, setCalOpen] = useState(false);
@@ -40,14 +48,14 @@ function ReservationHeader(props) {
     isLongPress.current = false;
     timerRef.current = setTimeout(() => {
       isLongPress.current = true;
-      setCalOpen(true)
-    }, 300)
+      setCalOpen(true);
+    }, 300);
   }
 
   function handleOnMouseDown() {
     startPressTimer();
   }
-  
+
   function handleOnTouchStart() {
     startPressTimer();
   }
@@ -55,19 +63,18 @@ function ReservationHeader(props) {
   function handleOnMouseUp() {
     clearTimeout(timerRef.current);
   }
-  
+
   function handleOnTouchEnd() {
     clearTimeout(timerRef.current);
   }
 
-  function differentiateClick(){
-    if ( isLongPress.current ) {
+  function differentiateClick() {
+    if (isLongPress.current) {
       return;
     }
-    console.log("click")
-    handleDateClick()
+    console.log("click");
+    handleDateClick();
   }
-  
 
   useEffect(() => {
     if (calOpen && calInputRef.current) {
@@ -86,7 +93,7 @@ function ReservationHeader(props) {
       if (id === "forward") {
         dateAsObj.setDate(dateAsObj.getDate() + 1);
       }
-      
+
       setDate(dateAsObj);
     };
 
@@ -99,12 +106,15 @@ function ReservationHeader(props) {
         >
           {leftArrow()}
         </button>
-        <div id="date-changer-text" className="date-changer-text"
+        <div
+          id="date-changer-text"
+          className="date-changer-text"
           onMouseDown={handleOnMouseDown}
           onMouseUp={handleOnMouseUp}
           onTouchStart={handleOnTouchStart}
           onTouchEnd={handleOnTouchEnd}
-          onClick={differentiateClick}>
+          onClick={differentiateClick}
+        >
           {" "}
           {dateToString(date)}{" "}
         </div>
@@ -116,8 +126,8 @@ function ReservationHeader(props) {
           {rightArrow()}
         </button>
         {calOpen && (
-          <div className='date-hider'>
-            <button id="fake-button" htmlFor="date-p"/>
+          <div className="date-hider">
+            <button id="fake-button" htmlFor="date-p" />
             <input
               id="date-p"
               type="date"
@@ -216,31 +226,32 @@ function ReservationHeader(props) {
         type="button"
         className="new-res-btn2"
       >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 -1 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="meet"
-          >
-            <path
-              d="M12 5V19"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M5 12H19"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 -1 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="meet"
+        >
+          <path
+            d="M12 5V19"
+            stroke="#ffffff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M5 12H19"
+            stroke="#ffffff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </button>
-    )}
+    );
+  };
 
   return (
     <>

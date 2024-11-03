@@ -2,11 +2,14 @@ import React from "react";
 import Reservation from "./Reservation";
 
 function ReservationDisplayer(props) {
-  const reservations = props.reservations;
-  const liveRes = props.liveRes;
-  const cancelledRes = props.cancelledRes;
-  const setReservations = props.setReservations;
-  const patchRes = props.patchRes;
+  const {
+    reservations,
+    liveRes,
+    cancelledRes,
+    setReservations,
+    patchRes,
+    setResModal,
+  } = props;
 
   function getCurrentTime() {
     const now = new Date();
@@ -36,13 +39,21 @@ function ReservationDisplayer(props) {
     }
   }
 
-  const sortedLiveRes = [...liveRes].sort((a, b) => compareTime(a.time, b.time));
-  const sortedCancelledRes = [...cancelledRes].sort((a, b) => compareTime(a.time, b.time));
-
+  const sortedLiveRes = [...liveRes].sort((a, b) =>
+    compareTime(a.time, b.time)
+  );
+  const sortedCancelledRes = [...cancelledRes].sort((a, b) =>
+    compareTime(a.time, b.time)
+  );
 
   function mapReservations(resToMap) {
     return resToMap.map((res) => (
-      <Reservation key={res._id} res={res} handleBtnClick={handleBtnClick} />
+      <Reservation
+        key={res._id}
+        res={res}
+        handleBtnClick={handleBtnClick}
+        setResModal={setResModal}
+      />
     ));
   }
 
@@ -62,9 +73,18 @@ function ReservationDisplayer(props) {
     );
   }
   return (
-    <div style={{display: "flex", flexDirection: "column", gap: "20px", width: "100%"}}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+        width: "100%",
+      }}
+    >
       {sortedLiveRes && sortedLiveRes.length > 0 && (
-        <div className="reservations-displayer">{mapReservations(sortedLiveRes)}</div>
+        <div className="reservations-displayer">
+          {mapReservations(sortedLiveRes)}
+        </div>
       )}
       {sortedCancelledRes && sortedCancelledRes.length > 0 && (
         <div className="cancelled-res">
