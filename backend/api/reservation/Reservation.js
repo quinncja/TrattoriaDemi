@@ -16,7 +16,7 @@ const reservationSchema = new mongoose.Schema({
     enum: validSizes,
   },
   date: {
-    type: Date, 
+    type: Date,
     required: true,
   },
   time: {

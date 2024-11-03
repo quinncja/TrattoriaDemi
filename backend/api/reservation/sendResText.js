@@ -1,9 +1,7 @@
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require("twilio")(accountSid, authToken);
-const {
-  dateToString
-} = require("../../dateUtils"); 
+const { dateToString } = require("../../dateUtils");
 
 function numberToWord(numString) {
   const numberWords = {
@@ -40,7 +38,6 @@ function convertTo12Hour(time) {
 
   return `${hours}:${minutes.toString().padStart(2, "0")}${period}`;
 }
-
 
 function sendResText(reservation) {
   client.messages.create({

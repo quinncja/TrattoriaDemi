@@ -98,7 +98,7 @@ function getPrevSlot(time, i) {
 }
 
 function isTimeValid(dateStr, timeStr) {
-  const localDateStr = dateStr.replace('Z', '');
+  const localDateStr = dateStr.replace("Z", "");
   const desiredDate = new Date(localDateStr);
 
   const [hours, minutes] = timeStr.split(":").map(Number);
@@ -123,7 +123,7 @@ function isTimeValid(dateStr, timeStr) {
   let latestTimeInMinutes;
 
   if (dayOfWeek === 5 || dayOfWeek === 6) {
-    latestTimeInMinutes = 20 * 60 + 45; 
+    latestTimeInMinutes = 20 * 60 + 45;
   } else {
     latestTimeInMinutes = 19 * 60 + 45;
   }
@@ -137,14 +137,44 @@ function isTimeValid(dateStr, timeStr) {
   return true;
 }
 
-
-
 async function reservationChecker(numGuests, desiredDate, desiredTime) {
   let suggestedTimes = [];
-  const reservations = await Reservation.find({ date: desiredDate });
+
+  const targetDate = new Date(desiredDate);
+
+  const startOfDay = new Date(
+    Date.UTC(
+      targetDate.getUTCFullYear(),
+      targetDate.getUTCMonth(),
+      targetDate.getUTCDate(),
+      0,
+      0,
+      0,
+      0,
+    ),
+  );
+
+  const endOfDay = new Date(
+    Date.UTC(
+      targetDate.getUTCFullYear(),
+      targetDate.getUTCMonth(),
+      targetDate.getUTCDate(),
+      23,
+      59,
+      59,
+      999,
+    ),
+  );
+
+
+  const reservations = await Reservation.find({ date: { $gte: startOfDay, $lt: endOfDay }});
   const tableOptions = tableSizes[numGuests];
   for (let i = 0; i < tableOptions.length; i++) {
-    const foundTable = checkAvailability(reservations, tableOptions, desiredTime);
+    const foundTable = checkAvailability(
+      reservations,
+      tableOptions,
+      desiredTime,
+    );
     if (foundTable) return { available: foundTable, suggestions: [] };
   }
   let i = 0;
@@ -152,17 +182,30 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
     const prev = getPrevSlot(desiredTime, i);
     const next = getNextSlot(desiredTime, i);
     if (isTimeValid(desiredDate, next)) {
-      const nextSuggestion = checkAvailability(reservations, tableOptions, next);
+      const nextSuggestion = checkAvailability(
+        reservations,
+        tableOptions,
+        next,
+      );
       if (nextSuggestion) suggestedTimes.push(nextSuggestion);
     }
     if (isTimeValid(desiredDate, prev)) {
-      const prevSuggestion = checkAvailability(reservations, tableOptions, prev);
+      const prevSuggestion = checkAvailability(
+        reservations,
+        tableOptions,
+        prev,
+      );
       if (prevSuggestion) suggestedTimes.push(prevSuggestion);
     }
     i += 1;
 
-    if (parseInt(next.split(":")[0]) >= 23 && parseInt(next.split(":")[1]) >= 45) break;
-    if (parseInt(prev.split(":")[0]) <= 0 && parseInt(prev.split(":")[1]) <= 0) break;
+    if (
+      parseInt(next.split(":")[0]) >= 23 &&
+      parseInt(next.split(":")[1]) >= 45
+    )
+      break;
+    if (parseInt(prev.split(":")[0]) <= 0 && parseInt(prev.split(":")[1]) <= 0)
+      break;
   }
   return { available: false, suggestions: suggestedTimes };
 }

@@ -144,7 +144,7 @@ function sortReservationsByTime(reservations) {
 reservationRouter.get("/date/:date", async (req, res) => {
   try {
     const targetDate = new Date(req.params.date);
-    
+
     const startOfDay = new Date(
       Date.UTC(
         targetDate.getUTCFullYear(),
@@ -169,7 +169,9 @@ reservationRouter.get("/date/:date", async (req, res) => {
       ),
     );
 
-    let reservations = await Reservation.find({date:{$gte: startOfDay, $lt:endOfDay}});
+    let reservations = await Reservation.find({
+      date: { $gte: startOfDay, $lt: endOfDay },
+    });
     reservations = sortReservationsByTime(reservations);
     res.json(reservations);
   } catch (error) {
@@ -181,10 +183,12 @@ reservationRouter.get("/date/:date", async (req, res) => {
 function getCurrentTime() {
   const now = new Date();
   const options = {
-    timeZone: 'America/Chicago',
+    timeZone: "America/Chicago",
     hour12: false,
   };
-  const chicagoDateTime = new Date(`${now.toLocaleString('en-US', { timeZone: 'America/Chicago'})} GMT`)
+  const chicagoDateTime = new Date(
+    `${now.toLocaleString("en-US", { timeZone: "America/Chicago" })} GMT`,
+  );
   const hours = String(chicagoDateTime.getUTCHours()).padStart(2, "0");
   const minutes = String(chicagoDateTime.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
@@ -210,12 +214,12 @@ reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
       return res.status(404).json({ error: "Reservation not found" });
     }
 
-    if(newState === "cancel"){
-      sendCancelText(updatedReservation.phone)
+    if (newState === "cancel") {
+      sendCancelText(updatedReservation.phone);
     }
 
     clients.forEach((client) =>
-      client.write(`data: ${JSON.stringify(updatedReservation)}\n\n`)
+      client.write(`data: ${JSON.stringify(updatedReservation)}\n\n`),
     );
 
     res.json(updatedReservation);
@@ -237,7 +241,6 @@ reservationRouter.get("/check", async (req, res) => {
 
 module.exports = reservationRouter;
 
-
 // Update reservation by id
 reservationRouter.put("/id/:id", async (req, res) => {
   try {
@@ -250,19 +253,18 @@ reservationRouter.put("/id/:id", async (req, res) => {
       return res.status(404).json({ error: "Reservation not found" });
     }
 
-
     const updatedReservation = await Reservation.findByIdAndUpdate(
       reservationId,
       updatedData,
-      { new: true }
+      { new: true },
     );
 
     if (existingReservation.sendText) {
-        await sendUpdatedResText(updatedReservation);
+      await sendUpdatedResText(updatedReservation);
     }
 
     clients.forEach((client) =>
-      client.write(`data: ${JSON.stringify(updatedReservation)}\n\n`)
+      client.write(`data: ${JSON.stringify(updatedReservation)}\n\n`),
     );
 
     res.status(200).json(updatedReservation);
@@ -272,24 +274,47 @@ reservationRouter.put("/id/:id", async (req, res) => {
   }
 });
 
-
-
 reservationRouter.get("/stats", async (req, res) => {
   try {
     const startOfUTCDay = (date) => {
-      return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0));
+      return new Date(
+        Date.UTC(
+          date.getUTCFullYear(),
+          date.getUTCMonth(),
+          date.getUTCDate(),
+          0,
+          0,
+          0,
+          0,
+        ),
+      );
     };
 
     const endOfUTCDay = (date) => {
-      return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 23, 59, 59, 999));
+      return new Date(
+        Date.UTC(
+          date.getUTCFullYear(),
+          date.getUTCMonth(),
+          date.getUTCDate(),
+          23,
+          59,
+          59,
+          999,
+        ),
+      );
     };
 
     const startOfUTCMonth = (date) => {
-      return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1, 0, 0, 0, 0));
+      return new Date(
+        Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1, 0, 0, 0, 0),
+      );
     };
 
     const endOfUTCMonth = (date) => {
-      return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 1, 0, 0, 0, 0) - 1);
+      return new Date(
+        Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 1, 0, 0, 0, 0) -
+          1,
+      );
     };
 
     const startOfUTCYear = (date) => {
@@ -297,7 +322,9 @@ reservationRouter.get("/stats", async (req, res) => {
     };
 
     const endOfUTCYear = (date) => {
-      return new Date(Date.UTC(date.getUTCFullYear() + 1, 0, 1, 0, 0, 0, 0) - 1);
+      return new Date(
+        Date.UTC(date.getUTCFullYear() + 1, 0, 1, 0, 0, 0, 0) - 1,
+      );
     };
 
     const now = new Date();
@@ -319,7 +346,7 @@ reservationRouter.get("/stats", async (req, res) => {
               $gte: startDate,
               $lte: endDate,
             },
-            state: { $ne: "cancel" }
+            state: { $ne: "cancel" },
           },
         },
         {
@@ -366,11 +393,11 @@ reservationRouter.get("/stats", async (req, res) => {
         Object.assign(initializedGuestCounts, stats[0].guestCounts);
 
         const guestCountsArray = Object.entries(initializedGuestCounts)
-        .map(([numGuests, count]) => ({
-          numGuests,
-          count,
-        }))
-        .filter(entry => entry.count > 0);
+          .map(([numGuests, count]) => ({
+            numGuests,
+            count,
+          }))
+          .filter((entry) => entry.count > 0);
 
         return {
           reservationCount: stats[0].reservationCount,
@@ -378,10 +405,12 @@ reservationRouter.get("/stats", async (req, res) => {
           guestCounts: guestCountsArray,
         };
       } else {
-        const guestCountsArray = Object.entries(initializedGuestCounts).map(([numGuests, count]) => ({
-          numGuests,
-          count,
-        }));
+        const guestCountsArray = Object.entries(initializedGuestCounts).map(
+          ([numGuests, count]) => ({
+            numGuests,
+            count,
+          }),
+        );
         return {
           reservationCount: 0,
           totalGuests: 0,
