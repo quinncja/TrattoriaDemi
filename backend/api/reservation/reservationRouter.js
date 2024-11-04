@@ -145,11 +145,16 @@ reservationRouter.get("/date/:date", async (req, res) => {
   try {
     const targetDate = new Date(req.params.date);
 
+    const chicagoTargetDate = new Date(
+      `${targetDate.toLocaleString("en-US", { timeZone: "America/Chicago" })} GMT`,
+    );
+
+
     const startOfDay = new Date(
       Date.UTC(
-        targetDate.getUTCFullYear(),
-        targetDate.getUTCMonth(),
-        targetDate.getUTCDate(),
+        chicagoTargetDate.getUTCFullYear(),
+        chicagoTargetDate.getUTCMonth(),
+        chicagoTargetDate.getUTCDate(),
         0,
         0,
         0,
@@ -159,9 +164,9 @@ reservationRouter.get("/date/:date", async (req, res) => {
 
     const endOfDay = new Date(
       Date.UTC(
-        targetDate.getUTCFullYear(),
-        targetDate.getUTCMonth(),
-        targetDate.getUTCDate(),
+        chicagoTargetDate.getUTCFullYear(),
+        chicagoTargetDate.getUTCMonth(),
+        chicagoTargetDate.getUTCDate(),
         23,
         59,
         59,
@@ -182,10 +187,8 @@ reservationRouter.get("/date/:date", async (req, res) => {
 
 function getCurrentTime() {
   const now = new Date();
-  const options = {
-    timeZone: "America/Chicago",
-    hour12: false,
-  };
+
+
   const chicagoDateTime = new Date(
     `${now.toLocaleString("en-US", { timeZone: "America/Chicago" })} GMT`,
   );

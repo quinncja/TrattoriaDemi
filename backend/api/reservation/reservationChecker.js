@@ -142,11 +142,16 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
 
   const targetDate = new Date(desiredDate);
 
+  const chicagoTargetDate = new Date(
+    `${targetDate.toLocaleString("en-US", { timeZone: "America/Chicago" })} GMT`,
+  );
+
+
   const startOfDay = new Date(
     Date.UTC(
-      targetDate.getUTCFullYear(),
-      targetDate.getUTCMonth(),
-      targetDate.getUTCDate(),
+      chicagoTargetDate.getUTCFullYear(),
+      chicagoTargetDate.getUTCMonth(),
+      chicagoTargetDate.getUTCDate(),
       0,
       0,
       0,
@@ -156,9 +161,9 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
 
   const endOfDay = new Date(
     Date.UTC(
-      targetDate.getUTCFullYear(),
-      targetDate.getUTCMonth(),
-      targetDate.getUTCDate(),
+      chicagoTargetDate.getUTCFullYear(),
+      chicagoTargetDate.getUTCMonth(),
+      chicagoTargetDate.getUTCDate(),
       23,
       59,
       59,
