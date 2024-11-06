@@ -7,26 +7,51 @@ function ReservationSSE() {
   const endpoint = `${API_URL}api/reservations/events`;
 
   useEffect(() => {
-    const eventSource = new EventSource(endpoint);
+    let eventSource;
+    let reconnectInterval = 5000; 
+    let reconnectTimer;
 
-    eventSource.onmessage = (event) => {
-      const parsedData = JSON.parse(event.data);
-      setData(parsedData);
+    const connect = () => {
+      eventSource = new EventSource(endpoint);
+
+      eventSource.onopen = () => {
+        console.log("EventSource connection opened.");
+    
+        reconnectInterval = 5000;
+      };
+
+      eventSource.onmessage = (event) => {
+        const parsedData = JSON.parse(event.data);
+        setData(parsedData);
+        setError(null);
+      };
+
+      eventSource.onerror = (err) => {
+        console.error(
+          "EventSource encountered an error:",
+          err,
+          "Ready state:",
+          eventSource.readyState
+        );
+
+        eventSource.close();
+
+        reconnectTimer = setTimeout(() => {
+          console.log("Attempting to reconnect to EventSource...");
+          connect();
+        }, reconnectInterval);
+
+        reconnectInterval = Math.min(reconnectInterval * 2, 60000);
+
+        setError(err);
+      };
     };
 
-    eventSource.onerror = (err) => {
-      console.error(
-        "EventSource failed:",
-        err,
-        "Ready state:",
-        eventSource.readyState
-      );
-      eventSource.close();
-      setError(err);
-    };
+    connect();
 
     return () => {
-      eventSource.close();
+      if (eventSource) eventSource.close();
+      if (reconnectTimer) clearTimeout(reconnectTimer);
     };
   }, [endpoint]);
 
