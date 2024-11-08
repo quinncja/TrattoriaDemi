@@ -1,4 +1,4 @@
-import { getPayrollByPeriod, savePayroll } from "api";
+import { deletePayroll, getPayrollByPeriod, savePayroll } from "api";
 import { useSearchParams } from "react-router-dom";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import { getCurrentPeriod } from "functions";
 import BackContext from "context/BackContext";
+import { payrollDeleteAlert } from "swal2";
 
 function Payroll() {
   const [searchParams] = useSearchParams();
@@ -60,6 +61,20 @@ function Payroll() {
     setPayrollData(newData);
   };
 
+  const handleDelete = async () => {
+    try{
+      const alertResponse = await payrollDeleteAlert();
+      if(alertResponse.isConfirmed){
+        const response = await deletePayroll(period);
+        if(response.status === 200){
+          window.location.reload()
+        }
+      }
+    } catch (error) {
+      payrollDeleteAlert();
+    }
+  }
+
   const handleSave = async () => {
     try {
       const returnPayroll = await savePayroll(newData);
@@ -102,6 +117,7 @@ function Payroll() {
         handleEdit={handleEdit}
         handleClick={handleSave}
         handlePrint={handlePrint}
+        handleDelete={handleDelete}
         currentPeriod={period}
       />
       <AnimatePresence>
