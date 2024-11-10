@@ -410,7 +410,8 @@ const TableFinder = forwardRef((props, ref) => {
     if (isMobile) document.body.classList.toggle("no-scroll", true);
     setCalOpen(true);
   };
-
+  const disabledDates = [new Date(2024, 10, 28), new Date(2024, 11, 25)];
+  
   function DatePicker() {
     return (
       <div
@@ -441,6 +442,7 @@ const TableFinder = forwardRef((props, ref) => {
             minDate={new Date()}
             inline="true"
             touchUI={isMobile}
+            disabledDates={disabledDates}
           />
         </div>
       </div>
