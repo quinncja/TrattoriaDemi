@@ -183,8 +183,9 @@ const TableFinder = forwardRef((props, ref) => {
     timeTxt: "Time",
     button:
       time &&
-      availableTimes &&
-      `${convertTo12Hour(time)} is not available. Select an alternative time`,
+      availableTimes && availableTimes.length > 0 ? 
+      `${convertTo12Hour(time)} is not available. Select an alternative time` 
+      : `${convertTo12Hour(time)} is not available. Please call us at 847-332-2330 to reserve a table.` 
   };
 
   const getTimeList = (date) => {
@@ -268,6 +269,7 @@ const TableFinder = forwardRef((props, ref) => {
   };
 
   const handleDateChange = (value) => {
+    value.setHours(0, 0, 0, 0)
     setTime("");
     setAvailableTimes(null);
     setDate(value);
