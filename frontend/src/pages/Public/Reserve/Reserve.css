@@ -399,6 +399,12 @@
   font-size: 1.5rem;
   align-self: center;
 }
+.res-info-note {
+  font-size: 1rem;
+  align-self: center;
+  text-align: center;
+}
+
 
 .res-buttons {
   padding-top: 70px;
@@ -512,6 +518,19 @@
   }
   .reserve-select {
     font-size: 16px;
+  }
+  .res-buttons {
+    justify-content: center;
+  }
+  .res-top-line{
+    padding-top: 30px;
+  }
+  .inResTable{
+    width: 90%;
+    padding-top: 30px;
+  }
+  .table-finder-container{
+    padding-top: 30px;
   }
 }
 

@@ -6,7 +6,6 @@ function ReserveForm(props) {
   const [name, setName] = useState(null);
   const [notes, setNotes] = useState(null);
   const [phone, setPhone] = useState(null);
-  const [checkbox, setCheckbox] = useState(false);
   const [errorStates, setError] = useState({
     name: false,
     phone: false,
@@ -35,7 +34,7 @@ function ReserveForm(props) {
 
   const onSubmit = () => {
     if (!reserveValidator())
-      createRes({ name, phone, notes, sendText: checkbox });
+      createRes({ name, phone, notes, sendText: true });
   };
 
   const inputObjs = {
@@ -86,23 +85,12 @@ function ReserveForm(props) {
       <div className="reserve-small-text">
         {" "}
         • Outdoor seating is first come first serve.
-        <div className="br" />• Please call us if you are running later than 10
-        minutes after your reservation time.
+        <div className="br" />• Your reservation will be held for 10 minutes. Please contact us if your party is running late.  
+        <div className="br" />• You will be sent a confirmation text upon reserving. Message and data rates may apply.
+
         <div className="br" />
         <div className="br" />
-        <div className="br" />
-        <div className="phone-checkbox">
-          <button
-            className={` checkbox ${checkbox && "checkbox-active"}`}
-            type="button"
-            onClick={() => setCheckbox(!checkbox)}
-          />
-          <div className={`reserve-small-text`}>
-            {" "}
-            Please send me a text confirming my reservation. Message and data
-            rates may apply.{" "}
-          </div>
-        </div>
+
       </div>
       <button className="submit-button" type="button" onClick={onSubmit}>
         Reserve

@@ -29,14 +29,16 @@ function ModifyRes(props) {
         <FoundTable table={table} setEditing={returnToEdit} inRes={true} />
       )}
       <div className="res-buttons">
-        <button
-          className={`submit-button save-modify-btn ${
-            isEditing && "hidden-button"
-          } `}
-          onClick={() => updateRes(table)}
-        >
-          Save
-        </button>
+        {!isEditing &&
+          <button
+            className={`submit-button save-modify-btn ${
+              isEditing && "hidden-button"
+            } `}
+             onClick={() => updateRes(table)}
+          >
+            Save
+          </button>
+        }
 
         <button
           className="submit-button res-cancel-btn"

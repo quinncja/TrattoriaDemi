@@ -151,8 +151,24 @@ function Reversations() {
     try{
       const response = await updateReservation(updatedRes._id, updatedRes);
       if(response.status === 200){
+        console.log(response)
         toast.success("Reservation updated");
         setResModal(false)
+
+        const updResDate = new Date(updateRes.date)
+        const areDatesEqual =
+        updResDate.toDateString() === date.toDateString();
+
+        setReservations((prev) => {
+          if (areDatesEqual) {
+            return prev.map((res) =>
+              res._id === updatedRes._id ? updatedRes : res
+            );
+          } else {
+            return prev.filter((res) => res._id !== updatedRes._id);
+          }
+        });
+
         setReservations((prev) => 
         prev.map((res) => (res._id === updatedRes._id ? updatedRes : res))
       );

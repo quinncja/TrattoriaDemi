@@ -1,33 +1,55 @@
 import { useState } from "react";
 import { formatPhoneNumber, convertTo12Hour } from "../../../../functions";
 import { cancelBtnSvg, ghostSvg } from "svg";
-
+import { dateTimeToString } from "dateUtils";
+import { AnimatePresence, motion } from "framer-motion"
 export function Reservation(props) {
   const [isOpen, setOpen] = useState(false);
   const { res, setResModal, handleBtnClick } = props;
 
+  const containerVariants = {
+    open: {
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.1,
+      },
+      height: "7.1rem"
+    },
+    closed: {
+      transition: {
+        when: "afterChildren",
+      },
+      height: "5.5rem"
+    },
+  };
+  
+
   function arrivedTime() {
     return (
-      <div
+      <motion.div
+      layout="position"
       className="res-arrived-time"
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          marginBlock: "auto",
+          height: "fit-content"
         }}
       >
-        <div className="res-name"> Arrived </div>
-        <span className="arrived-time">
+        <motion.div className="res-name" layout> Arrived </motion.div>
+        <motion.span className="arrived-time" layout>
           {" "}
           {convertTo12Hour(res.arrivedTime)}{" "}
-        </span>
-      </div>
+        </motion.span>
+      </motion.div>
     );
   }
 
   function completeButton() {
     return (
-      <button
+      <motion.button
+        layout="position"
         className="res-btn"
         onClick={(event) => {
           event.stopPropagation();
@@ -49,7 +71,7 @@ export function Reservation(props) {
             strokeLinejoin="round"
           />
         </svg>
-      </button>
+      </motion.button>
     );
   }
 
@@ -87,6 +109,7 @@ export function Reservation(props) {
       </button>
     );
   }
+
   function noShowButton() {
     return (
       <button
@@ -100,6 +123,7 @@ export function Reservation(props) {
       </button>
     );
   }
+
   function cancelButton() {
     return (
       <button
@@ -140,31 +164,56 @@ export function Reservation(props) {
 
   return (
     <>
-      <button
+      <motion.button
         className={`res 
         ${res.selfMade && "res-selfmade"}
         ${res.state === "arrived" && "res-arrived"} res-${isOpen}`}
         key={res._id}
-        onClick={() => setOpen(!isOpen)}
+        onClick={() => setOpen(!isOpen)} 
+        variants={containerVariants}
+        animate={isOpen ? "open" : "closed"}
+        initial="closed"
+        layout="position"
       >
-        <div className="res-row">
-          <div className="res-left">
-            <div
+        <motion.div className="res-row" layout="position">
+          <motion.div className="res-left">
+            <motion.div
               className={`res-amount`}
+              layout="position"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                alignContent: "center",
+                marginBlock: "auto",
+                height: "fit-content"
+              }}
               onClick={(e) => {
                 e.stopPropagation();
                 setResModal(res);
               }}
             >
               {res.numGuests}
+            </motion.div>
+            <div className="res-left-text">
+              <motion.div className="res-time" layout="position">{convertTo12Hour(res.time)}</motion.div>
+              <motion.div className="res-name" layout="position" >{res.name}</motion.div>
+              <AnimatePresence> 
+              {isOpen &&    
+              <motion.div
+                key="res-time"
+                className="res-time"
+                transition={{ ease: "linear", duration: .2}} 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                
+              > {dateTimeToString(new Date(res.dateMade))} </motion.div>}
+              </AnimatePresence>
             </div>
-            <di className="res-left-text">
-              <div className="res-time">{convertTo12Hour(res.time)}</div>
-              <div className="res-name">{res.name}</div>
-            </di>
-          </div>
+          </motion.div>
           <div className="res-right-side">
-            <div className="res-btns">
+            <motion.div className="res-btns">
               {res.state !== "cancel" &&
                 res.state !== "noshow" &&
                 res.notes &&
@@ -172,22 +221,22 @@ export function Reservation(props) {
               {res.state === "upcoming" && completeButton()}
               {res.state === "arrived" && arrivedTime()}
               {(res.state === "cancel" || res.state === "noshow") && (
-                <button className="res-btn res-btn-mock">
+                <motion.button className="res-btn res-btn-mock">
                   {" "}
                   {stateMap[res.state]}{" "}
-                </button>
+                </motion.button>
               )}
-            </div>
+            </motion.div>
           </div>
-        </div>
-      </button>
-      <div
+        </motion.div>
+      </motion.button>
+      <div 
         className={`bottom-wrapper bottom-wrapper-${isOpen} ${
           res.selfMade && "res-selfmade"
         }`}
       >
-        <div className="res-bottom">
-          <div className="res-open-notes">
+        <div className="res-bottom" layout="position">
+          <div className="res-open-notes" layout="position">
             <strong> {res.phone && formatPhoneNumber(res.phone)} </strong>
             <div> {res.notes || "No notes"} </div>
           </div>

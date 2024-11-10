@@ -87,11 +87,13 @@ function ReservationDisplayer(props) {
         </div>
       )}
       {sortedCancelledRes && sortedCancelledRes.length > 0 && (
-        <div className="cancelled-res">
-          <div className="cancelled-text"> Cancelled </div>
-          {mapReservations(sortedCancelledRes)}
-        </div>
-      )}
+          <div className="cancelled-res">
+            <div className="cancelled-text">
+              Cancelled
+            </div>
+            {mapReservations(sortedCancelledRes)}
+          </div>
+        )}
     </div>
   );
 }
