@@ -975,11 +975,7 @@ input[type="date"] {
     padding: 10px 5px;
   }
   .res-left-text{
-    position: relative;
-    width: 100%;
-    display: flex;
-    box-sizing: border-box;
-    overflow: hidden;
+
   }
   .res-time{
     font-size: 1rem;

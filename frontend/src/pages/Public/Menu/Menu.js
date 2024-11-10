@@ -15,7 +15,7 @@ export default function Menu() {
     { id: "Full", text: "Full Menu" },
     { id: "Wine", text: "Wine List" },
   ];
-  const mobile = useMobile();
+  const {mobile} = useMobile();
 
   useEffect(() => {
     let current = window.sessionStorage.getItem("currentMenu");

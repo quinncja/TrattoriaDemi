@@ -13,7 +13,7 @@ import { locationAlert } from "swal2";
 
 function CheckoutPage() {
   const { items, price } = useContext(CartContext);
-  const mobile = useMobile();
+  const {mobile} = useMobile();
   const { status, updated } = useStatus();
   const { delivery, pickup } = status || {};
   const navigate = useNavigate();

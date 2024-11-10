@@ -4,10 +4,12 @@ const MobileContext = createContext();
 
 export const MobileProvider = ({ children }) => {
   const [mobile, setMobile] = useState(window.innerWidth <= 1000);
+  const [phone, setPhone] = useState(window.innerWidth <= 500);
 
   useEffect(() => {
     const handleResize = () => {
       setMobile(window.innerWidth <= 1000);
+      setPhone(window.innerWidth <= 500);
     };
 
     window.addEventListener("resize", handleResize);
@@ -18,7 +20,7 @@ export const MobileProvider = ({ children }) => {
   }, []);
 
   return (
-    <MobileContext.Provider value={mobile}>{children}</MobileContext.Provider>
+    <MobileContext.Provider value={{mobile, phone}}>{children}</MobileContext.Provider>
   );
 };
 

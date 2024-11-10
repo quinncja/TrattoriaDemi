@@ -3,9 +3,11 @@ import { formatPhoneNumber, convertTo12Hour } from "../../../../functions";
 import { cancelBtnSvg, ghostSvg } from "svg";
 import { dateTimeToString } from "dateUtils";
 import { AnimatePresence, motion } from "framer-motion"
+import { useMobile } from "context/MobileContext";
 export function Reservation(props) {
   const [isOpen, setOpen] = useState(false);
   const { res, setResModal, handleBtnClick } = props;
+  const {phone} = useMobile();
 
   const containerVariants = {
     open: {
@@ -13,13 +15,13 @@ export function Reservation(props) {
         when: "beforeChildren",
         staggerChildren: 0.1,
       },
-      height: "7.1rem"
+      height: phone ? "6.1rem" : "7.1rem"
     },
     closed: {
       transition: {
         when: "afterChildren",
       },
-      height: "5.5rem"
+      height: phone ? "4.7rem" : "5.5rem"
     },
   };
   

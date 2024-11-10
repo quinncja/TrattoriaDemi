@@ -5,7 +5,7 @@ import { useMobile } from "../context/MobileContext";
 const MAPBOX_KEY = process.env.REACT_APP_MAPBOX_KEY;
 
 function MapBox() {
-  const mobile = useMobile();
+  const {mobile} = useMobile();
   return (
     <Map
       style={{

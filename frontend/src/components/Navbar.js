@@ -4,7 +4,7 @@ import Logo from "../images/TrattoriaDemiCenteredWhite.png";
 import { useMobile } from "../context/MobileContext";
 
 export function Navbar() {
-  const mobile = useMobile();
+  const {mobile} = useMobile();
   const navigate = useNavigate();
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState("");
