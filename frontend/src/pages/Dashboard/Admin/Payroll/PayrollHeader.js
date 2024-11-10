@@ -8,6 +8,7 @@ import {
   printSvg,
   rightArrow,
   saveSvg,
+  trashCanSvg,
 } from "svg";
 
 function PayrollHeader({
@@ -17,6 +18,7 @@ function PayrollHeader({
   editing,
   handleEdit,
   handlePrint,
+  handleDelete,
 }) {
   const [dates, setDates] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -42,6 +44,7 @@ function PayrollHeader({
           <div className="button-row">
             {!isNew && (
               <button
+               title="Cancel"
                 className="submit-button less-height payroll-btn"
                 type="button"
                 onClick={handleEdit}
@@ -51,6 +54,7 @@ function PayrollHeader({
               </button>
             )}
             <button
+              title="Save"
               className="submit-button less-height payroll-btn"
               type="button"
               onClick={handleClick}
@@ -62,6 +66,7 @@ function PayrollHeader({
         ) : (
           <div className="button-row">
             <button
+              title="Edit"
               className="submit-button less-height payroll-btn"
               type="button"
               onClick={handleEdit}
@@ -70,12 +75,22 @@ function PayrollHeader({
               {editSvg()}{" "}
             </button>
             <button
+              title="Print"
               className="submit-button less-height payroll-btn"
               type="button"
               onClick={handlePrint}
             >
               {" "}
               {printSvg()}{" "}
+            </button>
+            <button
+              title="Delete"
+              className="submit-button less-height payroll-btn"
+              type="button"
+              onClick={handleDelete}
+            >
+              {" "}
+              {trashCanSvg()}{" "}
             </button>
           </div>
         )}

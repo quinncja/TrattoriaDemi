@@ -110,6 +110,45 @@ export function orderSuccess() {
   });
 }
 
+export function payrollDeleteAlert() {
+  return Swal.fire({
+    title: `Delete Payroll?`,
+    icon: "warning",
+    iconColor: "#d3963a",
+    text: `This action cannot be undone`,
+    timer: 3500,
+    padding: "2rem",
+    background: "#151319",
+    color: "#f8f4f1",
+    customClass: {
+      title: "swal-header",
+      confirmButton: "submit-button",
+    },
+    timerProgressBar: true,
+    showConfirmButton: true,
+    showCancelButton: false,
+    buttonsStyling: false,
+    confirmButtonText: "Delete"
+  });
+}
+
+export function payrollDeleteError() {
+  return Swal.fire({
+    title: `Error deleting Payroll`,
+    icon: "error",
+    iconColor: "#d3963a",
+    text: `Please try again`,
+    timer: 3500,
+    padding: "2rem",
+    background: "#151319",
+    color: "#f8f4f1",
+    timerProgressBar: true,
+    showConfirmButton: true,
+    showCancelButton: true,
+  });
+}
+
+
 export function employeeSaveSuccess(employeeName, type) {
   return Swal.fire({
     title: `Employee ${type}`,

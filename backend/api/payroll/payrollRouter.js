@@ -428,4 +428,40 @@ payrollRouter.put("/employees/set-all-active", async (req, res) => {
   }
 });
 
+payrollRouter.delete("/period/:period", async (req, res) => {
+  let { period } = req.params;
+
+  try {
+    period = parseInt(period);
+    if (isNaN(period)) {
+      return res.status(400).json({ message: "Invalid period parameter" });
+    }
+
+    const payroll = await Payroll.findOne({ period });
+
+    if (!payroll) {
+      return res.status(404).json({ message: "Payroll not found for the specified period" });
+    }
+
+    await Payment.deleteMany({ _id: { $in: payroll.payments } });
+
+    const paymentsWithLoans = await Payment.find({
+      _id: { $in: payroll.payments },
+      loan: { $ne: null },
+    });
+
+    const loanPaymentIds = paymentsWithLoans.map((payment) => payment.loan);
+
+    await LoanPayment.deleteMany({ _id: { $in: loanPaymentIds } });
+
+    await Payroll.deleteOne({ _id: payroll._id });
+
+    res.status(200).json({ message: `Payroll for period ${period} deleted successfully` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error deleting payroll" });
+  }
+});
+
 module.exports = payrollRouter;
+

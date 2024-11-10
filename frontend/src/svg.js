@@ -109,7 +109,7 @@ export const clockSvg = () => {
 
 export const trashCanSvg = () => {
   return (
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="-1 1 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M3 6H5H21"
         stroke="#444444"

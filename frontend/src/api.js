@@ -372,6 +372,18 @@ export async function savePayroll(payrollData) {
   }
 }
 
+export async function deletePayroll(period) {
+  try {
+    const response = await axios({
+      method: "delete",
+      url: `${API_URL}api/payroll/period/${period}`,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getPayrollGraph() {
   try {
     const response = await axios({
