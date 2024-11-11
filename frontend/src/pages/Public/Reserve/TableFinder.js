@@ -13,6 +13,7 @@ import Dropdown from "components/Dropdown";
 import { Calendar } from "primereact/calendar";
 import { calendarSvg, peopleSvg, clockSvg, cancelSvg } from "svg";
 import { dateToString } from "dateUtils";
+import { TZDate } from "@date-fns/tz";
 
 const TableFinder = forwardRef((props, ref) => {
   const { table, setTable, editing, setEditing } = props;
@@ -269,11 +270,16 @@ const TableFinder = forwardRef((props, ref) => {
   };
 
   const handleDateChange = (value) => {
-    value.setHours(0, 0, 0, 0)
+    const year = value.getFullYear();
+    const month = (value.getMonth()).toString().padStart(2, '0');
+    const day = value.getDate().toString().padStart(2, '0');
+    
+    const timeZone = 'America/Chicago';
+    const chicagoDate = new TZDate(year, month, day, timeZone);
     setTime("");
     setAvailableTimes(null);
-    setDate(value);
-    getTimeList(value);
+    setDate(chicagoDate);
+    getTimeList(chicagoDate);
     setCalOpen(false);
   };
 

@@ -213,6 +213,7 @@ h3 {
   background: none;
   outline: none;
   border: none;
+  padding: 0px;
 }
 .a-tag:hover {
   color: var(--gold);
