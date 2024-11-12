@@ -1509,6 +1509,18 @@ button {
   .article-text {
     font-size: 1rem;
   }
+  .faq-a{
+    font-size: 1.1rem;
+  }
+  .line{
+    height: 15px;
+    margin-top: 3px;
+  }
+  .deal-svg > svg{
+    width: 50px;
+    margin-left: 5px;
+    height: 40px;
+  }
 }
 
 @media (width <= 400px) {

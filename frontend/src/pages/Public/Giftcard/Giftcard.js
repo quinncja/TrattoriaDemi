@@ -41,7 +41,8 @@ function Giftcard() {
       setShipAddress(event.target.value);
     }
     if (event.target.id === "message") {
-      setMessage(event.target.value);
+      let message = event.target.value
+      setMessage(message);
     }
     if (event.target.id === "email") {
       setError((errorStates) => ({ ...errorStates, email: false }));
@@ -204,7 +205,11 @@ function Giftcard() {
                   </div>
                   {Input(inputObjs.name)}
                   {Input(inputObjs.address)}
+                  <div style={{position: "relative"}}> 
                   {Input(inputObjs.message)}
+                  <span className={`message-length ${message ? message.length >= 500 ? 'exceeded' : "shown" : ""}`}> {message ? message.length : 0} / 500 </span>
+                  </div>
+                  
                   <button
                     className="submit-button mt-10"
                     type="button"

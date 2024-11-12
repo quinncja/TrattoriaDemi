@@ -55,6 +55,7 @@ function Input(obj) {
     return (
       <textarea
         type="text"
+        maxlength="500"
         id={obj.id}
         className={`reserve-select tai ${obj.error && `reserve-select-error`}`}
         onChange={(event) => obj.handleChange(event)}
