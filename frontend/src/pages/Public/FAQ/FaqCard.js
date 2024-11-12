@@ -10,10 +10,11 @@ export default function FaqCard({ faq }) {
       layout
       {...fadeIn}
       className="faq-container"
+      style={{overflow: "hidden"}}
       onClick={() => setOpen(!open)}
     >
       <motion.div layout className="faq-topper">
-        <motion.div className="hero-text faq-a"> {faq.q} </motion.div>
+        <motion.div className="faq-a"> {faq.q} </motion.div>
         <div className={`faq-plus ${open && "faq-plus-open"}`}>
           <div className="line vl" />
           <div className="line lhl" />

@@ -1290,6 +1290,7 @@ button {
   width: 100%;
   background-color: var(--border-color);
   height: 1px;
+  overflow: hidden;
 }
 
 .faq-container {
@@ -1300,6 +1301,8 @@ button {
   width: 100%;
   cursor: pointer;
   padding-block: 40px;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .faq-container * {
@@ -1351,6 +1354,8 @@ button {
   font-size: 1.5rem;
   font-weight: 800;
   user-select: none;
+  font-family: "Caxton Bold BT";
+  color: var(--paper-white);
 }
 
 .deals {
