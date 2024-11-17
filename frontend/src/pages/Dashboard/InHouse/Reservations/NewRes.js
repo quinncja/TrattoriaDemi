@@ -3,16 +3,18 @@ import { useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
 import { openBookSvg, peopleSvg } from "svg";
 import { dateToString } from "dateUtils";
+import { dotPulse } from 'ldrs'
+
+dotPulse.register()
 
 function NewRes(props) {
-  const { submitRes, setNewRes } = props;
+  const { submitRes, setNewRes, submitting} = props;
   const [name, setName] = useState(null);
   const [phone, setPhone] = useState(null);
   const [numGuests, setGuests] = useState(null);
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
   const [notes, setNotes] = useState(null);
-
 
   const onSubmit = async () => {
     const newRes = {
@@ -216,13 +218,19 @@ function NewRes(props) {
           </div>
         </div>
         <button
-          className="submit-button submit-new-res"
+          className={`${submitting ? "loading-button" : ""} submit-button submit-new-res`}
           type="button"
           onClick={() => {
             onSubmit();
           }}
         >
-          Submit reservation
+          {submitting ? 
+            <l-dot-pulse
+              size="50"
+              speed="1.6" 
+              color="white" 
+            ></l-dot-pulse> :
+            "Submit reservation" }
         </button>
       </form>
     </div>

@@ -1,31 +1,20 @@
 import React from "react";
 import Reservation from "./Reservation";
+import { toast } from "sonner";
+import { AnimatePresence, motion } from "framer-motion";
+import { fadeInMany, fadeInReservations } from "animations";
 
 function ReservationDisplayer(props) {
   const {
-    reservations,
     liveRes,
     cancelledRes,
-    setReservations,
     patchRes,
     setResModal,
+    loading
   } = props;
 
-  function getCurrentTime() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    return `${hours}:${minutes}`;
-  }
-
   function handleBtnClick(res, state) {
-    const updatedReservations = reservations.map((r) =>
-      r._id === res._id
-        ? { ...r, state: state, arrivedTime: getCurrentTime() }
-        : r
-    );
-    setReservations(updatedReservations);
-    patchRes(res._id, state);
+    patchRes(res, state);
   }
 
   function compareTime(aTime, bTime) {
@@ -46,16 +35,41 @@ function ReservationDisplayer(props) {
     compareTime(a.time, b.time)
   );
 
+  const containerVariants = {
+    hidden: {
+      opacity: 1,
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
   function mapReservations(resToMap) {
-    return resToMap.map((res) => (
-      <Reservation
+    return resToMap.map((res, index) => (
+      <motion.div
         key={res._id}
-        res={res}
-        handleBtnClick={handleBtnClick}
-        setResModal={setResModal}
-      />
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={fadeInReservations}
+        custom={index}
+        layout
+        style={{ width: "100%"}}
+      >
+        <Reservation
+          key={res._id}
+          res={res}
+          handleBtnClick={handleBtnClick}
+          setResModal={setResModal}
+        />
+      </motion.div>
     ));
   }
+
+  if(loading) return "";
 
   if (sortedLiveRes.length === 0 && sortedCancelledRes.length === 0) {
     return (
@@ -81,19 +95,24 @@ function ReservationDisplayer(props) {
         width: "100%",
       }}
     >
+    <AnimatePresence> 
       {sortedLiveRes && sortedLiveRes.length > 0 && (
         <div className="reservations-displayer">
-          {mapReservations(sortedLiveRes)}
+            {mapReservations(sortedLiveRes)}
         </div>
       )}
       {sortedCancelledRes && sortedCancelledRes.length > 0 && (
-          <div className="cancelled-res">
+               <div
+               className="cancelled-res"
+             >
             <div className="cancelled-text">
               Cancelled
             </div>
-            {mapReservations(sortedCancelledRes)}
-          </div>
-        )}
+             {mapReservations(sortedCancelledRes)}
+            </div>
+      )}
+    </AnimatePresence>
+
     </div>
   );
 }

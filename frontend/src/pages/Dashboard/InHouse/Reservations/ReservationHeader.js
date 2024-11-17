@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { leftArrow, rightArrow } from "svg";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { dateToString } from "dateUtils";
+import Loading from "./Loading";
+
 
 function ReservationHeader(props) {
   const {
@@ -13,6 +15,7 @@ function ReservationHeader(props) {
     numRes,
     setNewRes,
     handleDateClick,
+    loading,
   } = props;
   const timerRef = useRef();
   const isLongPress = useRef();
@@ -147,11 +150,24 @@ function ReservationHeader(props) {
       </div>
     );
   }
+  
 
   function numResDisplay() {
     return (
       <div className="res-amount res-amount-header">
-        {numRes}
+        <AnimatePresence>
+        {!loading && (
+          <motion.span
+            key="numRes" 
+            initial={{ opacity: 0, y: -3 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: 3 }} 
+            transition={{ duration: 0.3 }} 
+          >
+            {numRes}
+          </motion.span>
+        )}
+      </AnimatePresence>
         <svg
           width="20"
           height="20"
@@ -181,7 +197,19 @@ function ReservationHeader(props) {
   function numGuestDisplay() {
     return (
       <div className="res-amount res-amount-header">
-        {numGuests}
+      <AnimatePresence>
+        {!loading && (
+          <motion.span
+            key="numGuests"
+            initial={{ opacity: 0, y: -3 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 3 }}
+            transition={{ duration: 0.3 }}
+          >
+            {numGuests}
+          </motion.span>
+        )}
+      </AnimatePresence>
         <svg
           width="20"
           height="20"

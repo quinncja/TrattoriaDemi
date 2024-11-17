@@ -289,7 +289,7 @@
 .res-bottom {
   position: relative;
   width: 100%;
-  padding-top: 22px;
+  padding-top: 37px;
   display: flex;
   justify-content: space-between;
   padding-left: 20px;
@@ -1005,4 +1005,9 @@ input[type="date"] {
     padding-inline: 3%;
     box-sizing: border-box;
   }
+}
+.loading-button{
+  pointer-events: none;
+  cursor: unset;
+
 }

@@ -11,11 +11,14 @@ import {
 } from "../../../../api";
 import { Toaster, toast } from "sonner";
 import ResModal from "./ResModal";
+import { dateToString } from "dateUtils";
 
 function Reversations() {
   const [reservations, setReservations] = useState([]);
   const [newResOpen, setNewRes] = useState(false);
   const [resModalOpen, setResModal] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true)
 
   function getCurrentShift() {
     const now = new Date();
@@ -76,13 +79,14 @@ function Reversations() {
 
   const { data: reservation } = ReservationSSE();
 
+  const areDatesEqual = (d1, d2) => {
+    return d1.toDateString() === d2.toDateString(); 
+  }
+
   useEffect(() => {
     if (reservation) {
       const reservationDate = new Date(reservation.date);
-      const areDatesEqual =
-        reservationDate.toDateString() === date.toDateString();
-
-      if (areDatesEqual) {
+      if (areDatesEqual(reservationDate, date)) {
         setReservations((prevReservations) => {
           const reservationIndex = prevReservations.findIndex(
             (res) => res._id === reservation._id
@@ -107,6 +111,7 @@ function Reversations() {
     );
   }
 
+
   function addResLocal(newRes) {
     const updatedReservations = [...reservations, newRes];
     updatedReservations.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -114,27 +119,55 @@ function Reversations() {
   }
 
   async function submitRes(res) {
+    setSubmitting(true)
     try {
       const response = await postAdminReservation(res);
       if (response.status === 201) {
         toast.success("Reservation created");
-        addResLocal(response.data);
+        const reservationDate = new Date(res.date);
+        if(areDatesEqual(reservationDate, date)) addResLocal(response.data);
         setNewRes(false);
+        setSubmitting(false)
       }
     } catch (error) {
       console.error(error);
+      setSubmitting(false)
     }
   }
 
-  async function patchRes(id, state) {
+  function getCurrentTime() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`;
+  }
+
+  async function patchRes(res, state) {
+    const id = res._id;
+    const oldReservations = [...reservations]
+    const updatedReservations = reservations.map((r) =>
+      r._id === res._id
+        ? { ...r, state: state, arrivedTime: getCurrentTime() }
+        : r
+    );
     try {
       await patchReservation(id, state);
+      setReservations(updatedReservations);
     } catch (error) {
-      console.log(error);
+      if (!navigator.onLine) {
+        toast.error(`Failed to mark reservation as ${state} -- there is no internet on this device`);
+      } else {
+        const toastError = state === "cancel" ? "Failed to cancel the reservation" : `Failed to mark reservation as ${state}`
+        toast.error(toastError);
+      }
+      setReservations(oldReservations);
     }
+    
   }
 
   async function loadReservations(date, signal) {
+    setLoading(true);
+    setReservations([]);
     try {
       const response = await getReservationsByDate(date, signal);
       const sortedReservations = response.sort(
@@ -143,7 +176,10 @@ function Reversations() {
       //setReservations(sortedReservations);
       setReservations(sortedReservations);
     } catch (error) {
+      toast.error(`Failed to load reservations for ${dateToString(date)}`)
       console.log(error);
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -204,6 +240,7 @@ function Reversations() {
           selfClose={closeNewRes}
           setNewRes={setNewRes}
           submitRes={submitRes}
+          submitting={submitting}
         />
       )}
       {resModalOpen && (
@@ -225,6 +262,7 @@ function Reversations() {
             shift={shift}
             toggleShift={toggleShift}
             setNewRes={setNewRes}
+            loading={loading}
           />
         </div>
       </div>
@@ -235,6 +273,7 @@ function Reversations() {
         setReservations={setReservations}
         patchRes={patchRes}
         setResModal={setResModal}
+        loading={loading}
       />
     </div>
   );
