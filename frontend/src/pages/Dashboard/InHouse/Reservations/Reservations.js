@@ -12,6 +12,7 @@ import {
 import { Toaster, toast } from "sonner";
 import ResModal from "./ResModal";
 import { dateToString } from "dateUtils";
+import Loading from "./Loading.js"
 
 function Reversations() {
   const [reservations, setReservations] = useState([]);
@@ -275,6 +276,7 @@ function Reversations() {
         setResModal={setResModal}
         loading={loading}
       />
+      <Loading/>
     </div>
   );
 }
