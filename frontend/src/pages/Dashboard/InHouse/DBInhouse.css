@@ -294,7 +294,7 @@
   justify-content: space-between;
   padding-left: 20px;
   padding-right: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
   box-sizing: border-box;
   background-color: var(--dark-container-color);
   z-index: 1;
@@ -968,7 +968,7 @@ input[type="date"] {
   }
   .res-bottom{
     padding: 10px 10px;
-    padding-top: 20px;
+    padding-top: 40px;
     padding-left: 15px;
   }
   .res-amount{
