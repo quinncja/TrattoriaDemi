@@ -10,6 +10,13 @@ export const fadeIn = {
   transition: { duration: 0.5 },
 };
 
+export const fadeInModal = {
+  initial: { opacity: 0},
+  animate: { opacity: 1 },
+  exit: { opacity: 0},
+  transition: { duration: 0.15 },
+};
+
 export const fadeInMany = {
   hidden: { opacity: 0 },
   visible: (i) => ({

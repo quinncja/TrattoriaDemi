@@ -13,6 +13,7 @@ import { Toaster, toast } from "sonner";
 import ResModal from "./ResModal";
 import { dateToString } from "dateUtils";
 import Loading from "./Loading.js"
+import { AnimatePresence } from "framer-motion";
 
 function Reversations() {
   const [reservations, setReservations] = useState([]);
@@ -236,6 +237,7 @@ function Reversations() {
 
   return (
     <div className="reservations-container">
+      <AnimatePresence> 
       {newResOpen && (
         <NewRes
           selfClose={closeNewRes}
@@ -251,6 +253,7 @@ function Reversations() {
           res={resModalOpen}
         />
       )}
+      </AnimatePresence>
       <Toaster richColors position="bottom-center" />
       <div className="reservations-header">
         <div className="res-header">

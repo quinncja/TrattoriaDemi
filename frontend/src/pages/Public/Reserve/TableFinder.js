@@ -8,7 +8,7 @@ import React, {
 import { convertTo24Hour, convertTo12Hour } from "functions";
 import { checkReservation } from "api";
 import { motion, AnimatePresence } from "framer-motion";
-import { fadeIn, fadeInDown } from "animations";
+import { fadeIn, fadeInDown, fadeInModal } from "animations";
 import Dropdown from "components/Dropdown";
 import { Calendar } from "primereact/calendar";
 import { calendarSvg, peopleSvg, clockSvg, cancelSvg } from "svg";
@@ -420,10 +420,11 @@ const TableFinder = forwardRef((props, ref) => {
   
   function DatePicker() {
     return (
-      <div
+      <motion.div
         ref={calRef}
         className={`calendar-wrapper-${isMobile ? "disabled" : "enabled"}`}
         onClick={isMobile ? () => {} : () => handleOverlayClick()}
+        {...(isMobile ? fadeInModal : {})}
       >
         {isMobile && (
           <div className="dropdown-header cal-header">
@@ -451,7 +452,7 @@ const TableFinder = forwardRef((props, ref) => {
             disabledDates={disabledDates}
           />
         </div>
-      </div>
+      </motion.div>
     );
   }
   return (

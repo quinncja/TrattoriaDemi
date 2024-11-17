@@ -2,6 +2,8 @@ import { useState } from "react";
 import { openBookSvg } from "svg";
 import { dateToString } from "dateUtils";
 import { convertTo12Hour, convertTo24Hour } from "functions";
+import { fadeInModal } from "animations";
+import { motion } from "framer-motion";
 
 function ResModal(props) {
   const { res, selfClose, updateRes } = props;
@@ -115,14 +117,15 @@ function ResModal(props) {
 
   return (
     <>
-      <div
+      <motion.div
         className="res-modal-background"
         onClick={(e) => {
           e.stopPropagation();
           selfClose();
         }}
+        {...fadeInModal}
       />
-      <div className="res-modal-container">
+      <motion.div className="res-modal-container" {...fadeInModal}>
         <div className="res-modal-header"> 
         <div style={{fontSize: "1.8rem", fontWeight: "600"}}> Edit Reservation </div>
         {closeModalButton()}
@@ -181,7 +184,7 @@ function ResModal(props) {
           {" "}
           Update Reservation{" "}
         </button>
-      </div>
+      </motion.div>
     </>
   );
 }

@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { convertTo12Hour } from "../functions";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { cancelSvg } from "svg";
+import { fadeInModal } from "animations";
 function Dropdown(props) {
   const { object, selected, onSelect, id, svg, isMobile } = props;
   const [isOpen, setIsOpenState] = useState(false);
@@ -35,6 +36,7 @@ function Dropdown(props) {
   };
 
   return (
+    <AnimatePresence>
     <div
       className={`dropdown ${isOpen && !isMobile && `dropdown-open`}`}
       ref={dropdownRef}
@@ -85,7 +87,7 @@ function Dropdown(props) {
         ) : (
           <>
             {!isMobile && <div className="faux-overlay" />}
-            <motion.div className={!isMobile ? "dropdown-menu" : "mobile-menu"}>
+            <motion.div className={!isMobile ? "dropdown-menu" : "mobile-menu"}  {...(isMobile ? fadeInModal : {})}>
               {isMobile && (
                 <>
                   <div className="dropdown-header">
@@ -143,6 +145,7 @@ function Dropdown(props) {
         ""
       )}
     </div>
+    </AnimatePresence>
   );
 }
 

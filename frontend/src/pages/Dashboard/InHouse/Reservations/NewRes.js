@@ -4,6 +4,8 @@ import PhoneInput from "react-phone-number-input/input";
 import { openBookSvg, peopleSvg } from "svg";
 import { dateToString } from "dateUtils";
 import { dotPulse } from 'ldrs'
+import { motion } from "framer-motion";
+import { fadeInModal } from "animations";
 
 dotPulse.register()
 
@@ -130,7 +132,7 @@ function NewRes(props) {
   };
 
   return (
-    <div className="background">
+    <motion.div className="background" {...fadeInModal}>
       <form className="new-res-form" id="new-res">
         <div className="new-res-header">
           {" "}
@@ -233,7 +235,7 @@ function NewRes(props) {
             "Submit reservation" }
         </button>
       </form>
-    </div>
+    </motion.div>
   );
 }
 
