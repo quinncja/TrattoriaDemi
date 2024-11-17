@@ -12,6 +12,7 @@ reservationRouter.post("/", async (req, res) => {
   try {
     const { name, numGuests, date, time, notes, phone, tableSize, sendText } =
       req.body;
+
     const newReservation = new Reservation({
       name,
       numGuests,
@@ -218,7 +219,11 @@ reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
     }
 
     if (newState === "cancel") {
-      sendCancelText(updatedReservation.phone);
+      try {
+        await sendCancelText(updatedReservation.phone);
+      } catch (error) {
+        console.error("Failed to send cancel text:", error);
+      }
     }
 
     clients.forEach((client) =>
@@ -438,5 +443,56 @@ reservationRouter.get("/stats", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+
+reservationRouter.delete("/delete-old-reservations", async (req, res) => {
+  try {
+    const result = await Reservation.deleteMany({ name: "-" });
+
+    res.json({
+      message: `Deleted ${result.deletedCount} reservations before November 1st, 2024.`,
+    });
+  } catch (error) {
+    console.error("Error deleting reservations:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
+
+async function updateReservationDate(reservationId) {
+  try {
+    const newDate = new Date("2024-11-10T06:00:00.000Z");
+
+    const updatedReservation = await Reservation.findByIdAndUpdate(
+      reservationId,
+      { date: newDate },
+      { new: true }
+    );
+
+    if (!updatedReservation) {
+      throw new Error("Reservation not found");
+    }
+
+    return updatedReservation;
+  } catch (error) {
+    console.error("Error updating reservation date:", error);
+    throw error;
+  }
+}
+
+reservationRouter.patch("/id/:id/date", async (req, res) => {
+  try {
+    const reservationId = req.params.id;
+
+    const updatedReservation = await updateReservationDate(reservationId);
+
+    res.json(updatedReservation);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 
 module.exports = reservationRouter;
