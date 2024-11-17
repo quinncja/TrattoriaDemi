@@ -132,6 +132,7 @@ function Reversations() {
         setSubmitting(false)
       }
     } catch (error) {
+      toast.error("Failed to create new reservation");
       console.error(error);
       setSubmitting(false)
     }
@@ -213,6 +214,7 @@ function Reversations() {
       }
 
     } catch (error){
+      toast.error("Failed to updated reservation");
       console.log(error);
     }
   }
