@@ -178,6 +178,29 @@ const TableFinder = forwardRef((props, ref) => {
     6: "fri_sat",
   };
 
+  const half_day = [
+    "4:00pm",
+    "4:15pm",
+    "4:30pm",
+    "4:45pm",
+    "5:00pm",
+    "5:15pm",
+    "5:30pm",
+    "5:45pm",
+    "6:00pm",
+    "6:15pm",
+    "6:30pm",
+    "6:45pm",
+    "7:00pm",
+    "7:15pm",
+    "7:30pm",
+    "7:45pm",
+    "8:00pm",
+    "8:15pm",
+    "8:30pm",
+    "8:45pm",
+  ]
+
   const inputText = {
     guestNum: "Party Size",
     dateTxt: "Date",
@@ -190,9 +213,20 @@ const TableFinder = forwardRef((props, ref) => {
   };
 
   const getTimeList = (date) => {
-    const dayOfWeek = date.getDay();
-    const timeKey = days[dayOfWeek];
-    const tL = times[timeKey];
+    const isSpecialDate = date.getFullYear() === 2024 &&
+                          date.getMonth() === 10 &&
+                          date.getDate() === 29 &&
+                          date.getDay() === 5; 
+
+    let tL;
+    if (isSpecialDate) {
+      tL = half_day;
+    } else {
+      const dayOfWeek = date.getDay();
+      const timeKey = days[dayOfWeek];
+      tL = times[timeKey];
+    }
+                    
 
     const now = new Date();
     const isToday = date.toDateString() === now.toDateString();

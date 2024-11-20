@@ -97,6 +97,15 @@ function getPrevSlot(time, i) {
   return `${hour}:${minute < 10 ? "0" : ""}${minute}`;
 }
 
+function isSpecialDate(date) {
+  return (
+    date.getFullYear() === 2024 &&
+    date.getMonth() === 10 && 
+    date.getDate() === 29
+  );
+}
+
+
 function isTimeValid(dateStr, timeStr) {
   const localDateStr = dateStr.replace("Z", "");
   const desiredDate = new Date(localDateStr);
@@ -129,6 +138,14 @@ function isTimeValid(dateStr, timeStr) {
   }
 
   const desiredTimeInMinutes = hours * 60 + minutes;
+
+  
+  if (isSpecialDate(desiredDate)) {
+    const earliestTimeInMinutes = 16 * 60; 
+    if (desiredTimeInMinutes < earliestTimeInMinutes) {
+      return false;
+    }
+  }
 
   if (desiredTimeInMinutes > latestTimeInMinutes) {
     return false;
