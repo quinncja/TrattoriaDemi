@@ -217,7 +217,7 @@ const TableFinder = forwardRef((props, ref) => {
                           date.getMonth() === 10 &&
                           date.getDate() === 29 &&
                           date.getDay() === 5; 
-
+    console.log(date, isSpecialDate)
     let tL;
     if (isSpecialDate) {
       tL = half_day;
