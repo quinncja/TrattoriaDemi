@@ -41,7 +41,7 @@ function isWithinOneHourAndFifteen(time, reservationTime) {
   const timeInMinutes = timeToMinutes(time);
   const reservationTimeInMinutes = timeToMinutes(reservationTime);
   const difference = Math.abs(timeInMinutes - reservationTimeInMinutes);
-  return difference <= 75;
+  return difference <= 90;
 }
 
 function checkTableAvailability(overlapRes, tableSize) {
