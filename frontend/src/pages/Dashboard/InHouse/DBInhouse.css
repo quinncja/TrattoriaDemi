@@ -9,11 +9,11 @@
 }
 
 .red-border {
-  border-color: #d27c7752 !important;
+  border-color: #d27c77b3 !important;
 }
 
 .green-border {
-  border-color: #52a45252 !important;
+  border-color: #52a452b3 !important;
 }
 
 
@@ -641,6 +641,7 @@
   box-sizing: border-box;
   text-align: left;
   -webkit-appearance: initial;
+  margin-bottom: 2rem;
 }
 
 .new-res-input:focus {
@@ -649,13 +650,13 @@
 }
 
 .new-res-label {
-  margin-bottom: -10px;
   width: 50%;
 }
 
 .date-label {
+  position: absolute;
   margin-bottom: -71.5px;
-  margin-top: 19px;
+  margin-top: 21px;
   margin-left: 1rem;
   z-index: 100;
   font-size: 1rem;
@@ -895,18 +896,16 @@
 .new-res-inputs {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
   justify-self: flex-start;
   background-color: black;
 }
 
 .new-res-input-group {
   border: 1px solid var(--border-color);
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  justify-self: flex-start;
+  padding: 20px;
+  padding-top: 40px;
+  padding-bottom: calc(40px - 2rem);
   border-radius: 10px;
   position: relative;
 }
@@ -923,7 +922,7 @@ input[type="date"] {
   background: black;
   padding: 10px 20px;
   box-sizing: border-box;
-  margin-top: -20px;
+  margin-top: -22px;
   width: fit-content;
   display: flex;
   justify-content: center;
@@ -1036,11 +1035,10 @@ input[type="date"] {
 .suggested-alternatives{
   display: flex;
   flex-direction: column;
-  gap: 10px
+  gap: 10px;
 }
 
 .suggested-alternatives button{
-  padding-inline: 45px;
   background-color: var(--black);
   color: var(--paper-white);
   border: 1px solid var(--border-color);
@@ -1050,6 +1048,8 @@ input[type="date"] {
   font-size: 1rem;
   box-sizing: border-box;
   cursor: pointer;
+  width: 100%;
+  padding-inline: 0px;
 }
 
 
@@ -1060,7 +1060,8 @@ input[type="date"] {
 
 .sug-alt{font-size: 1rem;}
 .alternatives{
-  display: flex;
-  gap: 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
 }
 

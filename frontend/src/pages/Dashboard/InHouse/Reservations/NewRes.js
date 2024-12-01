@@ -4,7 +4,7 @@ import PhoneInput from "react-phone-number-input/input";
 import { openBookSvg, peopleSvg } from "svg";
 import { dateToString } from "dateUtils";
 import { dotPulse } from 'ldrs'
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { fadeInModal } from "animations";
 import { checkReservation } from "api";
 import { toast } from "sonner";
@@ -80,7 +80,6 @@ function NewRes(props) {
 
   const fetchChecker = async () => {
     try {
-      console.log(numGuests, date, time)
       const response = await checkReservation(numGuests, date, convertTo24Hour(time), signal);
       setResponse(response);
     } catch (error) {
@@ -222,10 +221,23 @@ function NewRes(props) {
           {" "}
           New Reservation {closeResButton()}{" "}
         </div>
-        <div className="new-res-inputs">
-          <div className={`new-res-input-group ${tfClass}-border`}>
-            <label className="new-res-label"> {openBookSvg()} Table Info {tableText ? <span> - </span> : ""} <span className={tfClass}> {tableText} </span></label>
-            <select
+        <motion.div className="new-res-inputs" layout>
+
+          <motion.div 
+            layout
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className={`new-res-input-group ${tfClass}-border`}>
+            <motion.label layout="position" className="new-res-label"> {openBookSvg()} Table Info 
+              <AnimatePresence 
+                transition={{ ease: "linear", duration: .2}} 
+                initial={{ opacity: 0}}
+                animate={{ opacity: 1}}
+                exit={{ opacity: 0 }}> 
+                {tableText && <> <motion.span layout=""> - </motion.span> <motion.span layout="" className={tfClass}> {tableText} </motion.span> </>}
+              </AnimatePresence>
+            </motion.label>
+            <motion.select
+            layout="position"
               className={`new-res-input  ${!numGuests && "new-res-unselect"}`}
               id="guests"
               onChange={(event) => handleChange(event)}
@@ -240,20 +252,24 @@ function NewRes(props) {
                   {index + 2} guests
                 </option>
               ))}
-            </select>
+            </motion.select>
 
-            <label className="date-label" htmlFor="date">
-              {" "}
-              {date ? dateToString(date) : "Date"}{" "}
-            </label>
-            <input
-              className={`new-res-input  ${!date && "new-res-unselect"}`}
-              id="date"
-              type="date"
-              onChange={(event) => handleChange(event)}
-            />
+            <motion.div> 
+              <motion.label layout="position" className="date-label" htmlFor="date">
+                {" "}
+                {date ? dateToString(date) : "Date"}{" "}
+              </motion.label>
+              <motion.input
+              layout="position"
+                className={`new-res-input  ${!date && "new-res-unselect"}`}
+                id="date"
+                type="date"
+                onChange={(event) => handleChange(event)}
+              />
+            </motion.div> 
 
-            <select
+            <motion.select
+            layout="position"
               className={`new-res-input  ${!time && "new-res-unselect"}`}
               id="time"
               onChange={(event) => handleChange(event)}
@@ -267,30 +283,50 @@ function NewRes(props) {
                   {hour}
                 </option>
               ))}
-            </select>
+            </motion.select>
 
+              
+            <AnimatePresence> 
             {response && !response.available && (
               tfOptions.length > 0 ? (
-                <div className="suggested-alternatives"> 
+                <motion.div className="suggested-alternatives" 
+                layout
+                transition={{ ease: "linear", duration: .3}} 
+                style={{ overflow: 'hidden' }}
+                initial={{ opacity: 0, y: -10, height: 0,  marginBottom: "0rem"  }}
+                animate={{ opacity: 1, y: 0, height: 'auto', marginBottom: "2rem"  }}
+                exit={{ opacity: 0, y: -10, height: 0,  marginBottom: "0rem"  }}
+                > 
                   <span className="sug-alt"> Alternative times </span>
                   <div className="alternatives">
                     {tfOptions.map((option) => (
-                      <button key={option.time} onClick={() => handleAltClick(option.time)}>
+                      <motion.button key={option.time} type="button" onClick={() => handleAltClick(option.time)}>
                         {convertTo12Hour(option.time)}
-                      </button>
+                      </motion.button>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               ) : (
-                <span className="sug-alt"> No alternative times to recommend </span>
+                <motion.div className="suggested-alternatives" 
+                layout
+                transition={{ ease: "linear", duration: .3}} 
+                style={{ overflow: 'hidden' }}
+                initial={{ opacity: 0, y: -10, height: 0,  marginBottom: "0rem"  }}
+                animate={{ opacity: 1, y: 0, height: 'auto', marginBottom: "2rem"  }}
+                exit={{ opacity: 0, y: -10, height: 0,  marginBottom: "0rem"  }}
+                > 
+                  <motion.span layout="position" className="sug-alt"> No alternative times to recommend </motion.span>
+                </motion.div>
               )
             )}
+            </AnimatePresence> 
 
-          </div>
+          </motion.div>
 
-          <div className="new-res-input-group">
-            <label className="new-res-label"> {peopleSvg()} Guest Info</label>
-            <input
+          <motion.div className="new-res-input-group" layout="position">
+            <motion.label layout="position" className="new-res-label"> {peopleSvg()} Guest Info</motion.label>
+            <motion.input
+            layout="position"
               className={`new-res-input  ${!name && "new-res-unselect"}`}
               id="name"
               value={name}
@@ -298,7 +334,7 @@ function NewRes(props) {
               autoComplete="off"
               onChange={(event) => handleChange(event)}
             />
-            <div className="new-res-top">
+            <motion.div className="new-res-top" layout="position">
               <PhoneInput
                 country="US"
                 withCountryCallingCode={true}
@@ -311,16 +347,17 @@ function NewRes(props) {
                 }}
                 placeholder="Phone #"
               />
-            </div>
+            </motion.div>
 
-            <textarea
+            <motion.textarea
+            layout="position"
               className="new-res-input text-area-res"
               id="notes"
               placeholder="Notes"
               onChange={(event) => handleChange(event)}
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
         <button
           className={`${submitting ? "loading-button" : ""} submit-button submit-new-res`}
           type="button"

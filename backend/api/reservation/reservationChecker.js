@@ -105,7 +105,6 @@ function isSpecialDate(date) {
   );
 }
 
-
 function isTimeValid(dateStr, timeStr) {
   const localDateStr = dateStr.replace("Z", "");
   const desiredDate = new Date(localDateStr);
@@ -130,6 +129,7 @@ function isTimeValid(dateStr, timeStr) {
 
   const dayOfWeek = desiredDate.getDay();
   let latestTimeInMinutes;
+  let earliestTimeInMinutes;
 
   if (dayOfWeek === 5 || dayOfWeek === 6) {
     latestTimeInMinutes = 20 * 60 + 45;
@@ -137,17 +137,23 @@ function isTimeValid(dateStr, timeStr) {
     latestTimeInMinutes = 19 * 60 + 45;
   }
 
+  if (dayOfWeek === 7) {
+    earliestTimeInMinutes = 12 * 60;
+  } else {
+    earliestTimeInMinutes = 11 * 60 + 30;
+  }
+
   const desiredTimeInMinutes = hours * 60 + minutes;
 
   
   if (isSpecialDate(desiredDate)) {
-    const earliestTimeInMinutes = 16 * 60; 
-    if (desiredTimeInMinutes < earliestTimeInMinutes) {
-      return false;
-    }
+    earliestTimeInMinutes = 16 * 60; 
   }
 
   if (desiredTimeInMinutes > latestTimeInMinutes) {
+    return false;
+  }
+  if (desiredTimeInMinutes < earliestTimeInMinutes) {
     return false;
   }
 
