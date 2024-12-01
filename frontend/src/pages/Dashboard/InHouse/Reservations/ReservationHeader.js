@@ -156,6 +156,7 @@ function ReservationHeader(props) {
         <AnimatePresence>
         {!loading && (
           <motion.span
+            style={{minWidth: "2ch"}}
             key="numRes" 
             initial={{ opacity: 0, y: -3 }} 
             animate={{ opacity: 1, y: 0 }} 
@@ -198,6 +199,7 @@ function ReservationHeader(props) {
       <AnimatePresence>
         {!loading && (
           <motion.span
+            style={{minWidth: "2ch"}}
             key="numGuests"
             initial={{ opacity: 0, y: -3 }}
             animate={{ opacity: 1, y: 0 }}

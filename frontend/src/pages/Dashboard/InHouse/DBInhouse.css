@@ -656,12 +656,13 @@
 .date-label {
   position: absolute;
   margin-bottom: -71.5px;
-  margin-top: 21px;
+  margin-top: 16px;
   margin-left: 1rem;
   z-index: 100;
   font-size: 1rem;
   width: 80%;
   background-color: var(--dark-container-color);
+  padding-block: 5px;
 }
 
 .submit-new-res {
