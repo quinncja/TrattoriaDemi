@@ -529,9 +529,6 @@
     width: 90%;
     padding-top: 30px;
   }
-  .table-finder-container{
-    padding-top: 30px;
-  }
 }
 
 @media (width <= 470px) {
@@ -677,6 +674,7 @@
 @media (width <= 520px) {
   .table-finder {
     grid-template-columns: 1fr;
+    gap: 20px
   }
   .found-table {
     font-size: 0.9rem;
