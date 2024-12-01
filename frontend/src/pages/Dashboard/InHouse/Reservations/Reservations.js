@@ -246,6 +246,7 @@ function Reversations() {
           setNewRes={setNewRes}
           submitRes={submitRes}
           submitting={submitting}
+          defaultDate={date}
         />
       )}
       {resModalOpen && (

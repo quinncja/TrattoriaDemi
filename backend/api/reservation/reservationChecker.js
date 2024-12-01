@@ -54,8 +54,8 @@ function checkTableAvailability(overlapRes, tableSize) {
   return true;
 }
 
-function checkAvailability(reservations, tableOptions, time) {
-  if (reservations.some((res) => res.time === time && res.state !== "cancel"))
+function checkAvailability(reservations, tableOptions, time, override) {
+  if (!override && (reservations.some((res) => res.time === time && res.state !== "cancel")))
     return false;
   const overlapRes = reservations.filter(
     (reservation) =>
@@ -154,7 +154,7 @@ function isTimeValid(dateStr, timeStr) {
   return true;
 }
 
-async function reservationChecker(numGuests, desiredDate, desiredTime) {
+async function reservationChecker(numGuests, desiredDate, desiredTime, override = false) {
   let suggestedTimes = [];
 
   const targetDate = new Date(desiredDate);
@@ -196,6 +196,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
       reservations,
       tableOptions,
       desiredTime,
+      override,
     );
     if (foundTable) return { available: foundTable, suggestions: [] };
   }
@@ -208,6 +209,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
         reservations,
         tableOptions,
         next,
+        override,
       );
       if (nextSuggestion) suggestedTimes.push(nextSuggestion);
     }
@@ -216,6 +218,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
         reservations,
         tableOptions,
         prev,
+        override,
       );
       if (prevSuggestion) suggestedTimes.push(prevSuggestion);
     }
@@ -231,6 +234,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
   }
   return { available: false, suggestions: suggestedTimes };
 }
+
 
 module.exports = {
   reservationChecker,

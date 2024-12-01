@@ -2,8 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { leftArrow, rightArrow } from "svg";
 import { AnimatePresence, motion } from "framer-motion";
 import { dateToString } from "dateUtils";
-import Loading from "./Loading";
-
 
 function ReservationHeader(props) {
   const {

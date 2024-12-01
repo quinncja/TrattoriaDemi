@@ -1,29 +1,108 @@
-import { convertTo24Hour } from "functions";
-import { useState } from "react";
+import { convertTo12Hour, convertTo24Hour } from "functions";
+import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
 import { openBookSvg, peopleSvg } from "svg";
 import { dateToString } from "dateUtils";
 import { dotPulse } from 'ldrs'
 import { motion } from "framer-motion";
 import { fadeInModal } from "animations";
+import { checkReservation } from "api";
+import { toast } from "sonner";
 
 dotPulse.register()
 
 function NewRes(props) {
-  const { submitRes, setNewRes, submitting} = props;
+  const { submitRes, setNewRes, submitting, defaultDate} = props;
   const [name, setName] = useState(null);
   const [phone, setPhone] = useState(null);
   const [numGuests, setGuests] = useState(null);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(defaultDate);
   const [time, setTime] = useState(null);
   const [notes, setNotes] = useState(null);
+  const [response, setResponse] = useState(null);
 
+  function sortResponse(array) {
+    array.sort((a, b) => {
+      const timeA = a.time.split(":").map(Number);
+      const timeB = b.time.split(":").map(Number);
+
+      if (timeA[0] !== timeB[0]) {
+        return timeA[0] - timeB[0];
+      } else {
+        return timeA[1] - timeB[1];
+      }
+    });
+    return array;
+  }
+
+  const tableText = response ? response.available ? "Available" : "Potentially overbooked" : null;
+  const tfClass = response ? response.available ? "green" : "red" : "";
+  const tfOptions = response ? response.available ? null :  sortResponse(response.suggestions) : null;
+
+
+  console.log(response)
+  const tableSizes = {
+    1: ["2top"],
+    2: ["2top"],
+    3: ["3top", "4top"],
+    4: ["4top", "6top"],
+    5: ["6top"],
+    6: ["6top"],
+    7: ["6top"],
+    8: ["6top"],
+    9: ["xl"],
+    10: ["xl"],
+    11: ["xl"],
+    12: ["xl"],
+    13: ["xl"],
+    14: ["xl"],
+    15: ["xl"],
+    16: ["xl"],
+    17: ["xl"],
+    18: ["xl"],
+    19: ["xl"],
+    20: ["xl"],
+    21: ["xl"],
+    22: ["xl"],
+    23: ["xl"],
+    24: ["xl"],
+    25: ["xl"],
+    26: ["xl"],
+    27: ["xl"],
+    28: ["xl"],
+    29: ["xl"],
+    30: ["xl"],
+  };
+
+  useEffect(() => {
+  const abortController = new AbortController();
+  const signal = abortController.signal;
+
+  const fetchChecker = async () => {
+    try {
+      console.log(numGuests, date, time)
+      const response = await checkReservation(numGuests, date, convertTo24Hour(time), signal);
+      setResponse(response);
+    } catch (error) {
+      toast.error("Failed to check table availability");
+    }
+  };
+  if (numGuests && date && time) fetchChecker();
+
+  return () => {
+    abortController.abort();
+  };
+}, [numGuests, date, time]);
+
+  const getTableSize = (numGuests) => {
+    return(tableSizes[numGuests][0])
+  }
   const onSubmit = async () => {
     const newRes = {
       name,
       phone,
       numGuests,
-      tableSize: "NA",
+      tableSize: getTableSize(numGuests),
       date,
       time: convertTo24Hour(time),
       notes,
@@ -98,6 +177,11 @@ function NewRes(props) {
     }
   };
 
+  const handleAltClick = (time) => {
+    setTime(time)
+    setResponse({available: true})
+  }
+
   const closeResButton = () => {
     return (
       <button
@@ -139,8 +223,8 @@ function NewRes(props) {
           New Reservation {closeResButton()}{" "}
         </div>
         <div className="new-res-inputs">
-          <div className="new-res-input-group">
-            <label className="new-res-label"> {openBookSvg()} Table Info</label>
+          <div className={`new-res-input-group ${tfClass}-border`}>
+            <label className="new-res-label"> {openBookSvg()} Table Info {tableText ? <span> - </span> : ""} <span className={tfClass}> {tableText} </span></label>
             <select
               className={`new-res-input  ${!numGuests && "new-res-unselect"}`}
               id="guests"
@@ -173,17 +257,35 @@ function NewRes(props) {
               className={`new-res-input  ${!time && "new-res-unselect"}`}
               id="time"
               onChange={(event) => handleChange(event)}
+              value={time || "Time"}
             >
-              <option default hidden value="">
-                {" "}
-                Time{" "}
+              <option default hidden value="" key={"default"}>
+                  Time
               </option>
               {hourOptions.map((hour, index) => (
-                <option data={hour} key={hour}>
+                <option value={convertTo24Hour(hour)} data={hour} key={hour}>
                   {hour}
                 </option>
               ))}
             </select>
+
+            {response && !response.available && (
+              tfOptions.length > 0 ? (
+                <div className="suggested-alternatives"> 
+                  <span className="sug-alt"> Alternative times </span>
+                  <div className="alternatives">
+                    {tfOptions.map((option) => (
+                      <button key={option.time} onClick={() => handleAltClick(option.time)}>
+                        {convertTo12Hour(option.time)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <span className="sug-alt"> No alternative times to recommend </span>
+              )
+            )}
+
           </div>
 
           <div className="new-res-input-group">
