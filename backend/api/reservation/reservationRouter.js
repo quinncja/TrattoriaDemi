@@ -244,8 +244,8 @@ reservationRouter.get("/check", async (req, res) => {
   const override = req.query.override; 
 
   const response = await reservationChecker(numGuests, date, time, override);
-
-  res.status(200).json(response, override);
+  response.override = override;
+  res.status(200).json(response);
 });
 
 
