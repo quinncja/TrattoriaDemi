@@ -245,7 +245,7 @@ reservationRouter.get("/check", async (req, res) => {
 
   const response = await reservationChecker(numGuests, date, time, override);
 
-  res.status(200).json(response);
+  res.status(200).json(response, override);
 });
 
 

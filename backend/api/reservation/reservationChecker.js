@@ -182,7 +182,6 @@ async function reservationChecker(numGuests, desiredDate, desiredTime, override 
     `${targetDate.toLocaleString("en-US", { timeZone: "America/Chicago" })} GMT`,
   );
 
-
   const startOfDay = new Date(
     Date.UTC(
       chicagoTargetDate.getUTCFullYear(),
