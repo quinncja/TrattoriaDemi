@@ -2,7 +2,7 @@ const Reservation = require("./Reservation");
 
 const tableSizes = {
   1: ["2top"],
-  2: ["2top"],
+  2: ["2top", "3top"],
   3: ["3top", "4top"],
   4: ["4top", "6top"],
   5: ["6top"],
