@@ -62,6 +62,7 @@ export async function updateReservation(id, updatedRes) {
 
 export async function checkReservation(numGuests, date, time, signal, override = false) {
   try {
+    console.log(numGuests, date, time, signal, override)
     const response = await axios({
       method: "get",
       url: `${API_URL}api/reservations/check`,
@@ -73,6 +74,7 @@ export async function checkReservation(numGuests, date, time, signal, override =
       },
       signal,
     });
+    console.log(response)
     return response.data;
   } catch (error) {
     if (axios.isCancel(error)) {

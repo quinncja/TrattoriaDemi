@@ -397,9 +397,7 @@ const TableFinder = forwardRef((props, ref) => {
 
     const fetchChecker = async () => {
       try {
-        console.log(numGuests, date, time)
-
-        const response = await checkReservation(numGuests, date, time, signal);
+        const response = await checkReservation(numGuests, date, time, signal, false);
         handleResponse(response);
       } catch (error) {
         setErrorChecking(true);

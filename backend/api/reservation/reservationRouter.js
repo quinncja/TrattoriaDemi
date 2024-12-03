@@ -23,7 +23,7 @@ reservationRouter.post("/", async (req, res) => {
       tableSize,
       sendText,
     });
-    const response = await reservationChecker(numGuests, date, time);
+    const response = await reservationChecker(numGuests, date, time, false);
     if (response.available) {
       await newReservation.save();
       if (sendText) await sendResText(newReservation);
