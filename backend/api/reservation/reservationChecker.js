@@ -55,7 +55,7 @@ function checkTableAvailability(overlapRes, tableSize) {
 }
 
 function checkAvailability(reservations, tableOptions, time, override) {
-  if (!override && (reservations.some((res) => res.time === time && res.state !== "cancel")))
+  if (override !== "false" && (reservations.some((res) => res.time === time && res.state !== "cancel")))
     return false;
   const overlapRes = reservations.filter(
     (reservation) =>
