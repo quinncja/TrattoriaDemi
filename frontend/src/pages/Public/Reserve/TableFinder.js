@@ -212,12 +212,22 @@ const TableFinder = forwardRef((props, ref) => {
       : `${convertTo12Hour(time)} is not available. Please call us at 847-332-2330 to reserve a table.` 
   };
 
+
+  const specialDateList = [
+    { month: 11, day: 24 }, 
+    { month: 11, day: 26 }, 
+    { month: 11, day: 31 }, 
+    { month: 0,  day: 1 },  
+    { month: 0,  day: 2 },
+  ]
+
   const getTimeList = (date) => {
-    const isSpecialDate = date.getFullYear() === 2024 &&
-                          date.getMonth() === 10 &&
-                          date.getDate() === 29 &&
-                          date.getDay() === 5; 
-    console.log(date, isSpecialDate)
+    const month = date.getMonth();
+    const day = date.getDate(); 
+
+    const isSpecialDate = specialDateList.some(specialDate => 
+      specialDate.month === month && specialDate.day === day
+    );
     let tL;
     if (isSpecialDate) {
       tL = half_day;
