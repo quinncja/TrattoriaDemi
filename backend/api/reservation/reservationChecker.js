@@ -130,7 +130,8 @@ function isTimeValid(dateStr, timeStr) {
   const now = new Date();
 
   const isToday = desiredDateTime.toDateString() === now.toDateString();
-
+  const desiredTimeInMinutes = hours * 60 + minutes;
+  
   if (isToday) {
     const timeDifference = desiredDateTime - now;
     const minutesDifference = timeDifference / (1000 * 60);
@@ -157,7 +158,6 @@ function isTimeValid(dateStr, timeStr) {
     earliestTimeInMinutes = 11 * 60 + 30;
   }
 
-  const desiredTimeInMinutes = hours * 60 + minutes;
 
   if (isSpecialDate(desiredDate)) {
     earliestTimeInMinutes = 16 * 60; 
