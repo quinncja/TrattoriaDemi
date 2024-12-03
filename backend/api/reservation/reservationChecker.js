@@ -135,7 +135,6 @@ function isTimeValid(dateStr, timeStr) {
   if (isToday) {
     const timeDifference = desiredDateTime - now;
     const minutesDifference = timeDifference / (1000 * 60);
-    console.log("desired time", desiredTimeInMinutes, "timeDifference", timeDifference, "minutesDifference", minutesDifference)
 
     if (Math.abs(minutesDifference) < 30) {
       return false;
