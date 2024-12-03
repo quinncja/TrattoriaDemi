@@ -98,10 +98,23 @@ function getPrevSlot(time, i) {
 }
 
 function isSpecialDate(date) {
+  const month = date.getMonth();
+  const day = date.getDate(); 
+
+  const specialDateList = [
+    { month: 11, day: 24 }, 
+    { month: 11, day: 26 }, 
+    { month: 11, day: 31 }, 
+    { month: 0,  day: 1 },  
+    { month: 0,  day: 2 },
+  ]
+
+  const isSpecialDate = specialDateList.some(specialDate => 
+    specialDate.month === month && specialDate.day === day
+  );
+
   return (
-    date.getFullYear() === 2024 &&
-    date.getMonth() === 10 && 
-    date.getDate() === 29
+    isSpecialDate
   );
 }
 
