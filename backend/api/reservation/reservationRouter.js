@@ -241,11 +241,13 @@ reservationRouter.get("/check", async (req, res) => {
   const numGuests = req.query.numGuests;
   const date = req.query.date;
   const time = req.query.time;
+  const override = req.query.override; 
 
-  const response = await reservationChecker(numGuests, date, time);
+  const response = await reservationChecker(numGuests, date, time, override);
 
   res.status(200).json(response);
 });
+
 
 module.exports = reservationRouter;
 

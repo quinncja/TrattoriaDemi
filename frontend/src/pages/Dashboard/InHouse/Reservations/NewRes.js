@@ -1,29 +1,107 @@
-import { convertTo24Hour } from "functions";
-import { useState } from "react";
+import { convertTo12Hour, convertTo24Hour } from "functions";
+import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-number-input/input";
 import { openBookSvg, peopleSvg } from "svg";
 import { dateToString } from "dateUtils";
 import { dotPulse } from 'ldrs'
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { fadeInModal } from "animations";
+import { checkReservation } from "api";
+import { toast } from "sonner";
 
 dotPulse.register()
 
 function NewRes(props) {
-  const { submitRes, setNewRes, submitting} = props;
+  const { submitRes, setNewRes, submitting, defaultDate} = props;
   const [name, setName] = useState(null);
   const [phone, setPhone] = useState(null);
   const [numGuests, setGuests] = useState(null);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(defaultDate);
   const [time, setTime] = useState(null);
   const [notes, setNotes] = useState(null);
+  const [response, setResponse] = useState(null);
 
+  function sortResponse(array) {
+    array.sort((a, b) => {
+      const timeA = a.time.split(":").map(Number);
+      const timeB = b.time.split(":").map(Number);
+
+      if (timeA[0] !== timeB[0]) {
+        return timeA[0] - timeB[0];
+      } else {
+        return timeA[1] - timeB[1];
+      }
+    });
+    return array;
+  }
+
+  const tableText = response ? response.available ? "Available" : "Potentially overbooked" : null;
+  const tfClass = response ? response.available ? "green" : "red" : "";
+  const tfOptions = response ? response.available ? null :  sortResponse(response.suggestions) : null;
+
+
+  console.log(response)
+  const tableSizes = {
+    1: ["2top"],
+    2: ["2top"],
+    3: ["3top", "4top"],
+    4: ["4top", "6top"],
+    5: ["6top"],
+    6: ["6top"],
+    7: ["6top"],
+    8: ["6top"],
+    9: ["xl"],
+    10: ["xl"],
+    11: ["xl"],
+    12: ["xl"],
+    13: ["xl"],
+    14: ["xl"],
+    15: ["xl"],
+    16: ["xl"],
+    17: ["xl"],
+    18: ["xl"],
+    19: ["xl"],
+    20: ["xl"],
+    21: ["xl"],
+    22: ["xl"],
+    23: ["xl"],
+    24: ["xl"],
+    25: ["xl"],
+    26: ["xl"],
+    27: ["xl"],
+    28: ["xl"],
+    29: ["xl"],
+    30: ["xl"],
+  };
+
+  useEffect(() => {
+  const abortController = new AbortController();
+  const signal = abortController.signal;
+
+  const fetchChecker = async () => {
+    try {
+      const response = await checkReservation(numGuests, date, convertTo24Hour(time), signal);
+      setResponse(response);
+    } catch (error) {
+      toast.error("Failed to check table availability");
+    }
+  };
+  if (numGuests && date && time) fetchChecker();
+
+  return () => {
+    abortController.abort();
+  };
+}, [numGuests, date, time]);
+
+  const getTableSize = (numGuests) => {
+    return(tableSizes[numGuests][0])
+  }
   const onSubmit = async () => {
     const newRes = {
       name,
       phone,
       numGuests,
-      tableSize: "NA",
+      tableSize: getTableSize(numGuests),
       date,
       time: convertTo24Hour(time),
       notes,
@@ -98,6 +176,11 @@ function NewRes(props) {
     }
   };
 
+  const handleAltClick = (time) => {
+    setTime(time)
+    setResponse({available: true})
+  }
+
   const closeResButton = () => {
     return (
       <button
@@ -138,10 +221,23 @@ function NewRes(props) {
           {" "}
           New Reservation {closeResButton()}{" "}
         </div>
-        <div className="new-res-inputs">
-          <div className="new-res-input-group">
-            <label className="new-res-label"> {openBookSvg()} Table Info</label>
-            <select
+        <motion.div className="new-res-inputs" layout>
+
+          <motion.div 
+            layout
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className={`new-res-input-group ${tfClass}-border`}>
+            <motion.label layout="position" className="new-res-label"> {openBookSvg()} Table Info 
+              <AnimatePresence 
+                transition={{ ease: "linear", duration: .2}} 
+                initial={{ opacity: 0}}
+                animate={{ opacity: 1}}
+                exit={{ opacity: 0 }}> 
+                {tableText && <> <motion.span layout=""> - </motion.span> <motion.span layout="" className={tfClass}> {tableText} </motion.span> </>}
+              </AnimatePresence>
+            </motion.label>
+            <motion.select
+            layout="position"
               className={`new-res-input  ${!numGuests && "new-res-unselect"}`}
               id="guests"
               onChange={(event) => handleChange(event)}
@@ -156,39 +252,81 @@ function NewRes(props) {
                   {index + 2} guests
                 </option>
               ))}
-            </select>
+            </motion.select>
 
-            <label className="date-label" htmlFor="date">
-              {" "}
-              {date ? dateToString(date) : "Date"}{" "}
-            </label>
-            <input
-              className={`new-res-input  ${!date && "new-res-unselect"}`}
-              id="date"
-              type="date"
-              onChange={(event) => handleChange(event)}
-            />
+            <motion.div> 
+              <motion.label layout="position" className="date-label" htmlFor="date">
+                {" "}
+                {date ? dateToString(date) : "Date"}{" "}
+              </motion.label>
+              <motion.input
+              layout="position"
+                className={`new-res-input  ${!date && "new-res-unselect"}`}
+                id="date"
+                type="date"
+                onChange={(event) => handleChange(event)}
+              />
+            </motion.div> 
 
-            <select
+            <motion.select
+            layout="position"
               className={`new-res-input  ${!time && "new-res-unselect"}`}
               id="time"
               onChange={(event) => handleChange(event)}
+              value={time || "Time"}
             >
-              <option default hidden value="">
-                {" "}
-                Time{" "}
+              <option default hidden value="" key={"default"}>
+                  Time
               </option>
               {hourOptions.map((hour, index) => (
-                <option data={hour} key={hour}>
+                <option value={convertTo24Hour(hour)} data={hour} key={hour}>
                   {hour}
                 </option>
               ))}
-            </select>
-          </div>
+            </motion.select>
 
-          <div className="new-res-input-group">
-            <label className="new-res-label"> {peopleSvg()} Guest Info</label>
-            <input
+              
+            <AnimatePresence> 
+            {response && !response.available && (
+              tfOptions.length > 0 ? (
+                <motion.div className="suggested-alternatives" 
+                layout
+                transition={{ ease: "linear", duration: .3}} 
+                style={{ overflow: 'hidden' }}
+                initial={{ opacity: 0, y: -10, height: 0,  marginBottom: "0rem"  }}
+                animate={{ opacity: 1, y: 0, height: 'auto', marginBottom: "2rem"  }}
+                exit={{ opacity: 0, y: -10, height: 0,  marginBottom: "0rem"  }}
+                > 
+                  <span className="sug-alt"> Alternative times </span>
+                  <div className="alternatives">
+                    {tfOptions.map((option) => (
+                      <motion.button key={option.time} type="button" onClick={() => handleAltClick(option.time)}>
+                        {convertTo12Hour(option.time)}
+                      </motion.button>
+                    ))}
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div className="suggested-alternatives" 
+                layout
+                transition={{ ease: "linear", duration: .3}} 
+                style={{ overflow: 'hidden' }}
+                initial={{ opacity: 0, y: -10, height: 0,  marginBottom: "0rem"  }}
+                animate={{ opacity: 1, y: 0, height: 'auto', marginBottom: "2rem"  }}
+                exit={{ opacity: 0, y: -10, height: 0,  marginBottom: "0rem"  }}
+                > 
+                  <motion.span layout="position" className="sug-alt"> No alternative times to recommend </motion.span>
+                </motion.div>
+              )
+            )}
+            </AnimatePresence> 
+
+          </motion.div>
+
+          <motion.div className="new-res-input-group" layout="position">
+            <motion.label layout="position" className="new-res-label"> {peopleSvg()} Guest Info</motion.label>
+            <motion.input
+            layout="position"
               className={`new-res-input  ${!name && "new-res-unselect"}`}
               id="name"
               value={name}
@@ -196,7 +334,7 @@ function NewRes(props) {
               autoComplete="off"
               onChange={(event) => handleChange(event)}
             />
-            <div className="new-res-top">
+            <motion.div className="new-res-top" layout="position">
               <PhoneInput
                 country="US"
                 withCountryCallingCode={true}
@@ -209,16 +347,17 @@ function NewRes(props) {
                 }}
                 placeholder="Phone #"
               />
-            </div>
+            </motion.div>
 
-            <textarea
+            <motion.textarea
+            layout="position"
               className="new-res-input text-area-res"
               id="notes"
               placeholder="Notes"
               onChange={(event) => handleChange(event)}
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
         <button
           className={`${submitting ? "loading-button" : ""} submit-button submit-new-res`}
           type="button"

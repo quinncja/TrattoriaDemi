@@ -41,7 +41,7 @@ function isWithinOneHourAndFifteen(time, reservationTime) {
   const timeInMinutes = timeToMinutes(time);
   const reservationTimeInMinutes = timeToMinutes(reservationTime);
   const difference = Math.abs(timeInMinutes - reservationTimeInMinutes);
-  return difference <= 75;
+  return difference <= 90;
 }
 
 function checkTableAvailability(overlapRes, tableSize) {
@@ -54,8 +54,8 @@ function checkTableAvailability(overlapRes, tableSize) {
   return true;
 }
 
-function checkAvailability(reservations, tableOptions, time) {
-  if (reservations.some((res) => res.time === time && res.state !== "cancel"))
+function checkAvailability(reservations, tableOptions, time, override) {
+  if (!override && (reservations.some((res) => res.time === time && res.state !== "cancel")))
     return false;
   const overlapRes = reservations.filter(
     (reservation) =>
@@ -118,7 +118,6 @@ function isSpecialDate(date) {
   );
 }
 
-
 function isTimeValid(dateStr, timeStr) {
   const localDateStr = dateStr.replace("Z", "");
   const desiredDate = new Date(localDateStr);
@@ -143,6 +142,7 @@ function isTimeValid(dateStr, timeStr) {
 
   const dayOfWeek = desiredDate.getDay();
   let latestTimeInMinutes;
+  let earliestTimeInMinutes;
 
   if (dayOfWeek === 5 || dayOfWeek === 6) {
     latestTimeInMinutes = 20 * 60 + 45;
@@ -150,24 +150,30 @@ function isTimeValid(dateStr, timeStr) {
     latestTimeInMinutes = 19 * 60 + 45;
   }
 
+  if (dayOfWeek === 7) {
+    earliestTimeInMinutes = 12 * 60;
+  } else {
+    earliestTimeInMinutes = 11 * 60 + 30;
+  }
+
   const desiredTimeInMinutes = hours * 60 + minutes;
 
   
   if (isSpecialDate(desiredDate)) {
-    const earliestTimeInMinutes = 16 * 60; 
-    if (desiredTimeInMinutes < earliestTimeInMinutes) {
-      return false;
-    }
+    earliestTimeInMinutes = 16 * 60; 
   }
 
   if (desiredTimeInMinutes > latestTimeInMinutes) {
+    return false;
+  }
+  if (desiredTimeInMinutes < earliestTimeInMinutes) {
     return false;
   }
 
   return true;
 }
 
-async function reservationChecker(numGuests, desiredDate, desiredTime) {
+async function reservationChecker(numGuests, desiredDate, desiredTime, override = false) {
   let suggestedTimes = [];
 
   const targetDate = new Date(desiredDate);
@@ -209,6 +215,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
       reservations,
       tableOptions,
       desiredTime,
+      override,
     );
     if (foundTable) return { available: foundTable, suggestions: [] };
   }
@@ -221,6 +228,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
         reservations,
         tableOptions,
         next,
+        override,
       );
       if (nextSuggestion) suggestedTimes.push(nextSuggestion);
     }
@@ -229,6 +237,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
         reservations,
         tableOptions,
         prev,
+        override,
       );
       if (prevSuggestion) suggestedTimes.push(prevSuggestion);
     }
@@ -244,6 +253,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime) {
   }
   return { available: false, suggestions: suggestedTimes };
 }
+
 
 module.exports = {
   reservationChecker,

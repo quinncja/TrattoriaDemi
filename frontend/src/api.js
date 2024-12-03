@@ -60,7 +60,7 @@ export async function updateReservation(id, updatedRes) {
   }
 }
 
-export async function checkReservation(numGuests, date, time, signal) {
+export async function checkReservation(numGuests, date, time, signal, override = false) {
   try {
     const response = await axios({
       method: "get",
@@ -69,6 +69,7 @@ export async function checkReservation(numGuests, date, time, signal) {
         numGuests: numGuests,
         date: date,
         time: time,
+        override: override,
       },
       signal,
     });
