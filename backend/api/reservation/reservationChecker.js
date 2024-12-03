@@ -98,10 +98,23 @@ function getPrevSlot(time, i) {
 }
 
 function isSpecialDate(date) {
+  const month = date.getMonth();
+  const day = date.getDate(); 
+
+  const specialDateList = [
+    { month: 11, day: 24 }, 
+    { month: 11, day: 26 }, 
+    { month: 11, day: 31 }, 
+    { month: 0,  day: 1 },  
+    { month: 0,  day: 2 },
+  ]
+
+  const isSpecialDate = specialDateList.some(specialDate => 
+    specialDate.month === month && specialDate.day === day
+  );
+
   return (
-    date.getFullYear() === 2024 &&
-    date.getMonth() === 10 && 
-    date.getDate() === 29
+    isSpecialDate
   );
 }
 
@@ -113,7 +126,7 @@ function isTimeValid(dateStr, timeStr) {
 
   desiredDate.setHours(hours, minutes, 0, 0);
   const desiredDateTime = desiredDate;
-
+  
   const now = new Date();
 
   const isToday = desiredDateTime.toDateString() === now.toDateString();
@@ -121,6 +134,7 @@ function isTimeValid(dateStr, timeStr) {
   if (isToday) {
     const timeDifference = desiredDateTime - now;
     const minutesDifference = timeDifference / (1000 * 60);
+    console.log("desired time", desiredTimeInMinutes, "timeDifference", timeDifference, "minutesDifference", minutesDifference)
 
     if (minutesDifference < 30) {
       return false;
@@ -145,7 +159,6 @@ function isTimeValid(dateStr, timeStr) {
 
   const desiredTimeInMinutes = hours * 60 + minutes;
 
-  
   if (isSpecialDate(desiredDate)) {
     earliestTimeInMinutes = 16 * 60; 
   }
