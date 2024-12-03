@@ -98,23 +98,10 @@ function getPrevSlot(time, i) {
 }
 
 function isSpecialDate(date) {
-  const month = date.getMonth();
-  const day = date.getDate(); 
-
-  const specialDateList = [
-    { month: 11, day: 24 }, 
-    { month: 11, day: 26 }, 
-    { month: 11, day: 31 }, 
-    { month: 0,  day: 1 },  
-    { month: 0,  day: 2 },
-  ]
-
-  const isSpecialDate = specialDateList.some(specialDate => 
-    specialDate.month === month && specialDate.day === day
-  );
-
   return (
-    isSpecialDate
+    date.getFullYear() === 2024 &&
+    date.getMonth() === 10 && 
+    date.getDate() === 29
   );
 }
 
@@ -150,7 +137,7 @@ function isTimeValid(dateStr, timeStr) {
     latestTimeInMinutes = 19 * 60 + 45;
   }
 
-  if (dayOfWeek === 7) {
+  if (dayOfWeek === 0) {
     earliestTimeInMinutes = 12 * 60;
   } else {
     earliestTimeInMinutes = 11 * 60 + 30;
@@ -218,7 +205,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime, override)
     );
     if (foundTable) return { available: foundTable, suggestions: [] };
   }
-  let i = 0;
+  let i = 1;
   while (suggestedTimes.length < 5) {
     const prev = getPrevSlot(desiredTime, i);
     const next = getNextSlot(desiredTime, i);
