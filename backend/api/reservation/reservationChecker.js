@@ -55,7 +55,7 @@ function checkTableAvailability(overlapRes, tableSize) {
 }
 
 function checkAvailability(reservations, tableOptions, time, override) {
-  if (override !== "false" && (reservations.some((res) => res.time === time && res.state !== "cancel")))
+  if (!override && (reservations.some((res) => res.time === time && res.state !== "cancel")))
     return false;
   const overlapRes = reservations.filter(
     (reservation) =>
@@ -173,7 +173,7 @@ function isTimeValid(dateStr, timeStr) {
   return true;
 }
 
-async function reservationChecker(numGuests, desiredDate, desiredTime, override = false) {
+async function reservationChecker(numGuests, desiredDate, desiredTime, override) {
   let suggestedTimes = [];
 
   const targetDate = new Date(desiredDate);
