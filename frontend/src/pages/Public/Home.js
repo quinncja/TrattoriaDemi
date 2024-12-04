@@ -12,6 +12,7 @@ import { welcomeSvg } from "svg";
 import SuperLine from "images/Gold under.webp";
 import Eater from "images/eater.jpg";
 import FancyLine from "images/FancyLine.png";
+import HolidayPopup from "components/HolidayPopup";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ export default function Home() {
   const color = useTransform(scrollY, [100, 500], ["#ffffff", "#d3963a"]);
 
   return (
+    <>
+    <HolidayPopup/>
     <div className="home">
       <div className="home-header">
         <div className="home-pic">
@@ -153,5 +156,6 @@ export default function Home() {
 
       <EmblemBanner />
     </div>
+    </>
   );
 }
