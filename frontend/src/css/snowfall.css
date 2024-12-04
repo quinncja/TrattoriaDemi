@@ -42,7 +42,7 @@
 	height: 100%;
 	overflow: hidden;
 	z-index: 102;
-	opacity: .7;
+	opacity: .5;
 }
 
 .initial-snow > * {
@@ -51,6 +51,11 @@
 	position: absolute;
 	top: -5vh;
 }
+@media (width <= 700px) {
+	.initial-snow > * {
+		font-size: 15px;
+	}
+  }
 
 @keyframes snowfall {
 	0% {
