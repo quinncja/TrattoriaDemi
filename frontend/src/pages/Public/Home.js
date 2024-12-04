@@ -7,7 +7,6 @@ import ImageDisplayer from "./Gallery/ImageDisplayer";
 import ManyItems from "food_pictures/ManyItemsCompressed.jpg";
 import Interior from "images/FullSizeRender.webp";
 import EmblemBanner from "components/EmblemBanner";
-import ScrollDown from "components/ScrollDown/ScrollDown";
 import { welcomeSvg } from "svg";
 import SuperLine from "images/Gold under.webp";
 import Eater from "images/eater.jpg";
@@ -40,9 +39,6 @@ export default function Home() {
           />
           <div className="pic-overlay">
             <div className="pic-content">{welcomeSvg()}</div>
-            <div className="scroll-down-wrapper">
-              <ScrollDown />
-            </div>
           </div>
         </div>
         <div className="home-block">
