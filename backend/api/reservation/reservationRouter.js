@@ -23,7 +23,7 @@ reservationRouter.post("/", async (req, res) => {
       tableSize,
       sendText,
     });
-    const response = await reservationChecker(numGuests, date, time);
+    const response = await reservationChecker(numGuests, date, time, false);
     if (response.available) {
       await newReservation.save();
       if (sendText) await sendResText(newReservation);
@@ -241,10 +241,10 @@ reservationRouter.get("/check", async (req, res) => {
   const numGuests = req.query.numGuests;
   const date = req.query.date;
   const time = req.query.time;
-  const override = req.query.override; 
+  const override = req.query.override === "true";
 
   const response = await reservationChecker(numGuests, date, time, override);
-
+  response.override = override;
   res.status(200).json(response);
 });
 

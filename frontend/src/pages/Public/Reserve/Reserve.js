@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { fadeInDown } from "animations";
 import FoundTable from "./FoundTable";
 import { useNavigate } from "react-router-dom";
+import HolidayPopup from "components/HolidayPopup";
 
 export default function Reserve() {
   const [editing, setEditing] = useState(false);
@@ -36,6 +37,8 @@ export default function Reserve() {
   };
 
   return (
+    <>
+      <HolidayPopup/>
     <form id="res-form">
       <div className="reserve-top">
         Reserve a table below or by phone at 847-332-2330
@@ -83,5 +86,6 @@ export default function Reserve() {
         </div>
       </div>
     </form>
+            </>
   );
 }

@@ -2,7 +2,7 @@ const Reservation = require("./Reservation");
 
 const tableSizes = {
   1: ["2top"],
-  2: ["2top"],
+  2: ["2top", "3top"],
   3: ["3top", "4top"],
   4: ["4top", "6top"],
   5: ["6top"],
@@ -98,10 +98,23 @@ function getPrevSlot(time, i) {
 }
 
 function isSpecialDate(date) {
+  const month = date.getMonth();
+  const day = date.getDate(); 
+
+  const specialDateList = [
+    { month: 11, day: 24 }, 
+    { month: 11, day: 26 }, 
+    { month: 11, day: 31 }, 
+    { month: 0,  day: 1 },  
+    { month: 0,  day: 2 },
+  ]
+
+  const isSpecialDate = specialDateList.some(specialDate => 
+    specialDate.month === month && specialDate.day === day
+  );
+
   return (
-    date.getFullYear() === 2024 &&
-    date.getMonth() === 10 && 
-    date.getDate() === 29
+    isSpecialDate
   );
 }
 
@@ -113,16 +126,17 @@ function isTimeValid(dateStr, timeStr) {
 
   desiredDate.setHours(hours, minutes, 0, 0);
   const desiredDateTime = desiredDate;
-
+  
   const now = new Date();
 
   const isToday = desiredDateTime.toDateString() === now.toDateString();
+  const desiredTimeInMinutes = hours * 60 + minutes;
 
   if (isToday) {
     const timeDifference = desiredDateTime - now;
     const minutesDifference = timeDifference / (1000 * 60);
 
-    if (minutesDifference < 30) {
+    if (Math.abs(minutesDifference) < 30) {
       return false;
     }
   }
@@ -137,15 +151,13 @@ function isTimeValid(dateStr, timeStr) {
     latestTimeInMinutes = 19 * 60 + 45;
   }
 
-  if (dayOfWeek === 7) {
+  if (dayOfWeek === 0) {
     earliestTimeInMinutes = 12 * 60;
   } else {
     earliestTimeInMinutes = 11 * 60 + 30;
   }
 
-  const desiredTimeInMinutes = hours * 60 + minutes;
 
-  
   if (isSpecialDate(desiredDate)) {
     earliestTimeInMinutes = 16 * 60; 
   }
@@ -160,7 +172,7 @@ function isTimeValid(dateStr, timeStr) {
   return true;
 }
 
-async function reservationChecker(numGuests, desiredDate, desiredTime, override = false) {
+async function reservationChecker(numGuests, desiredDate, desiredTime, override) {
   let suggestedTimes = [];
 
   const targetDate = new Date(desiredDate);
@@ -168,7 +180,6 @@ async function reservationChecker(numGuests, desiredDate, desiredTime, override 
   const chicagoTargetDate = new Date(
     `${targetDate.toLocaleString("en-US", { timeZone: "America/Chicago" })} GMT`,
   );
-
 
   const startOfDay = new Date(
     Date.UTC(
@@ -206,7 +217,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime, override 
     );
     if (foundTable) return { available: foundTable, suggestions: [] };
   }
-  let i = 0;
+  let i = 1;
   while (suggestedTimes.length < 5) {
     const prev = getPrevSlot(desiredTime, i);
     const next = getNextSlot(desiredTime, i);
