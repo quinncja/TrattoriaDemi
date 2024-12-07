@@ -150,17 +150,20 @@ function ResModal(props) {
               </option>
             ))}
           </select>
+          <motion.div> 
+              <motion.label layout="position" className="date-label" htmlFor="date">
+                {" "}
+                {date ? dateToString(date) : "Date"}{" "}
+              </motion.label>
+              <motion.input
+              layout="position"
+                className={`new-res-input  ${!date && "new-res-unselect"}`}
+                id="date"
+                type="date"
+                onChange={(event) => handleChange(event)}
+              />
+            </motion.div> 
 
-          <label className="date-label" htmlFor="date">
-            {" "}
-            {date ? dateToString(date) : "Date"}{" "}
-          </label>
-          <input
-            className={`new-res-input  ${!date && "new-res-unselect"}`}
-            id="date"
-            type="date"
-            onChange={(event) => handleChange(event)}
-          />
 
             <label className="date-label" htmlFor="time"> {time} </label>
           <select
