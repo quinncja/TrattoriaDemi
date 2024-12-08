@@ -8,15 +8,23 @@ import { AnimatePresence, motion } from "framer-motion";
 import { fadeInModal } from "animations";
 import { checkReservation } from "api";
 import { toast } from "sonner";
+import { TZDate } from "@date-fns/tz";
 
 dotPulse.register()
 
 function NewRes(props) {
   const { submitRes, setNewRes, submitting, defaultDate} = props;
+  const year = defaultDate.getFullYear();
+  const month = (defaultDate.getMonth()).toString().padStart(2, '0');
+  const day = defaultDate.getDate().toString().padStart(2, '0');
+  
+  const timeZone = 'America/Chicago';
+  const chicagoDate = new TZDate(year, month, day, timeZone);
+
   const [name, setName] = useState(null);
   const [phone, setPhone] = useState(null);
   const [numGuests, setGuests] = useState(null);
-  const [date, setDate] = useState(defaultDate);
+  const [date, setDate] = useState(chicagoDate);
   const [time, setTime] = useState(null);
   const [notes, setNotes] = useState(null);
   const [response, setResponse] = useState(null);
@@ -39,8 +47,6 @@ function NewRes(props) {
   const tfClass = response ? response.available ? "green" : "red" : "";
   const tfOptions = response ? response.available ? null :  sortResponse(response.suggestions) : null;
 
-
-  console.log(response)
   const tableSizes = {
     1: ["2top"],
     2: ["2top"],
