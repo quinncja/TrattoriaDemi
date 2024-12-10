@@ -5,7 +5,7 @@ import ReviewDisplayer from "components/ReviewDisplayer";
 import { useNavigate } from "react-router-dom";
 import ImageDisplayer from "./Gallery/ImageDisplayer";
 import ManyItems from "food_pictures/ManyItemsCompressed.jpg";
-import Interior from "images/FullSizeRender.webp";
+import Interior from "images/WinterInterior.webp";
 import EmblemBanner from "components/EmblemBanner";
 import { welcomeSvg } from "svg";
 import SuperLine from "images/Gold under.webp";
