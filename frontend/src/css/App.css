@@ -18,7 +18,7 @@
   --green: #008209;
   --dark-red: #ad1111;
   --nice-gray: rgb(10, 10, 10);
-  --black: #151319;
+  --black: rgb(21, 19, 25);
   --dark-black: #1d1b28;
   --light-black: #444444;
   --border-color: #5b5b5b57;
@@ -1570,7 +1570,7 @@ button {
   padding: 10px 20px;
   box-sizing: border-box;
   background-color: var(--black);
-  box-shadow: rgba(199, 199, 199, 0.25) 0px 0px 25px;
+  box-shadow: rgba(158, 158, 158, 0.25) 0px 0px 5px;
   border-radius: 3px;
   font-weight: 600;
   text-align: center;
