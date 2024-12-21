@@ -40,7 +40,8 @@ function convertTo12Hour(time) {
 }
 
 function sendUpdatedResText(reservation) {
-  client.messages.create({
+  try {
+    const message = client.messages.create({
     body: `${
       reservation.name
     }, \n \nYour reservation has been updated! \n\nWe look forward to serving your party of ${numberToWord(
@@ -53,6 +54,10 @@ function sendUpdatedResText(reservation) {
     from: "+18447275525",
     to: reservation.phone,
   });
+  return message;
+  } catch (err) {
+    console.error("Error sending updated reservation text:", err);
+  }
 }
 
 module.exports = {

@@ -40,7 +40,8 @@ function convertTo12Hour(time) {
 }
 
 function sendResText(reservation) {
-  client.messages.create({
+  try {
+    const message = client.messages.create({
     body: `${
       reservation.name
     }, \n \nWe are happy to confirm your reservation for ${numberToWord(
@@ -53,6 +54,10 @@ function sendResText(reservation) {
     from: "+18447275525",
     to: reservation.phone,
   });
+    return message;
+  } catch (err) {
+    console.error("Error sending reservation text:", err);
+  }
 }
 
 module.exports = {
