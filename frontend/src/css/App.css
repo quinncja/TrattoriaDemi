@@ -253,7 +253,7 @@ p {
     font-size: 1.2rem;
   }
   .subtle-button {
-    font-size: 0.8rem !important;
+    font-size: 1rem !important;
   }
 }
 html,
@@ -1352,11 +1352,10 @@ button {
 }
 
 .faq-a {
-  font-size: 1.5rem;
-  font-weight: 800;
   user-select: none;
   font-family: "Caxton Bold BT";
   color: var(--paper-white);
+  font-size: 1.125rem
 }
 
 .deals {
@@ -1370,17 +1369,18 @@ button {
   justify-content: center;
   align-items: center;
   width: 80%;
-  padding: 45px;
+  padding: 25px;
   gap: 45px;
 }
 .deal-svg > svg {
-  width: 65px;
-  height: 65px;
+  width: 45px;
+  height: 45px;
   stroke: #2d2d34;
 }
 
 .cal-svg {
-  margin-left: 5px;
+  margin-left: 13px;
+  margin-right: 5px;
 }
 
 .deal-texts {
@@ -1409,7 +1409,7 @@ button {
 
 .excluding-text {
   color: var(--light-black);
-  margin-bottom: -30px;
+  margin-bottom: -20px;
   text-align: right;
   font-size: 14px;
 }
