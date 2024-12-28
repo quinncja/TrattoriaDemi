@@ -36,9 +36,15 @@ export default function Reserve() {
     setEditing(true);
   };
 
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth();
+  
+  const isHolidays = month === 11 || (month === 0 && day === 1)
+
   return (
     <>
-      <HolidayPopup/>
+    {isHolidays && <HolidayPopup/>}
     <form id="res-form">
       <div className="reserve-top">
         Reserve a table below or by phone at 847-332-2330
