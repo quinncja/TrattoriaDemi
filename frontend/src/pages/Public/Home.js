@@ -5,7 +5,8 @@ import ReviewDisplayer from "components/ReviewDisplayer";
 import { useNavigate } from "react-router-dom";
 import ImageDisplayer from "./Gallery/ImageDisplayer";
 import ManyItems from "food_pictures/ManyItemsCompressed.jpg";
-import Interior from "images/WinterInterior.webp";
+import winterInterior from "images/WinterInterior.webp";
+import normalInterior from "images/normalInterior.jpg"
 import EmblemBanner from "components/EmblemBanner";
 import { welcomeSvg } from "svg";
 import SuperLine from "images/Gold under.webp";
@@ -20,9 +21,16 @@ export default function Home() {
   const { scrollY } = useScroll();
   const color = useTransform(scrollY, [100, 500], ["#ffffff", "#d3963a"]);
 
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth();
+  
+  const isHolidays = month === 11 || (month === 0 && day === 1)
+  const interiorPic = isHolidays ? winterInterior : normalInterior
+  
   return (
     <>
-    <HolidayPopup/>
+    {isHolidays && <HolidayPopup/>}
     <div className="home">
       <div className="home-header">
         <div className="home-pic">
@@ -134,7 +142,7 @@ export default function Home() {
             objectPosition: "center",
             filter: "brightness(0.95) contrast(1.05)",
           }}
-          src={Interior}
+          src={interiorPic}
           alt="Cozy-interior"
           loading="lazy"
         />
