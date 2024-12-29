@@ -12,7 +12,7 @@ import {
 import { Toaster, toast } from "sonner";
 import ResModal from "./ResModal";
 import { dateToString } from "dateUtils";
-import Loading from "./Loading.js"
+import Loading from "./Loading.js";
 import { AnimatePresence } from "framer-motion";
 
 function Reversations() {
@@ -20,7 +20,7 @@ function Reversations() {
   const [newResOpen, setNewRes] = useState(false);
   const [resModalOpen, setResModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   function getCurrentShift() {
     const now = new Date();
@@ -82,8 +82,8 @@ function Reversations() {
   const { data: reservation } = ReservationSSE();
 
   const areDatesEqual = (d1, d2) => {
-    return d1.toDateString() === d2.toDateString(); 
-  }
+    return d1.toDateString() === d2.toDateString();
+  };
 
   useEffect(() => {
     if (reservation) {
@@ -113,7 +113,6 @@ function Reversations() {
     );
   }
 
-
   function addResLocal(newRes) {
     const updatedReservations = [...reservations, newRes];
     updatedReservations.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -121,20 +120,20 @@ function Reversations() {
   }
 
   async function submitRes(res) {
-    setSubmitting(true)
+    setSubmitting(true);
     try {
       const response = await postAdminReservation(res);
       if (response.status === 201) {
         toast.success("Reservation created");
         const reservationDate = new Date(res.date);
-        if(areDatesEqual(reservationDate, date)) addResLocal(response.data);
+        if (areDatesEqual(reservationDate, date)) addResLocal(response.data);
         setNewRes(false);
-        setSubmitting(false)
+        setSubmitting(false);
       }
     } catch (error) {
       toast.error("Failed to create new reservation");
       console.error(error);
-      setSubmitting(false)
+      setSubmitting(false);
     }
   }
 
@@ -147,7 +146,7 @@ function Reversations() {
 
   async function patchRes(res, state) {
     const id = res._id;
-    const oldReservations = [...reservations]
+    const oldReservations = [...reservations];
     const updatedReservations = reservations.map((r) =>
       r._id === res._id
         ? { ...r, state: state, arrivedTime: getCurrentTime() }
@@ -158,14 +157,18 @@ function Reversations() {
       setReservations(updatedReservations);
     } catch (error) {
       if (!navigator.onLine) {
-        toast.error(`Failed to mark reservation as ${state} -- there is no internet on this device`);
+        toast.error(
+          `Failed to mark reservation as ${state} -- there is no internet on this device`
+        );
       } else {
-        const toastError = state === "cancel" ? "Failed to cancel the reservation" : `Failed to mark reservation as ${state}`
+        const toastError =
+          state === "cancel"
+            ? "Failed to cancel the reservation"
+            : `Failed to mark reservation as ${state}`;
         toast.error(toastError);
       }
       setReservations(oldReservations);
     }
-    
   }
 
   async function loadReservations(date, signal) {
@@ -179,24 +182,23 @@ function Reversations() {
       //setReservations(sortedReservations);
       setReservations(sortedReservations);
     } catch (error) {
-      toast.error(`Failed to load reservations for ${dateToString(date)}`)
+      toast.error(`Failed to load reservations for ${dateToString(date)}`);
       console.log(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function updateRes(updatedRes) {
-    try{
+    try {
       const response = await updateReservation(updatedRes._id, updatedRes);
-      if(response.status === 200){
-        console.log(response)
+      if (response.status === 200) {
+        console.log(response);
         toast.success("Reservation updated");
-        setResModal(false)
+        setResModal(false);
 
-        const updResDate = new Date(updateRes.date)
-        const areDatesEqual =
-        updResDate.toDateString() === date.toDateString();
+        const updResDate = new Date(updateRes.date);
+        const areDatesEqual = updResDate.toDateString() === date.toDateString();
 
         setReservations((prev) => {
           if (areDatesEqual) {
@@ -208,12 +210,11 @@ function Reversations() {
           }
         });
 
-        setReservations((prev) => 
-        prev.map((res) => (res._id === updatedRes._id ? updatedRes : res))
-      );
+        setReservations((prev) =>
+          prev.map((res) => (res._id === updatedRes._id ? updatedRes : res))
+        );
       }
-
-    } catch (error){
+    } catch (error) {
       toast.error("Failed to updated reservation");
       console.log(error);
     }
@@ -232,30 +233,29 @@ function Reversations() {
 
   document.body.classList.toggle("no-scroll", newResOpen);
 
-  function closeNewRes(){
-    setNewRes(false)
+  function closeNewRes() {
+    setNewRes(false);
   }
-
 
   return (
     <div className="reservations-container">
-      <AnimatePresence> 
-      {newResOpen && (
-        <NewRes
-          selfClose={closeNewRes}
-          setNewRes={setNewRes}
-          submitRes={submitRes}
-          submitting={submitting}
-          defaultDate={date}
-        />
-      )}
-      {resModalOpen && (
-        <ResModal
-          selfClose={() => setResModal(false)}
-          updateRes={updateRes}
-          res={resModalOpen}
-        />
-      )}
+      <AnimatePresence>
+        {newResOpen && (
+          <NewRes
+            selfClose={closeNewRes}
+            setNewRes={setNewRes}
+            submitRes={submitRes}
+            submitting={submitting}
+            defaultDate={date}
+          />
+        )}
+        {resModalOpen && (
+          <ResModal
+            selfClose={() => setResModal(false)}
+            updateRes={updateRes}
+            res={resModalOpen}
+          />
+        )}
       </AnimatePresence>
       <Toaster richColors position="bottom-center" />
       <div className="reservations-header">
@@ -282,7 +282,7 @@ function Reversations() {
         setResModal={setResModal}
         loading={loading}
       />
-      <Loading/>
+      <Loading />
     </div>
   );
 }

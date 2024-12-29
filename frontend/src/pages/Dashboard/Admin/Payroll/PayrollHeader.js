@@ -44,7 +44,7 @@ function PayrollHeader({
           <div className="button-row">
             {!isNew && (
               <button
-               title="Cancel"
+                title="Cancel"
                 className="submit-button less-height payroll-btn"
                 type="button"
                 onClick={handleEdit}

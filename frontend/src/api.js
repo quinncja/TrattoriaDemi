@@ -35,6 +35,22 @@ export async function getReservationsByDate(date, signal) {
   }
 }
 
+export async function getTimeListByDate(date) {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/reservations/timelist?date=${date}`,
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.log("Request canceled", error.message);
+    } else {
+      throw error;
+    }
+  }
+}
+
 export async function patchReservation(id, state) {
   try {
     const response = await axios({
@@ -60,9 +76,40 @@ export async function updateReservation(id, updatedRes) {
   }
 }
 
-export async function checkReservation(numGuests, date, time, signal, override = false) {
+export async function deleteTimeblock(id) {
   try {
-    console.log(numGuests, date, time, signal, override)
+    const response = await axios({
+      method: "delete",
+      url: `${API_URL}api/reservations/timeblock/${id}`,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateTimeblock(id, updatedBlock) {
+  try {
+    const response = await axios({
+      method: "put",
+      url: `${API_URL}api/reservations/timeblock/${id}/`,
+      data: updatedBlock,
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function checkReservation(
+  numGuests,
+  date,
+  time,
+  signal,
+  override = false
+) {
+  try {
+    console.log(numGuests, date, time, signal, override);
     const response = await axios({
       method: "get",
       url: `${API_URL}api/reservations/check`,
@@ -74,7 +121,7 @@ export async function checkReservation(numGuests, date, time, signal, override =
       },
       signal,
     });
-    console.log(response)
+    console.log(response);
     return response.data;
   } catch (error) {
     if (axios.isCancel(error)) {
@@ -82,6 +129,19 @@ export async function checkReservation(numGuests, date, time, signal, override =
     } else {
       throw error;
     }
+  }
+}
+
+export async function postTimeBlock(newBlock) {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${API_URL}api/reservations/timeblock`,
+      data: newBlock,
+    });
+    return response;
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -416,6 +476,18 @@ export async function getReservationsData() {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/reservations/stats`,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getTimeblocks() {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${API_URL}api/reservations/timeblock`,
     });
     return response.data;
   } catch (error) {

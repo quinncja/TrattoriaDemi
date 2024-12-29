@@ -5,13 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { fadeInMany, fadeInReservations } from "animations";
 
 function ReservationDisplayer(props) {
-  const {
-    liveRes,
-    cancelledRes,
-    patchRes,
-    setResModal,
-    loading
-  } = props;
+  const { liveRes, cancelledRes, patchRes, setResModal, loading } = props;
 
   function handleBtnClick(res, state) {
     patchRes(res, state);
@@ -57,7 +51,7 @@ function ReservationDisplayer(props) {
         variants={fadeInReservations}
         custom={index}
         layout
-        style={{ width: "100%"}}
+        style={{ width: "100%" }}
       >
         <Reservation
           key={res._id}
@@ -69,7 +63,7 @@ function ReservationDisplayer(props) {
     ));
   }
 
-  if(loading) return "";
+  if (loading) return "";
 
   if (sortedLiveRes.length === 0 && sortedCancelledRes.length === 0) {
     return (
@@ -95,24 +89,19 @@ function ReservationDisplayer(props) {
         width: "100%",
       }}
     >
-    <AnimatePresence> 
-      {sortedLiveRes && sortedLiveRes.length > 0 && (
-        <div className="reservations-displayer">
+      <AnimatePresence>
+        {sortedLiveRes && sortedLiveRes.length > 0 && (
+          <div className="reservations-displayer">
             {mapReservations(sortedLiveRes)}
-        </div>
-      )}
-      {sortedCancelledRes && sortedCancelledRes.length > 0 && (
-               <div
-               className="cancelled-res"
-             >
-            <div className="cancelled-text">
-              Cancelled
-            </div>
-             {mapReservations(sortedCancelledRes)}
-            </div>
-      )}
-    </AnimatePresence>
-
+          </div>
+        )}
+        {sortedCancelledRes && sortedCancelledRes.length > 0 && (
+          <div className="cancelled-res">
+            <div className="cancelled-text">Cancelled</div>
+            {mapReservations(sortedCancelledRes)}
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

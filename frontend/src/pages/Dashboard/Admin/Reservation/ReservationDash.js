@@ -1,14 +1,94 @@
-import { getReservationsData } from "api";
+import {
+  deleteTimeblock,
+  getReservationsData,
+  getTimeblocks,
+  postTimeBlock,
+  updateTimeblock,
+} from "api";
 import { useEffect, useState } from "react";
 import BarChart from "./BarChart";
+import { peopleSvg, plusSvg, resBookSvg } from "svg";
+import TimeBlockPopup from "./TimeBlockPopup";
+import TimeBlock from "./Timeblock";
+import LineChart from "./LineChart";
+import { toast } from "sonner";
 
 function ReservationDash() {
-  const [currentChart, setCurrent] = useState("today");
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [currentChart, setCurrent] = useState("week");
   const [data, setData] = useState({
-    today: null,
+    week: null,
     month: null,
     year: null,
   });
+  const [timeblocks, setTimeblocks] = useState();
+  const closePopup = () => {
+    clearEditingBlock();
+    setPopupOpen(false);
+  };
+
+  function sortRepeating(arr) {
+    return arr.sort((a, b) => {
+      const da = new Date(a.date);
+      const db = new Date(b.date);
+
+      if (da.getMonth() !== db.getMonth()) {
+        return da.getMonth() - db.getMonth();
+      }
+      return da.getDate() - db.getDate();
+    });
+  }
+
+  function sortUpcoming(arr) {
+    return arr.sort((a, b) => new Date(a.date) - new Date(b.date));
+  }
+
+  const submitBlock = async (newBlock) => {
+    try {
+      const response = await postTimeBlock(newBlock);
+      const createdBlock = response.data;
+      setTimeblocks((prev) => {
+        if (createdBlock.repeat) {
+          const updatedRepeating = sortRepeating([
+            ...prev.repeating,
+            createdBlock,
+          ]);
+          return {
+            ...prev,
+            repeating: updatedRepeating,
+          };
+        } else {
+          const updatedUpcoming = sortUpcoming([
+            ...prev.upcoming,
+            createdBlock,
+          ]);
+          return {
+            ...prev,
+            upcoming: updatedUpcoming,
+          };
+        }
+      });
+      closePopup();
+      toast.success("Timeblock successfuly created");
+    } catch (error) {
+      toast.error("Failed to create Timeblock");
+    }
+  };
+
+  useEffect(() => {
+    const loadTimeblocks = async () => {
+      const loadedData = await getTimeblocks();
+
+      const sortedData = {
+        repeating: sortRepeating(loadedData.repeating),
+        upcoming: sortUpcoming(loadedData.upcoming),
+      };
+      console.log(sortedData);
+      setTimeblocks(sortedData);
+    };
+
+    loadTimeblocks();
+  }, []);
 
   useEffect(() => {
     const loadData = async () => {
@@ -20,149 +100,315 @@ function ReservationDash() {
     loadData();
   }, []);
 
-  const filterObjs = [
+  const resCountItems = [
     {
-      text: "Today",
+      title: "Today",
       id: "today",
+      ...data.today,
     },
     {
-      text: "Month",
+      title: "Week",
+      id: "week",
+      ...data.week,
+    },
+    {
+      title: "Month",
       id: "month",
+      ...data.month,
     },
     {
-      text: "Year",
+      title: "Year",
       id: "year",
+      ...data.year,
+    },
+    {
+      title: "All time",
+      id: "allTime",
+      ...data.allTime,
     },
   ];
 
-  const filterButtons = () => {
+  const resCount = (obj) => {
     return (
-      <div style={{ display: "flex", flexDirection: "row", gap: "5px" }}>
-        {filterObjs.map((obj) => {
-          return (
-            <button
-              onClick={() => setCurrent(obj.id)}
-              className={`filter-button ${
-                currentChart === obj.id && "active-filter-button"
-              }`}
+      <div className="res-count-wrapper">
+        <div
+          onClick={() => setCurrent(obj.id)}
+          className={`res-count filter-button ${
+            currentChart === obj.id && "active-filter-button"
+          }`}
+        >
+          <label className="res-count-label"> {obj.title} </label>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              gap: "10px",
+              width: "90%",
+              marginInline: "auto",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "10px",
+                minWidth: "3.5ch",
+                justifyContent: "space-between",
+              }}
             >
-              {obj.text}
-            </button>
-          );
-        })}
+              {resBookSvg()}
+              {obj.totalReservations}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "10px",
+                minWidth: "3.5ch",
+                justifyContent: "space-between",
+              }}
+            >
+              {peopleSvg()}
+              {obj.totalGuests}
+            </div>
+          </div>
+        </div>
+        {currentChart === obj.id && <div className="connection-line" />}
       </div>
     );
   };
 
-  const numberBoxes = () => {
-    return (
-      <div
-        className="number-boxes"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "row",
-          gap: "6px",
-          paddingRight: "6px",
-        }}
-      >
-        <div className="res-amount res-amount-header admin-res-amount">
-          {data[currentChart].reservationCount}
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4 19.5C4 18.837 4.26339 18.2011 4.73223 17.7322C5.20107 17.2634 5.83696 17 6.5 17H20"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M6.5 2H20V22H6.5C5.83696 22 5.20107 21.7366 4.73223 21.2678C4.26339 20.7989 4 20.163 4 19.5V4.5C4 3.83696 4.26339 3.20107 4.73223 2.73223C5.20107 2.26339 5.83696 2 6.5 2V2Z"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-        <div className="res-amount res-amount-header admin-res-amount">
-          {data[currentChart].totalGuests}
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M16 3.13C16.8604 3.3503 17.623 3.8507 18.1676 4.55231C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89317 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88"
-              stroke="#ffffff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-      </div>
-    );
+  const [editingBlock, setEditingBlock] = useState({
+    date: null,
+    startTime: null,
+    endTime: null,
+    repeat: null,
+    type: null,
+    editing: false,
+  });
+
+  const clearEditingBlock = () => {
+    setEditingBlock({
+      date: null,
+      startTime: null,
+      endTime: null,
+      repeat: null,
+      type: null,
+      editing: false,
+    });
   };
 
-  const topBar = () => {
-    return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "5px",
-          height: "30px",
-          justifyContent: "space-between",
-          paddingTop: "5px",
-        }}
-      >
-        {filterButtons()}
-        {numberBoxes()}
-      </div>
-    );
+  const editBlock = (block) => {
+    setEditingBlock({ ...block, editing: true });
+    setPopupOpen(true);
+  };
+
+  const updateBlock = async (id, updatedFields) => {
+    try {
+      const response = await updateTimeblock(id, updatedFields);
+      console.log(response);
+      const updatedBlock = response.data;
+      setTimeblocks((prev) => {
+        let newRepeating = prev.repeating.filter((b) => b._id !== id);
+        let newUpcoming = prev.upcoming.filter((b) => b._id !== id);
+
+        if (updatedBlock.repeat) {
+          newRepeating.push(updatedBlock);
+          newRepeating = sortRepeating(newRepeating);
+        } else {
+          newUpcoming.push(updatedBlock);
+          newUpcoming = sortUpcoming(newUpcoming);
+        }
+
+        return {
+          ...prev,
+          repeating: newRepeating,
+          upcoming: newUpcoming,
+        };
+      });
+
+      toast.success("Timeblock updated");
+      closePopup();
+    } catch (error) {
+      toast.error("Timeblock failed to update");
+    }
+  };
+
+  const deleteBlock = async (id) => {
+    try {
+      await deleteTimeblock(id);
+
+      setTimeblocks((prev) => {
+        const newRepeating = prev.repeating.filter((b) => b._id !== id);
+        const newUpcoming = prev.upcoming.filter((b) => b._id !== id);
+
+        return {
+          ...prev,
+          repeating: newRepeating,
+          upcoming: newUpcoming,
+        };
+      });
+
+      toast.success("Timeblock deleted");
+      closePopup();
+    } catch (error) {
+      toast.error("Timeblock failed to delete");
+    }
   };
 
   return (
-    <div className="dash-item">
-      <div>
-        <h2> Reservations </h2>
-        {data[currentChart] && topBar()}
-        <div className="bar-wrapper">
-          {data[currentChart] && (
-            <BarChart data={data[currentChart].guestCounts} />
-          )}
+    <div
+      className="dash-item dash-item-full"
+      style={{
+        gridRow: "span 2",
+        background: "none",
+        border: "none",
+        padding: "0px",
+        display: "grid",
+        gridTemplateColumns: ".5fr 1fr .5fr",
+        gridTemplateRows: "1fr .8fr",
+        gap: "12px",
+      }}
+    >
+      <div
+        className="faux-dash-item res-count-item"
+        style={{ gridRow: "span 1" }}
+      >
+        <h2 style={{ height: "45px" }}> Reservations </h2>
+        <div className="res-dash-left todays-res">
+          {resCountItems.map((item) => {
+            return resCount(item);
+          })}
         </div>
       </div>
+
+      <div className="faux-dash-item breakdown" style={{ gridRow: "span 1" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 style={{ height: "45px" }}> Breakdown </h2>
+        </div>
+        <div className="res-dash-left">
+          <div className="bar-wrapper">
+            {data[currentChart] && <BarChart data={data[currentChart].data} />}
+          </div>
+        </div>
+      </div>
+
+      <div className="faux-dash-item" style={{ gridRow: "span 2" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "15px",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 style={{ height: "45px" }}> Timeblocks </h2>
+          <button
+            className="new-payroll edit-employees new-block"
+            onClick={() => setPopupOpen(true)}
+          >
+            {" "}
+            {plusSvg()} New{" "}
+          </button>
+        </div>
+        <div className="res-dash-left timeblock-container">
+          <div
+            className="res-count timeblocks no-inner-padding"
+            style={{ width: "300px" }}
+          >
+            <label className="res-count-label" style={{ marginLeft: "5px" }}>
+              {" "}
+              Upcoming{" "}
+            </label>
+            {timeblocks && timeblocks.upcoming.length > 0 ? (
+              timeblocks.upcoming.map((item) => (
+                <TimeBlock item={item} editBlock={editBlock} />
+              ))
+            ) : (
+              <div
+                style={{
+                  fontSize: "14px",
+                  opacity: ".7",
+                  width: "100%",
+                  textAlign: "center",
+                  margin: "auto",
+                }}
+              >
+                {" "}
+                No upcoming timeblocks{" "}
+              </div>
+            )}
+          </div>
+          <div className="res-count timeblocks no-inner-padding">
+            <label className="res-count-label" style={{ marginLeft: "5px" }}>
+              {" "}
+              Repeating{" "}
+            </label>
+            {timeblocks && timeblocks.repeating.length > 0 ? (
+              timeblocks.repeating.map((item) => (
+                <TimeBlock item={item} editBlock={editBlock} />
+              ))
+            ) : (
+              <div
+                style={{
+                  fontSize: "14px",
+                  opacity: ".7",
+                  width: "100%",
+                  textAlign: "center",
+                  margin: "auto",
+                }}
+              >
+                {" "}
+                No repeating timeblocks{" "}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="faux-dash-item breakdown"
+        style={{ gridColumn: "span 2" }}
+      >
+        <div className={`connector-line cl-${currentChart}`} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <h2 style={{ height: "45px" }}> History </h2>
+        </div>
+        <div className="res-dash-left">
+          <div className="pointer-events" style={{ height: "40vh" }}>
+            {data[currentChart] && (
+              <LineChart
+                data={data[currentChart].timeSeries}
+                view={currentChart}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {popupOpen && (
+        <TimeBlockPopup
+          editingBlock={editingBlock}
+          submitBlock={submitBlock}
+          closeSelf={closePopup}
+          updateBlock={updateBlock}
+          deleteBlock={deleteBlock}
+        />
+      )}
     </div>
   );
 }

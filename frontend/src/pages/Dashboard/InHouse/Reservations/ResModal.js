@@ -1,72 +1,99 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { openBookSvg } from "svg";
 import { dateToString } from "dateUtils";
 import { convertTo12Hour, convertTo24Hour } from "functions";
 import { fadeInModal } from "animations";
 import { motion } from "framer-motion";
+import { getTimeListByDate } from "api";
+import { toast } from "sonner";
 
 function ResModal(props) {
   const { res, selfClose, updateRes } = props;
+  console.log(res);
 
   const [numGuests, setGuests] = useState(res.numGuests || null);
   const [date, setDate] = useState(new Date(res.date) || null);
   const [time, setTime] = useState(convertTo12Hour(res.time) || null);
 
+  const [timeList, setTimeList] = useState(["Loading"]);
+
+  function formatDate(date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  }
+
+  useEffect(() => {
+    const loadTimeList = async () => {
+      try {
+        const data = await getTimeListByDate(formatDate(date));
+        setTimeList(data);
+      } catch (error) {
+        toast.error("Failed to load timelist");
+      }
+    };
+
+    loadTimeList();
+  }, [date]);
+
   const handleUpdate = () => {
     const updatedRes = {
-        ...res,
-        numGuests,
-        date,
-        time: convertTo24Hour(time),
-    }
-    updateRes(updatedRes)
-  }
-  const hourOptions = [
-    "11:30am",
-    "11:45am",
-    "12:00pm",
-    "12:15pm",
-    "12:30pm",
-    "12:45pm",
-    "1:00pm",
-    "1:15pm",
-    "1:30pm",
-    "1:45pm",
-    "2:00pm",
-    "2:15pm",
-    "2:30pm",
-    "2:45pm",
-    "3:00pm",
-    "3:15pm",
-    "3:30pm",
-    "3:45pm",
-    "4:00pm",
-    "4:15pm",
-    "4:30pm",
-    "4:45pm",
-    "5:00pm",
-    "5:15pm",
-    "5:30pm",
-    "5:45pm",
-    "6:00pm",
-    "6:15pm",
-    "6:30pm",
-    "6:45pm",
-    "7:00pm",
-    "7:15pm",
-    "7:30pm",
-    "7:45pm",
-    "8:00pm",
-    "8:15pm",
-    "8:30PM",
-    "8:45PM",
-    "9:00PM",
-  ];
+      ...res,
+      numGuests,
+      date,
+      tableSize: tableSizes[numGuests][0],
+      time: convertTo24Hour(time),
+    };
+    updateRes(updatedRes);
+  };
+
+  const tableSizes = {
+    1: ["2top"],
+    2: ["2top", "3top"],
+    3: ["3top", "4top"],
+    4: ["4top", "6top"],
+    5: ["6top"],
+    6: ["6top"],
+    7: ["6top"],
+    8: ["xl"],
+    9: ["xl"],
+    10: ["xl"],
+    11: ["2xl"],
+    12: ["2xl"],
+    13: ["2xl"],
+    14: ["2xl"],
+    15: ["3xl"],
+    16: ["3xl"],
+    17: ["3xl"],
+    18: ["3xl"],
+    19: ["4xl"],
+    20: ["4xl"],
+    21: ["5xl"],
+    22: ["5xl"],
+    23: ["5xl"],
+    24: ["5xl"],
+    25: ["6xl"],
+    26: ["6xl"],
+    27: ["6xl"],
+    28: ["6xl"],
+    29: ["6xl"],
+    30: ["6xl"],
+  };
 
   const handleChange = (event) => {
     if (event.target.id === "date") {
-      const dateArr = event.target.value.split('-')
-      const newDate = new Date( Number(dateArr[0]), Number(dateArr[1]) - 1, Number(dateArr[2]) )
+      const dateArr = event.target.value.split("-");
+      const newDate = new Date(
+        Number(dateArr[0]),
+        Number(dateArr[1]) - 1,
+        Number(dateArr[2])
+      );
       setDate(newDate);
     }
     if (event.target.id === "guests") {
@@ -78,9 +105,9 @@ function ResModal(props) {
   };
 
   const guestLabel = (num) => {
-    if (num === 1) return "1 guest"
-    else return `${num} guests`
-  }
+    if (num === 1) return "1 guest";
+    else return `${num} guests`;
+  };
 
   const closeModalButton = () => {
     return (
@@ -126,9 +153,12 @@ function ResModal(props) {
         {...fadeInModal}
       />
       <motion.div className="res-modal-container" {...fadeInModal}>
-        <div className="res-modal-header"> 
-        <div style={{fontSize: "1.8rem", fontWeight: "600"}}> Edit Reservation </div>
-        {closeModalButton()}
+        <div className="res-modal-header">
+          <div style={{ fontSize: "1.8rem", fontWeight: "600" }}>
+            {" "}
+            Edit Reservation{" "}
+          </div>
+          {closeModalButton()}
         </div>
         <div className="new-res-input-group">
           <label className="new-res-label"> {openBookSvg()} Table Info</label>
@@ -150,22 +180,28 @@ function ResModal(props) {
               </option>
             ))}
           </select>
-          <motion.div> 
-              <motion.label layout="position" className="date-label" htmlFor="date">
-                {" "}
-                {date ? dateToString(date) : "Date"}{" "}
-              </motion.label>
-              <motion.input
+          <motion.div>
+            <motion.label
               layout="position"
-                className={`new-res-input  ${!date && "new-res-unselect"}`}
-                id="date"
-                type="date"
-                onChange={(event) => handleChange(event)}
-              />
-            </motion.div> 
+              className="date-label"
+              htmlFor="date"
+            >
+              {" "}
+              {date ? dateToString(date) : "Date"}{" "}
+            </motion.label>
+            <motion.input
+              layout="position"
+              className={`new-res-input  ${!date && "new-res-unselect"}`}
+              id="date"
+              type="date"
+              onChange={(event) => handleChange(event)}
+            />
+          </motion.div>
 
-
-            <label className="date-label" htmlFor="time"> {time} </label>
+          <label className="date-label" htmlFor="time">
+            {" "}
+            {time}{" "}
+          </label>
           <select
             className={`new-res-input  ${!time && "new-res-unselect"}`}
             id="time"
@@ -173,9 +209,9 @@ function ResModal(props) {
           >
             <option default hidden value="">
               {" "}
-              Time{" "}
+              {timeList.length > 0 ? "Time" : "No available times"}{" "}
             </option>
-            {hourOptions.map((hour, index) => (
+            {timeList.map((hour, index) => (
               <option data={hour} key={hour}>
                 {hour}
               </option>

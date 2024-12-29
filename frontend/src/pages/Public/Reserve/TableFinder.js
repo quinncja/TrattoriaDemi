@@ -5,8 +5,8 @@ import React, {
   useImperativeHandle,
   useRef,
 } from "react";
-import { convertTo24Hour, convertTo12Hour } from "functions";
-import { checkReservation } from "api";
+import { convertTo12Hour, convertTo24Hour } from "functions";
+import { checkReservation, getTimeListByDate } from "api";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, fadeInDown, fadeInModal } from "animations";
 import Dropdown from "components/Dropdown";
@@ -14,9 +14,10 @@ import { Calendar } from "primereact/calendar";
 import { calendarSvg, peopleSvg, clockSvg, cancelSvg } from "svg";
 import { dateToString } from "dateUtils";
 import { TZDate } from "@date-fns/tz";
+import { toast } from "sonner";
 
 const TableFinder = forwardRef((props, ref) => {
-  const { table, setTable, editing, setEditing } = props;
+  const { table, setTable, setEditing } = props;
   const [numGuests, setGuests] = useState(table?.numGuests || null);
   const [date, setDate] = useState(table?.date ? new Date(table?.date) : null);
   const [time, setTime] = useState(table?.time || "");
@@ -55,236 +56,46 @@ const TableFinder = forwardRef((props, ref) => {
     reset,
   }));
 
-  const times = {
-    mon_thur: [
-      "11:30am",
-      "11:45am",
-      "12:00pm",
-      "12:15pm",
-      "12:30pm",
-      "12:45pm",
-      "1:00pm",
-      "1:15pm",
-      "1:30pm",
-      "1:45pm",
-      "2:00pm",
-      "2:15pm",
-      "2:30pm",
-      "2:45pm",
-      "3:00pm",
-      "3:15pm",
-      "3:30pm",
-      "3:45pm",
-      "4:00pm",
-      "4:15pm",
-      "4:30pm",
-      "4:45pm",
-      "5:00pm",
-      "5:15pm",
-      "5:30pm",
-      "5:45pm",
-      "6:00pm",
-      "6:15pm",
-      "6:30pm",
-      "6:45pm",
-      "7:00pm",
-      "7:15pm",
-      "7:30pm",
-      "7:45pm",
-    ],
-    fri_sat: [
-      "11:30am",
-      "11:45am",
-      "12:00pm",
-      "12:15pm",
-      "12:30pm",
-      "12:45pm",
-      "1:00pm",
-      "1:15pm",
-      "1:30pm",
-      "1:45pm",
-      "2:00pm",
-      "2:15pm",
-      "2:30pm",
-      "2:45pm",
-      "3:00pm",
-      "3:15pm",
-      "3:30pm",
-      "3:45pm",
-      "4:00pm",
-      "4:15pm",
-      "4:30pm",
-      "4:45pm",
-      "5:00pm",
-      "5:15pm",
-      "5:30pm",
-      "5:45pm",
-      "6:00pm",
-      "6:15pm",
-      "6:30pm",
-      "6:45pm",
-      "7:00pm",
-      "7:15pm",
-      "7:30pm",
-      "7:45pm",
-      "8:00pm",
-      "8:15pm",
-      "8:30pm",
-      "8:45pm",
-    ],
-    sun: [
-      "12:00pm",
-      "12:15pm",
-      "12:30pm",
-      "12:45pm",
-      "1:00pm",
-      "1:15pm",
-      "1:30pm",
-      "1:45pm",
-      "2:00pm",
-      "2:15pm",
-      "2:30pm",
-      "2:45pm",
-      "3:00pm",
-      "3:15pm",
-      "3:30pm",
-      "3:45pm",
-      "4:00pm",
-      "4:15pm",
-      "4:30pm",
-      "4:45pm",
-      "5:00pm",
-      "5:15pm",
-      "5:30pm",
-      "5:45pm",
-      "6:00pm",
-      "6:15pm",
-      "6:30pm",
-      "6:45pm",
-      "7:00pm",
-      "7:15pm",
-      "7:30pm",
-      "7:45pm",
-    ],
-  };
-
-  const days = {
-    0: "sun",
-    1: "mon_thur",
-    2: "mon_thur",
-    3: "mon_thur",
-    4: "mon_thur",
-    5: "fri_sat",
-    6: "fri_sat",
-  };
-
-  const half_day = [
-    "4:00pm",
-    "4:15pm",
-    "4:30pm",
-    "4:45pm",
-    "5:00pm",
-    "5:15pm",
-    "5:30pm",
-    "5:45pm",
-    "6:00pm",
-    "6:15pm",
-    "6:30pm",
-    "6:45pm",
-    "7:00pm",
-    "7:15pm",
-    "7:30pm",
-    "7:45pm",
-    "8:00pm",
-    "8:15pm",
-    "8:30pm",
-    "8:45pm",
-  ]
-
   const inputText = {
     guestNum: "Party Size",
     dateTxt: "Date",
     timeTxt: "Time",
     button:
-      time &&
-      availableTimes && availableTimes.length > 0 ? 
-      `${convertTo12Hour(time)} is not available. Select an alternative time` 
-      : `${convertTo12Hour(time)} is not available. Please call us at 847-332-2330 to reserve a table.` 
+      time && availableTimes && availableTimes.length > 0
+        ? `${convertTo12Hour(
+            time
+          )} is not available. Select an alternative time`
+        : `${convertTo12Hour(
+            time
+          )} is not available. Please call us at 847-332-2330 to reserve a table.`,
   };
 
+  function formatDate(date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
 
-  const specialDateList = [
-    { month: 11, day: 24 }, 
-    { month: 11, day: 26 }, 
-    { month: 11, day: 31 }, 
-    { month: 0,  day: 1 },  
-    { month: 0,  day: 2 },
-  ]
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
 
-  const getTimeList = (date) => {
-    const month = date.getMonth();
-    const day = date.getDate(); 
+    return [year, month, day].join("-");
+  }
 
-    const isSpecialDate = specialDateList.some(specialDate => 
-      specialDate.month === month && specialDate.day === day
-    );
-    let tL;
-    if (isSpecialDate) {
-      tL = half_day;
-    } else {
-      const dayOfWeek = date.getDay();
-      const timeKey = days[dayOfWeek];
-      tL = times[timeKey];
-    }
-                    
+  useEffect(() => {
+    const loadTimeList = async () => {
+      setTime(null);
+      console.log(formatDate(date));
+      try {
+        const data = await getTimeListByDate(formatDate(date));
+        setTimeList(data);
+      } catch (error) {
+        toast.error("Failed to load timelist");
+      }
+    };
 
-    const now = new Date();
-    const isToday = date.toDateString() === now.toDateString();
-
-    let filteredTL = tL;
-
-    if (isToday) {
-      const nowPlus30 = new Date(now.getTime() + 30 * 60000);
-
-      filteredTL = tL.filter((time) => {
-        const { hours, minutes } = parseTimeString(time);
-        const timeDate = new Date(date);
-        timeDate.setHours(hours);
-        timeDate.setMinutes(minutes);
-        timeDate.setSeconds(0);
-        timeDate.setMilliseconds(0);
-        return timeDate >= nowPlus30;
-      });
-    }
-
-    const convertedTimeList = filteredTL.map((time) => ({
-      label: time,
-      value: convertTo24Hour(time),
-    }));
-    setTimeList(convertedTimeList);
-  };
-
-  const parseTimeString = (timeString) => {
-    if (!timeString) return { hours: 0, minutes: 0 };
-    const regex = /^(\d{1,2}):(\d{2})(am|pm)$/;
-    const match = timeString.match(regex);
-
-    if (!match) {
-      return { hours: 0, minutes: 0 };
-    }
-
-    let hours = parseInt(match[1], 10);
-    const minutes = parseInt(match[2], 10);
-    const modifier = match[3];
-
-    if (modifier === "pm" && hours !== 12) {
-      hours += 12;
-    } else if (modifier === "am" && hours === 12) {
-      hours = 0;
-    }
-
-    return { hours, minutes };
-  };
+    loadTimeList();
+  }, [date]);
 
   const handleTimeClick = (buttonId) => {
     const [btnTime, btnTable] = buttonId.split("-");
@@ -315,15 +126,14 @@ const TableFinder = forwardRef((props, ref) => {
 
   const handleDateChange = (value) => {
     const year = value.getFullYear();
-    const month = (value.getMonth()).toString().padStart(2, '0');
-    const day = value.getDate().toString().padStart(2, '0');
-    
-    const timeZone = 'America/Chicago';
+    const month = value.getMonth().toString().padStart(2, "0");
+    const day = value.getDate().toString().padStart(2, "0");
+
+    const timeZone = "America/Chicago";
     const chicagoDate = new TZDate(year, month, day, timeZone);
     setTime("");
     setAvailableTimes(null);
     setDate(chicagoDate);
-    getTimeList(chicagoDate);
     setCalOpen(false);
   };
 
@@ -336,6 +146,7 @@ const TableFinder = forwardRef((props, ref) => {
       setGuests(event.target.value);
     }
     if (event.target.id === "time") {
+      console.log(event);
       setTime(event.target.value);
     }
   };
@@ -367,13 +178,6 @@ const TableFinder = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
-    if (editing && date) {
-      getTimeList(date);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
@@ -397,7 +201,13 @@ const TableFinder = forwardRef((props, ref) => {
 
     const fetchChecker = async () => {
       try {
-        const response = await checkReservation(numGuests, date, time, signal, false);
+        const response = await checkReservation(
+          numGuests,
+          date,
+          time,
+          signal,
+          false
+        );
         handleResponse(response);
       } catch (error) {
         setErrorChecking(true);
@@ -440,6 +250,13 @@ const TableFinder = forwardRef((props, ref) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const formatTimeList = (timeList) => {
+    return timeList.map((time) => ({
+      value: convertTo24Hour(time),
+      label: time,
+    }));
+  };
+
   const ButtonField = () => {
     return (
       <>
@@ -461,7 +278,7 @@ const TableFinder = forwardRef((props, ref) => {
     setCalOpen(true);
   };
   const disabledDates = [new Date(2024, 10, 28), new Date(2024, 11, 25)];
-  
+
   function DatePicker() {
     return (
       <motion.div
@@ -526,7 +343,7 @@ const TableFinder = forwardRef((props, ref) => {
           <div className="input-group">
             <div className="input-text"> {inputText.timeTxt} </div>
             <Dropdown
-              object={{ name: "Time", options: timeList }}
+              object={{ name: "Time", options: formatTimeList(timeList || []) }}
               selected={time}
               onSelect={handleChange}
               id={"time"}

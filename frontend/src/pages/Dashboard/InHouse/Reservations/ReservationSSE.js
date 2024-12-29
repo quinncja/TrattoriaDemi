@@ -8,7 +8,7 @@ function ReservationSSE() {
 
   useEffect(() => {
     let eventSource;
-    let reconnectInterval = 5000; 
+    let reconnectInterval = 5000;
     let reconnectTimer;
 
     const connect = () => {
@@ -16,7 +16,7 @@ function ReservationSSE() {
 
       eventSource.onopen = () => {
         console.log("EventSource connection opened.");
-    
+
         reconnectInterval = 5000;
       };
 

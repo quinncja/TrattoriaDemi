@@ -1,4 +1,5 @@
 import { ResponsiveBar } from "@nivo/bar";
+import BarTooltip from "./BarTooltip";
 
 function BarChart({ data }) {
   console.log(data);
@@ -6,31 +7,36 @@ function BarChart({ data }) {
   return (
     <ResponsiveBar
       data={data}
-      keys={["count"]}
+      keys={["arrUp", "noshow", "cancel"]}
       indexBy="numGuests"
-      margin={{ top: 30, right: 50, bottom: 50, left: 60 }}
-      padding={0.3}
-      colors={["#d3963add"]}
+      margin={{ top: 22, right: 0, bottom: 20, left: 0 }}
+      padding={0.15}
+      innerPadding={3}
+      colors={["#d3963add", "#a09c9c", "#c64949"]}
+      groupMode="stacked"
       axisBottom={{
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "Party Size",
         legendPosition: "middle",
         legendOffset: 42,
         format: (item) => {
           return `${item}`;
         },
       }}
-      axisLeft={{
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: "Number of Parties",
-        legendPosition: "middle",
-        legendOffset: -40,
-      }}
+      labelSkipHeight={"9"}
+      borderRadius="1"
+      axisLeft={false}
       labelTextColor={"white"}
+      isInteractive={true}
+      tooltip={({ id, color, value, indexValue }) => (
+        <BarTooltip
+          id={id}
+          color={color}
+          value={value}
+          indexValue={indexValue}
+        />
+      )}
       theme={{
         axis: {
           ticks: {

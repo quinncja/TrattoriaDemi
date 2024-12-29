@@ -127,11 +127,21 @@ function Contact() {
               {Input(inputObjs.name)}
               {Input(inputObjs.email)}
 
-              <div style={{position: "relative", width: "100%"}}> 
+              <div style={{ position: "relative", width: "100%" }}>
                 {Input(inputObjs.message)}
-                <span className={`message-length ${message ? message.length >= 500 ? 'exceeded' : "shown" : ""}`}> {message ? message.length : 0} / 500 </span>
-                </div>
-
+                <span
+                  className={`message-length ${
+                    message
+                      ? message.length >= 500
+                        ? "exceeded"
+                        : "shown"
+                      : ""
+                  }`}
+                >
+                  {" "}
+                  {message ? message.length : 0} / 500{" "}
+                </span>
+              </div>
 
               <button
                 className="submit-button"

@@ -47,12 +47,23 @@ export function PayrollDash() {
 
   return (
     <div className="dash-item dash-item-full">
-      <h2> Payroll </h2>
-      <div className="payroll-dash">
-        <div className="graph-wrapper">
-          <LineChart data={graphData} clickHandler={clickHandler} />
-        </div>
-        <div className="dash-column">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h2> Payroll </h2>
+        <div className="dash-row">
+          <button
+            className="submit-button new-payroll edit-employees"
+            onClick={() => employeeHandler()}
+          >
+            {peopleSvg()}
+            Employees
+          </button>
           <button
             className="submit-button new-payroll"
             onClick={() => clickHandler(graphData.length + 1)}
@@ -60,13 +71,11 @@ export function PayrollDash() {
             {clockSvg()}
             New Payroll
           </button>
-          <button
-            className="submit-button new-payroll edit-employees"
-            onClick={() => employeeHandler()}
-          >
-            {peopleSvg()}
-            Edit Employees
-          </button>
+        </div>
+      </div>
+      <div className="payroll-dash">
+        <div className="graph-wrapper">
+          <LineChart data={graphData} clickHandler={clickHandler} />
         </div>
       </div>
     </div>

@@ -39,18 +39,18 @@ export default function Reserve() {
   const date = new Date();
   const day = date.getDate();
   const month = date.getMonth();
-  
-  const isHolidays = month === 11 || (month === 0 && day === 1)
+
+  const isHolidays = month === 11 || (month === 0 && day === 1);
 
   return (
     <>
-    {isHolidays && <HolidayPopup/>}
-    <form id="res-form">
-      <div className="reserve-top">
-        Reserve a table below or by phone at 847-332-2330
-      </div>
-      <div className="reserve-container">
-         {/* <div className="reservation-overlay">
+      {isHolidays && <HolidayPopup />}
+      <form id="res-form">
+        <div className="reserve-top">
+          Reserve a table below or by phone at 847-332-2330
+        </div>
+        <div className="reserve-container">
+          {/* <div className="reservation-overlay">
           <div className="reservation-overlay-text">
             We will soon introduce a custom reservation system. <br /> In the
             meantime, you can call the restaturant at 847-332-2330, <br /> or
@@ -66,32 +66,32 @@ export default function Reserve() {
             </button>
           </a>
         </div>  */}
-        <div className="reserve-section">
-          <div className="menu-section-header">For a Reservation</div>
-          <img className="fancy-line" src={FancyLine} alt="" />
-          {(!table || editing) && (
-            <div className="table-finder-container">
-              <TableFinder
-                table={table}
-                setTable={setTable}
-                editing={editing}
-                setEditing={setEditing}
-              />
-            </div>
-          )}
-          <div className="reserve-inputs">
-            {table && !editing && (
-              <AnimatePresence>
-                <motion.div className="res-info" {...fadeInDown}>
-                  <FoundTable table={table} setEditing={returnToEdit} />
-                  <ReserveForm createRes={createRes} />
-                </motion.div>
-              </AnimatePresence>
+          <div className="reserve-section">
+            <div className="menu-section-header">For a Reservation</div>
+            <img className="fancy-line" src={FancyLine} alt="" />
+            {(!table || editing) && (
+              <div className="table-finder-container">
+                <TableFinder
+                  table={table}
+                  setTable={setTable}
+                  editing={editing}
+                  setEditing={setEditing}
+                />
+              </div>
             )}
+            <div className="reserve-inputs">
+              {table && !editing && (
+                <AnimatePresence>
+                  <motion.div className="res-info" {...fadeInDown}>
+                    <FoundTable table={table} setEditing={returnToEdit} />
+                    <ReserveForm createRes={createRes} />
+                  </motion.div>
+                </AnimatePresence>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </form>
-            </>
+      </form>
+    </>
   );
 }

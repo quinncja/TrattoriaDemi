@@ -8,6 +8,8 @@ function FoundTable(props) {
   const { table, setEditing, inRes } = props;
   const { numGuests, date, time } = table;
 
+  console.log(table);
+
   return (
     <AnimatePresence>
       <motion.div {...fadeIn} className={`${inRes && "inResTable"}`}>

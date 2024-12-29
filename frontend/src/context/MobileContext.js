@@ -20,7 +20,9 @@ export const MobileProvider = ({ children }) => {
   }, []);
 
   return (
-    <MobileContext.Provider value={{mobile, phone}}>{children}</MobileContext.Provider>
+    <MobileContext.Provider value={{ mobile, phone }}>
+      {children}
+    </MobileContext.Provider>
   );
 };
 

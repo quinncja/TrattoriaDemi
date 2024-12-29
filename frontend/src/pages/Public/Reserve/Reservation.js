@@ -105,7 +105,7 @@ function Reservation() {
           </div>
           <div className="res-info res-info-note">
             Table held for 10 minutes
-            </div>
+          </div>
         </div>
 
         <div className="res-buttons">

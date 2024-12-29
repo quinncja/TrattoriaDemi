@@ -1,12 +1,37 @@
 import { ResponsiveBar } from "@nivo/bar";
 
 function BarChart({ data }) {
+  function BarTooltip({ id, color, value, indexValue }) {
+    return (
+      <div className="tooltip">
+        <h3 style={{ textAlign: "center", fontWeight: "600" }}>
+          {" "}
+          Value: ${indexValue}{" "}
+        </h3>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "5px",
+            alignItems: "center",
+          }}
+        >
+          <span
+            className="tooltip-cube"
+            style={{ backgroundColor: color }}
+          ></span>
+          <div>Amount sold:</div> {value}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <ResponsiveBar
       data={data}
       keys={["count"]}
       indexBy="amount"
-      margin={{ top: 30, right: 50, bottom: 50, left: 60 }}
+      margin={{ top: 30, right: 0, bottom: 20, left: -1 }}
       padding={0.3}
       colors={["#d3963add"]}
       axisBottom={{
@@ -28,6 +53,14 @@ function BarChart({ data }) {
         legendPosition: "middle",
         legendOffset: -40,
       }}
+      tooltip={({ id, color, value, indexValue }) => (
+        <BarTooltip
+          id={id}
+          color={color}
+          value={value}
+          indexValue={indexValue}
+        />
+      )}
       labelTextColor={"white"}
       theme={{
         axis: {

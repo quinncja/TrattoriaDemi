@@ -10,7 +10,7 @@ export default function FaqCard({ faq }) {
       layout
       {...fadeIn}
       className="faq-container"
-      style={{overflow: "hidden"}}
+      style={{ overflow: "hidden" }}
       onClick={() => setOpen(!open)}
     >
       <motion.div layout className="faq-topper">

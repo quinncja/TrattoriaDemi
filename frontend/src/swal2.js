@@ -128,7 +128,7 @@ export function payrollDeleteAlert() {
     showConfirmButton: true,
     showCancelButton: false,
     buttonsStyling: false,
-    confirmButtonText: "Delete"
+    confirmButtonText: "Delete",
   });
 }
 
@@ -147,7 +147,6 @@ export function payrollDeleteError() {
     showCancelButton: true,
   });
 }
-
 
 export function employeeSaveSuccess(employeeName, type) {
   return Swal.fire({

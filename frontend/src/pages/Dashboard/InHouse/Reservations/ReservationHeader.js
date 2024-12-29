@@ -45,8 +45,8 @@ function ReservationHeader(props) {
     );
   }
 
-  function openNewRes(){
-    setNewRes(true)
+  function openNewRes() {
+    setNewRes(true);
   }
 
   function startPressTimer() {
@@ -148,25 +148,24 @@ function ReservationHeader(props) {
       </div>
     );
   }
-  
 
   function numResDisplay() {
     return (
       <div className="res-amount res-amount-header">
         <AnimatePresence>
-        {!loading && (
-          <motion.span
-            style={{minWidth: "2ch"}}
-            key="numRes" 
-            initial={{ opacity: 0, y: -3 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            exit={{ opacity: 0, y: 3 }} 
-            transition={{ duration: 0.3 }} 
-          >
-            {numRes}
-          </motion.span>
-        )}
-      </AnimatePresence>
+          {!loading && (
+            <motion.span
+              style={{ minWidth: "2ch" }}
+              key="numRes"
+              initial={{ opacity: 0, y: -3 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 3 }}
+              transition={{ duration: 0.3 }}
+            >
+              {numRes}
+            </motion.span>
+          )}
+        </AnimatePresence>
         <svg
           width="20"
           height="20"
@@ -196,20 +195,20 @@ function ReservationHeader(props) {
   function numGuestDisplay() {
     return (
       <div className="res-amount res-amount-header">
-      <AnimatePresence>
-        {!loading && (
-          <motion.span
-            style={{minWidth: "2ch"}}
-            key="numGuests"
-            initial={{ opacity: 0, y: -3 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 3 }}
-            transition={{ duration: 0.3 }}
-          >
-            {numGuests}
-          </motion.span>
-        )}
-      </AnimatePresence>
+        <AnimatePresence>
+          {!loading && (
+            <motion.span
+              style={{ minWidth: "2ch" }}
+              key="numGuests"
+              initial={{ opacity: 0, y: -3 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 3 }}
+              transition={{ duration: 0.3 }}
+            >
+              {numGuests}
+            </motion.span>
+          )}
+        </AnimatePresence>
         <svg
           width="20"
           height="20"

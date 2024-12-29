@@ -5,6 +5,7 @@ import { cancelSvg } from "svg";
 import { fadeInModal } from "animations";
 function Dropdown(props) {
   const { object, selected, onSelect, id, svg, isMobile } = props;
+  console.log(object);
   const [isOpen, setIsOpenState] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -37,114 +38,117 @@ function Dropdown(props) {
 
   return (
     <AnimatePresence>
-    <div
-      className={`dropdown ${isOpen && !isMobile && `dropdown-open`}`}
-      ref={dropdownRef}
-    >
-      <motion.button
-        type="button"
-        className="dropdown-button"
-        onClick={() => setIsOpen(!isOpen)}
+      <div
+        className={`dropdown ${isOpen && !isMobile && `dropdown-open`}`}
+        ref={dropdownRef}
       >
-        {svg()}{" "}
-        {selected
-          ? id === "time"
-            ? convertTo12Hour(selected)
-            : selected
-          : "Select"}
-      </motion.button>
-      {isOpen ? (
-        !object.options ? (
-          <>
-            <div
-              className={`faux-overlay ${isMobile && "faux-overlay-mobile"}`}
-            />
-            <motion.div className="dropdown-menu">
-              <button
-                id={id}
-                className="dropdown-item item-disabled disabled"
-                type="button"
+        <motion.button
+          type="button"
+          className="dropdown-button"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {svg()}{" "}
+          {selected
+            ? id === "time"
+              ? convertTo12Hour(selected)
+              : selected
+            : "Select"}
+        </motion.button>
+        {isOpen ? (
+          !object.options ? (
+            <>
+              <div
+                className={`faux-overlay ${isMobile && "faux-overlay-mobile"}`}
+              />
+              <motion.div className="dropdown-menu">
+                <button
+                  id={id}
+                  className="dropdown-item item-disabled disabled"
+                  type="button"
+                >
+                  Select a date first
+                </button>
+              </motion.div>
+            </>
+          ) : object.options.length === 0 ? (
+            <>
+              <div
+                className={`faux-overlay ${isMobile && "faux-overlay-mobile"}`}
+              />
+              <motion.div className="dropdown-menu">
+                <button
+                  id={id}
+                  className="dropdown-item item-disabled disabled"
+                  type="button"
+                >
+                  No available time slots
+                </button>
+              </motion.div>
+            </>
+          ) : (
+            <>
+              {!isMobile && <div className="faux-overlay" />}
+              <motion.div
+                className={!isMobile ? "dropdown-menu" : "mobile-menu"}
+                {...(isMobile ? fadeInModal : {})}
               >
-                Select a date first
-              </button>
-            </motion.div>
-          </>
-        ) : object.options.length === 0 ? (
-          <>
-            <div
-              className={`faux-overlay ${isMobile && "faux-overlay-mobile"}`}
-            />
-            <motion.div className="dropdown-menu">
-              <button
-                id={id}
-                className="dropdown-item item-disabled disabled"
-                type="button"
-              >
-                No available time slots
-              </button>
-            </motion.div>
-          </>
-        ) : (
-          <>
-            {!isMobile && <div className="faux-overlay" />}
-            <motion.div className={!isMobile ? "dropdown-menu" : "mobile-menu"}  {...(isMobile ? fadeInModal : {})}>
-              {isMobile && (
-                <>
-                  <div className="dropdown-header">
-                    <div style={{ width: "30px" }} />
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                      }}
-                    >
-                      {svg()} {object.name}
+                {isMobile && (
+                  <>
+                    <div className="dropdown-header">
+                      <div style={{ width: "30px" }} />
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        {svg()} {object.name}
+                      </div>
+                      <button
+                        className="dropdown-header-button"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {cancelSvg()}
+                      </button>
                     </div>
-                    <button
-                      className="dropdown-header-button"
-                      onClick={() => setIsOpen(false)}
+                  </>
+                )}
+                <div className="items-container">
+                  {object.options.map((option) => (
+                    <motion.button
+                      exit={fadeOut}
+                      key={option.value}
+                      id={id}
+                      value={option.value}
+                      type="button"
+                      className={`dropdown-item ${
+                        isMobile && "dropdown-item-mobile"
+                      } ${
+                        option.disabled
+                          ? `item-disabled disabled ${
+                              isMobile && "item-disabled-mobile"
+                            }`
+                          : ""
+                      }`}
+                      onClick={
+                        option.disabled
+                          ? () => {}
+                          : (option) => handleSelect(option)
+                      }
                     >
-                      {cancelSvg()}
-                    </button>
-                  </div>
-                </>
-              )}
-              <div className="items-container">
-                {object.options.map((option) => (
-                  <motion.button
-                    exit={fadeOut}
-                    key={option.value}
-                    id={id}
-                    value={option.value}
-                    type="button"
-                    className={`dropdown-item ${
-                      isMobile && "dropdown-item-mobile"
-                    } ${
-                      option.disabled
-                        ? `item-disabled disabled ${
-                            isMobile && "item-disabled-mobile"
-                          }`
-                        : ""
-                    }`}
-                    onClick={
-                      option.disabled
-                        ? () => {}
-                        : (option) => handleSelect(option)
-                    }
-                  >
-                    {option.label}
-                  </motion.button>
-                ))}
-              </div>
-              {isMobile && <div className="dropdown-footer" />}
-            </motion.div>
-          </>
-        )
-      ) : (
-        ""
-      )}
-    </div>
+                      {option.label}
+                    </motion.button>
+                  ))}
+                </div>
+                {isMobile && <div className="dropdown-footer" />}
+              </motion.div>
+            </>
+          )
+        ) : (
+          ""
+        )}
+      </div>
     </AnimatePresence>
   );
 }

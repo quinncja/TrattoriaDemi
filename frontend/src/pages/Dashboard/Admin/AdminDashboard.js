@@ -6,8 +6,8 @@ function AdminDashboard() {
   return (
     <div className="admin-dashboard">
       <PayrollDash />
-      <GiftcardDash />
       <ReservationDash />
+      <GiftcardDash />
       <br />
     </div>
   );

@@ -33,8 +33,7 @@ function ReserveForm(props) {
   };
 
   const onSubmit = () => {
-    if (!reserveValidator())
-      createRes({ name, phone, notes, sendText: true });
+    if (!reserveValidator()) createRes({ name, phone, notes, sendText: true });
   };
 
   const inputObjs = {
@@ -85,12 +84,12 @@ function ReserveForm(props) {
       <div className="reserve-small-text">
         {" "}
         • Outdoor seating is first come first serve.
-        <div className="br" />• Your reservation will be held for 10 minutes. Please contact us if your party is running late.  
-        <div className="br" />• You will be sent a confirmation text upon reserving. Message and data rates may apply.
-
+        <div className="br" />• Your reservation will be held for 10 minutes.
+        Please contact us if your party is running late.
+        <div className="br" />• You will be sent a confirmation text upon
+        reserving. Message and data rates may apply.
         <div className="br" />
         <div className="br" />
-
       </div>
       <button className="submit-button" type="button" onClick={onSubmit}>
         Reserve

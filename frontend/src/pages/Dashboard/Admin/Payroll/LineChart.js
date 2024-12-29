@@ -54,7 +54,7 @@ function LineChart({ data, clickHandler }) {
   return (
     <ResponsiveLine
       data={nivoData}
-      margin={{ top: 5, right: 10, bottom: 70, left: 50 }}
+      margin={{ top: 30, right: 0, bottom: 20, left: 0 }}
       xScale={{ type: "linear", min: 1 }}
       yScale={{ type: "linear", min: yMin, max: yMax }}
       axisTop={null}
@@ -63,15 +63,12 @@ function LineChart({ data, clickHandler }) {
         tickValues: 10,
         tickSize: 5,
         tickPadding: 5,
-        tickRotation: -35,
+        tickRotation: 0,
         format: (value) => {
           const dates = calculateDates(value);
           const startDate = dates.startDate || dates[0] || dates;
           return formatStartDate(startDate);
         },
-        legend: "",
-        legendOffset: 36,
-        legendPosition: "middle",
       }}
       axisLeft={{
         tickSize: 5,
@@ -79,15 +76,13 @@ function LineChart({ data, clickHandler }) {
         tickRotation: 0,
         tickValues: 5,
         format: (value) => formatNumber(value),
-        legend: "",
-        legendOffset: -40,
-        legendPosition: "middle",
       }}
       enableGridX={true}
       gridXValues={xTickValues}
       enableGridY={true}
       colors={["#d3963add"]}
       lineWidth={2}
+      legend
       pointSize={7}
       pointColor="#d3963add"
       pointBorderWidth={2}

@@ -12,6 +12,7 @@
   --gold-no: #dd9e3f;
   --orange-gold: #be7439;
   --menu-gold-1: #d21e1e;
+  --testL: #cb5353;
   --menu-gold-2: #f50039;
   --light-red: #d21e1e;
   --red: #ad0f0f;
@@ -1355,7 +1356,7 @@ button {
   user-select: none;
   font-family: "Caxton Bold BT";
   color: var(--paper-white);
-  font-size: 1.125rem
+  font-size: 1.125rem;
 }
 
 .deals {
@@ -1515,14 +1516,14 @@ button {
   .article-text {
     font-size: 1rem;
   }
-  .faq-a{
+  .faq-a {
     font-size: 1.1rem !important;
   }
-  .line{
+  .line {
     height: 15px;
     margin-top: 3px;
   }
-  .deal-svg > svg{
+  .deal-svg > svg {
     width: 50px;
     margin-left: 5px;
     height: 40px;
@@ -1541,8 +1542,7 @@ button {
   }
 }
 
-
-.popup-container{
+.popup-container {
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -1554,18 +1554,18 @@ button {
 }
 
 @media (width >= 700px) {
-  .popup-container-open{
+  .popup-container-open {
     align-items: center;
   }
 }
 
-.popup-container-open{
+.popup-container-open {
   height: 100vh;
   margin-bottom: 0px;
   background-color: #00000050;
 }
 
-.popup-banner{
+.popup-banner {
   width: clamp(300px, 20%, 400px);
   padding: 10px 20px;
   box-sizing: border-box;
@@ -1577,7 +1577,7 @@ button {
   cursor: pointer;
   overflow: hidden;
 }
-.popup-header{
+.popup-header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1588,27 +1588,27 @@ button {
   font-weight: 1000;
   font-family: "Caxton Bold BT";
 }
-.popup-header svg{
+.popup-header svg {
   margin-top: 2px;
 }
 .popup-banner svg {
   fill: var(--white);
 }
 
-.popup-banner:hover{
+.popup-banner:hover {
   background-color: var(--paper-white);
 }
-.popup-banner .popup-header{
+.popup-banner .popup-header {
   font-size: 1.2rem;
 }
 
-.popup-banner:hover .popup-header{
+.popup-banner:hover .popup-header {
   color: var(--dark-blue);
 }
 .popup-banner:hover svg {
   fill: var(--dark-blue);
 }
-.popup-banner-open .popup-header{
+.popup-banner-open .popup-header {
   color: var(--dark-blue);
   font-size: 1.7rem;
 }
@@ -1617,8 +1617,7 @@ button {
   fill: var(--dark-blue);
 }
 
-
-.popup-banner-open{
+.popup-banner-open {
   background-color: var(--paper-white);
   color: var(--dark-blue);
   padding: 30px;
@@ -1626,24 +1625,24 @@ button {
   max-width: 600px;
   position: relative;
   box-shadow: 5px 5px var(--dark-blue), -5px 5px var(--dark-blue),
-  -5px -5px var(--dark-blue), 5px -5px var(--dark-blue);
+    -5px -5px var(--dark-blue), 5px -5px var(--dark-blue);
   height: fit-content;
   bottom: 0;
 }
 
-
-.open-body{
+.open-body {
   position: relative;
   z-index: 102;
 }
 
 .holiday-line {
-  filter: invert(48%) sepia(87%) saturate(1242%) hue-rotate(190deg) brightness(89%) contrast(75%);
+  filter: invert(48%) sepia(87%) saturate(1242%) hue-rotate(190deg)
+    brightness(89%) contrast(75%);
 }
 
-.hours{
+.hours {
   display: grid;
-  grid-template-columns: .5fr 1fr;
+  grid-template-columns: 0.5fr 1fr;
   gap: 10px;
   color: var(--light-black);
   width: 70%;
@@ -1653,15 +1652,15 @@ button {
   padding-bottom: 200px;
 }
 
-.date{
+.date {
   text-align: left;
 }
 
-.time{
+.time {
   text-align: right;
 }
 
-.holiday-scene{
+.holiday-scene {
   float: left;
   shape-outside: polygon(50% 0%, 100% 100%, 0% 100%);
   height: 0px;
@@ -1672,12 +1671,12 @@ button {
   z-index: 101;
 }
 
-.holiday-open{
+.holiday-open {
   height: 375px;
   opacity: 1;
 }
 
-.holiday-close{
+.holiday-close {
   position: absolute;
   right: 0;
   z-index: 105;
@@ -1704,7 +1703,7 @@ button {
   line-height: 0;
 }
 
-.holiday-text{
+.holiday-text {
   margin-top: -20px;
   padding-bottom: 40px;
 }
@@ -1727,5 +1726,5 @@ button {
 }
 
 .custom-shape-divider-bottom-1733342417 .shape-fill {
-  fill: #9AC5F6;
+  fill: #9ac5f6;
 }

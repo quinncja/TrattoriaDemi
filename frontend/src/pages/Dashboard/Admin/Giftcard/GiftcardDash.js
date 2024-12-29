@@ -19,15 +19,21 @@ function GiftcardDash() {
 
   return (
     <div className="dash-item">
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
         <h2> Giftcards </h2>
         <div className="giftcard-total">
           <span className="white small"> Total Sold: </span>
           <strong className="white"> ${total} </strong>
         </div>
-        <div className="bar-wrapper">
-          {chartData && <BarChart data={chartData} />}
-        </div>
+      </div>
+      <div className="bar-wrapper">
+        {chartData && <BarChart data={chartData} />}
       </div>
     </div>
   );

@@ -2,12 +2,12 @@ import { useState } from "react";
 import { formatPhoneNumber, convertTo12Hour } from "../../../../functions";
 import { cancelBtnSvg, ghostSvg } from "svg";
 import { dateTimeToString } from "dateUtils";
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion";
 import { useMobile } from "context/MobileContext";
 export function Reservation(props) {
   const [isOpen, setOpen] = useState(false);
   const { res, setResModal, handleBtnClick } = props;
-  const {phone} = useMobile();
+  const { phone } = useMobile();
 
   const containerVariants = {
     open: {
@@ -15,31 +15,33 @@ export function Reservation(props) {
         when: "beforeChildren",
         staggerChildren: 0.1,
       },
-      height: phone ? "6.1rem" : "7.1rem"
+      height: phone ? "6.1rem" : "7.1rem",
     },
     closed: {
       transition: {
         when: "afterChildren",
       },
-      height: phone ? "4.7rem" : "5.5rem"
+      height: phone ? "4.7rem" : "5.5rem",
     },
   };
-  
 
   function arrivedTime() {
     return (
       <motion.div
-      layout="position"
-      className="res-arrived-time"
+        layout="position"
+        className="res-arrived-time"
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           marginBlock: "auto",
-          height: "fit-content"
+          height: "fit-content",
         }}
       >
-        <motion.div className="res-name" layout> Arrived </motion.div>
+        <motion.div className="res-name" layout>
+          {" "}
+          Arrived{" "}
+        </motion.div>
         <motion.span className="arrived-time" layout>
           {" "}
           {convertTo12Hour(res.arrivedTime)}{" "}
@@ -171,7 +173,7 @@ export function Reservation(props) {
         ${res.selfMade && "res-selfmade"}
         ${res.state === "arrived" && "res-arrived"} res-${isOpen}`}
         key={res._id}
-        onClick={() => setOpen(!isOpen)} 
+        onClick={() => setOpen(!isOpen)}
         variants={containerVariants}
         animate={isOpen ? "open" : "closed"}
         initial="closed"
@@ -188,7 +190,7 @@ export function Reservation(props) {
                 alignItems: "center",
                 alignContent: "center",
                 marginBlock: "auto",
-                height: "fit-content"
+                height: "fit-content",
               }}
               onClick={(e) => {
                 e.stopPropagation();
@@ -198,19 +200,26 @@ export function Reservation(props) {
               {res.numGuests}
             </motion.div>
             <div className="res-left-text">
-              <motion.div className="res-time" layout="position">{convertTo12Hour(res.time)}</motion.div>
-              <motion.div className="res-name" layout="position" >{res.name}</motion.div>
-              <AnimatePresence> 
-              {isOpen &&    
-              <motion.div
-                key="res-time"
-                className="res-time"
-                transition={{ ease: "linear", duration: .2}} 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                
-              > {dateTimeToString(new Date(res.dateMade))} </motion.div>}
+              <motion.div className="res-time" layout="position">
+                {convertTo12Hour(res.time)}
+              </motion.div>
+              <motion.div className="res-name" layout="position">
+                {res.name}
+              </motion.div>
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    key="res-time"
+                    className="res-time"
+                    transition={{ ease: "linear", duration: 0.2 }}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    {" "}
+                    {dateTimeToString(new Date(res.dateMade))}{" "}
+                  </motion.div>
+                )}
               </AnimatePresence>
             </div>
           </motion.div>
@@ -232,7 +241,7 @@ export function Reservation(props) {
           </div>
         </motion.div>
       </motion.button>
-      <div 
+      <div
         className={`bottom-wrapper bottom-wrapper-${isOpen} ${
           res.selfMade && "res-selfmade"
         }`}
