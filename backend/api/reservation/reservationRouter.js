@@ -151,16 +151,16 @@ reservationRouter.get("/timelist", async (req, res) => {
     switch (dayOfWeek) {
       case 0: 
         dayStartTime = "12:00pm";
-        dayEndTime = "7:45pm";
+        dayEndTime = "7:30pm";
         break;
       case 5:
       case 6: 
         dayStartTime = "11:30am";
-        dayEndTime = "8:45pm";
+        dayEndTime = "9:00pm";
         break;
       default: 
         dayStartTime = "11:30am";
-        dayEndTime = "7:45pm";
+        dayEndTime = "7:30pm";
     }
 
     const dayStartIndex = getHourIndex(dayStartTime);
