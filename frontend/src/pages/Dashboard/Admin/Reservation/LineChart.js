@@ -3,6 +3,13 @@ import { ResponsiveLine } from "@nivo/line";
 import { dateToString, dateToMonthYear, dateToShortString } from "dateUtils";
 
 function LineChart({ data, view }) {
+
+  const strToDate = (dateStr) => {
+    const [year, month] = dateStr.split('-');
+    const date = new Date(year, month - 1);
+    return date
+  }
+
   const weekMonthProps = {
     axisBottom: {
       tickSize: 5,
@@ -25,7 +32,7 @@ function LineChart({ data, view }) {
       tickPadding: 5,
       tickRotation: 15,
       format: (value) => {
-        return dateToMonthYear(new Date(value));
+        return dateToMonthYear(strToDate(value));
       },
     },
   };
@@ -36,6 +43,7 @@ function LineChart({ data, view }) {
       : yearAllProps;
 
   const CustomTooltip = ({ slice }) => {
+    console.log(slice.points[0].data.x)
     const formatId = (id) => {
       if (id === "arrUp") return "Reservations";
       if (id === "cancel") return "Cancelled";
@@ -56,7 +64,7 @@ function LineChart({ data, view }) {
         >
           {view === "day" || view === "week" || view === "month"
             ? dateToString(new Date(slice.points[0].data.x))
-            : dateToMonthYear(new Date(slice.points[0].data.x))}
+            : dateToMonthYear(strToDate(slice.points[0].data.x))}
         </h3>
         {slice.points.map((point) => (
           <div

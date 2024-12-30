@@ -4,6 +4,11 @@ async function getGiftcardDataForBarChart() {
   try {
     const countsPerAmount = await Giftcard.aggregate([
       {
+        $match: {
+          isPaid: true
+        }
+      },
+      {
         $group: {
           _id: "$amount",
           count: { $sum: 1 },
@@ -15,6 +20,11 @@ async function getGiftcardDataForBarChart() {
     ]);
 
     const totalAmountResult = await Giftcard.aggregate([
+      {
+        $match: {
+          isPaid: true
+        }
+      },
       {
         $group: {
           _id: null,
