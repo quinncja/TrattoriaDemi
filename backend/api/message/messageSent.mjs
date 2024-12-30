@@ -17,13 +17,13 @@ function messageSent(props) {
       <Container style={container}>
         <Container style={images}>
           <Img
-            style={{ width: "80%", marginLeft: "10%", marginBottom: "15px" }}
-            src="https://i.ibb.co/Vwmz0y0/Trattoria-Demi-Centered-Gold.png"
+            style={{ width: "80%", marginLeft: "10%", marginBottom: "15px", filter: "invert(15%) sepia(10%) saturate(4247%) hue-rotate(329deg) brightness(88%) contrast(87%)" }}
+            src="https://www.trattoriademi.com/static/media/TrattoriaDemiCenteredWhite.76793f1e65c15a1f0933.png"
             alt="Trattoria Demi"
           />
           <Img
             style={{ width: "60%", marginLeft: "20%", marginBottom: "30px" }}
-            src="https://i.ibb.co/W5PjXhL/IMG-7864.png"
+            src="https://www.trattoriademi.com/static/media/Gold%20under.ec2c51bf71e154da8ab9.webp"
             alt="-------"
           />
         </Container>
