@@ -673,7 +673,6 @@ reservationRouter.get("/stats", async (req, res) => {
             cancel: statesObj.cancel,
           };
 
-          // Remove zero keys to keep the object clean
           Object.keys(row).forEach((key) => {
             if (key !== "numGuests" && row[key] === 0) {
               delete row[key];
@@ -841,7 +840,7 @@ reservationRouter.get("/stats", async (req, res) => {
       getTrendStats(todayStart, todayEnd, "day"), 
       getTrendStats(lastWeekStart, lastWeekEnd, "day"),
       getTrendStats(monthStart, monthEnd, "day"), 
-      getTrendStats(yearStart, yearEnd, "month"),   
+      getTrendStats(yearStart, yearEnd, "day"),   
       getTrendStats(allTimeStart, allTimeEnd, "month"), 
     ]);
 

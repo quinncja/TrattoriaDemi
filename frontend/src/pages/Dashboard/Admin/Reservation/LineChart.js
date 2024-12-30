@@ -1,6 +1,6 @@
 import React from "react";
 import { ResponsiveLine } from "@nivo/line";
-import { dateToString, dateToMonthYear, dateToShortString } from "dateUtils";
+import { dateToString, dateToMonthYear, dateToShortString, dateTimeToString } from "dateUtils";
 
 function LineChart({ data, view }) {
 
@@ -16,6 +16,7 @@ function LineChart({ data, view }) {
     return date
   }
 
+
   const weekMonthProps = {
     axisBottom: {
       tickSize: 5,
@@ -24,6 +25,8 @@ function LineChart({ data, view }) {
       tickValues:
         view === "week"
           ? data[0].data.map((d) => d.x)
+          : view === "year" ?
+          data[0]?.data.filter((_, index) => index % 4 === 0).map((d) => d.x)
           : data[0]?.data.filter((_, index) => index % 2 === 0).map((d) => d.x),
       format: (value) => {
         return dateToShortString(fullStrToDate(value));
@@ -44,9 +47,9 @@ function LineChart({ data, view }) {
   };
 
   const propsToUse =
-    view === "day" || view === "week" || view === "month"
-      ? weekMonthProps
-      : yearAllProps;
+    view === "allTime"
+      ? yearAllProps 
+      : weekMonthProps;
 
   const CustomTooltip = ({ slice }) => {
     console.log(slice.points[0].data.x)
@@ -68,9 +71,9 @@ function LineChart({ data, view }) {
             paddingBottom: "6px",
           }}
         >
-          {view === "day" || view === "week" || view === "month"
-            ? dateToString(fullStrToDate(slice.points[0].data.x))
-            : dateToMonthYear(strToDate(slice.points[0].data.x))}
+          {view === "allTime" 
+            ? dateToMonthYear(strToDate(slice.points[0].data.x)) :
+            dateToString(fullStrToDate(slice.points[0].data.x))}
         </h3>
         {slice.points.map((point) => (
           <div
