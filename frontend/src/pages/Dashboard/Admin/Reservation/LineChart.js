@@ -10,6 +10,12 @@ function LineChart({ data, view }) {
     return date
   }
 
+  const fullStrToDate = (dateStr) => {
+    const [year, month, day] = dateStr.split('-');
+    const date = new Date(year, month - 1, day);
+    return date
+  }
+
   const weekMonthProps = {
     axisBottom: {
       tickSize: 5,
@@ -20,7 +26,7 @@ function LineChart({ data, view }) {
           ? data[0].data.map((d) => d.x)
           : data[0]?.data.filter((_, index) => index % 2 === 0).map((d) => d.x),
       format: (value) => {
-        return dateToShortString(new Date(value));
+        return dateToShortString(fullStrToDate(value));
       },
     },
   };
@@ -63,7 +69,7 @@ function LineChart({ data, view }) {
           }}
         >
           {view === "day" || view === "week" || view === "month"
-            ? dateToString(new Date(slice.points[0].data.x))
+            ? dateToString(fullStrToDate(slice.points[0].data.x))
             : dateToMonthYear(strToDate(slice.points[0].data.x))}
         </h3>
         {slice.points.map((point) => (
