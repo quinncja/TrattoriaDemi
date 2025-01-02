@@ -243,55 +243,6 @@ function checkAvailability(reservations, tableOptions, time, override) {
   return false;
 }
 
-function isTimeValid(dateStr, timeStr) {
-  const localDateStr = dateStr.replace("Z", "");
-  const desiredDate = new Date(localDateStr);
-
-  const [hours, minutes] = timeStr.split(":").map(Number);
-
-  desiredDate.setHours(hours, minutes, 0, 0);
-  const desiredDateTime = desiredDate;
-  
-  const now = new Date();
-
-  const isToday = desiredDateTime.toDateString() === now.toDateString();
-  const desiredTimeInMinutes = hours * 60 + minutes;
-
-  if (isToday) {
-    const timeDifference = desiredDateTime - now;
-    const minutesDifference = timeDifference / (1000 * 60);
-
-    if (Math.abs(minutesDifference) < 30) {
-      return false;
-    }
-  }
-
-  const dayOfWeek = desiredDate.getDay();
-  let latestTimeInMinutes;
-  let earliestTimeInMinutes;
-
-  if (dayOfWeek === 5 || dayOfWeek === 6) {
-    latestTimeInMinutes = 20 * 60 + 45;
-  } else {
-    latestTimeInMinutes = 19 * 60 + 45;
-  }
-
-  if (dayOfWeek === 0) {
-    earliestTimeInMinutes = 12 * 60;
-  } else {
-    earliestTimeInMinutes = 11 * 60 + 30;
-  }
-
-  if (desiredTimeInMinutes > latestTimeInMinutes) {
-    return false;
-  }
-  if (desiredTimeInMinutes < earliestTimeInMinutes) {
-    return false;
-  }
-
-  return true;
-}
-
 function isTimeValidForToday(time12) {
   const now = new Date();
   const chicagoNow = new Date(now.toLocaleString("en-US", { timeZone: "America/Chicago" }));
@@ -358,18 +309,18 @@ async function reservationChecker(numGuests, desiredDate, desiredTime, override)
             repeat: true,
             $expr: {
               $and: [
-                { $eq: [{ $dayOfMonth: { $dateFromString: { dateString: { $substr: ["$date", 0, 10] } } } }, requestedDay] },
-                { $eq: [{ $month: { $dateFromString: { dateString: { $substr: ["$date", 0, 10] } } } }, requestedMonth] }
+                { $eq: [{ $dayOfMonth: "$date" }, requestedDay] },
+                { $eq: [{ $month: "$date" }, requestedMonth] }
               ]
             }
           },
           {
-            repeat: false,
+            repeat: { $ne: true },
             $expr: {
               $and: [
-                { $eq: [{ $dayOfMonth: { $dateFromString: { dateString: { $substr: ["$date", 0, 10] } } } }, requestedDay] },
-                { $eq: [{ $month: { $dateFromString: { dateString: { $substr: ["$date", 0, 10] } } } }, requestedMonth] },
-                { $eq: [{ $year: { $dateFromString: { dateString: { $substr: ["$date", 0, 10] } } } }, requestedYear] }
+                { $eq: [{ $dayOfMonth: "$date" }, requestedDay] },
+                { $eq: [{ $month: "$date" }, requestedMonth] },
+                { $eq: [{ $year: "$date" }, requestedYear] }
               ]
             }
           }

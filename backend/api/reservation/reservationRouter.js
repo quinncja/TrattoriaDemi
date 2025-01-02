@@ -172,18 +172,18 @@ reservationRouter.get("/timelist", async (req, res) => {
           repeat: true,
           $expr: {
             $and: [
-              { $eq: [{ $dayOfMonth: { $dateFromString: { dateString: { $substr: ["$date", 0, 10] } } } }, requestedDay] },
-              { $eq: [{ $month: { $dateFromString: { dateString: { $substr: ["$date", 0, 10] } } } }, requestedMonth] }
+              { $eq: [{ $dayOfMonth: "$date" }, requestedDay] },
+              { $eq: [{ $month: "$date" }, requestedMonth] }
             ]
           }
         },
         {
-          repeat: false,
+          repeat: { $ne: true },
           $expr: {
             $and: [
-              { $eq: [{ $dayOfMonth: { $dateFromString: { dateString: { $substr: ["$date", 0, 10] } } } }, requestedDay] },
-              { $eq: [{ $month: { $dateFromString: { dateString: { $substr: ["$date", 0, 10] } } } }, requestedMonth] },
-              { $eq: [{ $year: { $dateFromString: { dateString: { $substr: ["$date", 0, 10] } } } }, requestedYear] }
+              { $eq: [{ $dayOfMonth: "$date" }, requestedDay] },
+              { $eq: [{ $month: "$date" }, requestedMonth] },
+              { $eq: [{ $year: "$date" }, requestedYear] }
             ]
           }
         }
