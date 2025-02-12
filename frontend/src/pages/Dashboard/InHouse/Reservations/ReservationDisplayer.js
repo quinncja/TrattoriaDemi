@@ -46,12 +46,14 @@ function ReservationDisplayer(props) {
 
   function mapReservations(resToMap) {
     return resToMap.map((res, index) => (
+      <div style={{display: "flex", flexDirection: "column", height: "max-content"}}>
         <Reservation
           key={res._id}
           res={res}
           handleBtnClick={handleBtnClick}
           setResModal={setResModal}
         />
+      </div>
     ));
   }
 

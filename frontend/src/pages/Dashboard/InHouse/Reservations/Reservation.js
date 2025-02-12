@@ -4,13 +4,12 @@ import { cancelBtnSvg, ghostSvg } from "svg";
 import { dateTimeToString } from "dateUtils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMobile } from "context/MobileContext";
-import { head } from "lodash";
+
 export function Reservation(props) {
   const [isOpen, setOpen] = useState(false);
   const { res, setResModal, handleBtnClick } = props;
   const { phone } = useMobile();
 
-  const height = isOpen ? (phone ? "6.1rem" : "7.1rem") : phone ? "4.7rem" : "5.5rem"
   const containerVariants = {
     open: {
       transition: {
@@ -18,12 +17,14 @@ export function Reservation(props) {
         staggerChildren: 0.1,
       },
       height: phone ? "6.1rem" : "7.1rem",
+      marginBottom: "0px",
     },
     closed: {
       transition: {
         when: "afterChildren",
       },
       height: phone ? "4.7rem" : "5.5rem",
+      marginBottom: "61px",
     },
   };
 
@@ -169,7 +170,7 @@ export function Reservation(props) {
   };
 
   return (
-    <div>
+    <>
       <motion.button
         className={`res 
         ${res.selfMade && "res-selfmade"}
@@ -248,26 +249,54 @@ export function Reservation(props) {
           res.selfMade && "res-selfmade"
         }`}
       >
-        <div className="res-bottom" layout="position">
-          <div className="res-open-notes" layout="position">
-            <strong> {res.phone && formatPhoneNumber(res.phone)} </strong>
-            <div> {res.notes || "No notes"} </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: "20px",
-              alignItems: "center",
-            }}
-          >
-            {res.state !== "upcoming" && undoButton()}
-            {res.state === "upcoming" && cancelButton()}
-            {res.state === "upcoming" && noShowButton()}
-          </div>
-        </div>
+        <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    key="res-time"
+                    className="res-bottom" 
+                    layout="position"
+                    transition={{ ease: "linear", duration: 0.2 }}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    <motion.div                     
+                    transition={{ ease: "linear", duration: 0.2 }}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "5px"
+                      
+                    }}>
+                    {" "}
+                    <strong> {res.phone && formatPhoneNumber(res.phone)} </strong>
+                      <div> {res.notes || "No notes"} </div>
+                    </motion.div>
+                    <motion.div
+                                     transition={{ ease: "linear", duration: 0.2 }}
+                                     initial={{ opacity: 0, y: -10 }}
+                                     animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "20px",
+                        alignItems: "center",
+                        
+                      }}
+                    >
+                      {res.state !== "upcoming" && undoButton()}
+                      {res.state === "upcoming" && cancelButton()}
+                      {res.state === "upcoming" && noShowButton()}
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
       </div>
-    </div>
+    </>
   );
 }
 
