@@ -46,24 +46,12 @@ function ReservationDisplayer(props) {
 
   function mapReservations(resToMap) {
     return resToMap.map((res, index) => (
-      <motion.div
-        key={res._id}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={fadeInReservations}
-        custom={index}
-        layout
-        style={{ width: "100%", height: height }}
-        className="res-mapper-wrapper"
-      >
         <Reservation
           key={res._id}
           res={res}
           handleBtnClick={handleBtnClick}
           setResModal={setResModal}
         />
-      </motion.div>
     ));
   }
 
