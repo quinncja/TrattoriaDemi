@@ -3,9 +3,12 @@ import Reservation from "./Reservation";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "framer-motion";
 import { fadeInMany, fadeInReservations } from "animations";
+import { useMobile } from "context/MobileContext";
 
 function ReservationDisplayer(props) {
   const { liveRes, cancelledRes, patchRes, setResModal, loading } = props;
+  const { phone } = useMobile();
+  const height = phone ? "4.7rem" : "5.5rem"
 
   function handleBtnClick(res, state) {
     patchRes(res, state);
@@ -51,7 +54,8 @@ function ReservationDisplayer(props) {
         variants={fadeInReservations}
         custom={index}
         layout
-        style={{ width: "100%" }}
+        style={{ width: "100%", height: height }}
+        className="res-mapper-wrapper"
       >
         <Reservation
           key={res._id}
