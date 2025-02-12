@@ -4,11 +4,13 @@ import { cancelBtnSvg, ghostSvg } from "svg";
 import { dateTimeToString } from "dateUtils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMobile } from "context/MobileContext";
+import { head } from "lodash";
 export function Reservation(props) {
   const [isOpen, setOpen] = useState(false);
   const { res, setResModal, handleBtnClick } = props;
   const { phone } = useMobile();
 
+  const height = isOpen ? (phone ? "6.1rem" : "7.1rem") : phone ? "4.7rem" : "5.5rem"
   const containerVariants = {
     open: {
       transition: {
@@ -167,7 +169,7 @@ export function Reservation(props) {
   };
 
   return (
-    <>
+    <div>
       <motion.button
         className={`res 
         ${res.selfMade && "res-selfmade"}
@@ -265,7 +267,7 @@ export function Reservation(props) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
