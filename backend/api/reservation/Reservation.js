@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const validStates = ["upcoming", "arrived", "noshow", "cancel"];
-const validSizes = ["2top", "3top", "4top", "6top", "xl", "2x", "3xl", "4xl", "5xl", "6xl", "NA"];
+const validSizes = ["2top", "3top", "4top", "6top", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "NA"];
 const reservationSchema = new mongoose.Schema({
   name: {
     type: String,
