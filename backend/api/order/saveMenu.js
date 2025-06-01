@@ -12,18 +12,18 @@ const lunchMenu = {
         {
           name: "MEATBALL SANDWICH",
           description: "homemade meatballs, marinara and melted mozzarella",
-          price: [11.75],
+          price: [13.00],
         },
         {
           name: "CHICKEN PESTO",
           description:
             "grilled chicken breast, pesto, onions, tomatoes and melted parmesan",
-          price: [11.75],
+          price: [13.00],
         },
         {
           name: "CHICKEN PARMIGIANO",
           description: "grilled chicken breast, marinara and melted mozzarella",
-          price: [11.75],
+          price: [13.00],
         },
       ],
     },
@@ -36,37 +36,37 @@ const lunchMenu = {
           name: "BOCCOCINI",
           description:
             "fresh mozzarella, spinach, tomato and pesto with italian vinaigrette",
-          price: [11.5],
+          price: [12.5],
         },
         {
           name: "GRILLED VEGETABLE",
           description:
             "zucchini, yellow squash, roasted red peppers, spinach and goat cheese",
-          price: [11.5],
+          price: [12.5],
         },
         {
           name: "L'ITALIANO",
           description:
             "genoa salami, capicollo, prosciutto, fresh mozzarella, roasted red peppers, fresh spinach and italian vinaigrette",
-          price: [11.5],
+          price: [12.5],
         },
         {
           name: "NAPOLEAN VEGETABLE",
           description:
             "marinated artichoke hearts, roasted red peppers, fontinella cheese, basil and balsamic vinaigrette",
-          price: [11.5],
+          price: [12.5],
         },
         {
           name: "TURKEY SICILIANO",
           description:
             "smoked turkey breast with honey mustard, swiss cheese and pimento olives",
-          price: [10.5],
+          price: [11.5],
         },
         {
           name: "TURKEY MONA LISA",
           description:
             "smoked turkey breast with smoked mozzarella, roasted red peppers, red onion and balsamic vinaigrette",
-          price: [10.5],
+          price: [11.5],
         },
       ],
     },
@@ -77,23 +77,23 @@ const lunchMenu = {
         {
           name: "CONCHIGLIETTI",
           description: "with fresh herbed tomato cream sauce",
-          price: [12.5],
+          price: [13],
         },
         {
           name: "LINGUINI MARINARA",
           description: "with a homemade meatball",
-          price: [12.5],
+          price: [13],
         },
         {
           name: "RIGATONI PRIMAVERA",
           description:
             "with broccoli, extra virgin olive oil, and parmesan cheese",
-          price: [12.5],
+          price: [13],
         },
         {
           name: "RIGATONI AND RICOTTA",
           description: "with mozzarella, pecorino, and marinara",
-          price: [12.5],
+          price: [13],
         },
       ],
     },
@@ -104,29 +104,29 @@ const lunchMenu = {
       items: [
         {
           name: "TURKEY MONA LISA",
-          price: [9.75],
+          price: [10.25],
         },
         {
           name: "BOCCOCINI",
-          price: [9.75],
+          price: [10.25],
         },
         {
           name: "TURKEY SICILIANO",
-          price: [9.75],
+          price: [10.25],
         },
       ],
     },
     {
       header: "OTHER LUNCH SPECIALS",
       items: [
-        { name: "Pasta of the Day and House Salad", price: [13] },
-        { name: '9" Pizza: Cheese, Sausage or Pepperoni', price: [11.25] },
-        { name: "House Salad and Bowl of Soup", price: [9.5] },
+        { name: "Pasta of the Day and Cup of Romaine Salad", price: [14] },
+        { name: '9" Pizza: Cheese, Sausage or Pepperoni', price: [12] },
+        { name: "House Salad and Bowl of Soup", price: [10] },
         {
           name: "Half Specialty Sandwich and House Salad or Cup of Soup",
-          price: [10.25],
+          price: [11],
         },
-        { name: "Basket of Bread or Sweet Potato Chips", price: [2.25] },
+        { name: "Basket of Bread or Sweet Potato Chips", price: [3] },
       ],
     },
   ],
@@ -141,24 +141,24 @@ const dinnerMenu = {
           name: "BAKED GOAT CHEESE",
           description:
             "in fresh herbed marinara, served with toasted rustic pesto bread",
-          price: 10.0,
+          price: 13.75,
         },
         {
           name: "BRUSCHETTA",
           description:
             "toasted rustic bread with diced tomato, basil, and garlic",
-          price: 8.5,
+          price: 9.75,
         },
         {
           name: "CALAMARI",
           description:
             "flash fried and tossed with parmesan, pepperoncini, lemon, and parsley, served with spicy marinara sauce",
-          price: 12.5,
+          price: 17.00,
         },
         {
           name: "MUSSELS",
           description: "sun-dried tomatoes, fresh herbs, and white wine crema",
-          price: 13.0,
+          price: 17.50,
         },
         {
           name: "CHEESE PLATTER",
@@ -216,13 +216,13 @@ const dinnerMenu = {
           name: "ARANCINE",
           description:
             "crisp, breaded risotto balls with fontinella, prosciutto, and parmesan",
-          price: [6.75],
+          price: [7.00],
         },
         {
           name: "GRILLED OCTOPUS",
           description:
             "cannelloni beans, arugula, fresh herbs, and lemon balsamic",
-          price: [14.0],
+          price: [16.0],
         },
         {
           name: "MEATBALLS",
@@ -269,7 +269,7 @@ const dinnerMenu = {
           name: "GRILLED CHICKEN SALAD",
           description:
             "romaine, tomato, mozzarella, red onion, red cabbage with italian dressing",
-          price: [16.0],
+          price: [17.0],
           options: [
             {
               item: "Extra dressing",
@@ -307,7 +307,7 @@ const dinnerMenu = {
           name: "SHRIMP SALAD",
           description:
             "romaine, tomato, mozzarella, red onion, red cabbage with italian dressing",
-          price: [19.0],
+          price: [20.0],
           options: [
             {
               item: "Add Chicken",
@@ -323,7 +323,7 @@ const dinnerMenu = {
           name: "WALNUT-GORGONZOLA",
           description:
             "arugula, shaved pear, and tomato with walnut dijon vinaigrette",
-          price: [14.0],
+          price: [14.75],
           options: [
             {
               item: "Add Chicken",
@@ -344,7 +344,7 @@ const dinnerMenu = {
         {
           name: "ANGEL HAIR",
           description: "artichokes with pesto and marinara",
-          price: [16.5],
+          price: [17.00],
           options: [
             {
               item: "Add Chicken",
@@ -363,12 +363,12 @@ const dinnerMenu = {
         {
           name: "ASIAGO STUFFED GNOCCHI",
           description: "topped with chicken parmesan in a creamy vodka sauce",
-          price: [21.0],
+          price: [23.0],
         },
         {
           name: "BAKED RIGATONI",
           description: "with ricotta, mozzarella and marinara",
-          price: [16.75],
+          price: [18.00],
           options: [
             {
               item: "Add Chicken",
@@ -387,7 +387,7 @@ const dinnerMenu = {
         {
           name: "CHEESE LASAGNA",
           description: "with marinara or meat sauce",
-          price: [10.75, 14.75],
+          price: [11.00, 15.00],
           sauces: [
             {
               item: "Marinara Sauce",
@@ -418,7 +418,7 @@ const dinnerMenu = {
         {
           name: "CHEESE RAVIOLI",
           description: "with fresh basil and marinara",
-          price: [14.75],
+          price: [15.75],
           options: [
             {
               item: "Add Chicken",
@@ -458,7 +458,7 @@ const dinnerMenu = {
         {
           name: "FARFALLE WITH CHICKEN",
           description: "with zucchini and tomatoes in white wine and lemon",
-          price: [16.75],
+          price: [18.00],
           options: [
             {
               item: "Whole wheat Pasta",
@@ -473,7 +473,7 @@ const dinnerMenu = {
         {
           name: "FARFALLE WITH SALMON",
           description: "asparagus, tomato, white wine, topped with parmesan",
-          price: [23.75],
+          price: [25.00],
           options: [
             {
               item: "Add Chicken",
@@ -492,7 +492,7 @@ const dinnerMenu = {
         {
           name: "HOMEMADE SPINACH GNOCCHI",
           description: "light marinara, basil, parmesan, and tomatoes",
-          price: [16.5],
+          price: [16.75],
           options: [
             {
               item: "Add Chicken",
@@ -503,7 +503,7 @@ const dinnerMenu = {
         {
           name: "LINGUINE MARINARA",
           description: "with our famous all-beef meatballs",
-          price: [12.75, 16.75],
+          price: [13, 17],
           options: [
             {
               item: "Add Chicken",
@@ -532,7 +532,7 @@ const dinnerMenu = {
         {
           name: "LINGUINE SHRIMP SCAMPI",
           description: "with tomatoes, pine nutes, and parmesan cheese",
-          price: [23.75],
+          price: [25],
           options: [
             {
               item: "Add Chicken",
@@ -551,7 +551,7 @@ const dinnerMenu = {
         {
           name: "LINGUINE WITH CLAMS AND MUSSELS",
           description: "prosciutto, white wine, & flakes of red pepper",
-          price: 24.0,
+          price: 26,
           options: [
             {
               item: "Add Chicken",
@@ -570,7 +570,7 @@ const dinnerMenu = {
         {
           name: "RIGATONI AND RICOTTA",
           description: "with mozzarella, percorino, and marinara sauce",
-          price: [11, 15],
+          price: [12, 16],
           options: [
             {
               item: "Add Chicken",
@@ -599,7 +599,7 @@ const dinnerMenu = {
         {
           name: "RIGATONI PRIMAVERA",
           description: "broccoli, garlic, olive oil, and parmesan",
-          price: [10.75, 14.75],
+          price: [11, 15],
           options: [
             {
               item: "Add Chicken",
@@ -629,7 +629,7 @@ const dinnerMenu = {
           name: "SPINACH LASAGNA",
           description:
             "with ricotta, mozzarella, and herbed tomato cream sauce",
-          price: [13, 17],
+          price: [13.50, 17.50],
           options: [
             {
               item: "Add Chicken",
@@ -651,7 +651,7 @@ const dinnerMenu = {
           name: "TAGLIATELLE",
           description:
             "with truffled wild mushrooms, sweet peas, and ricotta salata",
-          price: [21.0],
+          price: [21.75],
           options: [
             {
               item: "Add Chicken",
@@ -671,7 +671,7 @@ const dinnerMenu = {
           name: "TORTELLINI DELLA NONNA",
           description:
             "beef filled pasta with spinach, prosciutto, & white cream sauce",
-          price: [18.75],
+          price: [19.00],
           options: [
             {
               item: "Add Chicken",
@@ -683,7 +683,7 @@ const dinnerMenu = {
           name: "ZITI PRIMAVERA",
           description:
             "green beans, mushrooms, tomatoes, onions, olive oil, and mozzarella",
-          price: [14.75],
+          price: [15],
           options: [
             {
               item: "Add Chicken",
@@ -708,7 +708,7 @@ const dinnerMenu = {
         {
           name: "DEMI",
           description: "chicken, fresh tomato, mozzarella, and pesto",
-          price: [14.75, 17.75, 20.75],
+          price: [15, 18, 21],
           sizes: [
             {
               name: '9"',
@@ -728,7 +728,7 @@ const dinnerMenu = {
           name: "FLORENTINE",
           description:
             "grilled squash, zucchini, eggplant, red pepper, spinach, goat cheese, mozzarella, marinara",
-          price: [14.75, 17.75, 20.75],
+          price: [16, 18, 21],
           sizes: [
             {
               name: '9"',
@@ -748,26 +748,7 @@ const dinnerMenu = {
           name: "GENOA",
           description:
             "salami, green olive, onion, pecorino, mozzarella, marinara",
-          price: [13.75, 16.75, 19.75],
-          sizes: [
-            {
-              name: '9"',
-              price: 0,
-            },
-            {
-              name: '12"',
-              price: 3,
-            },
-            {
-              name: '14"',
-              price: 6,
-            },
-          ],
-        },
-        {
-          name: "MARGHERITA",
-          description: "tomatoes, fresh mozzarella, fresh basil, and marinara",
-          price: [12.75, 15.75, 18.75],
+          price: [15, 18, 21],
           sizes: [
             {
               name: '9"',
@@ -786,7 +767,7 @@ const dinnerMenu = {
         {
           name: "PARMA",
           description: "prosciutto, shaved parmesan, marinara, basil",
-          price: [13.75, 16.75, 19.75],
+          price: [15, 18, 21],
           sizes: [
             {
               name: '9"',
@@ -805,7 +786,7 @@ const dinnerMenu = {
         {
           name: "ROMA",
           description: "broccoli, jicama, tomato, marinara, and mozzarella",
-          price: [12.75, 15.75, 18.75],
+          price: [14, 17, 20],
           sizes: [
             {
               name: '9"',
@@ -824,7 +805,7 @@ const dinnerMenu = {
         {
           name: "SICILIAN",
           description: "marinara, shrimp, anchovy, black olive, mozzarella",
-          price: [14.75, 17.75, 20.75],
+          price: [16, 19, 22],
           sizes: [
             {
               name: '9"',
@@ -849,31 +830,31 @@ const dinnerMenu = {
           name: "GRILLED NEW YORK STRIP STEAK",
           description:
             "tender choice steak with rosemary mashed red potatoes, green beans, and barolo wine sauce",
-          price: [25.75],
+          price: [27],
         },
         {
           name: "CHICKEN PARMIGIANO",
           description:
             "lightly breaded chicken breasts on a bed of linguine marinara, topped with melted parmesan",
-          price: [20.0],
+          price: [22],
         },
         {
           name: "VEAL SCALOPPINE",
           description:
             "with sautéed spinach, gorgonzola, and creamy wild mushroom marsala",
-          price: [25.0],
+          price: [27],
         },
         {
           name: "LAMB SHANK",
           description:
             "on the bone lamb shank with mustard glaze, rosemary mashed potatoes and grilled asparagus with fresh basil sauce",
-          price: [29.75],
+          price: [31],
         },
         {
           name: "ORGANIC PETITE CHICKEN",
           description:
             "pan-roasted whole and semi-deboned on broccoli sautéed with garlic, pine nuts, oven-roasted tomato, and sage crema broth",
-          price: [23.0],
+          price: [25],
         },
       ],
     },
@@ -884,13 +865,13 @@ const dinnerMenu = {
           name: "CIOPPINO",
           description:
             "made-to-order stew of clams, mussels, calamari, octopus, shrimp, and bronzini with potato and leeks in a spiced tomato broth served with rustic croutons",
-          price: [29.0],
+          price: [31],
         },
         {
           name: "GRILLED SALMON",
           description:
             "fresh Atlantic salmon on cannellini beans, roasted tomato, leeks, pancetta, arugula, and fresh herb broth",
-          price: [25.0],
+          price: [27],
         },
         {
           name: "PAN-ROASTED BRONZINI",
@@ -902,7 +883,7 @@ const dinnerMenu = {
           name: "SHRIMP RISOTTO",
           description:
             "with fresh basil, lemon, roasted tomatoes, and flakes of red pepper",
-          price: [22.75],
+          price: [24],
         },
       ],
     },
@@ -911,7 +892,7 @@ const dinnerMenu = {
       items: [
         {
           name: "BROCCOLI",
-          price: [4.25],
+          price: [6.0],
         },
         {
           name: "DINNER SALAD WITH HOUSE-MADE ITALIAN DRESSING",
@@ -919,11 +900,11 @@ const dinnerMenu = {
         },
         {
           name: "GRILLED ASPARAGUS",
-          price: [4.5],
+          price: [6],
         },
         {
           name: "GRILLED CHICKEN",
-          price: [5.25],
+          price: [7],
         },
         {
           name: "MEATBALL",
@@ -931,11 +912,11 @@ const dinnerMenu = {
         },
         {
           name: "PASTA: PLAIN, BUTTERED, MARINARA, OR OLIVE OIL",
-          price: [9.25],
+          price: [11],
         },
         {
           name: "SAUTÉED SHRIMP",
-          price: [7.25],
+          price: [8],
         },
       ],
     },
@@ -945,22 +926,22 @@ const dinnerMenu = {
         {
           name: "HAZELNUT PEAR TART",
           description: "Served warm, with amaretto sauce and coffee gelato",
-          price: [11.75],
+          price: [12.50],
         },
         {
           name: "LIMÓNCELLO CRÉME BRULEE",
           description: "With fresh berries",
-          price: [9.5],
+          price: [10],
         },
         {
           name: "MOLTEN CHOCOLATE CAKE",
           description: "Served warm, with raspberry sauce and vanilla gelato",
-          price: [11.0],
+          price: [12.0],
         },
         {
           name: "TIRAMISU",
           description: "With fresh berries",
-          price: [10.5],
+          price: [12],
         },
       ],
     },
@@ -1023,10 +1004,6 @@ const dinnerMenu = {
         {
           name: "PERONI",
           price: [7.25],
-        },
-        {
-          name: "BUD'S CORVUS IRISH STYLE DRY STOUT",
-          price: [8.25],
         },
         {
           name: "SKETCHBOOK ORANGE DOOR IPA",
@@ -1170,7 +1147,7 @@ const mongo_uri = process.env.MONGO_URI;
 async function main() {
   console.log("main");
   try {
-    await mongoose.connect(mongo_uri);
+    await mongoose.connect("mongodb+srv://Quinncja:l2jYiJ3kSKEmQlNK@cluster0.abciqd2.mongodb.net/?retryWrites=true&w=majority");
     console.log("Database connected Successfully");
   } catch (err) {
     console.error("Error connecting to MongoDB:", err);
@@ -1183,8 +1160,7 @@ async function main() {
     .on("error", function (err) {
       console.log("Error", err);
     });
-
-  updateMenu();
+    updateMenu();
 }
 
 async function updateMenuData(menuType, menuData) {
