@@ -176,7 +176,6 @@ function canFitLargeTable(currentConfig, tableSize) {
   return true;
 }
 
-
 function getCurrentTableConfiguration(overlapRes) {
   let currentConfig = { ...baseConfiguration };
 
@@ -229,8 +228,14 @@ function checkTableAvailability(overlapRes, tableSize) {
 }
 
 function checkAvailability(reservations, tableOptions, time, override) {
-  if (!override && (reservations.some((res) => res.time === time && res.state !== "cancel")))
+  const exactTimeReservations = reservations.filter((res) => 
+    res.time === time && res.state !== "cancel"
+  );
+  
+  if (!override && exactTimeReservations.length >= 2) {
     return false;
+  }
+  
   const overlapRes = reservations.filter(
     (reservation) =>
       isWithinOneHourAndFifteen(time, reservation.time) &&
@@ -263,7 +268,6 @@ function isTimeValidForToday(time12) {
 
   return reservationTimeInMinutes > currentTimeInMinutes + 15;
 }
-
 
 async function reservationChecker(numGuests, desiredDate, desiredTime, override) {
   const targetDate = new Date(desiredDate);
@@ -358,7 +362,6 @@ async function reservationChecker(numGuests, desiredDate, desiredTime, override)
             }
           }
         } else {
-      
           availableTimeSlots = hourOptions.slice(dayStartIndex, dayEndIndex + 1);
         }
       } else {
@@ -396,33 +399,56 @@ async function reservationChecker(numGuests, desiredDate, desiredTime, override)
   const reservations = await Reservation.find({ date: { $gte: startOfDay, $lt: endOfDay }});
   const tableOptions = tableSizes[numGuests];
 
-  if (availableTimeSlots.includes(convertTo12Hour(desiredTime))) {
-    const foundTable = checkAvailability(reservations, tableOptions, desiredTime, override);
+  const desiredTime12 = convertTo12Hour(desiredTime);
+  const desiredTime24 = desiredTime;
+
+  if (availableTimeSlots.includes(desiredTime12)) {
+    const foundTable = checkAvailability(reservations, tableOptions, desiredTime24, override);
     if (foundTable) return { available: foundTable, suggestions: [] };
   }
 
+  const desiredTimeIndex = getHourIndex(desiredTime12);
+  
   let suggestions = [];
-  const desiredTimeIndex = getHourIndex(desiredTime);
 
-  const sortedTimeSlots = availableTimeSlots
-    .map(time => ({
-      time,
-      distance: Math.abs(getHourIndex(time) - desiredTimeIndex)
-    }))
-    .sort((a, b) => a.distance - b.distance)
-    .map(item => item.time);
-
-    for (const time of sortedTimeSlots) {
-      if (time === desiredTime) continue; 
-      
-      const suggestion = checkAvailability(reservations, tableOptions, convertTo24Hour(time), override);
+  if (desiredTimeIndex === -1) {
+    for (const time12 of availableTimeSlots) {
+      const time24 = convertTo24Hour(time12);
+      const suggestion = checkAvailability(reservations, tableOptions, time24, override);
       if (suggestion) {
-        suggestions.push(suggestion);
+        suggestions.push({
+          time: suggestion.time,
+          table: suggestion.table
+        });
         if (suggestions.length >= 5) break;
       }
     }
-    return { available: false, suggestions };
+  } else {
+    const sortedTimeSlots = availableTimeSlots
+      .map(time => ({
+        time,
+        distance: Math.abs(getHourIndex(time) - desiredTimeIndex)
+      }))
+      .sort((a, b) => a.distance - b.distance)
+      .map(item => item.time);
+
+    for (const time12 of sortedTimeSlots) {
+      if (time12 === desiredTime12) continue; 
+      
+      const time24 = convertTo24Hour(time12);
+      const suggestion = checkAvailability(reservations, tableOptions, time24, override);
+      if (suggestion) {
+        suggestions.push({
+          time: suggestion.time,
+          table: suggestion.table
+        });
+        if (suggestions.length >= 5) break;
+      }
+    }
   }
+  
+  return { available: false, suggestions };
+}
 
 module.exports = {
   reservationChecker,

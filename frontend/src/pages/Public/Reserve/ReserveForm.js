@@ -76,20 +76,22 @@ function ReserveForm(props) {
 
   return (
     <>
-      <div className="row flex-end mobile">
+    <div>
+      <div className="row flex-end mobile" style={{paddingBottom: "0px"}}>
         {Input(inputObjs.name)}
         {Input(inputObjs.phone)}
       </div>
+      <div style={{display: "flex", flexDirection: "column", gap: "10px", paddingTop: "15px"}}> 
+        <span className="reserve-small-text"> • A confirmation text will be sent upon
+        reserving. If you do not recieve a text, please call the restaurant to confirm your reservation.
+        </span>
+      </div>
+      </div>
+      <div> 
       {Input(inputObjs.message)}
-      <div className="reserve-small-text">
-        {" "}
-        • Outdoor seating is first come first serve.
-        <div className="br" />• Your reservation will be held for 10 minutes.
-        Please contact us if your party is running late.
-        <div className="br" />• You will be sent a confirmation text upon
-        reserving. Message and data rates may apply.
-        <div className="br" />
-        <div className="br" />
+      <div className="reserve-small-text" style={{paddingTop: "15px"}}>
+        • Please note, outdoor seating is first come first serve.
+      </div>
       </div>
       <button className="submit-button" type="button" onClick={onSubmit}>
         Reserve

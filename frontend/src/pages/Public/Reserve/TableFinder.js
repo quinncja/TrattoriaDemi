@@ -58,16 +58,14 @@ const TableFinder = forwardRef((props, ref) => {
 
   const inputText = {
     guestNum: "Party Size",
-    dateTxt: "Date",
+    dateTxt: "Date", 
     timeTxt: "Time",
-    button:
-      time && availableTimes && availableTimes.length > 0
-        ? `${convertTo12Hour(
-            time
-          )} is not available. Select an alternative time`
-        : `${convertTo12Hour(
-            time
-          )} is not available. Please call us at 847-332-2330 to reserve a table.`,
+    button: time && availableTimes && availableTimes.length > 0
+      ? [
+          `${convertTo12Hour(time)} is not available.`,
+          `Select from the alternative times below, or call us at 847-332-2330 to reserve a table.`
+        ]
+      : `${convertTo12Hour(time)} is not available. Please call us at 847-332-2330 to reserve a table.`,
   };
 
   function formatDate(date) {
@@ -367,7 +365,17 @@ const TableFinder = forwardRef((props, ref) => {
         {availableTimes && (
           <AnimatePresence>
             <motion.div {...fadeInDown}>
-              <label className="input-text"> {inputText.button} </label>
+            <label className="input-text">
+                {Array.isArray(inputText.button) ? (
+                  <>
+                    {inputText.button[0]}
+                    <br />
+                    <span style={{fontWeight: '400'}}> {inputText.button[1]} </span>
+                  </>
+                ) : (
+                  inputText.button
+                )}
+              </label>
               <div className="reserve-buttons">
                 {getTimeButtons(availableTimes)}
               </div>

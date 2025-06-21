@@ -35,7 +35,11 @@ function FoundTable(props) {
             Edit
           </button>
         </div>
+        <div style={{paddingTop: "15px"}}> 
+          <span className="reserve-small-text" style={{fontWeight: '400'}}>• Your reservation will be held for <span style={{fontWeight: "800", fontSize: "17px"}}> 10 minutes. </span> Please contact us by phone if your party is running late. </span>  
+        </div>
       </motion.div>
+      
     </AnimatePresence>
   );
 }
