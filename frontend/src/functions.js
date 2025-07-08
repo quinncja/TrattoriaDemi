@@ -113,6 +113,21 @@ export function calculateDates(periodNumber) {
   return [formatDate(startDate), formatDate(endDate)];
 }
 
+export function calculateHolidayDate(periodNumber) {
+  const basePeriod = Math.floor(periodNumber);
+  
+  const baseDate = new Date("2024-01-01");
+  const endDate = new Date(baseDate);
+  endDate.setDate(baseDate.getDate() + basePeriod * 14);
+  
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  
+  return monthNames[endDate.getMonth()];
+}
+
 export function formatDates(array) {
   return `${array[0]} -\n ${array[1]}`;
 }
@@ -145,4 +160,19 @@ export function getFirstWord(inputStr) {
   const words = trimmedStr.split(/\s+/);
 
   return words[0];
+}
+
+export function dollarFormatter(input) {
+  const number = parseFloat(input);
+
+  if (isNaN(number)) {
+    return null;
+  }
+
+  const formattedNumber = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(number);
+
+  return formattedNumber;
 }

@@ -50,7 +50,7 @@ export function PayrollDash() {
           container: 'payroll-popup',
           title: "swal-header",
           confirmButton: "submit-button payroll-confirm",
-          denyButton: "submit-button payroll-deny",
+          denyButton: "submit-button holiday-button payroll-deny",
           htmlContainer: "swal-text-container",
         },
         showConfirmButton: true,
@@ -67,8 +67,6 @@ export function PayrollDash() {
             <span>Holiday Payroll</span>
           </div>
         `,
-        allowOutsideClick: false,
-        allowEscapeKey: false,
         focusConfirm: true,
       }).then((result) => {
         if (result.isConfirmed) {
@@ -108,11 +106,13 @@ export function PayrollDash() {
   }, []);
 
   return (
-    <div className="dash-item dash-item-full">
+    <div className="dash-item dash-item-full" style={{paddingBottom: "20px"}}>
       <div
         style={{
           display: "flex",
           flexDirection: "row",
+          paddingInline: "30px",
+          paddingTop: "20px",
           justifyContent: "space-between",
           alignItems: "center",
         }}

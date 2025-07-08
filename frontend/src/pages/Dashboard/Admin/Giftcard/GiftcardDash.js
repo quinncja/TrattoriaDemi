@@ -18,7 +18,7 @@ function GiftcardDash() {
   }, []);
 
   return (
-    <div className="dash-item">
+    <div className="dash-item" style={{paddingBlock: '30px', paddingInline: "35px"}}>
       <div
         style={{
           display: "flex",

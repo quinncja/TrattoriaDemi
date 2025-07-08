@@ -23,7 +23,6 @@ function PayrollHeader({
   handleDelete,
 }) {
 
-  console.log(payrollData)
   const [dates, setDates] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const clickHandler = (newPeriod) => {
