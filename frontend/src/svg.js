@@ -783,3 +783,13 @@ export const snowflakeSvg = () => {
     </svg>
   );
 };
+
+export const prevArrow = () => {
+  return(
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4.79999 8.79999L7.69999 11.5" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M4.79999 8.8L7.69999 6" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M5.79999 8.79999H14.4C17.1 8.79999 19.2 10.9 19.2 13.4C19.2 15.9 17 18 14.4 18" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  )
+}

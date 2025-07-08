@@ -596,7 +596,7 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-  width: 350px;
+  width: 50%;
 }
 
 .old-payrolls-wrapper {
@@ -637,6 +637,25 @@
 
 .old-payroll:hover {
   filter: brightness(120%);
+}
+
+.payroll-popup .swal2-actions{
+  margin: 0 !important;
+  gap: 20px !important;
+  text-align: center !important;
+}
+.swal-actions-row {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 1rem !important;
+  width: 100% !important;
+  justify-content: center !important;
+}
+
+.payroll-confirm,
+.payroll-deny {
+  flex: 1 !important;
+  max-width: 200px !important;
 }
 
 .new-payroll {

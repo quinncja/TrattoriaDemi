@@ -112,7 +112,9 @@ function Payroll() {
     <>
       <PayrollHeader
         editing={editing}
+        isHoliday={currentPeriod % 2}
         isNew={!payrollData?.total}
+        payrollData={payrollData}
         handleEditedData={handleEditedData}
         handleEdit={handleEdit}
         handleClick={handleSave}

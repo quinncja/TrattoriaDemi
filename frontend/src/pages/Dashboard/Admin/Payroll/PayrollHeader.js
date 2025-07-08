@@ -14,12 +14,16 @@ import {
 function PayrollHeader({
   handleClick,
   isNew,
+  isHoliday,
   currentPeriod,
   editing,
   handleEdit,
+  payrollData,
   handlePrint,
   handleDelete,
 }) {
+
+  console.log(payrollData)
   const [dates, setDates] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const clickHandler = (newPeriod) => {
@@ -31,6 +35,78 @@ function PayrollHeader({
     setDates(calculateDates(currentPeriod));
   }, [currentPeriod]);
 
+  const chicagoDate = new Date().toLocaleDateString("en-US", {
+    timeZone: "America/Chicago"
+  });
+
+  if(isHoliday) return(
+    <div className="payroll-header">
+    <div>
+      <div className="dbn-name dbn-name-bigger">Holiday Payroll</div>
+      <div className="payroll-dates">
+        {!isNew ? payrollData ? new Date(payrollData.createdDate).toLocaleDateString("en-US", {
+    timeZone: "America/Chicago"
+  }) : "" : chicagoDate}
+      </div>
+    </div>
+    <div className="right-row">
+        {editing ? (
+          <div className="button-row">
+            {!isNew && (
+              <button
+                title="Cancel"
+                className="submit-button less-height payroll-btn"
+                type="button"
+                onClick={handleEdit}
+              >
+                {" "}
+                {cancelSvg()}{" "}
+              </button>
+            )}
+            <button
+              title="Save"
+              className="submit-button less-height payroll-btn"
+              type="button"
+              onClick={handleClick}
+            >
+              {" "}
+              {saveSvg()}{" "}
+            </button>
+          </div>
+        ) : (
+          <div className="button-row">
+            <button
+              title="Edit"
+              className="submit-button less-height payroll-btn"
+              type="button"
+              onClick={handleEdit}
+            >
+              {" "}
+              {editSvg()}{" "}
+            </button>
+            <button
+              title="Print"
+              className="submit-button less-height payroll-btn"
+              type="button"
+              onClick={handlePrint}
+            >
+              {" "}
+              {printSvg()}{" "}
+            </button>
+            <button
+              title="Delete"
+              className="submit-button less-height payroll-btn"
+              type="button"
+              onClick={handleDelete}
+            >
+              {" "}
+              {trashCanSvg()}{" "}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
   return (
     <div className="payroll-header">
       <div>

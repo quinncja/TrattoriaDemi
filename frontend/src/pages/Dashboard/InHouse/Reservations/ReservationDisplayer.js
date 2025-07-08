@@ -1,14 +1,11 @@
 import React from "react";
 import Reservation from "./Reservation";
-import { toast } from "sonner";
-import { AnimatePresence, motion } from "framer-motion";
-import { fadeInMany, fadeInReservations } from "animations";
+import { AnimatePresence } from "framer-motion";
 import { useMobile } from "context/MobileContext";
 
 function ReservationDisplayer(props) {
   const { liveRes, cancelledRes, patchRes, setResModal, loading } = props;
   const { phone } = useMobile();
-  const height = phone ? "4.7rem" : "5.5rem"
 
   function handleBtnClick(res, state) {
     patchRes(res, state);
@@ -31,18 +28,6 @@ function ReservationDisplayer(props) {
   const sortedCancelledRes = [...cancelledRes].sort((a, b) =>
     compareTime(a.time, b.time)
   );
-
-  const containerVariants = {
-    hidden: {
-      opacity: 1,
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
 
   function mapReservations(resToMap) {
     return resToMap.map((res, index) => (

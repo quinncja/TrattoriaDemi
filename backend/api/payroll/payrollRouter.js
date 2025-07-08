@@ -242,9 +242,14 @@ async function makeEmptyPayroll(period) {
 
   const payments = await Payment.insertMany(paymentsData);
 
+  const chicagoDate = new Date().toLocaleString("en-US", {
+    timeZone: "America/Chicago"
+  });
+  
   let newPayroll = new Payroll({
     period: period,
     payments: payments.map((payment) => payment._id),
+    createdDate: new Date(chicagoDate)
   });
 
   newPayroll = await newPayroll.save();
@@ -257,7 +262,7 @@ payrollRouter.get("/", async (req, res) => {
 
     if (!period) {
       return res.status(400).send("Period is required");
-    } else period = parseInt(period);
+    } else period = parseFloat(period);
 
     let payroll = await findPayrollByPeriod(period);
 
@@ -432,7 +437,7 @@ payrollRouter.delete("/period/:period", async (req, res) => {
   let { period } = req.params;
 
   try {
-    period = parseInt(period);
+    period = parseFloat(period);
     if (isNaN(period)) {
       return res.status(400).json({ message: "Invalid period parameter" });
     }
