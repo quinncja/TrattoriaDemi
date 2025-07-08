@@ -580,46 +580,47 @@ reservationRouter.get("/stats", async (req, res) => {
   try {
     const now = new Date();
 
-    const chicagNow = new Date(
+    const chicagoNow = new Date(
       `${now.toLocaleString("en-US", { timeZone: "America/Chicago" })} GMT`
     );
 
     const todayStart = new Date(
-      chicagNow.getFullYear(),
-      chicagNow.getMonth(),
-      chicagNow.getDate(),
+      chicagoNow.getFullYear(),
+      chicagoNow.getMonth(),
+      chicagoNow.getDate(),
       0,
       0,
       0
     );
     const todayEnd = new Date(
-      chicagNow.getFullYear(),
-      chicagNow.getMonth(),
-      chicagNow.getDate(),
+      chicagoNow.getFullYear(),
+      chicagoNow.getMonth(),
+      chicagoNow.getDate(),
       23,
       59,
       59
     );
 
-    const lastWeekEnd = new Date(chicagNow);
+    const lastWeekEnd = new Date(chicagoNow);
     lastWeekEnd.setDate(lastWeekEnd.getDate() - 1); 
 
-    const lastWeekStart = new Date(chicagNow);
+    const lastWeekStart = new Date(chicagoNow);
     lastWeekStart.setDate(lastWeekStart.getDate() - 6); 
 
-    const monthStart = new Date(chicagNow.getFullYear(), chicagNow.getMonth(), 1);
+    // Ensure consistent timezone handling for all date ranges
+    const monthStart = new Date(chicagoNow.getFullYear(), chicagoNow.getMonth(), 1, 0, 0, 0);
     const monthEnd = new Date(
-      chicagNow.getFullYear(),
-      chicagNow.getMonth() + 1,
+      chicagoNow.getFullYear(),
+      chicagoNow.getMonth() + 1,
       0,
       23,
       59,
       59
     );
 
-    const yearStart = new Date(chicagNow.getFullYear(), 0, 1);
+    const yearStart = new Date(chicagoNow.getFullYear(), 0, 1, 0, 0, 0);
     const yearEnd = new Date(
-      chicagNow.getFullYear(),
+      chicagoNow.getFullYear(),
       11,
       31,
       23,
@@ -627,7 +628,8 @@ reservationRouter.get("/stats", async (req, res) => {
       59
     );
 
-    const allTimeStart = new Date(0);
+    // Use a more reasonable start date - adjust based on your actual data
+    const allTimeStart = new Date(2020, 0, 1, 0, 0, 0);
     const allTimeEnd = new Date(9999, 11, 31, 23, 59, 59);
 
     function combineState(state) {
@@ -643,14 +645,18 @@ reservationRouter.get("/stats", async (req, res) => {
       }).select("numGuests state");
 
       let totalGuests = 0;
-      let totalReservations = 0;
+      let totalReservations = 0; // Only count arrived and upcoming
       const groupingMap = {};
 
       for (const r of reservations) {
-        totalGuests += r.numGuests;
-        totalReservations++;
-
         const cState = combineState(r.state);
+        
+        // Only count guests and reservations for arrived/upcoming
+        if (cState === "arrUp") {
+          totalGuests += r.numGuests;
+          totalReservations++;
+        }
+
         const numGuestsKey = String(r.numGuests);
 
         if (!groupingMap[numGuestsKey]) {
@@ -695,109 +701,57 @@ reservationRouter.get("/stats", async (req, res) => {
         throw new Error("Invalid grouping unit");
       }
 
-      
-      const results = await Reservation.aggregate([
-        {
-          $match: {
-            date: { $gte: startDate, $lte: endDate },
-          },
-        },
-        {
-
-          $addFields: {
-            stateGroup: {
-              $switch: {
-                branches: [
-                  {
-                    case: { $in: ["$state", ["arrived", "upcoming"]] },
-                    then: "arrUp",
-                  },
-                  {
-                    case: { $eq: ["$state", "noshow"] },
-                    then: "noshow",
-                  },
-                  {
-                    case: { $eq: ["$state", "cancel"] },
-                    then: "cancel",
-                  },
-                ],
-                default: "other",
-              },
-            },
-          },
-        },
-        {
-
-          $addFields: {
-            truncatedDate: {
-              $dateTrunc: {
-                date: "$date",
-                unit: groupBy, 
-                timezone: "America/Chicago",
-              },
-            },
-          },
-        },
-        {
-
-          $group: {
-            _id: {
-              date: "$truncatedDate",
-              stateGroup: "$stateGroup",
-            },
-            count: { $sum: 1 },
-          },
-        },
-        {
-  
-          $sort: { "_id.date": 1 },
-        },
-      ]);
+      // Use a simpler approach that matches your date filtering exactly
+      const reservations = await Reservation.find({
+        date: { $gte: startDate, $lte: endDate },
+      }).select("date state");
 
       const dateMap = {};
 
-      for (const doc of results) {
-        const { date, stateGroup } = doc._id;
-
-
+      for (const reservation of reservations) {
+        const cState = combineState(reservation.state);
+        
+        // Convert to Chicago timezone and format consistently
+        const chicagoDate = new Date(reservation.date.toLocaleString("en-US", { timeZone: "America/Chicago" }));
+        
         let dateKey;
         if (groupBy === "day") {
-          dateKey = date.toISOString().split("T")[0]; 
+          const year = chicagoDate.getFullYear();
+          const month = String(chicagoDate.getMonth() + 1).padStart(2, "0");
+          const day = String(chicagoDate.getDate()).padStart(2, "0");
+          dateKey = `${year}-${month}-${day}`;
         } else {
-
-          const y = date.getFullYear();
-          const m = String(date.getMonth() + 1).padStart(2, "0");
-          dateKey = `${y}-${m}`;
+          const year = chicagoDate.getFullYear();
+          const month = String(chicagoDate.getMonth() + 1).padStart(2, "0");
+          dateKey = `${year}-${month}`;
         }
 
         if (!dateMap[dateKey]) {
           dateMap[dateKey] = { arrUp: 0, noshow: 0, cancel: 0 };
         }
 
-        if (["arrUp", "noshow", "cancel"].includes(stateGroup)) {
-          dateMap[dateKey][stateGroup] += doc.count;
+        if (["arrUp", "noshow", "cancel"].includes(cState)) {
+          dateMap[dateKey][cState] += 1;
         }
       }
 
+      // PERFORMANCE FIX: Only fill missing periods for specific cases
       if (groupBy === "month") {
-        const startY = startDate.getFullYear();
-        const endY = endDate.getFullYear();
-
-
-        const isSingleYearRange =
-          startY === endY &&
-          startDate.getMonth() === 0 &&
-          endDate.getMonth() === 11;
-
-        if (isSingleYearRange) {
-
+        // Only fill current year for year view, don't fill massive date ranges
+        const isYearView = startDate.getFullYear() === endDate.getFullYear() &&
+                          startDate.getMonth() === 0 && 
+                          endDate.getMonth() === 11;
+        
+        if (isYearView) {
+          const year = startDate.getFullYear();
           for (let m = 0; m < 12; m++) {
-            const dateKey = `${startY}-${String(m + 1).padStart(2, "0")}`;
+            const dateKey = `${year}-${String(m + 1).padStart(2, "0")}`;
             if (!dateMap[dateKey]) {
               dateMap[dateKey] = { arrUp: 0, noshow: 0, cancel: 0 };
             }
           }
         }
+        // For allTime view, DON'T fill missing months - only return what has data
       }
 
       const sortedKeys = Object.keys(dateMap).sort();
@@ -817,7 +771,6 @@ reservationRouter.get("/stats", async (req, res) => {
     }
 
     const [
-
       todayStats,
       lastWeekStats,
       monthStats,
@@ -830,7 +783,6 @@ reservationRouter.get("/stats", async (req, res) => {
       yearTimeSeries,
       allTimeTimeSeries,
     ] = await Promise.all([
-
       getStackedStats(todayStart, todayEnd),
       getStackedStats(lastWeekStart, lastWeekEnd),
       getStackedStats(monthStart, monthEnd),
@@ -840,7 +792,7 @@ reservationRouter.get("/stats", async (req, res) => {
       getTrendStats(todayStart, todayEnd, "day"), 
       getTrendStats(lastWeekStart, lastWeekEnd, "day"),
       getTrendStats(monthStart, monthEnd, "day"), 
-      getTrendStats(yearStart, yearEnd, "day"),   
+      getTrendStats(yearStart, yearEnd, "month"),
       getTrendStats(allTimeStart, allTimeEnd, "month"), 
     ]);
 
