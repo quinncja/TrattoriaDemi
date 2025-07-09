@@ -7,7 +7,7 @@ Public facing:
 
 Client facing dashboard:
   - Inhouse 
-    - Recieves incoming reservations
+    - Receives incoming reservations
     - Create, modify, and delete reservations
 
   - Admin console
