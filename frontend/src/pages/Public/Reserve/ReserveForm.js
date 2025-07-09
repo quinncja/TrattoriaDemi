@@ -83,7 +83,7 @@ function ReserveForm(props) {
       </div>
       <div style={{display: "flex", flexDirection: "column", gap: "10px", paddingTop: "15px"}}> 
         <span className="reserve-small-text"> • A confirmation text will be sent upon
-        reserving. If you do not recieve a text, please call the restaurant to confirm your reservation.
+        reserving. If you do not receive a text, please call the restaurant to confirm your reservation.
         </span>
       </div>
       </div>

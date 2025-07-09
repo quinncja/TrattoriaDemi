@@ -97,7 +97,7 @@ export function successfulAdminResAlert() {
 export function orderSuccess() {
   return Swal.fire({
     title: `Order success`,
-    text: "You will recieve a text when your order is confirmed",
+    text: "You will receive a text when your order is confirmed",
     icon: "success",
     iconColor: "#d3963a",
     timer: 5500,
