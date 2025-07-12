@@ -3,7 +3,13 @@ import { forwardRef } from "react";
 
 const PayrollPdf = forwardRef((props, ref) => {
   const { payrollData, currentPeriod } = props;
+
+  function isHolidayPeriod(period) {
+    return period % 1 !== 0;
+  }
+
   const dates = calculateDates(currentPeriod);
+  const dateString = isHolidayPeriod(currentPeriod) ? "* Holiday Pay *" : `Pay period: ${dates[0]} - ${dates[1]}` 
 
   function safeToFixed(value) {
     if (typeof value === "number" && !isNaN(value)) {
@@ -20,7 +26,7 @@ const PayrollPdf = forwardRef((props, ref) => {
       <div key={employee.employee} className="employee-box">
         <div className="bold">{employee.name}</div>
         <div>
-          Pay period: {dates[0]} - {dates[1]}
+          {dateString}
         </div>
         <div>
           {" "}
@@ -53,8 +59,8 @@ const PayrollPdf = forwardRef((props, ref) => {
         <div>Fica: ${safeToFixed(values.fica)}</div>
         <div>State: ${safeToFixed(values.state)}</div>
         <div>Federal: ${safeToFixed(values.federal)}</div>
-        {values?.loan?.amount && (
-          <div>Loan: ${safeToFixed(values.loan.amount) || "0.00"}</div>
+        {values?.loan?.amount != null && values.loan.amount !== 0 && (
+          <div>Loan: ${safeToFixed(values.loan.amount)}</div>
         )}
         {employee.ilChoice && (
           <div>IL Secure Choice: ${safeToFixed(values.ilChoice)}</div>
