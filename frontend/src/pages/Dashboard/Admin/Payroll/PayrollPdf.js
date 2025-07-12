@@ -9,7 +9,7 @@ const PayrollPdf = forwardRef((props, ref) => {
   }
 
   const dates = calculateDates(currentPeriod);
-  const dateString = isHolidayPeriod(currentPeriod) ? "* Holiday Pay *" : `Pay period: ${dates[0]} - ${dates[1]}` 
+  const dateString = isHolidayPeriod(currentPeriod) ? "** Holiday Pay **" : `Pay period: ${dates[0]} - ${dates[1]}` 
 
   function safeToFixed(value) {
     if (typeof value === "number" && !isNaN(value)) {
