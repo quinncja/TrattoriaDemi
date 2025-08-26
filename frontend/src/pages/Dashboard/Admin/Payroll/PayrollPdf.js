@@ -38,7 +38,7 @@ const PayrollPdf = forwardRef((props, ref) => {
           {values?.rates[1] &&
             `($${safeToFixed(values.hours[0] * values?.rates[0])})`}
         </div>
-        {employee?.rates[1] && (
+        {employee?.rates[1] ? (
           <>
             <div>
               {" "}
@@ -50,7 +50,7 @@ const PayrollPdf = forwardRef((props, ref) => {
               {safeToFixed(values.hours[1] * values?.rates[1]) || "0.00"})
             </div>
           </>
-        )}
+        ) : ""}
         {employee.tips && <div>Tips: ${values.gross[1] || "0.00"}</div>}
         <div>
           Gross wages: $
