@@ -156,7 +156,7 @@ reservationRouter.get("/timelist", async (req, res) => {
       case 5:
       case 6: 
         dayStartTime = "11:30am";
-        dayEndTime = "9:00pm";
+        dayEndTime = "8:30pm";
         break;
       default: 
         dayStartTime = "11:30am";

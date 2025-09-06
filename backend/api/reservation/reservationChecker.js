@@ -288,7 +288,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime, override)
   const requestDate = new Date(requestedYear, requestedMonth - 1, requestedDay);
   const dayOfWeek = requestDate.getDay();
   
-  
+
   let dayStartTime, dayEndTime;
     switch (dayOfWeek) {
       case 0: 
@@ -298,7 +298,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime, override)
       case 5:
       case 6: 
         dayStartTime = "11:30am";
-        dayEndTime = "8:45pm";
+        dayEndTime = "8:30pm";
         break;
       default: 
         dayStartTime = "11:30am";
