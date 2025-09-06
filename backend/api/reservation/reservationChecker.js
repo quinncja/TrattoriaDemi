@@ -297,7 +297,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime, override)
       case 5:
       case 6: 
         dayStartTime = "11:30am";
-        dayEndTime = "9:00pm";
+        dayEndTime = "8:45pm";
         break;
       default: 
         dayStartTime = "11:30am";
