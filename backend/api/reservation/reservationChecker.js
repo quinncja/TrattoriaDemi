@@ -288,6 +288,7 @@ async function reservationChecker(numGuests, desiredDate, desiredTime, override)
   const requestDate = new Date(requestedYear, requestedMonth - 1, requestedDay);
   const dayOfWeek = requestDate.getDay();
   
+  
   let dayStartTime, dayEndTime;
     switch (dayOfWeek) {
       case 0: 
