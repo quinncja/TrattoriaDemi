@@ -16,6 +16,15 @@ function DBLogin(props) {
   }, [incorrect]);
 
   const handleChange = (event) => {
+    if(event.keyCode === 13){
+      if(event.target.id === "username"){
+        document.getElementById("password").focus()
+      }
+      else{
+        console.log("on submit?")
+        onSubmit()
+      }
+    }
     setIncorrect(false);
     if (event.target.id === "username") {
       setUsername(event.target.value);
@@ -35,7 +44,7 @@ function DBLogin(props) {
       });
       if (response) setAuthenticated(true);
     } catch (error) {
-      console.log(error);
+      setPassword("")
       setIncorrect(true);
     }
   }
@@ -52,13 +61,14 @@ function DBLogin(props) {
           {incorrect ? "Incorrect Login" : "Dashboard Login"}{" "}
         </div>
         <input
+        style={{marginBottom: '15px'}}
           className={` new-res-input ${
             incorrect ? "reserve-select-error" : ""
           }`}
           id="username"
           type="username"
           placeholder="Username"
-          onChange={(event) => handleChange(event)}
+          onKeyUpCapture={(event) => handleChange(event)}
         ></input>
         <input
           className={` new-res-input ${
@@ -66,7 +76,7 @@ function DBLogin(props) {
           } `}
           id="password"
           placeholder="Password"
-          onChange={(event) => handleChange(event)}
+          onKeyUpCapture={(event) => handleChange(event)}
           type="password"
         ></input>
         <button
