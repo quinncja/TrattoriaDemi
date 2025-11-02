@@ -3,6 +3,7 @@ const express = require("express");
 const giftcardRouter = express.Router();
 const Giftcard = require("./Giftcard");
 const domain = process.env.DEPLOYED_DOMAIN;
+const shipping_id = process.env.STRIPE_SHIPPING_ID;
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const { DateTime } = require("luxon");
@@ -37,7 +38,7 @@ giftcardRouter.post("/", async (req, res) => {
         {
           price: itemId,
           quantity: 1,
-        },
+        }
       ],
       mode: "payment",
       metadata: {
@@ -48,6 +49,9 @@ giftcardRouter.post("/", async (req, res) => {
         message,
         id: savedGiftcard._id.toString(),
       },
+      shipping_options: [{
+        shipping_rate: shipping_id
+      }],
       success_url: `${domain}/giftcards/?success=true`,
       cancel_url: `${domain}/giftcards`,
     });
