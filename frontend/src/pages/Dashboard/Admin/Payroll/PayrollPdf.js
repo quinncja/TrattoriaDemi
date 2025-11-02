@@ -21,6 +21,7 @@ const PayrollPdf = forwardRef((props, ref) => {
 
   function employeeCard({ employee, ...values }) {
     let overtime = employee.overtime || false;
+    console.log(employee.name, values.rates[1], values.rates[1] !== 0)
 
     return (
       <div key={employee.employee} className="employee-box">
@@ -33,10 +34,14 @@ const PayrollPdf = forwardRef((props, ref) => {
           {overtime ? "Regular" : "Total"} hours: {values.hours[0]}
         </div>
         <div>
+
           {overtime ? "Regular" : "Hourly"} rate: $
           {safeToFixed(values?.rates[0])}{" "}
-          {values?.rates[1] &&
-            `($${safeToFixed(values.hours[0] * values?.rates[0])})`}
+          {values?.rates[1] ?
+            `($${safeToFixed(values.hours[0] * values?.rates[0])})` 
+            : 
+            ""
+          }
         </div>
         {employee?.rates[1] ? (
           <>
@@ -51,6 +56,7 @@ const PayrollPdf = forwardRef((props, ref) => {
             </div>
           </>
         ) : ""}
+        
         {employee.tips && <div>Tips: ${values.gross[1] || "0.00"}</div>}
         <div>
           Gross wages: $
