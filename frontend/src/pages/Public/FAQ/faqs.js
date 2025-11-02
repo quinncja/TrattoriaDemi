@@ -9,7 +9,7 @@ export const faqs = [
   },
   {
     q: "Do you accomodate private parties?",
-    a: "We do not offer a private space for parties. We can accomodate groups up to 35 in our public dining room.",
+    a: "We do not offer private parties. Please call or email for information on larger reservations.",
   },
   {
     q: "Do you offer catering?",
