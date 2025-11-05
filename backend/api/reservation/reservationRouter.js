@@ -2,11 +2,12 @@
 const express = require("express");
 const reservationRouter = express.Router();
 const TimeBlock = require("./TimeBlock"); 
-const Reservation = require("./Reservation");
+const { Reservation, Log } = require("./Reservation");
 const { sendResText } = require("./sendResText");
 const { sendCancelText } = require("./sendCancelText");
 const { sendUpdatedResText } = require("./sendUpdatedResText");
 const { reservationChecker } = require("./reservationChecker");
+
 let clients = [];
 
 // Create new reservation
@@ -518,6 +519,32 @@ reservationRouter.get("/check", async (req, res) => {
 
 module.exports = reservationRouter;
 
+
+const objDiff = (oldObj, newObj) => {
+  let oldState = [], newState = []
+
+  Object.keys(newObj).forEach(key => {
+    if(oldObj[key] && oldObj[key] !== newObj[key] && key !== "dateMade" && key !== "tableSize" && key !== "_id"){
+      if(key === "date" && oldObj[key].toISOString() === newObj[key]) return 
+      oldState.push({key, value: oldObj[key]})
+      newState.push({key, value: newObj[key]})
+    };
+  })
+
+  return { oldState, newState };
+}
+
+const logReservationChange = async (id, oldState, newState) => {
+    const newLog = new Log({
+      reservationId: id,
+      oldState,
+      newState,
+    })
+
+    await newLog.save();
+}
+
+
 // Update reservation by id
 reservationRouter.put("/id/:id", async (req, res) => {
   try {
@@ -525,6 +552,7 @@ reservationRouter.put("/id/:id", async (req, res) => {
     const updatedData = req.body;
 
     const existingReservation = await Reservation.findById(reservationId);
+    const {oldState, newState} = objDiff(existingReservation.toObject(), updatedData)
 
     if (!existingReservation) {
       return res.status(404).json({ error: "Reservation not found" });
@@ -536,9 +564,9 @@ reservationRouter.put("/id/:id", async (req, res) => {
       { new: true },
     );
 
-    if (existingReservation.sendText) {
-      await sendUpdatedResText(updatedReservation);
-    }
+    logReservationChange(reservationId, oldState, newState);
+    await sendUpdatedResText(updatedReservation);
+  
 
     clients.forEach((client) =>
       client.write(`data: ${JSON.stringify(updatedReservation)}\n\n`),

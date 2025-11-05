@@ -14,10 +14,9 @@ function numberToWord(numString) {
     7: "seven guests",
     8: "eight guests",
     9: "nine guests",
-    10: "ten guests",
   };
 
-  return numberWords[numString] || "Number out of range";
+  return numberWords[numString] || `${numString} guests`;
 }
 
 function convertTo12Hour(time) {

@@ -1,5 +1,5 @@
 const TimeBlock = require("./TimeBlock");
-const Reservation = require("./Reservation");
+const { Reservation } = require("./Reservation");
 const hourOptions = [
   "11:30am",
   "11:45am",

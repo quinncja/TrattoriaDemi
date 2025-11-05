@@ -54,4 +54,35 @@ const reservationSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-module.exports = mongoose.model("Reservation", reservationSchema);
+
+const logSchema = new mongoose.Schema({
+  reservationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Reservation"
+  },
+  time: {
+      type: Date,
+      default: Date.now,
+  },
+  user: {
+      type: String,
+      required: false
+  },
+  newState: {
+      type: [{
+        key: String,
+        value: String,
+      }]
+  },
+  oldState: {
+      type: [{
+        key: String,
+        value: String,
+      }]
+  }
+})
+
+const Reservation = mongoose.model("Reservation", reservationSchema);
+const Log = mongoose.model("Log", logSchema)
+
+module.exports = { Reservation, Log }
