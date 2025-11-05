@@ -466,9 +466,43 @@ function getCurrentTime() {
   return `${hours}:${minutes}`;
 }
 
+
+const objDiff = (oldObj, newObj) => {
+  let oldState = [], newState = []
+
+  Object.keys(newObj).forEach(key => {
+    if(oldObj[key] && oldObj[key] !== newObj[key] && key !== "dateMade" && key !== "tableSize" && key !== "_id"){
+      if(key === "date" && oldObj[key].toISOString() === newObj[key]) return 
+      oldState.push({key, value: oldObj[key]})
+      newState.push({key, value: newObj[key]})
+    };
+  })
+
+  return { oldState, newState };
+}
+
+const logReservationChange = async (id, oldState, newState) => {
+    const newLog = new Log({
+      reservationId: id,
+      oldState,
+      newState,
+    })
+
+    await newLog.save();
+}
+
+
+//update reservation state
+
 reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
   try {
     const [reservationId, newState] = [req.params.id, req.params.state];
+
+    const existingReservation = await Reservation.findById(reservationId);
+
+    if (!existingReservation) {
+      return res.status(404).json({ error: "Reservation not found" });
+    }
 
     const lowercaseState = newState.toLowerCase();
     let arrivedTime = "";
@@ -482,9 +516,16 @@ reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
       { new: true },
     );
 
-    if (!updatedReservation) {
-      return res.status(404).json({ error: "Reservation not found" });
+    const oldStateObj = {
+      key: "state",
+      value: existingReservation.state
     }
+    const newStateObj = {
+      key: "state",
+      value: lowercaseState
+    }
+
+    logReservationChange(updatedReservation._id, oldStateObj, newStateObj)
 
     if (newState === "cancel") {
       try {
@@ -518,31 +559,6 @@ reservationRouter.get("/check", async (req, res) => {
 
 
 module.exports = reservationRouter;
-
-
-const objDiff = (oldObj, newObj) => {
-  let oldState = [], newState = []
-
-  Object.keys(newObj).forEach(key => {
-    if(oldObj[key] && oldObj[key] !== newObj[key] && key !== "dateMade" && key !== "tableSize" && key !== "_id"){
-      if(key === "date" && oldObj[key].toISOString() === newObj[key]) return 
-      oldState.push({key, value: oldObj[key]})
-      newState.push({key, value: newObj[key]})
-    };
-  })
-
-  return { oldState, newState };
-}
-
-const logReservationChange = async (id, oldState, newState) => {
-    const newLog = new Log({
-      reservationId: id,
-      oldState,
-      newState,
-    })
-
-    await newLog.save();
-}
 
 
 // Update reservation by id
