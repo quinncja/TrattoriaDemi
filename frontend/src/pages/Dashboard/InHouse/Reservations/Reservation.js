@@ -45,7 +45,7 @@ export function Reservation(props) {
           {" "}
           Arrived{" "}
         </motion.div>
-        <motion.span className="arrived-time" layout>
+        <motion.span className="res-secondary" layout>
           {" "}
           {convertTo12Hour(res.arrivedTime)}{" "}
         </motion.span>
