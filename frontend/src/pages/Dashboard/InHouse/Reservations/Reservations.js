@@ -137,24 +137,19 @@ function Reversations() {
     }
   }
 
-  function getCurrentTime() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    return `${hours}:${minutes}`;
-  }
-
   async function patchRes(res, state) {
     const id = res._id;
-    const oldReservations = [...reservations];
-    const updatedReservations = reservations.map((r) =>
-      r._id === res._id
-        ? { ...r, state: state, arrivedTime: getCurrentTime() }
-        : r
-    );
+    
     try {
-      await patchReservation(id, state);
-      setReservations(updatedReservations);
+      const response = await patchReservation(id, state);
+      
+      if (response.status === 200) {
+        const updatedReservation = response.data;
+        
+        setReservations((prev) =>
+          prev.map((r) => (r._id === updatedReservation._id ? updatedReservation : r))
+        );
+      }
     } catch (error) {
       if (!navigator.onLine) {
         toast.error(
@@ -167,7 +162,6 @@ function Reversations() {
             : `Failed to mark reservation as ${state}`;
         toast.error(toastError);
       }
-      setReservations(oldReservations);
     }
   }
 
@@ -193,26 +187,22 @@ function Reversations() {
     try {
       const response = await updateReservation(updatedRes._id, updatedRes);
       if (response.status === 200) {
-        console.log(response);
         toast.success("Reservation updated");
         setResModal(false);
+        const data = response.data;
 
-        const updResDate = new Date(updateRes.date);
+        const updResDate = new Date(data.date);
         const areDatesEqual = updResDate.toDateString() === date.toDateString();
 
         setReservations((prev) => {
           if (areDatesEqual) {
             return prev.map((res) =>
-              res._id === updatedRes._id ? updatedRes : res
+              res._id === data._id ? data : res
             );
           } else {
-            return prev.filter((res) => res._id !== updatedRes._id);
+            return prev.filter((res) => res._id !== data._id);
           }
         });
-
-        setReservations((prev) =>
-          prev.map((res) => (res._id === updatedRes._id ? updatedRes : res))
-        );
       }
     } catch (error) {
       toast.error("Failed to updated reservation");

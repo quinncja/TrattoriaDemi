@@ -3,6 +3,22 @@
   font-weight: 600;
 }
 
+.red-log{
+  color: #d66c66;
+}
+
+.green-log {
+  color: #52a452;
+}
+
+.gold-log{
+  color: var(--gold)
+}
+
+.line-through{
+  text-decoration: line-through;
+}
+
 .green {
   color: #52a452;
   font-weight: 600;
@@ -22,6 +38,10 @@
   min-height: 100vh;
   width: 100%;
   background-color: black;
+}
+
+.inhouse-container * {
+  letter-spacing: .8px;
 }
 
 .hr-db-line {
@@ -133,6 +153,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  letter-spacing: normal;
   background-color: var(--dark-container-color);
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -309,15 +330,94 @@
   width: 100%;
   padding-top: 37px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   padding-left: 20px;
   padding-right: 20px;
-  padding-bottom: 15px;
   box-sizing: border-box;
   background-color: var(--dark-container-color);
   z-index: 1;
   border: 1px solid var(--border-color);
   border-radius: 2px;
+}
+.res-history{
+  padding-block: 30px;
+  padding-bottom: 30px;
+}
+.log-scroller{
+  display: flex;
+  flex-direction: row;
+  padding-top: 15px;
+  width: 100%;
+  overflow-x: scroll;
+  gap: 65px;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none; 
+  position: relative;
+  align-items: stretch;
+
+}
+.log-scroller::-webkit-scrollbar {
+  display: none;
+}
+.log-wrapper{
+  display: grid;                      
+  grid-template-rows: auto 1fr;     
+}
+
+.res-log{
+  padding: 15px;
+  padding-bottom: 25px;
+  min-width: 220px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  gap: 10px;
+  font-size: 14px !important;
+  flex: 1;
+}
+.res-log-time{
+  font-size: 14px;
+  background: var(--dark-container-color);
+  z-index: 1000;
+  opacity: .9;
+  padding-inline: 8px;
+  margin-left: -5px;
+}
+.log-connector{
+  position: relative;
+}
+
+.log-connector::after{
+  position: absolute;
+  top: 7px;
+  width: calc(100% + 65px);
+  height: 2px;
+  border-radius: 100%;
+  content: "";
+  background-color: var(--paper-white);
+  opacity: .3;
+}
+.res-log-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 3px;
+  font-size: 14px !important;
+}
+.strike-through{
+  position: relative;
+  height: 100%;
+}
+.strike-through::before{
+  content: "";
+  position: absolute;
+  height: 1px;
+  transform: translateY(8px) translateX(-4px);
+  width: 110%;
+  background-color: var(--paper-white);
+  opacity: .85;
 }
 
 .res-open-notes {
@@ -531,8 +631,7 @@
   right: 0;
   bottom: 0;
   z-index: 400;
-  background-color: black;
-  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.325);  backdrop-filter: blur(10px);
   transition: all 0.3 ease-in-out;
   width: 100%;
   height: 100vh;
@@ -544,19 +643,21 @@
   justify-content: space-between;
   gap: 1.5rem;
   width: 100%;
+  margin-inline: auto;
   height: 100%;
   padding-inline: 10%;
   padding-top: 3%;
   padding-bottom: 10%;
   box-sizing: border-box;
-  background-color: black;
   z-index: 20;
   overflow-y: scroll;
+  background-color: rgba(0, 0, 0, 0.65);
+
 }
 
 .res-modal-background {
-  opacity: 0.5;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.325);
+  backdrop-filter: blur(10px);
   position: fixed;
   top: 0;
   left: 0;
@@ -571,11 +672,10 @@
 .res-modal-container {
   top: 0;
   left: 0;
-  transform: translateX(10%) translateY(15%);
+  transform: translateX(10%) translateY(30%);
   width: 80%;
   height: fit-content;
-  background-color: black;
-  border: 1px solid var(--border-color);
+  background-color: rgba(0, 0, 0, 0.762);
   z-index: 951 !important;
   position: fixed;
   padding: 40px 40px;
@@ -584,6 +684,33 @@
   display: flex;
   flex-direction: column;
   gap: 4rem;
+  border-radius: 15px;
+  padding: 60px 60px;
+}
+
+.pin-button{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--black);
+  opacity: .9;
+  font-size: 32px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.pin-button.active {
+  background: var(--gold);
+}
+.pin-dot{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--gold);
 }
 
 .res-modal-inputs {
@@ -649,6 +776,7 @@
 
 .new-res-label {
   width: 50%;
+  background: rgba(0, 0, 0, 0.762);
 }
 
 .date-label {
@@ -661,6 +789,7 @@
   width: 80%;
   background-color: var(--dark-container-color);
   padding-block: 5px;
+  pointer-events: none;
 }
 
 .submit-new-res {
@@ -846,7 +975,7 @@
 }
 
 .toggle-container {
-  width: 160px;
+  width: 174px;
   height: 40px;
   box-sizing: border-box;
   border-radius: 5px;
@@ -856,11 +985,29 @@
   background-color: var(--dark-container-color);
   border: 1px solid var(--border-color);
 }
+.res-secondary{
+  font-size: 16px;
+  opacity: .6;
+}
 
+.res-log-secondary{
+  font-size: 14px;
+  position: relative;
+}
+
+.res-log-secondary::after{
+  position: absolute;
+  top: 0;
+  content: "";
+  height: 1px;
+  color: var(--paper-white);
+  width: 100%;
+
+}
 .toggle-labels-container {
   top: 0;
+  display: block;
   left: 0;
-  display: flex;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -868,16 +1015,21 @@
 }
 
 .toggle-label {
-  flex: 1;
+  display: inline-block;
+  width: 86px !important;
+
   justify-self: center;
   padding: 10px 15px;
   font-size: 1rem;
   color: var(--paper-white);
   user-select: none;
+  text-align: center;
+  box-sizing: border-box;
+  letter-spacing: normal;
 }
 
 .toggle {
-  width: 80px;
+  width: 87px;
   height: 40px;
   background-color: var(--gold);
   border: 5px;
@@ -895,11 +1047,11 @@
   flex-direction: column;
   gap: 2.5rem;
   justify-self: flex-start;
-  background-color: black;
 }
 
 .new-res-input-group {
   border: 1px solid var(--border-color);
+  background-color: rgba(0, 0, 0, 0.65);
   padding: 20px;
   padding-top: 40px;
   padding-bottom: calc(40px - 2rem);
@@ -916,7 +1068,6 @@ input[type="date"] {
 .new-res-label {
   position: absolute;
   top: 0;
-  background: black;
   padding: 10px 20px;
   box-sizing: border-box;
   margin-top: -22px;

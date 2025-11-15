@@ -6,11 +6,13 @@ import { fadeInModal } from "animations";
 import { motion } from "framer-motion";
 import { getTimeListByDate } from "api";
 import { toast } from "sonner";
+import PinEntry from "./PinEntry";
 
 function ResModal(props) {
   const { res, selfClose, updateRes } = props;
-  console.log(res);
 
+  const [employee, setEmployee] = useState(null);
+  const name = res.name;
   const [numGuests, setGuests] = useState(res.numGuests || null);
   const [date, setDate] = useState(new Date(res.date) || null);
   const [time, setTime] = useState(convertTo12Hour(res.time) || null);
@@ -47,6 +49,7 @@ function ResModal(props) {
       ...res,
       numGuests,
       date,
+      employee,
       tableSize: tableSizes[numGuests][0],
       time: convertTo24Hour(time),
     };
@@ -142,21 +145,18 @@ function ResModal(props) {
     );
   };
 
-  return (
-    <>
-      <motion.div
-        className="res-modal-background"
-        onClick={(e) => {
-          e.stopPropagation();
-          selfClose();
-        }}
-        {...fadeInModal}
-      />
+  const resModalBody = () => {
+    return(
       <motion.div className="res-modal-container" {...fadeInModal}>
         <div className="res-modal-header">
+          <div style={{display: 'flex', flexDirection: 'column', gap: "5px"}}> 
           <div style={{ fontSize: "1.8rem", fontWeight: "600" }}>
             {" "}
             Edit Reservation{" "}
+          </div>
+          <div>
+            For {name}
+          </div>
           </div>
           {closeModalButton()}
         </div>
@@ -224,6 +224,23 @@ function ResModal(props) {
           Update Reservation{" "}
         </button>
       </motion.div>
+    )
+  }
+
+  return (
+    <>
+      <motion.div
+        className="res-modal-background"
+        onClick={(e) => {
+          e.stopPropagation();
+          selfClose();
+        }}
+        {...fadeInModal}
+      />
+      {!employee ?
+        <PinEntry setEmployee={setEmployee} text={"To update the reservation"}/>
+      : resModalBody()
+      }
     </>
   );
 }

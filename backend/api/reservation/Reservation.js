@@ -12,7 +12,7 @@ const reservationSchema = new mongoose.Schema({
   },
   tableSize: {
     type: String,
-    required: true,
+    required: true, 
     enum: validSizes,
   },
   date: {
@@ -53,6 +53,11 @@ const reservationSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  user: {
+    type: String,
+    default: "",
+    required: false
+  }
 });
 
 const logSchema = new mongoose.Schema({
@@ -81,6 +86,7 @@ const logSchema = new mongoose.Schema({
       }]
   }
 })
+logSchema.index({ reservationId: 1 });
 
 const Reservation = mongoose.model("Reservation", reservationSchema);
 const Log = mongoose.model("Log", logSchema)

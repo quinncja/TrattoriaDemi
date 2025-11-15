@@ -50,9 +50,12 @@ app.use("/api/order", orderRouter);
 app.use("/api/payroll", payrollRouter);
 app.use("/api/stripe", stripeRouter);
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Trattoria Demi listening on port ${port}`);
+  console.log(`Local: http://localhost:${port}`);
+  console.log(`Network: http://192.168.1.79:${port}`);
 });
+
 app.get("/", async (req, res) => {
   try {
     res.status(200).json("Hello World");

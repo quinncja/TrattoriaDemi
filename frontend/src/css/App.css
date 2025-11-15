@@ -36,8 +36,8 @@
   --color-bg-green-tint: hsl(148, 45%, 13%);
   --color-bg-green-tint-lighter: hsl(148, 45%, 17%);
   --color-bg-red-tint: hsla(0, 24%, 30%, 0.855);
-  --dark-container-color: #1d1d1d;
-  --dark-container-color-brightened: #313131;
+  --dark-container-color: #1a1a1d;
+  --dark-container-color-brightened: #2b2b2f;
   --box-shadow: 0 0 5px rgba(228, 228, 228, 0.1),
     0 0 10px rgba(210, 210, 210, 0.2) inset;
   --highlight: #323335;
@@ -61,6 +61,7 @@
 .clean-button:hover {
   filter: brightness(95%);
 }
+
 
 #path1,
 #path2 {

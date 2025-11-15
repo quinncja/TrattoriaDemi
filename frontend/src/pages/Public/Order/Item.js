@@ -4,7 +4,7 @@ import CartContext from "context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { replaceSpaceW_ } from "functions";
 import { Modal } from "react-responsive-modal";
-import { trashCanSvg, checkMargSvg, cancelSvg } from "svg";
+import { trashCanSvg, checkMarkSvg, cancelSvg } from "svg";
 import "react-responsive-modal/styles.css";
 
 function Item({ type, item, section }) {
@@ -515,7 +515,7 @@ function Item({ type, item, section }) {
               className="new-delete"
               onClick={() => deleteItemFromCart(item.u_id)}
             >
-              {checkMargSvg()}
+              {checkMarkSvg()}
             </button>{" "}
             <button className="new-delete" onClick={() => setDeleting(false)}>
               {cancelSvg()}

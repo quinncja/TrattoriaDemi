@@ -16,7 +16,7 @@ reservationRouter.post("/", async (req, res) => {
     const { name, numGuests, date, time, notes, phone, tableSize, sendText } =
       req.body;
 
-    const newReservation = new Reservation({
+    let newReservation = new Reservation({
       name,
       numGuests,
       date,
@@ -34,6 +34,8 @@ reservationRouter.post("/", async (req, res) => {
         client.write(`data: ${JSON.stringify(newReservation)}\n\n`),
       );
 
+      newReservation = await attachLogToReservation(newReservation);
+      
       res.status(201).json(newReservation);
     } else {
       res.status(500).json({ error: "Availability error" });
@@ -324,9 +326,10 @@ reservationRouter.get("/events", (req, res) => {
 
 reservationRouter.post("/override", async (req, res) => {
   try {
-    const { name, numGuests, date, time, notes, phone, tableSize, sendText } =
+    const { name, numGuests, date, time, notes, phone, tableSize, sendText, employee } =
       req.body;
-    const newReservation = new Reservation({
+
+    let newReservation = new Reservation({
       name,
       numGuests,
       date,
@@ -335,9 +338,12 @@ reservationRouter.post("/override", async (req, res) => {
       phone,
       tableSize,
       selfMade: true,
+      user: employee
     });
+
     await newReservation.save();
     if (sendText) await sendResText(newReservation);
+    newReservation = await attachLogToReservation(newReservation);
     res.status(201).json(newReservation);
   } catch (error) {
     console.error("Error creating reservation:", error);
@@ -378,7 +384,6 @@ reservationRouter.delete("/id/:id", async (req, res) => {
   try {
     const reservationId = req.params.id;
 
-    // Use Mongoose's findByIdAndRemove method to delete the reservation by ID
     const deletedReservation =
       await Reservation.findByIdAndRemove(reservationId);
 
@@ -395,30 +400,63 @@ reservationRouter.delete("/id/:id", async (req, res) => {
 
 function sortReservationsByTime(reservations) {
   return reservations.sort((a, b) => {
-    // Split the time strings into [hour, minute]
     const [hourA, minuteA] = a.time.split(":").map(Number);
     const [hourB, minuteB] = b.time.split(":").map(Number);
 
-    // Compare the hours first
     if (hourA !== hourB) {
       return hourA - hourB;
     }
 
-    // If hours are the same, compare the minutes
     return minuteA - minuteB;
   });
 }
 
-// Get reservations by date
+
+const attachLogToReservation = async (reservation) =>{
+    const plainReservation = reservation.toObject ? reservation.toObject() : reservation;
+    
+    const logs = await Log.find({
+      reservationId: plainReservation._id
+    }).sort({ time: 1 });
+        
+    reservation = {
+      ...plainReservation,
+      logs
+    };
+
+    return reservation;
+} 
+
+const attachLogToReservationList = async (reservations) =>{
+    const reservationIds = reservations.map(r => r._id);
+    
+    const logs = await Log.find({
+      reservationId: { $in: reservationIds }
+    }).sort({ time: 1 });
+    
+    const logsMap = {};
+    logs.forEach(log => {
+      const resId = log.reservationId.toString();
+      if (!logsMap[resId]) {
+        logsMap[resId] = [];
+      }
+      logsMap[resId].push(log);
+    });
+    
+    reservations = reservations.map(reservation => ({
+      ...reservation,
+      logs: logsMap[reservation._id.toString()] || []
+    }));
+
+    return reservations;
+} 
+
 reservationRouter.get("/date/:date", async (req, res) => {
   try {
     const targetDate = new Date(req.params.date);
-
     const chicagoTargetDate = new Date(
       `${targetDate.toLocaleString("en-US", { timeZone: "America/Chicago" })} GMT`,
     );
-
-
     const startOfDay = new Date(
       Date.UTC(
         chicagoTargetDate.getUTCFullYear(),
@@ -430,7 +468,6 @@ reservationRouter.get("/date/:date", async (req, res) => {
         0,
       ),
     );
-
     const endOfDay = new Date(
       Date.UTC(
         chicagoTargetDate.getUTCFullYear(),
@@ -442,11 +479,14 @@ reservationRouter.get("/date/:date", async (req, res) => {
         999,
       ),
     );
-
+    
     let reservations = await Reservation.find({
       date: { $gte: startOfDay, $lt: endOfDay },
-    });
+    }).lean();
+    
     reservations = sortReservationsByTime(reservations);
+    reservations = await attachLogToReservationList(reservations);
+
     res.json(reservations);
   } catch (error) {
     console.error("Error fetching reservations by date:", error);
@@ -466,7 +506,6 @@ function getCurrentTime() {
   return `${hours}:${minutes}`;
 }
 
-
 const objDiff = (oldObj, newObj) => {
   let oldState = [], newState = []
 
@@ -481,17 +520,16 @@ const objDiff = (oldObj, newObj) => {
   return { oldState, newState };
 }
 
-const logReservationChange = async (id, oldState, newState) => {
+const logReservationChange = async (id, oldState, newState, employee = null) => {
     const newLog = new Log({
-      reservationId: id,
-      oldState,
-      newState,
-    })
-
-    await newLog.save();
+        reservationId: id,
+        oldState,
+        newState,
+        user: employee
+    });
+    await newLog.save({ writeConcern: { w: 'majority', j: true } });
+    return newLog;
 }
-
-
 //update reservation state
 
 reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
@@ -510,7 +548,7 @@ reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
       arrivedTime = getCurrentTime();
     }
 
-    const updatedReservation = await Reservation.findByIdAndUpdate(
+    let updatedReservation = await Reservation.findByIdAndUpdate(
       reservationId,
       { state: lowercaseState, arrivedTime: arrivedTime },
       { new: true },
@@ -525,14 +563,11 @@ reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
       value: lowercaseState
     }
 
-    logReservationChange(updatedReservation._id, oldStateObj, newStateObj)
+    await logReservationChange(updatedReservation._id, oldStateObj, newStateObj, "Employee")
+    updatedReservation  = await attachLogToReservation(updatedReservation)
 
-    if (newState === "cancel") {
-      try {
-        await sendCancelText(updatedReservation.phone);
-      } catch (error) {
-        console.error("Failed to send cancel text:", error);
-      }
+    if (newState === "cancel" && updatedReservation.phone) {
+      sendCancelText(updatedReservation.phone);
     }
 
     clients.forEach((client) =>
@@ -540,6 +575,7 @@ reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
     );
 
     res.json(updatedReservation);
+
   } catch (error) {
     console.error("Error updating reservation state:", error);
     res.status(500).json({ error: "Server error" });
@@ -567,22 +603,23 @@ reservationRouter.put("/id/:id", async (req, res) => {
     const reservationId = req.params.id;
     const updatedData = req.body;
 
-    const existingReservation = await Reservation.findById(reservationId);
-    const {oldState, newState} = objDiff(existingReservation.toObject(), updatedData)
+    const existingReservation = await Reservation.findById(reservationId).lean();
+    const {oldState, newState} = objDiff(existingReservation, updatedData)
 
     if (!existingReservation) {
       return res.status(404).json({ error: "Reservation not found" });
     }
 
-    const updatedReservation = await Reservation.findByIdAndUpdate(
+    let updatedReservation = await Reservation.findByIdAndUpdate(
       reservationId,
       updatedData,
       { new: true },
     );
 
-    logReservationChange(reservationId, oldState, newState);
+    await logReservationChange(reservationId, oldState, newState, updatedData.employee);
     await sendUpdatedResText(updatedReservation);
   
+    updatedReservation = await attachLogToReservation(updatedReservation); 
 
     clients.forEach((client) =>
       client.write(`data: ${JSON.stringify(updatedReservation)}\n\n`),

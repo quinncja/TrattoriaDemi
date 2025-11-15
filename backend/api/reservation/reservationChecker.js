@@ -75,7 +75,7 @@ const tableSizes = {
   30: ['6xl'],
 };
 
-const baseConfiguration = { "2top": 4, "3top": 2, "4top": 4, "6top": 2 };
+const baseConfiguration = { "2top": 4, "3top": 3, "4top": 4, "6top": 2 };
 const largeTableAdjustments = {
   "xl": [
     { "2top": -1 }, { "6top": -1 }

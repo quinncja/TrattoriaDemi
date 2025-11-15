@@ -27,7 +27,7 @@ function ReservationHeader(props) {
           <motion.div
             className="toggle"
             animate={{
-              x: shift === "Lunch" ? 0 : 80,
+              x: shift === "Lunch" ? 0 : 87,
             }}
             transition={{
               type: "spring",

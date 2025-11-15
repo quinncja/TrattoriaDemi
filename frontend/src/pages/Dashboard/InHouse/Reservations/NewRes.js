@@ -9,6 +9,7 @@ import { fadeInModal } from "animations";
 import { checkReservation, getTimeListByDate } from "api";
 import { toast } from "sonner";
 import { TZDate } from "@date-fns/tz";
+import PinEntry from "./PinEntry";
 
 dotPulse.register();
 
@@ -29,6 +30,7 @@ function NewRes(props) {
   const [notes, setNotes] = useState(null);
   const [response, setResponse] = useState(null);
   const [timeList, setTimeList] = useState(["Loading"]);
+  const [employee, setEmployee] = useState(null);
 
   function formatDate(date) {
     var d = new Date(date),
@@ -142,6 +144,7 @@ function NewRes(props) {
   const getTableSize = (numGuests) => {
     return tableSizes[numGuests][0];
   };
+
   const onSubmit = async () => {
     const newRes = {
       name,
@@ -152,7 +155,7 @@ function NewRes(props) {
       time: convertTo24Hour(time),
       notes,
       sendText: phone ? true : false,
-      selfMade: true,
+      employee: employee
     };
     submitRes(newRes);
   };
@@ -192,7 +195,7 @@ function NewRes(props) {
   const closeResButton = () => {
     return (
       <button
-        onClick={() => setNewRes(!true)}
+        onClick={() => setNewRes(false)}
         type="button"
         className="new-res-btn2"
       >
@@ -222,9 +225,9 @@ function NewRes(props) {
     );
   };
 
-  return (
-    <motion.div className="background" {...fadeInModal}>
-      <form className="new-res-form" id="new-res">
+  const renderFormBody = () => {
+   return(
+    <form className="new-res-form pin-entry" id="new-res" onClick={(e) => e.stopPropagation()}>
         <div className="new-res-header">
           {" "}
           New Reservation {closeResButton()}{" "}
@@ -437,7 +440,16 @@ function NewRes(props) {
             "Submit reservation"
           )}
         </button>
-      </form>
+    </form>
+  )
+  }
+
+  return (
+    <motion.div className="background" onClick={() => {setNewRes(false)}}{...fadeInModal}>
+      {!employee ?
+      <PinEntry setEmployee={setEmployee} text={"To make a new reservation"}/>
+      : renderFormBody()
+      }
     </motion.div>
   );
 }

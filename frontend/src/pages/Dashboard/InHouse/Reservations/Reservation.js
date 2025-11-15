@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { formatPhoneNumber, convertTo12Hour } from "../../../../functions";
 import { cancelBtnSvg, ghostSvg } from "svg";
-import { dateTimeToString } from "dateUtils";
+import { dateTimeToString, dateToShortString } from "dateUtils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMobile } from "context/MobileContext";
 
@@ -85,7 +85,7 @@ export function Reservation(props) {
   function undoButton() {
     return (
       <button
-        className="res-btn res-cancel"
+        className="res-btn res-cancel res-btn-smaller"
         onClick={() => {
           setOpen(false);
           handleBtnClick(res, "upcoming");
@@ -120,7 +120,7 @@ export function Reservation(props) {
   function noShowButton() {
     return (
       <button
-        className="res-btn res-noshow"
+        className="res-btn res-noshow res-btn-smaller"
         onClick={() => {
           setOpen(false);
           handleBtnClick(res, "noshow");
@@ -134,7 +134,7 @@ export function Reservation(props) {
   function cancelButton() {
     return (
       <button
-        className="res-btn res-cancel"
+        className="res-btn res-cancel res-btn-smaller"
         onClick={() => {
           setOpen(false);
           handleBtnClick(res, "cancel");
@@ -144,6 +144,7 @@ export function Reservation(props) {
       </button>
     );
   }
+  
   function noteSymbol() {
     return (
       <svg
@@ -169,9 +170,9 @@ export function Reservation(props) {
     cancel: cancelBtnSvg(),
   };
 
-  return (
-    <>
-      <motion.button
+  const resTop = () => {
+    return(
+    <motion.button
         className={`res 
         ${res.selfMade && "res-selfmade"}
         ${res.state === "arrived" && "res-arrived"} res-${isOpen}`}
@@ -213,7 +214,7 @@ export function Reservation(props) {
                 {isOpen && (
                   <motion.div
                     key="res-time"
-                    className="res-time"
+                    className="res-secondary"
                     transition={{ ease: "linear", duration: 0.2 }}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -244,7 +245,111 @@ export function Reservation(props) {
           </div>
         </motion.div>
       </motion.button>
-      <div
+    )
+  }
+
+
+    const logs = [
+      {
+        time: res.dateMade,
+        user: res.user || "Customer",
+        newState: [{key: "state", value: "created"}],
+      },
+      ...res.logs 
+    ]
+    
+
+    const logValueMap = {
+      "created": {
+        value: "Reservation created",
+        className: "green-log"
+      },
+      "noshow": {
+        value: "Marked as no show",
+        className: "res-secondary res-log-secondary"
+      },
+      "cancel": {
+        value: "Reservation canceled",
+        className: "red-log"
+      },
+      "arrived": {
+        value: "Customer checked in",
+        className: "green-log"
+      },
+      "upcoming": {
+        value: "Reverted to upcoming",
+        className: "res-secondary res-log-secondary"
+    }
+  }
+
+    const renderLog = (log, index) => {
+    
+    const renderSingleLogChange = (index) => {
+      if(log.newState[index].key === "state") {
+        return (
+          <div style={{display: "flex", gap: "5px"}}>
+            <span className={logValueMap[log.newState[index].value].className}>{logValueMap[log.newState[index].value].value}</span>
+          </div>
+        )
+      }
+      else if(log.newState[index].key === "numGuests") {
+        return (
+          <div style={{display: "flex", gap: "10px"}}>
+            <span className="res-secondary res-log-secondary strike-through">{log.oldState[index].value} {log.newState[index].value > 1 ? "people" : "person"} </span>
+            {" → "}
+            <span className="gold-log">{log.newState[index].value} {log.newState[index].value > 1 ? "people" : "person"} </span>
+          </div>
+        )
+      } else if(log.newState[index].key === "time") {
+        return (
+          <div style={{display: "flex", gap: "10px"}}>
+            <span className="res-secondary res-log-secondary strike-through">{convertTo12Hour(log.oldState[index].value)}</span>
+            {" → "}
+            <span className="gold-log">{convertTo12Hour(log.newState[index].value)}</span>
+          </div>
+        )
+      } else {
+        return (
+          <div style={{display: "flex", gap: "10px"}}>
+            <span className="res-secondary res-log-secondary strike-through"> {dateToShortString(new Date(log.oldState[index].value))}</span>
+            {" → "}
+            <span className="gold-log">{dateToShortString(new Date(log.newState[index].value))}</span>
+          </div>
+        )
+      }
+    }
+    
+    const renderFullLogChange = () => {
+      const changes = [];
+      for(let x = 0; x < log.newState.length; x++){
+        changes.push(<div key={x}>{renderSingleLogChange(x)}</div>);
+      }
+      return changes;
+    }
+
+    return(
+
+      <motion.div layout className="log-wrapper"> 
+        <div style={{display: 'flex', gap: "10px", paddingBottom: "15px", alignItems: 'center'}} className={`${index !== logs.length - 1 || logs.length === 1 ? "log-connector" : ""}`}> 
+        <div style={{width: '12px', height: "12px", borderRadius: '50%', background: 'var(--paper-white)'}}> </div>
+        <motion.div layout className="res-log-time">
+          {dateTimeToString(new Date(log.time))}
+        </motion.div>
+        </div>
+      <motion.div layout className="res-log">
+            {log.user || "Customer"}
+          <motion.div layout className="res-log-info">
+            {renderFullLogChange()}
+          </motion.div>
+        </motion.div>
+      </motion.div>
+    )
+  }
+
+  const resBottom = () => {
+
+    return(
+    <div
         className={`bottom-wrapper bottom-wrapper-${isOpen} ${
           res.selfMade && "res-selfmade"
         }`}
@@ -254,13 +359,16 @@ export function Reservation(props) {
                   <motion.div
                     key="res-time"
                     className="res-bottom" 
-                    layout="position"
+                    layout
                     transition={{ ease: "linear", duration: 0.2 }}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
+                  
                   >
-                    <motion.div                     
+                    <div style={{display: 'flex', justifyContent: "space-between", width: "100%", minHeight: '120px'}}> 
+                    <motion.div      
+                    layout="position"               
                     transition={{ ease: "linear", duration: 0.2 }}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -268,23 +376,23 @@ export function Reservation(props) {
                     style={{
                       display: "flex",
                       flexDirection: "column",
-                      gap: "5px"
-                      
+                      gap: "10px",
                     }}>
                     {" "}
-                    <strong> {res.phone && formatPhoneNumber(res.phone)} </strong>
-                      <div> {res.notes || "No notes"} </div>
+                    <motion.div layout style={{letterSpacing: '1.25px !important'}}> {res.phone && formatPhoneNumber(res.phone)} </motion.div>
+                      <motion.div layout className="res-secondary"> {res.notes || "No notes"} </motion.div>
                     </motion.div>
                     <motion.div
-                                     transition={{ ease: "linear", duration: 0.2 }}
-                                     initial={{ opacity: 0, y: -10 }}
-                                     animate={{ opacity: 1, y: 0 }}
+                      layout="position"         
+                      transition={{ ease: "linear", duration: 0.2 }}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       style={{
                         display: "flex",
                         flexDirection: "row",
                         gap: "20px",
-                        alignItems: "center",
+                        alignItems: "flex-start",
                         
                       }}
                     >
@@ -292,10 +400,31 @@ export function Reservation(props) {
                       {res.state === "upcoming" && cancelButton()}
                       {res.state === "upcoming" && noShowButton()}
                     </motion.div>
+                    </div>
+                      <motion.div layout className="res-history">
+                        <motion.div layout className="res-secondary" style={{width: '100%'}}> 
+                          Timeline
+                        </motion.div>
+                            <motion.div 
+                              className="log-scroller"
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              {logs.map((log, index) => renderLog(log, index))}
+                            </motion.div>
+                      </motion.div>
                   </motion.div>
                 )}
-              </AnimatePresence>
+        </AnimatePresence>
       </div>
+    )
+  }
+
+
+  return (
+    <>
+      {resTop()}
+      {resBottom()}
     </>
   );
 }
