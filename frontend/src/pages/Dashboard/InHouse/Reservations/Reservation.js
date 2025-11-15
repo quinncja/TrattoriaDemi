@@ -330,7 +330,7 @@ export function Reservation(props) {
     return(
 
       <motion.div layout className="log-wrapper"> 
-        <div style={{display: 'flex', gap: "10px", paddingBottom: "15px", alignItems: 'center'}} className={`${index !== logs.length - 1 || logs.length === 1 ? "log-connector" : ""}`}> 
+        <div style={{display: 'flex', gap: "10px", paddingBottom: "15px", alignItems: 'center'}} className={`${index !== logs.length - 1 && logs.length > 1 ? "log-connector" : ""}`}> 
         <div style={{width: '12px', height: "12px", borderRadius: '50%', background: 'var(--paper-white)'}}> </div>
         <motion.div layout className="res-log-time">
           {dateTimeToString(new Date(log.time))}
@@ -366,7 +366,7 @@ export function Reservation(props) {
                     exit={{ opacity: 0, y: -10 }}
                   
                   >
-                    <div style={{display: 'flex', justifyContent: "space-between", width: "100%", minHeight: '120px'}}> 
+                    <div style={{display: 'flex', justifyContent: "space-between", width: "100%", minHeight: '100px'}}> 
                     <motion.div      
                     layout="position"               
                     transition={{ ease: "linear", duration: 0.2 }}
