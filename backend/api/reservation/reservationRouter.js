@@ -30,12 +30,12 @@ reservationRouter.post("/", async (req, res) => {
     if (response.available) {
       await newReservation.save();
       if (sendText) await sendResText(newReservation);
-      clients.forEach((client) =>
-        client.write(`data: ${JSON.stringify(newReservation)}\n\n`),
-      );
 
       newReservation = await attachLogToReservation(newReservation);
       
+      clients.forEach((client) =>
+        client.write(`data: ${JSON.stringify(newReservation)}\n\n`),
+      );
       res.status(201).json(newReservation);
     } else {
       res.status(500).json({ error: "Availability error" });
