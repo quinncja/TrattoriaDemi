@@ -288,6 +288,7 @@ function ReservationDash() {
           style={{
             display: "flex",
             flexDirection: "row",
+            alignItems: 'center',
             justifyContent: "space-between",
           }}
         >
@@ -310,7 +311,7 @@ function ReservationDash() {
             justifyContent: "space-between",
           }}
         >
-          <h2 style={{ height: "45px" }}> Timeblocks </h2>
+          <h2 style={{ height: "35px" }}> Timeblocks </h2>
           <button
             className="new-payroll edit-employees new-block"
             onClick={() => setPopupOpen(true)}

@@ -44,6 +44,9 @@
   flex-wrap: wrap;
   gap: 12px;
 }
+.admin-dashboard h2 {
+  font-size: 1.2rem !important;
+}
 .admin-selector {
   width: 200px;
   height: 200px;
@@ -487,7 +490,11 @@
   cursor: default;
   background-color: var(--color-bg-light);
 }
-
+.dash-h3{
+  font-size: 20px;
+  font-weight: 500;
+  opacity: .9;
+}
 .dash-wrapper {
   padding-top: 4rem;
   margin-inline: 6rem;
@@ -506,10 +513,19 @@
   height: fit-content;
   border: 2px solid var(--border-color);
   background-color: var(--color-bg-light);
+  height: 524px;
 }
 .dash-item-full {
   grid-column: span 2;
   height: fit-content;
+}
+.dash-giftcard{
+  color: var(--white);
+  width: 100%;
+  padding-inline: 35px;
+  box-sizing: border-box;
+  padding-block: 20px;
+  border-bottom: 1px solid var(--border-color);
 }
 .faux-dash-item {
   border-radius: 3px;
@@ -814,6 +830,29 @@
   background-color: #4c4c4f;
   box-sizing: border-box;
   z-index: 1;
+}
+
+.giftcard-connection {
+  position: absolute;
+  right: -.5px;
+  top: 50%;
+  width: 14px;
+  transform: translateX(98%);
+  height: 2px;
+  background-color: #4c4c4f;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.giftcard-connection::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 2px;
+  height: 170px;
+  margin-top: -85px;
+  border-radius: 0px;
+  background: linear-gradient(to bottom, #313133 0%, #4c4c4f 50%, #313133 100%);
 }
 
 .connection-line::after {

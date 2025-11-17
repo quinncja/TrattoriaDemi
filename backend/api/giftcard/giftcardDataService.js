@@ -40,8 +40,14 @@ async function getGiftcardDataForBarChart() {
       amount: item._id.toString(),
       count: item.count,
     }));
+    
+    const recentItems = await Giftcard.find({ isPaid: true })
+      .sort({ datePurchased: -1 })
+      .limit(5)
+      .lean();
 
-    return { data, totalAmount };
+    return { data, totalAmount, recentItems };
+
   } catch (error) {
     console.error("Error fetching gift card data:", error);
     throw error;

@@ -123,8 +123,8 @@ async function deleteGiftcard(id) {
 
 giftcardRouter.get("/stats", async (req, res) => {
   try {
-    const { data, totalAmount } = await getGiftcardDataForBarChart();
-    res.status(200).json({ data, totalAmount });
+    const { data, totalAmount, recentItems } = await getGiftcardDataForBarChart();
+    res.status(200).json({ data, totalAmount, recentItems });
   } catch (error) {
     console.error("Error fetching gift card stats:", error);
     res.status(500).json({ error: "An error occurred while fetching data." });
