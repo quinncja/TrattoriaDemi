@@ -20,13 +20,13 @@ This full stack application consists of three distinct sections built to solve t
 * Data Visualization: Nivo Charts
 * State Management: React Context
 * HTTP Client: Axios
-* Authentication: JWT-based token validation powered by Userfront
 * Deployment: Vercel
 
 ### Backend
 * Runtime: Node
 * Framework: Express.js
 * Database: MongoDB
+* Authentication: JWT-based token validation powered by Userfront
 * Deployment: Render
 
 <br/>
