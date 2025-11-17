@@ -329,7 +329,7 @@ function ReservationDash() {
           }}
         >
         <h2 style={{ height: "45px" }}> Breakdown </h2>
-        {breakdownHeader()}
+        {data[currentChart] && breakdownHeader()}
         </div>
         <div className="res-dash-left">
           <div className="bar-wrapper">
