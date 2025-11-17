@@ -688,7 +688,6 @@ reservationRouter.get("/stats", async (req, res) => {
     const lastWeekStart = new Date(chicagoNow);
     lastWeekStart.setDate(lastWeekStart.getDate() - 6); 
 
-    // Ensure consistent timezone handling for all date ranges
     const monthStart = new Date(chicagoNow.getFullYear(), chicagoNow.getMonth(), 1, 0, 0, 0);
     const monthEnd = new Date(
       chicagoNow.getFullYear(),
@@ -709,7 +708,6 @@ reservationRouter.get("/stats", async (req, res) => {
       59
     );
 
-    // Use a more reasonable start date - adjust based on your actual data
     const allTimeStart = new Date(2020, 0, 1, 0, 0, 0);
     const allTimeEnd = new Date(9999, 11, 31, 23, 59, 59);
 
@@ -726,17 +724,15 @@ reservationRouter.get("/stats", async (req, res) => {
       }).select("numGuests state");
 
       let totalGuests = 0;
-      let totalReservations = 0; // Only count arrived and upcoming
+      let totalReservations = 0; 
       const groupingMap = {};
 
       for (const r of reservations) {
         const cState = combineState(r.state);
         
-        // Only count guests and reservations for arrived/upcoming
-        if (cState === "arrUp") {
-          totalGuests += r.numGuests;
-          totalReservations++;
-        }
+        totalGuests += r.numGuests;
+        totalReservations++;
+
 
         const numGuestsKey = String(r.numGuests);
 
@@ -782,7 +778,6 @@ reservationRouter.get("/stats", async (req, res) => {
         throw new Error("Invalid grouping unit");
       }
 
-      // Use a simpler approach that matches your date filtering exactly
       const reservations = await Reservation.find({
         date: { $gte: startDate, $lte: endDate },
       }).select("date state");
@@ -792,7 +787,6 @@ reservationRouter.get("/stats", async (req, res) => {
       for (const reservation of reservations) {
         const cState = combineState(reservation.state);
         
-        // Convert to Chicago timezone and format consistently
         const chicagoDate = new Date(reservation.date.toLocaleString("en-US", { timeZone: "America/Chicago" }));
         
         let dateKey;
@@ -816,9 +810,7 @@ reservationRouter.get("/stats", async (req, res) => {
         }
       }
 
-      // PERFORMANCE FIX: Only fill missing periods for specific cases
       if (groupBy === "month") {
-        // Only fill current year for year view, don't fill massive date ranges
         const isYearView = startDate.getFullYear() === endDate.getFullYear() &&
                           startDate.getMonth() === 0 && 
                           endDate.getMonth() === 11;
@@ -832,7 +824,6 @@ reservationRouter.get("/stats", async (req, res) => {
             }
           }
         }
-        // For allTime view, DON'T fill missing months - only return what has data
       }
 
       const sortedKeys = Object.keys(dateMap).sort();

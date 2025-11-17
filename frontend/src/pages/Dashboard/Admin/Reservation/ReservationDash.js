@@ -12,6 +12,7 @@ import TimeBlockPopup from "./TimeBlockPopup";
 import TimeBlock from "./Timeblock";
 import LineChart from "./LineChart";
 import { toast } from "sonner";
+import { formatNumberWithCommas } from "functions";
 
 function ReservationDash() {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -140,37 +141,36 @@ function ReservationDash() {
           <label className="res-count-label"> {obj.title} </label>
           <div
             style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              gap: "10px",
+              display: "grid",
+              gridTemplate: "1fr / 1fr 1fr",
+              gap: "5px",
               width: "90%",
-              marginInline: "auto",
+  
             }}
           >
             <div
               style={{
                 display: "flex",
                 flexDirection: "row",
-                gap: "10px",
+                alignItems: "center",
+                gap: "7px",
                 minWidth: "3.5ch",
-                justifyContent: "space-between",
               }}
             >
               {resBookSvg()}
-              {obj.totalReservations}
+              {formatNumberWithCommas(obj.totalReservations)}
             </div>
             <div
               style={{
                 display: "flex",
                 flexDirection: "row",
-                gap: "10px",
+                gap: "7px",
+                alignItems: "center",
                 minWidth: "3.5ch",
-                justifyContent: "space-between",
               }}
             >
               {peopleSvg()}
-              {obj.totalGuests}
+              {formatNumberWithCommas(obj.totalGuests)}
             </div>
           </div>
         </div>
@@ -257,6 +257,42 @@ function ReservationDash() {
     }
   };
 
+  const breakdownHeader = () => {
+
+    const calcTotal = (type) => {
+      return data[currentChart].data.reduce((sum, item) => sum + (item[type] || 0), 0);
+    }
+
+    return(
+      <div className="res-breakdown-count" style={{display: "flex", flexDirection: "row", gap: "35px", fontSize: "14px", color: "white"}}>
+          <div style={{display: "flex", flexDirection: "row", gap: "10px", alignItems: "center"}}> 
+              <div style={{display: "flex", flexDirection: "column", alignItems: "flex-end"}}> 
+            <div style={{fontSize: '16px', fontWeight: "600", display: 'flex', gap: "5px", alignItems: "center"}}>             
+            <div style={{background: "var(--gold)", height: '10px', width: "10px", borderRadius: "50%"}}/> {calcTotal("arrUp")} </div>
+            <div style={{opacity: '.8'}}> Completed </div>
+            </div>
+          </div>
+
+          <div style={{display: "flex", flexDirection: "row", gap: "10px", alignItems: "center"}}> 
+            <div style={{display: "flex", flexDirection: "column", alignItems: "flex-end"}}> 
+            <div style={{fontSize: '16px', fontWeight: "600", display: 'flex', gap: "5px", alignItems: "center"}}>             
+            <div style={{background: "#c64949", height: '10px', width: "10px", borderRadius: "50%"}}/> {calcTotal("cancel")} </div>
+            <div style={{opacity: '.8'}}> Canceled </div>
+            </div>
+          </div>
+
+          <div style={{display: "flex", flexDirection: "row", gap: "10px", alignItems: "center"}}> 
+            <div style={{display: "flex", flexDirection: "column", alignItems: "flex-end"}}> 
+            <div style={{fontSize: '16px', fontWeight: "600", display: 'flex', gap: "5px", alignItems: "center"}}>             
+            <div style={{background: "#a09c9c", height: '10px', width: "10px", borderRadius: "50%"}}/> {calcTotal("noshow")} </div>
+            <div style={{opacity: '.8'}}> No Show </div>
+            </div>
+          </div>
+
+      </div>
+    )
+  }
+
   return (
     <div
       className="dash-item dash-item-full"
@@ -292,7 +328,8 @@ function ReservationDash() {
             justifyContent: "space-between",
           }}
         >
-          <h2 style={{ height: "45px" }}> Breakdown </h2>
+        <h2 style={{ height: "45px" }}> Breakdown </h2>
+        {breakdownHeader()}
         </div>
         <div className="res-dash-left">
           <div className="bar-wrapper">

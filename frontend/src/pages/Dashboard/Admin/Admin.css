@@ -770,23 +770,34 @@
 .res-count {
   color: var(--paper-white);
   border: 1px solid var(--border-color);
-  padding: 15px 25px;
+  padding-block: 15px;
+  padding-left: 15px;
+  padding-right: 0px;
   border-radius: 2px;
-  font-size: 20px;
+  font-size: 18px;
   position: relative;
   z-index: 1;
+}
+.res-count svg {
+width: 20px;
 }
 .res-count svg path {
   stroke: var(--paper-white);
 }
 
+.res-breakdown-count{
+  background-color: var(--color-bg-light);
+  filter: brightness(1.35);
+  padding: 10px 25px;
+  border-radius: 5px;
+}
 .res-count-label {
   font-size: 14px;
   opacity: 1;
   position: absolute;
   top: 0;
   margin-top: -13px;
-  margin-left: -20px;
+  margin-left: -8px;
   background-color: var(--color-bg-light);
   padding: 3px 10px;
   border-radius: 2px 2px 0px 0px;
