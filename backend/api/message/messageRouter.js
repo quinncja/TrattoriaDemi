@@ -28,7 +28,7 @@ messageRouter.delete("/id/:id", async (req, res) => {
   try {
     const messageId = req.params.id;
 
-    const deletedMessage = await Reservation.findByIdAndRemove(messageId);
+    const deletedMessage = await Message.findByIdAndRemove(messageId);
 
     if (!deletedMessage) {
       return res.status(404).json({ error: "Message not found" });

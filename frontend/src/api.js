@@ -1,8 +1,17 @@
 import axios from "axios";
+import Userfront from "@userfront/core";
+
 const API_URL = process.env.REACT_APP_URL;
+const USERFRONT_ID = process.env.REACT_APP_USERFRONT_ID;
+Userfront.init(USERFRONT_ID);
 // const API_URL = window.location.hostname === 'localhost' 
 // ? 'http://localhost:4000/'
 // : `http://${window.location.hostname}:4000/`;
+
+const headers = {
+  Authorization: `Bearer ${Userfront.tokens.accessToken}`,
+  "Content-Type": "application/json",
+}
 
 export async function getReservationById(id, signal) {
   try {
@@ -26,6 +35,7 @@ export async function getReservationsByDate(date, signal) {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/reservations/date/${date}`,
+      headers,
       signal,
     });
     return response.data;
@@ -84,6 +94,7 @@ export async function deleteTimeblock(id) {
     const response = await axios({
       method: "delete",
       url: `${API_URL}api/reservations/timeblock/${id}`,
+      headers,
     });
     return response;
   } catch (error) {
@@ -96,6 +107,7 @@ export async function updateTimeblock(id, updatedBlock) {
     const response = await axios({
       method: "put",
       url: `${API_URL}api/reservations/timeblock/${id}/`,
+      headers,
       data: updatedBlock,
     });
     return response;
@@ -140,6 +152,7 @@ export async function postTimeBlock(newBlock) {
     const response = await axios({
       method: "post",
       url: `${API_URL}api/reservations/timeblock`,
+      headers,
       data: newBlock,
     });
     return response;
@@ -166,6 +179,7 @@ export async function postAdminReservation(newRes) {
     const response = await axios({
       method: "post",
       url: `${API_URL}api/reservations/override`,
+      headers,
       data: newRes,
     });
     return response;
@@ -392,6 +406,7 @@ export async function getEmployees() {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/payroll/employees`,
+      headers,
     });
     return response.data;
   } catch (error) {
@@ -404,6 +419,7 @@ export async function updateEmployee(employee) {
     const response = await axios({
       method: "put",
       url: `${API_URL}api/payroll/employee`,
+      headers,
       data: employee,
     });
     return response.data;
@@ -417,6 +433,7 @@ export async function getPayrollByPeriod(period) {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/payroll/`,
+      headers,
       params: { period },
     });
     return response.data;
@@ -430,6 +447,7 @@ export async function savePayroll(payrollData) {
     const response = await axios({
       method: "post",
       url: `${API_URL}api/payroll/`,
+      headers,
       data: payrollData,
     });
     return response.data;
@@ -443,6 +461,7 @@ export async function deletePayroll(period) {
     const response = await axios({
       method: "delete",
       url: `${API_URL}api/payroll/period/${period}`,
+      headers,
     });
     return response;
   } catch (error) {
@@ -455,6 +474,7 @@ export async function getPayrollGraph() {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/payroll/graph`,
+      headers,
     });
     return response.data;
   } catch (error) {
@@ -467,6 +487,7 @@ export async function getGiftcardData() {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/giftcard/stats`,
+      headers,
     });
     return response.data;
   } catch (error) {
@@ -479,6 +500,7 @@ export async function getReservationsData() {
     const response = await axios({
       method: "get",
       url: `${API_URL}api/reservations/stats`,
+      headers,
     });
     return response.data;
   } catch (error) {

@@ -7,6 +7,7 @@ const { sendResText } = require("./sendResText");
 const { sendCancelText } = require("./sendCancelText");
 const { sendUpdatedResText } = require("./sendUpdatedResText");
 const { reservationChecker } = require("./reservationChecker");
+const { authenticateToken } = require("../middleware")
 
 let clients = [];
 
@@ -241,7 +242,7 @@ reservationRouter.get("/timelist", async (req, res) => {
   }
 });
 
-reservationRouter.post("/timeblock", async (req, res) => {
+reservationRouter.post("/timeblock", authenticateToken, async (req, res) => {
   try {
     const { date, startTime, endTime, repeat, blockType } = req.body;
 
@@ -294,7 +295,7 @@ reservationRouter.get("/timeblock", async (req, res) => {
   }
 });
 
-reservationRouter.delete("/timeblock/:id", async (req, res) => {
+reservationRouter.delete("/timeblock/:id", authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const deletedTimeBlock = await TimeBlock.findByIdAndDelete(id);
@@ -324,7 +325,7 @@ reservationRouter.get("/events", (req, res) => {
   });
 });
 
-reservationRouter.post("/override", async (req, res) => {
+reservationRouter.post("/override", authenticateToken, async (req, res) => {
   try {
     const { name, numGuests, date, time, notes, phone, tableSize, sendText, employee } =
       req.body;
@@ -352,7 +353,7 @@ reservationRouter.post("/override", async (req, res) => {
 });
 
 // Get list of reservations
-reservationRouter.get("/", async (req, res) => {
+reservationRouter.get("/", authenticateToken, async (req, res) => {
   try {
     const reservations = await Reservation.find();
     res.json(reservations);
@@ -380,7 +381,7 @@ reservationRouter.get("/id/:id", async (req, res) => {
 });
 
 // Delete reservation by id
-reservationRouter.delete("/id/:id", async (req, res) => {
+reservationRouter.delete("/id/:id", authenticateToken, async (req, res) => {
   try {
     const reservationId = req.params.id;
 
@@ -410,7 +411,6 @@ function sortReservationsByTime(reservations) {
     return minuteA - minuteB;
   });
 }
-
 
 const attachLogToReservation = async (reservation) =>{
     const plainReservation = reservation.toObject ? reservation.toObject() : reservation;
@@ -451,7 +451,7 @@ const attachLogToReservationList = async (reservations) =>{
     return reservations;
 } 
 
-reservationRouter.get("/date/:date", async (req, res) => {
+reservationRouter.get("/date/:date", authenticateToken, async (req, res) => {
   try {
     const targetDate = new Date(req.params.date);
     const chicagoTargetDate = new Date(
@@ -596,7 +596,6 @@ reservationRouter.get("/check", async (req, res) => {
 
 module.exports = reservationRouter;
 
-
 // Update reservation by id
 reservationRouter.put("/id/:id", async (req, res) => {
   try {
@@ -633,7 +632,7 @@ reservationRouter.put("/id/:id", async (req, res) => {
 });
 
 
-reservationRouter.put("/timeblock/:id", async (req, res) => {
+reservationRouter.put("/timeblock/:id", authenticateToken, async (req, res) => {
   try {
     const timeblockId = req.params.id;
     const updatedItem = req.body;
@@ -657,7 +656,7 @@ reservationRouter.put("/timeblock/:id", async (req, res) => {
   }
 });
 
-reservationRouter.get("/stats", async (req, res) => {
+reservationRouter.get("/stats", authenticateToken,  async (req, res) => {
   try {
     const now = new Date();
 

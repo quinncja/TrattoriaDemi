@@ -1,3 +1,4 @@
+const { authenticateToken } = require("../middleware.js");
 const stripe = require("stripe")(process.env.STRIPE_LIVE_KEY);
 const express = require("express");
 const giftcardRouter = express.Router();
@@ -9,7 +10,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const { DateTime } = require("luxon");
 const { getGiftcardDataForBarChart } = require("./giftcardDataService");
 
-giftcardRouter.get("/all", async (req, res) => {
+giftcardRouter.get("/all", authenticateToken, async (req, res) => {
   try {
     const giftcards = await Giftcard.find(
       {},
@@ -121,7 +122,7 @@ async function deleteGiftcard(id) {
   }
 }
 
-giftcardRouter.get("/stats", async (req, res) => {
+giftcardRouter.get("/stats", authenticateToken, async (req, res) => {
   try {
     const { data, totalAmount, recentItems } = await getGiftcardDataForBarChart();
     res.status(200).json({ data, totalAmount, recentItems });

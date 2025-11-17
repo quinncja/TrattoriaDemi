@@ -1,3 +1,4 @@
+const { authenticateToken } = require("../middleware.js");
 const express = require("express");
 const payrollRouter = express.Router();
 const Employee = require("./Employee");
@@ -9,7 +10,7 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 module.exports = payrollRouter;
 
-payrollRouter.put("/employee", async (req, res) => {
+payrollRouter.put("/employee", authenticateToken, async (req, res) => {
   try {
     const { _id, loan, ...employeeData } = req.body;
     let updatedEmployee;
@@ -53,7 +54,7 @@ payrollRouter.put("/employee", async (req, res) => {
   }
 });
 
-payrollRouter.get("/employees", async (req, res) => {
+payrollRouter.get("/employees", authenticateToken, async (req, res) => {
   try {
     const employees = await Employee.find().populate("loan");
     res.status(200).json(employees);
@@ -63,7 +64,7 @@ payrollRouter.get("/employees", async (req, res) => {
   }
 });
 
-payrollRouter.delete("/employees/:id", async (req, res) => {
+payrollRouter.delete("/employees/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -80,7 +81,7 @@ payrollRouter.delete("/employees/:id", async (req, res) => {
   }
 });
 
-payrollRouter.put("/employees/rate/:id", async (req, res) => {
+payrollRouter.put("/employees/rate/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   const { rates } = req.body;
 
@@ -112,7 +113,7 @@ payrollRouter.put("/employees/rate/:id", async (req, res) => {
   }
 });
 
-payrollRouter.put("/employees/loan/:id", async (req, res) => {
+payrollRouter.put("/employees/loan/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   const { total, remaining, paymentAmount } = req.body;
 
@@ -142,7 +143,7 @@ payrollRouter.put("/employees/loan/:id", async (req, res) => {
   }
 });
 
-payrollRouter.put("/employees/active/:id", async (req, res) => {
+payrollRouter.put("/employees/active/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   const { active } = req.body;
 
@@ -256,7 +257,7 @@ async function makeEmptyPayroll(period) {
   return newPayroll;
 }
 
-payrollRouter.get("/", async (req, res) => {
+payrollRouter.get("/", authenticateToken, async (req, res) => {
   try {
     let { period } = req.query;
 
@@ -283,7 +284,7 @@ payrollRouter.get("/", async (req, res) => {
   }
 });
 
-payrollRouter.get("/all", async (req, res) => {
+payrollRouter.get("/all", authenticateToken, async (req, res) => {
   try {
     let payrolls = await Payroll.find();
     res.json(payrolls);
@@ -293,7 +294,7 @@ payrollRouter.get("/all", async (req, res) => {
   }
 });
 
-payrollRouter.delete("/all", async (req, res) => {
+payrollRouter.delete("/all", authenticateToken, async (req, res) => {
   try {
     await Payroll.deleteMany();
     res.json("Delete Successful");
@@ -373,7 +374,7 @@ async function handlePayroll(period, paymentIds, total) {
   return newPayroll;
 }
 
-payrollRouter.post("/", async (req, res) => {
+payrollRouter.post("/", authenticateToken, async (req, res) => {
   try {
     const payrollData = req.body;
     const period = payrollData.period;
@@ -404,7 +405,7 @@ payrollRouter.post("/", async (req, res) => {
   }
 });
 
-payrollRouter.get("/graph", async (req, res) => {
+payrollRouter.get("/graph", authenticateToken, async (req, res) => {
   try {
     const payrolls = await Payroll.find({}, "period total -_id");
 
@@ -423,7 +424,7 @@ payrollRouter.get("/graph", async (req, res) => {
 
 module.exports = payrollRouter;
 
-payrollRouter.put("/employees/set-all-active", async (req, res) => {
+payrollRouter.put("/employees/set-all-active", authenticateToken, async (req, res) => {
   try {
     const result = await Employee.updateMany({}, { $set: { active: true } });
     res.status(200).json({ message: "All employees set to active", result });
@@ -433,7 +434,7 @@ payrollRouter.put("/employees/set-all-active", async (req, res) => {
   }
 });
 
-payrollRouter.delete("/period/:period", async (req, res) => {
+payrollRouter.delete("/period/:period", authenticateToken, async (req, res) => {
   let { period } = req.params;
 
   try {
