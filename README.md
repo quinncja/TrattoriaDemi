@@ -1,7 +1,7 @@
 # Trattoria Demi Website, Reservations & Management Platform
 
 ### Overview
-Trattoria Demi, a local restaurant in Evanston, IL, was operating with outdated systems -- payroll was calculated with pen and paper, and stored in a filing cabinet. Their online presence was a static WordPress site built from archaic templates. And they paid over $1,000 monthly to OpenTable for basic reservation management.
+Trattoria Demi, a local restaurant in Evanston, IL, was operating with outdated systems. Payroll was calculated with pen and paper, and stored in a filing cabinet, their online presence was a static WordPress site built from archaic templates, and they paid over $1,000 monthly to OpenTable for basic reservation management.
 
 This full stack application consists of three distinct sections built to solve these issues:
 
