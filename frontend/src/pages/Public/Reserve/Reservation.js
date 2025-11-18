@@ -74,7 +74,7 @@ function Reservation() {
     try {
       const obj = await cancelReservationAlert();
       if (obj.isConfirmed) {
-        const response = await patchReservation(id, "cancel");
+        const response = await patchReservation(id, "cancel", "Customer");
         if (response.status === 200) {
           const promise = await successfulCancelAlert();
           if (promise) navigate("/");

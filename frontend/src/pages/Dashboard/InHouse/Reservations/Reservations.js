@@ -141,7 +141,7 @@ function Reversations() {
     const id = res._id;
     
     try {
-      const response = await patchReservation(id, state);
+      const response = await patchReservation(id, state, "Employee");
       
       if (response.status === 200) {
         const updatedReservation = response.data;

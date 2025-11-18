@@ -64,11 +64,11 @@ export async function getTimeListByDate(date) {
   }
 }
 
-export async function patchReservation(id, state) {
+export async function patchReservation(id, state, user) {
   try {
     const response = await axios({
       method: "patch",
-      url: `${API_URL}api/reservations/id/${id}/state/${state}`,
+      url: `${API_URL}api/reservations/id/${id}/state/${state}/user/${user}`,
     });
     return response;
   } catch (error) {
