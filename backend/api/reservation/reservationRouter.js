@@ -532,9 +532,9 @@ const logReservationChange = async (id, oldState, newState, employee = null) => 
 }
 //update reservation state
 
-reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
+reservationRouter.patch("/id/:id/state/:state/user/:user", async (req, res) => {
   try {
-    const [reservationId, newState] = [req.params.id, req.params.state];
+    const [reservationId, newState, user] = [req.params.id, req.params.state, req.params.user];
 
     const existingReservation = await Reservation.findById(reservationId);
 
@@ -563,7 +563,7 @@ reservationRouter.patch("/id/:id/state/:state", async (req, res) => {
       value: lowercaseState
     }
 
-    await logReservationChange(updatedReservation._id, oldStateObj, newStateObj, "Employee")
+    await logReservationChange(updatedReservation._id, oldStateObj, newStateObj, user)
     updatedReservation  = await attachLogToReservation(updatedReservation)
 
     if (newState === "cancel" && updatedReservation.phone) {
